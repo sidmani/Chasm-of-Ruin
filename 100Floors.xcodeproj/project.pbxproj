@@ -15,6 +15,9 @@
 		1F2CEE171C387B1F00E4FB2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */; };
 		1F2CEE221C387B1F00E4FB2E /* _00FloorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE211C387B1F00E4FB2E /* _00FloorsTests.swift */; };
 		1F2CEE2D1C387B1F00E4FB2E /* _00FloorsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE2C1C387B1F00E4FB2E /* _00FloorsUITests.swift */; };
+		1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */; };
+		1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */; };
+		1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		1F2CEE281C387B1F00E4FB2E /* 100FloorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 100FloorsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F2CEE2C1C387B1F00E4FB2E /* _00FloorsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _00FloorsUITests.swift; sourceTree = "<group>"; };
 		1F2CEE2E1C387B1F00E4FB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameScene.swift; sourceTree = "<group>"; };
+		1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InGameViewController.swift; path = ../InGameViewController.swift; sourceTree = "<group>"; };
+		1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +106,12 @@
 			isa = PBXGroup;
 			children = (
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
+				1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */,
+				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
 				1F2CEE0C1C387B1F00E4FB2E /* GameScene.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* GameViewController.swift */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
+				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
 				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
@@ -261,9 +270,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* GameScene.swift in Sources */,
 				1F2CEE0F1C387B1F00E4FB2E /* GameViewController.swift in Sources */,
+				1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */,
 				1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */,
+				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

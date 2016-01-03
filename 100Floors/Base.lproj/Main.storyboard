@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
-        <!--Game View Controller-->
+        <!--Menu-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" userLabel="Menu" customClass="GameViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8aa-yV-Osq"/>
                         <viewControllerLayoutGuide type="bottom" id="qHh-Mt-9TT"/>
@@ -16,11 +16,62 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY">
+                                <rect key="frame" x="264" y="241" width="73" height="30"/>
+                                <state key="normal" title="Join Game"/>
+                                <connections>
+                                    <action selector="joinButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="hsn-Oe-aZb"/>
+                                    <segue destination="MLO-tX-9Zl" kind="presentation" id="qI1-Lu-2ay"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="418" y="567"/>
+        </scene>
+        <!--InGame-->
+        <scene sceneID="GMw-B6-Bhm">
+            <objects>
+                <viewController id="MLO-tX-9Zl" userLabel="InGame" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X23-0G-51I"/>
+                        <viewControllerLayoutGuide type="bottom" id="UaA-oE-4WE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8xQ-dL-goi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="301" affinity="minY"/>
+                            <userLayoutGuide location="300" affinity="minY"/>
+                            <userLayoutGuide location="300" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Il8-bN-Vgf">
+                                <rect key="frame" x="288" y="285" width="58" height="30"/>
+                                <state key="normal" title="Go Back"/>
+                                <connections>
+                                    <segue destination="BV1-FR-VrT" kind="show" action="showDetailViewController:sender:" id="kTr-OL-UTi"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="480" y="309" width="100" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="9d2-oo-m9X" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="20" y="309" width="100" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbL-Y6-bd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1103" y="567"/>
         </scene>
     </scenes>
 </document>
