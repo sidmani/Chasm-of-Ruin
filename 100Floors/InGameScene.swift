@@ -10,11 +10,15 @@ import SpriteKit
 
 class InGameScene: SKScene {
     override func didMoveToView(view: SKView) {
-
+        var character = SKSpriteNode(imageNamed: hundredFloors.getImageName())
+        
+        self.addChild(character)
+        character.position = CGPoint(x: 100, y: 100)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        /* Called when a touch begins */
+        
     }
     
     override func update(currentTime: CFTimeInterval) {

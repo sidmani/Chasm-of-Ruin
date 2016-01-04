@@ -6,10 +6,16 @@
 //
 //
 import UIKit
+import SpriteKit
+
 enum Wearable {
     case Cloak, Robe, Vest
 }
+
 class HundredFloors {
+    // MARK: Global Settings
+    var move_sensitivity:Int8 = 0
+    var rotate_sensitivity:Int8 = 0
     // MARK: Global UI properties
     var left_joystick_distance:Float = 0
     var left_joystick_angle:Float = 0
@@ -26,10 +32,13 @@ class HundredFloors {
         y_loc = y
         clothing = clothes
     }
+    
     func update_loc(distance: Float, angle: Float, sensitivity: Float)
     {
-
+        
     }
+    
+    //Control updates
     func update_joystick_left(distance:Float, angle:Float)
     {
         left_joystick_angle = angle
@@ -39,6 +48,11 @@ class HundredFloors {
     {
         right_joystick_angle = angle
         right_joystick_distance = distance
+        print(String(angle) + " " + String(distance))
+    }
+    //Utility
+    func getImageName() -> String{
+        return "character"
     }
     
 }

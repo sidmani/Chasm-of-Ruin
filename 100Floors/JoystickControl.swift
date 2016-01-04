@@ -13,15 +13,22 @@ class JoystickControl:UIControl{
     
     let center_img_view = UIImageView(image: UIImage(named: "joystick_center"))
     let ring_img_view = UIImageView(image: UIImage(named: "joystick_ring"))
-    let ring_size: Float = 50
+    let ring_size: Float = 25
+    let center_pos: Float = 50
     // MARK: Properties
     var angle: Float = 0
     var distance: Float = 0
+    var abs_distance: Float {
+        get{
+            return min(distance, ring_size)
+        }
+    }
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         addSubview(center_img_view)
+        addSubview(ring_img_view)
         
     }
     
@@ -35,8 +42,8 @@ class JoystickControl:UIControl{
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let currentPoint = touch.locationInView(self)
-            distance = hypotf(Float(currentPoint.x - CGFloat(ring_size)), Float(currentPoint.y-CGFloat(ring_size)))
-            angle = atan2(Float(currentPoint.y)-ring_size, Float(currentPoint.x)-ring_size)
+            distance = hypotf(Float(currentPoint.x - CGFloat(center_pos)), Float(currentPoint.y-CGFloat(center_pos)))
+            angle = atan2(Float(currentPoint.y)-center_pos, Float(currentPoint.x)-center_pos)
             if (distance < ring_size) {
             center_img_view.center = currentPoint
             }
@@ -44,7 +51,7 @@ class JoystickControl:UIControl{
             {
                 let x:CGFloat = CGFloat(ring_size) * CGFloat(cos(angle))
                 let y:CGFloat = CGFloat(ring_size) * CGFloat(sin(angle))
-                center_img_view.center = CGPoint(x: x+CGFloat(ring_size), y:  y+CGFloat(ring_size))
+                center_img_view.center = CGPoint(x: x+CGFloat(center_pos), y:  y+CGFloat(center_pos))
             }
             self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
         }
@@ -53,7 +60,7 @@ class JoystickControl:UIControl{
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let currentPoint = touch.locationInView(self)
-            center_img_view.center = CGPoint(x: CGFloat(ring_size), y: CGFloat(ring_size))
+            center_img_view.center = CGPoint(x: CGFloat(center_pos), y: CGFloat(center_pos))
         }
     }
     
