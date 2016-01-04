@@ -10,10 +10,12 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-    // MARK: Properties
-    
+    var scene: GameScene!
     override func viewDidLoad() {
         super.viewDidLoad()
+        let skView = view as! SKView
+        scene = GameScene()
+        skView.presentScene(scene)
     }
   
     

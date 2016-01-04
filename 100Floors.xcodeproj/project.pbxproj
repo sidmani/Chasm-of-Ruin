@@ -18,6 +18,8 @@
 		1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */; };
 		1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */; };
 		1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */; };
+		1F304B261C39C2070069D04D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1F304B251C39C2070069D04D /* GameScene.sks */; };
+		1F304B281C39CCC10069D04D /* 100Floors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B271C39CCC10069D04D /* 100Floors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameScene.swift; sourceTree = "<group>"; };
 		1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InGameViewController.swift; path = ../InGameViewController.swift; sourceTree = "<group>"; };
 		1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickControl.swift; sourceTree = "<group>"; };
+		1F304B251C39C2070069D04D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		1F304B271C39CCC10069D04D /* 100Floors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 100Floors.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,12 +109,14 @@
 		1F2CEE071C387B1F00E4FB2E /* 100Floors */ = {
 			isa = PBXGroup;
 			children = (
+				1F304B271C39CCC10069D04D /* 100Floors.swift */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
 				1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */,
 				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
 				1F2CEE0C1C387B1F00E4FB2E /* GameScene.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* GameViewController.swift */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
+				1F304B251C39C2070069D04D /* GameScene.sks */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
 				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
@@ -243,6 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F304B261C39C2070069D04D /* GameScene.sks in Resources */,
 				1F2CEE171C387B1F00E4FB2E /* LaunchScreen.storyboard in Resources */,
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
@@ -276,6 +283,7 @@
 				1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */,
 				1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,
+				1F304B281C39CCC10069D04D /* 100Floors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

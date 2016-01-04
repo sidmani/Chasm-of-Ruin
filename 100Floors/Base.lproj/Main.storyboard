@@ -36,16 +36,16 @@
         <!--InGame-->
         <scene sceneID="GMw-B6-Bhm">
             <objects>
-                <viewController id="MLO-tX-9Zl" userLabel="InGame" sceneMemberID="viewController">
+                <viewController id="MLO-tX-9Zl" userLabel="InGame" customClass="InGameViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="X23-0G-51I"/>
                         <viewControllerLayoutGuide type="bottom" id="UaA-oE-4WE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8xQ-dL-goi">
+                    <view key="view" contentMode="scaleToFill" id="8xQ-dL-goi" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <userGuides>
-                            <userLayoutGuide location="301" affinity="minY"/>
+                            <userLayoutGuide location="300" affinity="minY"/>
                             <userLayoutGuide location="300" affinity="minY"/>
                             <userLayoutGuide location="300" affinity="minY"/>
                         </userGuides>
@@ -58,16 +58,26 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="480" y="309" width="100" height="100"/>
+                                <rect key="frame" x="442" y="256" width="100" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="RightJoystickControl:" destination="MLO-tX-9Zl" eventType="valueChanged" id="IH4-vz-dsV"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="9d2-oo-m9X" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="309" width="100" height="100"/>
+                                <rect key="frame" x="41" y="256" width="100" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="LeftJoystickControl:" destination="MLO-tX-9Zl" eventType="valueChanged" id="zj5-Ka-XUa"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
+                        <outlet property="RightJoystickControl" destination="CwZ-pI-Qun" id="TrL-BJ-nKT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbL-Y6-bd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
