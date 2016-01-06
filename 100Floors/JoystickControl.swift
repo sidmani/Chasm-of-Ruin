@@ -35,7 +35,17 @@ class JoystickControl:UIControl{
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let currentPoint = touch.locationInView(self)
-            //center_img_view.center = currentPoint
+            distance = hypotf(Float(currentPoint.x - CGFloat(center_pos)), Float(currentPoint.y-CGFloat(center_pos)))
+            angle = atan2(Float(currentPoint.y)-center_pos, Float(currentPoint.x)-center_pos)
+            if (distance < ring_size) {
+                center_img_view.center = currentPoint
+            }
+            else
+            {
+                let x:CGFloat = CGFloat(ring_size) * CGFloat(cos(angle))
+                let y:CGFloat = CGFloat(ring_size) * CGFloat(sin(angle))
+                center_img_view.center = CGPoint(x: x+CGFloat(center_pos), y:  y+CGFloat(center_pos))
+            }
         }
     }
     

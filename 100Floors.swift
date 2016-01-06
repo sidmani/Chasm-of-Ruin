@@ -43,6 +43,7 @@ class HundredFloors {
     {
         left_joystick_angle = angle
         left_joystick_distance = distance
+        run()
     }
     func update_joystick_right(distance:Float, angle:Float)
     {

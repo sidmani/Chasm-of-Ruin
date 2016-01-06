@@ -45,7 +45,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <userGuides>
-                            <userLayoutGuide location="300" affinity="minY"/>
+                            <userLayoutGuide location="301" affinity="minY"/>
                             <userLayoutGuide location="300" affinity="minY"/>
                             <userLayoutGuide location="300" affinity="minY"/>
                         </userGuides>
@@ -57,18 +57,18 @@
                                     <segue destination="BV1-FR-VrT" kind="show" action="showDetailViewController:sender:" id="kTr-OL-UTi"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="442" y="256" width="100" height="100"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <action selector="RightJoystickControl:" destination="MLO-tX-9Zl" eventType="valueChanged" id="yzD-Ca-owz"/>
-                                </connections>
-                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="9d2-oo-m9X" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
                                 <rect key="frame" x="41" y="256" width="100" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="LeftJoystickControl:" destination="MLO-tX-9Zl" eventType="valueChanged" id="zj5-Ka-XUa"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="466" y="256" width="100" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="RightJoystickControl:" destination="MLO-tX-9Zl" eventType="valueChanged" id="yzD-Ca-owz"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -84,4 +84,5 @@
             <point key="canvasLocation" x="1103" y="567"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>
 </document>
