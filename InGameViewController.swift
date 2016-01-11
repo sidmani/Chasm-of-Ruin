@@ -8,7 +8,6 @@
 
 import UIKit
 import SpriteKit
-var hundredFloors = HundredFloors(x: 0,y: 0,clothes: Wearable.Cloak)
 class InGameViewController: UIViewController {
     
     // MARK: Properties
@@ -20,10 +19,15 @@ class InGameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //setup position and color
+        LeftJoystickControl.center = CGPoint(x: 75, y: screenSize.height - 75)
+        LeftJoystickControl.backgroundColor = UIColor.clearColor()
+
+        RightJoystickControl.center = CGPoint(x: screenSize.width - 75, y: screenSize.height - 75)
+        RightJoystickControl.backgroundColor = UIColor.clearColor()
+        
         let skView = view as! SKView
         scene = InGameScene(size:skView.bounds.size)
-    
-      
         scene.scaleMode = .AspectFill
         skView.presentScene(scene)
 
@@ -32,12 +36,12 @@ class InGameViewController: UIViewController {
     // UI triggers
     //////////////
     @IBAction func RightJoystickControl(sender: JoystickControl) {
-        hundredFloors.update_joystick_right(sender.abs_distance, angle: sender.angle)
+        update_joystick_right(sender.abs_distance, angle: sender.angle)
 
     }
     
     @IBAction func LeftJoystickControl(sender: JoystickControl) {
-        hundredFloors.update_joystick_left(sender.abs_distance, angle: sender.angle)
+        update_joystick_left(sender.abs_distance, angle: sender.angle)
     }
     /////////
     override func shouldAutorotate() -> Bool {

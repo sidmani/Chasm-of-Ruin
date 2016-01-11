@@ -7,29 +7,31 @@
 //
 
 import SpriteKit
-class Projectile:SKSpriteNode{
+class Projectile{
     var image: SKSpriteNode
-    var x:Int
-    var y:Int
-    var friendly:Bool
+    var ID:String
+    var velocity: Float
+    var angle: Float
+    var range: Float
+    var absoluteX:Int = 0
+    var absoluteY:Int = 0
     
-    required init(coder: NSCoder) {
-        fatalError("NSCoding not supported")
-    }
-    init(_image:String, _x:Int, _y:Int, _friendly:Bool){
+    var screenY:Int = 0 //fix these with dynamic assignment
+    var screenX:Int = 0 //replace with CGPoint
+    
+    init(_image:String, _ID:String, _velocity:Float, _angle:Float, _range:Float){ //maybe pass shoot function as param
         image = SKSpriteNode(imageNamed: _image)
-        x = _x
-        y = _y
-        friendly = _friendly
-        super.init(texture:nil, color: UIColor.darkGrayColor(), size: image.size)
-        self.addChild(image)
-
+        ID = _ID
+        velocity = _velocity
+        angle = _angle
+        range = _range
+    }
+    func create() { //override this for complex projectiles
+    
         
     }
-    func shoot(angle_rads:Float) //override this for complex projectiles
-    {
-        let action = SKAction.moveByX(CGFloat(200)*CGFloat(cos(angle_rads)), y: CGFloat(200)*CGFloat(sin(angle_rads)), duration: NSTimeInterval(50))
-        self.runAction(action)
+    func destroy() {
+        
     }
 }
 

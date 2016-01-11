@@ -10,67 +10,93 @@ import UIKit
 import SpriteKit
 
 class JoystickControl:UIControl{
+    var ringView:UIView
+    var stickView:UIView
+    let ring_size: CGFloat = 25
+    let center_offset:CGFloat = 50
     
-    let center_img_view = UIImageView(image: UIImage(named: "joystick_center"))
-    let ring_img_view = UIImageView(image: UIImage(named: "joystick_ring"))
-    let ring_size: Float = 25
-    let center_pos: Float = 50
     // MARK: Properties
-    var angle: Float = 0
-    var distance: Float = 0
-    var abs_distance: Float {
+    var currentPoint = CGPoint(x:0, y:0)
+    var angle: CGFloat = 0
+    var distance: CGFloat = 0
+    var abs_distance: CGFloat {
         get{
             return min(distance, ring_size)
         }
     }
     
+    
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
+        let ringLayer = CAShapeLayer()
+        let stickLayer = CAShapeLayer()
+        ringView = UIView()
+        stickView = UIView()
+
         super.init(coder: aDecoder)
-        addSubview(center_img_view)
-        addSubview(ring_img_view)
         
+        //set up paths
+        let ringPath = UIBezierPath(arcCenter: CGPoint(x: center_offset,y: center_offset), radius: ring_size+15, startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        ringLayer.path = ringPath.CGPath
+        ringLayer.fillColor = UIColor.clearColor().CGColor
+        ringLayer.strokeColor = UIColor(colorLiteralRed: 0.80, green: 0.80, blue: 0.80, alpha: 0.65).CGColor
+        ringLayer.lineWidth = 2.0
+        
+        let stickPath = UIBezierPath(arcCenter: CGPoint(x: center_offset,y: center_offset), radius: ring_size, startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        stickLayer.path = stickPath.CGPath
+        stickLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+        stickLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+        stickLayer.lineWidth = 2.0
+        
+        //add layer to views
+        ringView.layer.addSublayer(ringLayer)
+        stickView.layer.addSublayer(stickLayer)
+
+        //add views to main view
+        self.addSubview(ringView)
+        self.addSubview(stickView)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
-            let currentPoint = touch.locationInView(self)
-            distance = hypotf(Float(currentPoint.x - CGFloat(center_pos)), Float(currentPoint.y-CGFloat(center_pos)))
-            angle = atan2(Float(currentPoint.y)-center_pos, Float(currentPoint.x)-center_pos)
+            currentPoint = touch.locationInView(self)
+            currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
+            distance = hypot(currentPoint.x, currentPoint.y)
+            angle = atan2(currentPoint.y, currentPoint.x)
             if (distance < ring_size) {
-                center_img_view.center = currentPoint
+                
+                stickView.center = currentPoint
             }
             else
             {
-                let x:CGFloat = CGFloat(ring_size) * CGFloat(cos(angle))
-                let y:CGFloat = CGFloat(ring_size) * CGFloat(sin(angle))
-                center_img_view.center = CGPoint(x: x+CGFloat(center_pos), y:  y+CGFloat(center_pos))
+                stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle))) //this can be optimized further
             }
         }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
-            let currentPoint = touch.locationInView(self)
-            distance = hypotf(Float(currentPoint.x - CGFloat(center_pos)), Float(currentPoint.y-CGFloat(center_pos)))
-            angle = atan2(Float(currentPoint.y)-center_pos, Float(currentPoint.x)-center_pos)
+            currentPoint = touch.locationInView(self)
+            currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
+            distance = hypot(currentPoint.x, currentPoint.y)
+            angle = atan2(currentPoint.y, currentPoint.x)
             if (distance < ring_size) {
-            center_img_view.center = currentPoint
+                stickView.center = currentPoint
             }
             else
             {
-                let x:CGFloat = CGFloat(ring_size) * CGFloat(cos(angle))
-                let y:CGFloat = CGFloat(ring_size) * CGFloat(sin(angle))
-                center_img_view.center = CGPoint(x: x+CGFloat(center_pos), y:  y+CGFloat(center_pos))
+                stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle)))
             }
             self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first {
-            let currentPoint = touch.locationInView(self)
-            center_img_view.center = CGPoint(x: CGFloat(center_pos), y: CGFloat(center_pos))
+        if (touches.first != nil) {
+            stickView.center = CGPoint(x: 0, y: 0)
+            currentPoint = CGPoint(x:0, y:0)
+            distance = 0
+            angle = 0
         }
     }
     

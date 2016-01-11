@@ -10,7 +10,8 @@ import SpriteKit
 
 class InGameScene: SKScene {
     override func didMoveToView(view: SKView) {
-           
+        self.addChild(thisCharacter.thisNode)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

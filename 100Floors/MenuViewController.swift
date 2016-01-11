@@ -1,5 +1,5 @@
 //
-//  GameViewController.swift
+//  MenuViewController
 //  100Floors
 //
 //  Created by Sid Mani on 1/2/16.
@@ -9,12 +9,12 @@
 import UIKit
 import SpriteKit
 
-class GameViewController: UIViewController {
-    var scene: GameScene!
+class MenuViewController: UIViewController {
+    var scene: MenuScene!
     override func viewDidLoad() {
         super.viewDidLoad()
         let skView = view as! SKView
-        scene = GameScene()
+        scene = MenuScene()
         skView.presentScene(scene)
     }
   
@@ -42,7 +42,7 @@ class GameViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func joinButton(sender: UIButton) {
-        print("Button pressed")
+        ServerInteraction.connect()
     }
    
 }

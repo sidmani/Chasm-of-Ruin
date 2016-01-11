@@ -8,39 +8,67 @@
 
 import SpriteKit
 
-class Entity:SKSpriteNode {
-    var base_img_fd:SKSpriteNode
-    var base_img_rt:SKSpriteNode
-    var base_img_lt:SKSpriteNode
-    var base_img_bk:SKSpriteNode
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    init(_base_img_fd:SKSpriteNode, _base_img_bk:SKSpriteNode, _base_img_rt:SKSpriteNode, _base_img_lt:SKSpriteNode)
+class Entity { 
+    var absoluteLoc:CGPoint = CGPoint(x: 0, y: 0)
+    var screenLoc:CGPoint = CGPoint(x: 0, y: 0)
+    var velocity:CGFloat = 0
+    var moveAngle:CGFloat = 0
+    var ID:String
+    
+    init(_ID:String)
     {
-        base_img_bk = _base_img_bk
-        base_img_fd = _base_img_fd
-        base_img_lt = _base_img_lt
-        base_img_rt = _base_img_rt
+        ID = _ID
     }
     
 }
 
 class ThisCharacter: Entity {
-    var ID:String
-    init(_ID:String)
+    var thisNode:SKSpriteNode
+    var thisCharClass:charClass
+    //TODO: stats
+    var health:Int = 0
+    var magic:Int = 0
+    override var moveAngle:CGFloat {
+        get {
+            return left_joystick_angle
+        }
+        set {
+            setImageOrientation()
+        }
+    }
+//  var currentProjectile:Projectile //set based on item, dynamic assigment
+    init(_class:charClass, _ID:String) {
+        thisCharClass = _class
+        thisNode = SKSpriteNode(imageNamed: thisCharClass.img_base)
+        super.init(_ID: _ID)
+        
+    }
+    func setScreenLoc(newLoc:CGPoint)
     {
-        ID = _ID
+        screenLoc = newLoc
+        thisNode.position = newLoc
+    }
+    func setImageOrientation() {
+        // change image direction
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
+
+
+
+
 
 class OtherCharacter:Entity {
-    
+    var thisCharClass:charClass
+    init(_class:charClass, _ID:String) {
+        thisCharClass = _class
+        super.init(_ID: _ID)
+    }
 }
+
+
+
+
 
 class Enemy:Entity {
     
