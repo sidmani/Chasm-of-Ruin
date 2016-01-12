@@ -41,6 +41,7 @@
 		1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8F1C3B2F950069D04D /* WebSocket.swift */; };
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F48547C1C4192EF008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F48547B1C4192EF008DDC8F /* Global.swift */; };
+		1F4DB7C11C44A53C00887FBC /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DB7C01C44A53C00887FBC /* Map.swift */; };
 		1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078371C3C9AEA00EC773E /* Entity.swift */; };
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
 		1FD5EABE1C3F47A700634F47 /* EntityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABD1C3F47A700634F47 /* EntityController.swift */; };
@@ -65,7 +66,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F2CEE051C387B1F00E4FB2E /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100Floors.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F2CEE051C387B1F00E4FB2E /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = 100Floors.app; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100Floors.app"; sourceTree = "<absolute>"; };
 		1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -73,8 +74,8 @@
 		1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F2CEE161C387B1F00E4FB2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F2CEE181C387B1F00E4FB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1F2CEE1D1C387B1F00E4FB2E /* 100FloorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 100FloorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F2CEE281C387B1F00E4FB2E /* 100FloorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 100FloorsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F2CEE1D1C387B1F00E4FB2E /* 100FloorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = 100FloorsTests.xctest; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100FloorsTests.xctest"; sourceTree = "<absolute>"; };
+		1F2CEE281C387B1F00E4FB2E /* 100FloorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = 100FloorsUITests.xctest; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100FloorsUITests.xctest"; sourceTree = "<absolute>"; };
 		1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameScene.swift; sourceTree = "<group>"; };
 		1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InGameViewController.swift; path = ../InGameViewController.swift; sourceTree = "<group>"; };
 		1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickControl.swift; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 		1F304B8F1C3B2F950069D04D /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F48547B1C4192EF008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		1F4DB7C01C44A53C00887FBC /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Map.swift; path = ../Map.swift; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
 		1FD5EABD1C3F47A700634F47 /* EntityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityController.swift; path = ../EntityController.swift; sourceTree = "<group>"; };
@@ -138,40 +140,25 @@
 			isa = PBXGroup;
 			children = (
 				1F2CEE071C387B1F00E4FB2E /* 100Floors */,
-				1F2CEE061C387B1F00E4FB2E /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		1F2CEE061C387B1F00E4FB2E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1F2CEE051C387B1F00E4FB2E /* 100Floors.app */,
-				1F2CEE1D1C387B1F00E4FB2E /* 100FloorsTests.xctest */,
-				1F2CEE281C387B1F00E4FB2E /* 100FloorsUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		1F2CEE071C387B1F00E4FB2E /* 100Floors */ = {
 			isa = PBXGroup;
 			children = (
+				1F4DB7C31C44A56B00887FBC /* Connectivity */,
+				1F4DB7C21C44A54600887FBC /* Interface */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
-				1F304B271C39CCC10069D04D /* ControlHandler.swift */,
-				1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */,
-				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
-				1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */,
-				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
+				1F4DB7C01C44A53C00887FBC /* Map.swift */,
 				1F4854791C41853B008DDC8F /* GameLogic.swift */,
 				1F48547B1C4192EF008DDC8F /* Global.swift */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
 				1FD5EABF1C3F80EB00634F47 /* Classes.swift */,
+				1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */,
+				1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */,
 				1F5078371C3C9AEA00EC773E /* Entity.swift */,
 				1FD5EABD1C3F47A700634F47 /* EntityController.swift */,
 				1F304B2D1C3A33D30069D04D /* Projectile.swift */,
-				1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */,
-				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
-				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
-				1F304B7B1C3B2F950069D04D /* SocketIO */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
 				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
@@ -205,6 +192,27 @@
 			);
 			name = SocketIO;
 			path = "socket.io-client-swift-master/Source";
+			sourceTree = "<group>";
+		};
+		1F4DB7C21C44A54600887FBC /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
+				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
+				1F304B271C39CCC10069D04D /* ControlHandler.swift */,
+				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
+				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		1F4DB7C31C44A56B00887FBC /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				1F304B7B1C3B2F950069D04D /* SocketIO */,
+				1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */,
+			);
+			name = Connectivity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,7 +305,7 @@
 				Base,
 			);
 			mainGroup = 1F2CEDFC1C387B1F00E4FB2E;
-			productRefGroup = 1F2CEE061C387B1F00E4FB2E /* Products */;
+			productRefGroup = 1F2CEDFC1C387B1F00E4FB2E;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -374,6 +382,7 @@
 				1F304BA81C3B2F950069D04D /* SocketAnyEvent.swift in Sources */,
 				1F304B281C39CCC10069D04D /* ControlHandler.swift in Sources */,
 				1F304BAC1C3B2F950069D04D /* SocketEnginePacketType.swift in Sources */,
+				1F4DB7C11C44A53C00887FBC /* Map.swift in Sources */,
 				1F304BB51C3B2F950069D04D /* SocketParsable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

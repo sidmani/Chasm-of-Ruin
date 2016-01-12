@@ -33,7 +33,6 @@ class ThisCharacter: Entity {
             return left_joystick_angle
         }
         set {
-            setImageOrientation()
         }
     }
 //  var currentProjectile:Projectile //set based on item, dynamic assigment

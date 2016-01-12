@@ -10,13 +10,13 @@ import UIKit
 
 class DisplayBar: UIProgressView {
     
-    let redVal:Float = 0.2
+    let redVal:Float = 0.2 //TODO: interpolate between colors based on value
     let yellowVal:Float = 0.5
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.transform = CGAffineTransformMakeScale(1.0, 3.0)
-        self.setProgress(0.5, animated: false)
+        self.updateVal(0.6)
     }
     
     func updateVal(newVal:Float)
