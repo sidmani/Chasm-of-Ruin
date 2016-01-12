@@ -25,7 +25,7 @@ import SpriteKit
     }
     
     //Control updates
-    func update_joystick_left(distance:CGFloat, angle:CGFloat)
+ /*   func update_joystick_left(distance:CGFloat, angle:CGFloat)
     {
         left_joystick_angle = angle
         left_joystick_distance = distance
@@ -35,5 +35,5 @@ import SpriteKit
     {
         right_joystick_angle = angle
         right_joystick_distance = distance
-    }
+    }*/
     

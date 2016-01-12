@@ -54,11 +54,21 @@
                                     <action selector="RightJoystickControl:" destination="MLO-tX-9Zl" eventType="valueChanged" id="yzD-Ca-owz"/>
                                 </connections>
                             </view>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="xcK-G6-wYk" customClass="DisplayBar" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="45" y="37" width="150" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="RSC-jF-gNv" userLabel="HP Display Bar" customClass="DisplayBar" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="45" y="27" width="150" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="HPDisplayBar" destination="RSC-jF-gNv" id="1RZ-Bp-Pcb"/>
                         <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
+                        <outlet property="ManaDisplayBar" destination="xcK-G6-wYk" id="AtN-5a-dS1"/>
                         <outlet property="RightJoystickControl" destination="CwZ-pI-Qun" id="TrL-BJ-nKT"/>
                     </connections>
                 </viewController>
