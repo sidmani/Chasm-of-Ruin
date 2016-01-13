@@ -44,6 +44,7 @@
 		1F4DB7C11C44A53C00887FBC /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DB7C01C44A53C00887FBC /* Map.swift */; };
 		1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078371C3C9AEA00EC773E /* Entity.swift */; };
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
+		1FCE14BE1C45F02100112188 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14BD1C45F02100112188 /* Item.swift */; };
 		1FD5EABE1C3F47A700634F47 /* EntityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABD1C3F47A700634F47 /* EntityController.swift */; };
 		1FD5EAC01C3F80EB00634F47 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABF1C3F80EB00634F47 /* Classes.swift */; };
 /* End PBXBuildFile section */
@@ -66,7 +67,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F2CEE051C387B1F00E4FB2E /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = 100Floors.app; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100Floors.app"; sourceTree = "<absolute>"; };
 		1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -74,8 +74,6 @@
 		1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F2CEE161C387B1F00E4FB2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F2CEE181C387B1F00E4FB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1F2CEE1D1C387B1F00E4FB2E /* 100FloorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = 100FloorsTests.xctest; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100FloorsTests.xctest"; sourceTree = "<absolute>"; };
-		1F2CEE281C387B1F00E4FB2E /* 100FloorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = 100FloorsUITests.xctest; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100FloorsUITests.xctest"; sourceTree = "<absolute>"; };
 		1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameScene.swift; sourceTree = "<group>"; };
 		1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InGameViewController.swift; path = ../InGameViewController.swift; sourceTree = "<group>"; };
 		1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickControl.swift; sourceTree = "<group>"; };
@@ -107,6 +105,10 @@
 		1F4DB7C01C44A53C00887FBC /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Map.swift; path = ../Map.swift; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
+		1FCE14BA1C45E0CD00112188 /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100Floors.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FCE14BB1C45E0CD00112188 /* 100FloorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = 100FloorsTests.xctest; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100FloorsTests.xctest"; sourceTree = "<absolute>"; };
+		1FCE14BC1C45E0CD00112188 /* 100FloorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = 100FloorsUITests.xctest; path = "/Users/Sid/Documents/100Floors/build/Debug-iphoneos/100FloorsUITests.xctest"; sourceTree = "<absolute>"; };
+		1FCE14BD1C45F02100112188 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../Item.swift; sourceTree = "<group>"; };
 		1FD5EABD1C3F47A700634F47 /* EntityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityController.swift; path = ../EntityController.swift; sourceTree = "<group>"; };
 		1FD5EABF1C3F80EB00634F47 /* Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Classes.swift; path = ../Classes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				1F2CEE071C387B1F00E4FB2E /* 100Floors */,
+				1FCE14BA1C45E0CD00112188 /* 100Floors.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +152,7 @@
 				1F4DB7C31C44A56B00887FBC /* Connectivity */,
 				1F4DB7C21C44A54600887FBC /* Interface */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
+				1FCE14BD1C45F02100112188 /* Item.swift */,
 				1F4DB7C01C44A53C00887FBC /* Map.swift */,
 				1F4854791C41853B008DDC8F /* GameLogic.swift */,
 				1F48547B1C4192EF008DDC8F /* Global.swift */,
@@ -232,7 +236,7 @@
 			);
 			name = 100Floors;
 			productName = 100Floors;
-			productReference = 1F2CEE051C387B1F00E4FB2E /* 100Floors.app */;
+			productReference = 1FCE14BA1C45E0CD00112188 /* 100Floors.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1F2CEE1C1C387B1F00E4FB2E /* 100FloorsTests */ = {
@@ -250,7 +254,7 @@
 			);
 			name = 100FloorsTests;
 			productName = 100FloorsTests;
-			productReference = 1F2CEE1D1C387B1F00E4FB2E /* 100FloorsTests.xctest */;
+			productReference = 1FCE14BB1C45E0CD00112188 /* 100FloorsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1F2CEE271C387B1F00E4FB2E /* 100FloorsUITests */ = {
@@ -268,7 +272,7 @@
 			);
 			name = 100FloorsUITests;
 			productName = 100FloorsUITests;
-			productReference = 1F2CEE281C387B1F00E4FB2E /* 100FloorsUITests.xctest */;
+			productReference = 1FCE14BC1C45E0CD00112188 /* 100FloorsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -350,6 +354,7 @@
 			files = (
 				1F304BB81C3B2F950069D04D /* SwiftRegex.swift in Sources */,
 				1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */,
+				1FCE14BE1C45F02100112188 /* Item.swift in Sources */,
 				1F304BAB1C3B2F950069D04D /* SocketEngineClient.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */,
 				1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */,

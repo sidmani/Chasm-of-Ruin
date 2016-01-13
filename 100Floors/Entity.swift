@@ -5,10 +5,28 @@
 //  Created by Sid Mani on 1/5/16.
 //
 //
-
 import SpriteKit
-
-class Entity { 
+struct stats {
+    var health:Int    // Health
+    var defense:Int   // Defense (% projectile is weakened by)
+    var attack:Int    // Attack (% own projectile is strengthened by)
+    var speed:Int     // Speed
+    var dexterity:Int // Dexterity (rate of projectile release)
+    var hunger:Int    // Hunger (decrease with time)
+    var level:Int     // Level (Overall boost to all stats)
+    var mana:Int      // Mana (used when casting spells)
+    var rage:Int      // Builds up over time, released when hunger/health are low (last resort kinda thing)
+}
+struct posData {
+    var absoluteLoc:CGPoint
+    var screenLoc:CGPoint //TODO: Make computed property
+    var velocity:CGFloat
+    var direction:CGFloat //direction in radians
+}
+struct equipped_items {
+    
+}
+class Entity { //TODO: rewrite properties in class
     var absoluteLoc:CGPoint = CGPoint(x: 0, y: 0)
     var screenLoc:CGPoint = CGPoint(x: 0, y: 0)
     var velocity:CGFloat = 0
@@ -23,11 +41,10 @@ class Entity {
 }
 
 class ThisCharacter: Entity {
-    var thisNode:SKSpriteNode
+    var thisNode:SKSpriteNode //TODO: fix this
     var thisCharClass:charClass
-    //TODO: stats
-    var health:Int = 0
-    var magic:Int = 0
+  
+    
     override var moveAngle:CGFloat {
         get {
             return left_joystick_angle
@@ -40,7 +57,6 @@ class ThisCharacter: Entity {
         thisCharClass = _class
         thisNode = SKSpriteNode(imageNamed: thisCharClass.img_base)
         super.init(_ID: _ID)
-        
     }
     func setScreenLoc(newLoc:CGPoint)
     {
