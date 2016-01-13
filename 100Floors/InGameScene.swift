@@ -10,7 +10,7 @@ import SpriteKit
 
 class InGameScene: SKScene {
     override func didMoveToView(view: SKView) {
-        self.addChild(thisCharacter.thisNode)
+     //   self.addChild(thisCharacter.node!)
         
     }
     

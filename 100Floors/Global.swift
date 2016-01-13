@@ -8,3 +8,4 @@
 import UIKit
 
 let screenSize: CGRect = UIScreen.mainScreen().bounds
+let inventory_size = 8 // TODO: fix this

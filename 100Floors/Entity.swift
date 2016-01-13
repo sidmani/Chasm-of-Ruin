@@ -6,7 +6,9 @@
 //
 //
 import SpriteKit
-struct stats {
+
+//// data structs ////
+struct Stats {
     var health:Int    // Health
     var defense:Int   // Defense (% projectile is weakened by)
     var attack:Int    // Attack (% own projectile is strengthened by)
@@ -17,20 +19,24 @@ struct stats {
     var mana:Int      // Mana (used when casting spells)
     var rage:Int      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
-struct posData {
+struct PosData {
     var absoluteLoc:CGPoint
     var screenLoc:CGPoint //TODO: Make computed property
     var velocity:CGFloat
     var direction:CGFloat //direction in radians
 }
-struct equipped_items {
-    
+struct EquippedItems {
+    var shield:Shield
+    var weapon:Weapon
+    var enhancer:Enhancer
+    var skill:Skill
 }
+//////////////////////
+
+
 class Entity { //TODO: rewrite properties in class
-    var absoluteLoc:CGPoint = CGPoint(x: 0, y: 0)
-    var screenLoc:CGPoint = CGPoint(x: 0, y: 0)
-    var velocity:CGFloat = 0
-    var moveAngle:CGFloat = 0
+    var posData:PosData?
+    var equippedItems:EquippedItems?
     var ID:String
     
     init(_ID:String)
@@ -41,30 +47,24 @@ class Entity { //TODO: rewrite properties in class
 }
 
 class ThisCharacter: Entity {
-    var thisNode:SKSpriteNode //TODO: fix this
-    var thisCharClass:charClass
-  
+    var node:SKSpriteNode? //TODO: fix this
+    var charClass:CharClass?
+    var stats:Stats?
+    var equipped:EquippedItems?
+    var currentProjectile:Projectile? //set based on item, dynamic assigment
     
-    override var moveAngle:CGFloat {
-        get {
-            return left_joystick_angle
-        }
-        set {
-        }
-    }
-//  var currentProjectile:Projectile //set based on item, dynamic assigment
-    init(_class:charClass, _ID:String) {
-        thisCharClass = _class
-        thisNode = SKSpriteNode(imageNamed: thisCharClass.img_base)
-        super.init(_ID: _ID)
-    }
     func setScreenLoc(newLoc:CGPoint)
     {
-        screenLoc = newLoc
-        thisNode.position = newLoc
+        posData!.screenLoc = newLoc
+        node!.position = newLoc //TODO: fix this
     }
     func setImageOrientation() {
         // change image direction
+    }
+    func consumeItem(c:Consumable)
+    {
+        //inform the server
+        //perform stat changes
     }
 
 }
@@ -74,9 +74,9 @@ class ThisCharacter: Entity {
 
 
 class OtherCharacter:Entity {
-    var thisCharClass:charClass
-    init(_class:charClass, _ID:String) {
-        thisCharClass = _class
+    var charClass:CharClass
+    init(_class:CharClass, _ID:String) {
+        charClass = _class
         super.init(_ID: _ID)
     }
 }
