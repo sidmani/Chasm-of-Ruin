@@ -28,6 +28,8 @@ class Consumable: Item {
 }
 
 class Weapon: Item {
+    var projectile:Projectile?
+    var power:Int?
     
 }
 
@@ -36,11 +38,20 @@ class Skill: Item {
 }
 
 class Shield: Item {
+    var statToBoost = StatTypes.defense
     
+
 }
 
 class Enhancer: Item {
-    
+    var statToBoost:StatTypes?
+    var amountToBoost:Int?
+    var permanent = true
+    init(_statToBoost:StatTypes, _amountToBoost:Int)
+    {
+        statToBoost = _statToBoost
+        amountToBoost = _amountToBoost
+    }
 }
 
 class Style: Item {

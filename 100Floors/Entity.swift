@@ -19,6 +19,17 @@ struct Stats {
     var mana:Int      // Mana (used when casting spells)
     var rage:Int      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
+enum StatTypes {
+    case health
+    case defense
+    case attack
+    case speed
+    case dexterity
+    case hunger
+    case level
+    case mana
+    case rage
+}
 struct PosData {
     var absoluteLoc:CGPoint
     var screenLoc:CGPoint //TODO: Make computed property
@@ -36,7 +47,6 @@ struct EquippedItems {
 
 class Entity { //TODO: rewrite properties in class
     var posData:PosData?
-    var equippedItems:EquippedItems?
     var ID:String
     
     init(_ID:String)
@@ -51,22 +61,58 @@ class ThisCharacter: Entity {
     var charClass:CharClass?
     var stats:Stats?
     var equipped:EquippedItems?
-    var currentProjectile:Projectile? //set based on item, dynamic assigment
+    var currentProjectile:Projectile {
+        get{
+            return equipped!.weapon.projectile! //set weapon based on item
+        }
+    }
     
-    func setScreenLoc(newLoc:CGPoint)
-    {
-        posData!.screenLoc = newLoc
-        node!.position = newLoc //TODO: fix this
-    }
-    func setImageOrientation() {
-        // change image direction
-    }
-    func consumeItem(c:Consumable)
-    {
-        //inform the server
-        //perform stat changes
-    }
-
+    ///POSITION/DIRECTION METHODS
+    
+    
+    ///GRAPHICAL METHODS
+        func setImageOrientation() {
+            // change image direction
+        }
+        func setScreenLoc(newLoc:CGPoint) //TODO: fix this
+        {
+            posData!.screenLoc = newLoc
+            node!.position = newLoc
+        }
+    
+    //ITEM HANDLER METHODS
+        func consumeItem(c:Consumable)
+        {
+            //inform the server
+            //perform stat changes
+        }
+    
+        ///equip functions
+            func equipShield(shield:Shield) -> Shield?
+            {
+                let old = equipped?.shield
+                equipped?.shield = shield
+                return old
+            }
+            func equipWeapon(weapon:Weapon) -> Weapon?
+            {
+                let old = equipped?.weapon
+                equipped?.weapon = weapon
+                return old
+            }
+            func equipEnhancer(enhancer:Enhancer) -> Enhancer?
+            {
+                let old = equipped?.enhancer
+                equipped?.enhancer = enhancer
+                return old
+            }
+            func equipSkill(skill:Skill) -> Skill?
+            {
+                let old = equipped?.skill
+                equipped?.skill = skill
+                return old
+            }
+    ///////////////////
 }
 
 

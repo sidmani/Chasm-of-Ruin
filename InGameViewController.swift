@@ -15,8 +15,14 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var LeftJoystickControl: JoystickControl!
     @IBOutlet weak var RightJoystickControl: JoystickControl!
     
-    @IBOutlet weak var HPDisplayBar: DisplayBar!
+    @IBOutlet weak var HPDisplayBar: ReallyBigDisplayBar!
     @IBOutlet weak var ManaDisplayBar: DisplayBar!
+    @IBOutlet weak var HungerDisplayBar: DisplayBar!
+    
+    @IBOutlet weak var EquipContainer1: ItemContainer!
+    @IBOutlet weak var EquipContainer2: ItemContainer!
+    @IBOutlet weak var EquipContainer3: ItemContainer!
+    @IBOutlet weak var EquipContainer4: ItemContainer!
     
     var scene: InGameScene!
 
@@ -28,10 +34,23 @@ class InGameViewController: UIViewController {
         LeftJoystickControl.backgroundColor = UIColor.clearColor()
         RightJoystickControl.center = CGPoint(x: screenSize.width - 75, y: screenSize.height - 75)
         RightJoystickControl.backgroundColor = UIColor.clearColor()
+        
         //////////
         //Status bars
-        HPDisplayBar.center = CGPoint(x: 100, y: 20)
+        HungerDisplayBar.center = CGPoint(x: 100, y: 20)
         ManaDisplayBar.center = CGPoint(x: 100, y: 38)
+        HPDisplayBar.center = CGPoint(x: screenSize.width-200, y: 27)
+        //////////
+        //Equipment containers
+        EquipContainer1.center = CGPoint(x:200, y: screenSize.height - 75)
+        EquipContainer1.backgroundColor = UIColor.clearColor()
+        EquipContainer2.center = CGPoint(x:275, y: screenSize.height - 75)
+        EquipContainer2.backgroundColor = UIColor.clearColor()
+        EquipContainer3.center = CGPoint(x:350, y: screenSize.height - 75)
+        EquipContainer3.backgroundColor = UIColor.clearColor()
+        EquipContainer4.center = CGPoint(x:425, y: screenSize.height - 75)
+        EquipContainer4.backgroundColor = UIColor.clearColor()
+
         //////////
         let skView = view as! SKView
         scene = InGameScene(size:skView.bounds.size)
@@ -45,7 +64,7 @@ class InGameViewController: UIViewController {
     @IBAction func RightJoystickControl(sender: JoystickControl) {
         right_joystick_angle = sender.angle
         right_joystick_distance = sender.abs_distance
-
+        HPDisplayBar.updateVal(Float(sender.angle))
     }
     
     @IBAction func LeftJoystickControl(sender: JoystickControl) {
