@@ -64,7 +64,6 @@ class InGameViewController: UIViewController {
     @IBAction func RightJoystickControl(sender: JoystickControl) {
         right_joystick_angle = sender.angle
         right_joystick_distance = sender.abs_distance
-        HPDisplayBar.updateVal(Float(sender.angle))
     }
     
     @IBAction func LeftJoystickControl(sender: JoystickControl) {
@@ -72,6 +71,8 @@ class InGameViewController: UIViewController {
         left_joystick_distance = sender.abs_distance
     }
     /////////
+    
+    
     override func shouldAutorotate() -> Bool {
         return true
     }

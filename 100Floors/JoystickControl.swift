@@ -17,7 +17,11 @@ class JoystickControl:UIControl{
     
     // MARK: Properties
     var currentPoint = CGPoint(x:0, y:0)
-    var angle: CGFloat = 0
+    var angle: CGFloat {
+        get {
+           return atan2(currentPoint.y, currentPoint.x)
+        }
+    }
     var distance: CGFloat = 0
     var abs_distance: CGFloat {
         get{
@@ -62,14 +66,14 @@ class JoystickControl:UIControl{
             currentPoint = touch.locationInView(self)
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
-            angle = atan2(currentPoint.y, currentPoint.x)
             if (distance < ring_size) {
                 
                 stickView.center = currentPoint
             }
             else
             {
-                stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle))) //this can be optimized further
+                let _angle = angle
+                stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle))) //this can be optimized further
             }
         }
     }
@@ -79,13 +83,13 @@ class JoystickControl:UIControl{
             currentPoint = touch.locationInView(self)
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
-            angle = atan2(currentPoint.y, currentPoint.x)
             if (distance < ring_size) {
                 stickView.center = currentPoint
             }
             else
             {
-                stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle)))
+                let _angle = angle
+                stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle)))
             }
             self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
         }
@@ -96,7 +100,6 @@ class JoystickControl:UIControl{
             stickView.center = CGPoint(x: 0, y: 0)
             currentPoint = CGPoint(x:0, y:0)
             distance = 0
-            angle = 0
         }
     }
     

@@ -10,6 +10,8 @@ import UIKit
 
 class ItemContainer:UIView {
     var containerView:UIView
+    var item:Item?
+    
     required init?(coder aDecoder: NSCoder) {
         containerView = UIView()
         let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 60, height: 60), cornerRadius: 8)
