@@ -41,32 +41,35 @@
 		1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8F1C3B2F950069D04D /* WebSocket.swift */; };
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F48547C1C4192EF008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F48547B1C4192EF008DDC8F /* Global.swift */; };
-		1F4DB7C11C44A53C00887FBC /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DB7C01C44A53C00887FBC /* Map.swift */; };
+		1F4A47A01C4B389700813143 /* Map.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A479E1C4B389700813143 /* Map.atlas */; };
+		1F4A47A11C4B389700813143 /* Map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A479F1C4B389700813143 /* Map1.tmx */; };
 		1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078371C3C9AEA00EC773E /* Entity.swift */; };
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
+		1F56B9541C4A00CE0098380D /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9531C4A00CE0098380D /* MenuButton.swift */; };
+		1F56B9581C4AB7140098380D /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9571C4AB7140098380D /* Map.swift */; };
+		1F56B96F1C4AE37E0098380D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56B96E1C4AE37E0098380D /* libz.tbd */; };
+		1F56B9A71C4AEC8D0098380D /* SKAButtonSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B97F1C4AEC8D0098380D /* SKAButtonSprite.m */; };
+		1F56B9A81C4AEC8D0098380D /* SKACroppedMiniMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9821C4AEC8D0098380D /* SKACroppedMiniMap.m */; };
+		1F56B9A91C4AEC8D0098380D /* SKALabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9851C4AEC8D0098380D /* SKALabelNode.m */; };
+		1F56B9AA1C4AEC8D0098380D /* SKAMiniMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9881C4AEC8D0098380D /* SKAMiniMap.m */; };
+		1F56B9AB1C4AEC8D0098380D /* SKATestHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B98C1C4AEC8D0098380D /* SKATestHud.m */; };
+		1F56B9AC1C4AEC8D0098380D /* SKATestPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B98E1C4AEC8D0098380D /* SKATestPlayer.m */; };
+		1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9921C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m */; };
+		1F56B9AE1C4AEC8D0098380D /* SKACollisionDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9941C4AEC8D0098380D /* SKACollisionDefine.m */; };
+		1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9961C4AEC8D0098380D /* SKAObject.m */; };
+		1F56B9B01C4AEC8D0098380D /* SKAObjectLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9981C4AEC8D0098380D /* SKAObjectLayer.m */; };
+		1F56B9B11C4AEC8D0098380D /* SKASprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B99A1C4AEC8D0098380D /* SKASprite.m */; };
+		1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B99C1C4AEC8D0098380D /* SKASpriteLayer.m */; };
+		1F56B9B31C4AEC8D0098380D /* SKATiledMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B99E1C4AEC8D0098380D /* SKATiledMap.m */; };
+		1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */; };
+		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
+		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
 		1FCE14BE1C45F02100112188 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14BD1C45F02100112188 /* Item.swift */; };
 		1FCE14C21C46080600112188 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C11C46080600112188 /* Inventory.swift */; };
 		1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C31C475A0400112188 /* ItemContainer.swift */; };
 		1FD5EABE1C3F47A700634F47 /* EntityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABD1C3F47A700634F47 /* EntityController.swift */; };
 		1FD5EAC01C3F80EB00634F47 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABF1C3F80EB00634F47 /* Classes.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		1F2CEE1E1C387B1F00E4FB2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F2CEDFD1C387B1F00E4FB2E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F2CEE041C387B1F00E4FB2E;
-			remoteInfo = 100Floors;
-		};
-		1F2CEE291C387B1F00E4FB2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F2CEDFD1C387B1F00E4FB2E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F2CEE041C387B1F00E4FB2E;
-			remoteInfo = 100Floors;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,15 +107,52 @@
 		1F304B8F1C3B2F950069D04D /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F48547B1C4192EF008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
-		1F4DB7C01C44A53C00887FBC /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Map.swift; path = ../Map.swift; sourceTree = "<group>"; };
+		1F4A479E1C4B389700813143 /* Map.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Map.atlas; sourceTree = "<group>"; };
+		1F4A479F1C4B389700813143 /* Map1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Map1.tmx; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
+		1F56B9531C4A00CE0098380D /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
+		1F56B9571C4AB7140098380D /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "100Floors-Bridging-Header.h"; path = "../100Floors-Bridging-Header.h"; sourceTree = "<group>"; };
+		1F56B96E1C4AE37E0098380D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		1F56B97E1C4AEC8D0098380D /* SKAButtonSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAButtonSprite.h; sourceTree = "<group>"; };
+		1F56B97F1C4AEC8D0098380D /* SKAButtonSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAButtonSprite.m; sourceTree = "<group>"; };
+		1F56B9811C4AEC8D0098380D /* SKACroppedMiniMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKACroppedMiniMap.h; sourceTree = "<group>"; };
+		1F56B9821C4AEC8D0098380D /* SKACroppedMiniMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKACroppedMiniMap.m; sourceTree = "<group>"; };
+		1F56B9841C4AEC8D0098380D /* SKALabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKALabelNode.h; sourceTree = "<group>"; };
+		1F56B9851C4AEC8D0098380D /* SKALabelNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKALabelNode.m; sourceTree = "<group>"; };
+		1F56B9871C4AEC8D0098380D /* SKAMiniMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAMiniMap.h; sourceTree = "<group>"; };
+		1F56B9881C4AEC8D0098380D /* SKAMiniMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAMiniMap.m; sourceTree = "<group>"; };
+		1F56B98A1C4AEC8D0098380D /* SKATest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATest.h; sourceTree = "<group>"; };
+		1F56B98B1C4AEC8D0098380D /* SKATestHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATestHud.h; sourceTree = "<group>"; };
+		1F56B98C1C4AEC8D0098380D /* SKATestHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATestHud.m; sourceTree = "<group>"; };
+		1F56B98D1C4AEC8D0098380D /* SKATestPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATestPlayer.h; sourceTree = "<group>"; };
+		1F56B98E1C4AEC8D0098380D /* SKATestPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATestPlayer.m; sourceTree = "<group>"; };
+		1F56B9911C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SKATMXParserUtils.h"; sourceTree = "<group>"; };
+		1F56B9921C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SKATMXParserUtils.m"; sourceTree = "<group>"; };
+		1F56B9931C4AEC8D0098380D /* SKACollisionDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKACollisionDefine.h; sourceTree = "<group>"; };
+		1F56B9941C4AEC8D0098380D /* SKACollisionDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKACollisionDefine.m; sourceTree = "<group>"; };
+		1F56B9951C4AEC8D0098380D /* SKAObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAObject.h; sourceTree = "<group>"; };
+		1F56B9961C4AEC8D0098380D /* SKAObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAObject.m; sourceTree = "<group>"; };
+		1F56B9971C4AEC8D0098380D /* SKAObjectLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAObjectLayer.h; sourceTree = "<group>"; };
+		1F56B9981C4AEC8D0098380D /* SKAObjectLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAObjectLayer.m; sourceTree = "<group>"; };
+		1F56B9991C4AEC8D0098380D /* SKASprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKASprite.h; sourceTree = "<group>"; };
+		1F56B99A1C4AEC8D0098380D /* SKASprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKASprite.m; sourceTree = "<group>"; };
+		1F56B99B1C4AEC8D0098380D /* SKASpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKASpriteLayer.h; sourceTree = "<group>"; };
+		1F56B99C1C4AEC8D0098380D /* SKASpriteLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKASpriteLayer.m; sourceTree = "<group>"; };
+		1F56B99D1C4AEC8D0098380D /* SKATiledMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATiledMap.h; sourceTree = "<group>"; };
+		1F56B99E1C4AEC8D0098380D /* SKATiledMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATiledMap.m; sourceTree = "<group>"; };
+		1F56B9A01C4AEC8D0098380D /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
+		1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
+		1F56B9A21C4AEC8D0098380D /* SKAMapTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAMapTile.h; sourceTree = "<group>"; };
+		1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAMapTile.m; sourceTree = "<group>"; };
+		1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATMXParser.h; sourceTree = "<group>"; };
+		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
+		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
 		1FCE14BA1C45E0CD00112188 /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100Floors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCE14BD1C45F02100112188 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../Item.swift; sourceTree = "<group>"; };
 		1FCE14C11C46080600112188 /* Inventory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		1FCE14C31C475A0400112188 /* ItemContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemContainer.swift; path = ../ItemContainer.swift; sourceTree = "<group>"; };
-		1FCE14C51C476C7500112188 /* 100FloorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 100FloorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1FCE14C61C476C7500112188 /* 100FloorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 100FloorsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FD5EABD1C3F47A700634F47 /* EntityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityController.swift; path = ../EntityController.swift; sourceTree = "<group>"; };
 		1FD5EABF1C3F80EB00634F47 /* Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Classes.swift; path = ../Classes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,20 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F2CEE1A1C387B1F00E4FB2E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F2CEE251C387B1F00E4FB2E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				1F56B96F1C4AE37E0098380D /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,33 +172,22 @@
 		1F2CEDFC1C387B1F00E4FB2E = {
 			isa = PBXGroup;
 			children = (
+				1F56B96E1C4AE37E0098380D /* libz.tbd */,
 				1F2CEE071C387B1F00E4FB2E /* 100Floors */,
 				1FCE14BA1C45E0CD00112188 /* 100Floors.app */,
-				1FCE14C51C476C7500112188 /* 100FloorsTests.xctest */,
-				1FCE14C61C476C7500112188 /* 100FloorsUITests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
 		1F2CEE071C387B1F00E4FB2E /* 100Floors */ = {
 			isa = PBXGroup;
 			children = (
-				1F4DB7C31C44A56B00887FBC /* Connectivity */,
-				1F4DB7C21C44A54600887FBC /* Interface */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
-				1FCE14BD1C45F02100112188 /* Item.swift */,
-				1F4DB7C01C44A53C00887FBC /* Map.swift */,
-				1F4854791C41853B008DDC8F /* GameLogic.swift */,
-				1F48547B1C4192EF008DDC8F /* Global.swift */,
-				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
-				1FD5EABF1C3F80EB00634F47 /* Classes.swift */,
-				1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */,
-				1FCE14C11C46080600112188 /* Inventory.swift */,
-				1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */,
-				1F5078371C3C9AEA00EC773E /* Entity.swift */,
-				1FD5EABD1C3F47A700634F47 /* EntityController.swift */,
-				1F304B2D1C3A33D30069D04D /* Projectile.swift */,
+				1F4DB7C31C44A56B00887FBC /* Connectivity */,
+				1F3D79C41C4B1C700036C680 /* Game Logic */,
+				1F3D79C31C4B1C4B0036C680 /* Graphics */,
+				1F56B97C1C4AEC8D0098380D /* SKAToolKit */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
-				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
+				1F4A479D1C4B389700813143 /* Resources */,
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
 			);
 			path = 100Floors;
@@ -205,12 +221,58 @@
 			path = "socket.io-client-swift-master/Source";
 			sourceTree = "<group>";
 		};
+		1F3D79C21C4B1C3C0036C680 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */,
+				1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		1F3D79C31C4B1C4B0036C680 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
+				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
+				1F56B9571C4AB7140098380D /* Map.swift */,
+				1F4DB7C21C44A54600887FBC /* Interface */,
+				1F3D79C21C4B1C3C0036C680 /* Scenes */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		1F3D79C41C4B1C700036C680 /* Game Logic */ = {
+			isa = PBXGroup;
+			children = (
+				1FD5EABD1C3F47A700634F47 /* EntityController.swift */,
+				1F5078371C3C9AEA00EC773E /* Entity.swift */,
+				1F304B2D1C3A33D30069D04D /* Projectile.swift */,
+				1FCE14C11C46080600112188 /* Inventory.swift */,
+				1FD5EABF1C3F80EB00634F47 /* Classes.swift */,
+				1F48547B1C4192EF008DDC8F /* Global.swift */,
+				1FCE14BD1C45F02100112188 /* Item.swift */,
+				1F4854791C41853B008DDC8F /* GameLogic.swift */,
+			);
+			name = "Game Logic";
+			sourceTree = "<group>";
+		};
+		1F4A479D1C4B389700813143 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F4A479E1C4B389700813143 /* Map.atlas */,
+				1F4A479F1C4B389700813143 /* Map1.tmx */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		1F4DB7C21C44A54600887FBC /* Interface */ = {
 			isa = PBXGroup;
 			children = (
 				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
 				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
+				1F56B9531C4A00CE0098380D /* MenuButton.swift */,
 				1F304B271C39CCC10069D04D /* ControlHandler.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
@@ -227,6 +289,112 @@
 			name = Connectivity;
 			sourceTree = "<group>";
 		};
+		1F56B97C1C4AEC8D0098380D /* SKAToolKit */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */,
+				1F56B97D1C4AEC8D0098380D /* SKAButton */,
+				1F56B9801C4AEC8D0098380D /* SKACroppedMiniMap */,
+				1F56B9831C4AEC8D0098380D /* SKALabelNode */,
+				1F56B9861C4AEC8D0098380D /* SKAMiniMap */,
+				1F56B9891C4AEC8D0098380D /* SKATestingNodes */,
+				1F56B98F1C4AEC8D0098380D /* SKATiledMap */,
+				1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */,
+			);
+			path = SKAToolKit;
+			sourceTree = "<group>";
+		};
+		1F56B97D1C4AEC8D0098380D /* SKAButton */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B97E1C4AEC8D0098380D /* SKAButtonSprite.h */,
+				1F56B97F1C4AEC8D0098380D /* SKAButtonSprite.m */,
+			);
+			path = SKAButton;
+			sourceTree = "<group>";
+		};
+		1F56B9801C4AEC8D0098380D /* SKACroppedMiniMap */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9811C4AEC8D0098380D /* SKACroppedMiniMap.h */,
+				1F56B9821C4AEC8D0098380D /* SKACroppedMiniMap.m */,
+			);
+			path = SKACroppedMiniMap;
+			sourceTree = "<group>";
+		};
+		1F56B9831C4AEC8D0098380D /* SKALabelNode */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9841C4AEC8D0098380D /* SKALabelNode.h */,
+				1F56B9851C4AEC8D0098380D /* SKALabelNode.m */,
+			);
+			path = SKALabelNode;
+			sourceTree = "<group>";
+		};
+		1F56B9861C4AEC8D0098380D /* SKAMiniMap */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9871C4AEC8D0098380D /* SKAMiniMap.h */,
+				1F56B9881C4AEC8D0098380D /* SKAMiniMap.m */,
+			);
+			path = SKAMiniMap;
+			sourceTree = "<group>";
+		};
+		1F56B9891C4AEC8D0098380D /* SKATestingNodes */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B98A1C4AEC8D0098380D /* SKATest.h */,
+				1F56B98B1C4AEC8D0098380D /* SKATestHud.h */,
+				1F56B98C1C4AEC8D0098380D /* SKATestHud.m */,
+				1F56B98D1C4AEC8D0098380D /* SKATestPlayer.h */,
+				1F56B98E1C4AEC8D0098380D /* SKATestPlayer.m */,
+			);
+			path = SKATestingNodes;
+			sourceTree = "<group>";
+		};
+		1F56B98F1C4AEC8D0098380D /* SKATiledMap */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9901C4AEC8D0098380D /* Categories */,
+				1F56B9931C4AEC8D0098380D /* SKACollisionDefine.h */,
+				1F56B9941C4AEC8D0098380D /* SKACollisionDefine.m */,
+				1F56B9951C4AEC8D0098380D /* SKAObject.h */,
+				1F56B9961C4AEC8D0098380D /* SKAObject.m */,
+				1F56B9971C4AEC8D0098380D /* SKAObjectLayer.h */,
+				1F56B9981C4AEC8D0098380D /* SKAObjectLayer.m */,
+				1F56B9991C4AEC8D0098380D /* SKASprite.h */,
+				1F56B99A1C4AEC8D0098380D /* SKASprite.m */,
+				1F56B99B1C4AEC8D0098380D /* SKASpriteLayer.h */,
+				1F56B99C1C4AEC8D0098380D /* SKASpriteLayer.m */,
+				1F56B99D1C4AEC8D0098380D /* SKATiledMap.h */,
+				1F56B99E1C4AEC8D0098380D /* SKATiledMap.m */,
+				1F56B99F1C4AEC8D0098380D /* Utilities */,
+			);
+			path = SKATiledMap;
+			sourceTree = "<group>";
+		};
+		1F56B9901C4AEC8D0098380D /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9911C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.h */,
+				1F56B9921C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		1F56B99F1C4AEC8D0098380D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1F56B9A01C4AEC8D0098380D /* LFCGzipUtility.h */,
+				1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */,
+				1F56B9A21C4AEC8D0098380D /* SKAMapTile.h */,
+				1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */,
+				1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */,
+				1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -237,6 +405,7 @@
 				1F2CEE011C387B1F00E4FB2E /* Sources */,
 				1F2CEE021C387B1F00E4FB2E /* Frameworks */,
 				1F2CEE031C387B1F00E4FB2E /* Resources */,
+				1F4F9B851C48C5E2002F314E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -246,42 +415,6 @@
 			productName = 100Floors;
 			productReference = 1FCE14BA1C45E0CD00112188 /* 100Floors.app */;
 			productType = "com.apple.product-type.application";
-		};
-		1F2CEE1C1C387B1F00E4FB2E /* 100FloorsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1F2CEE341C387B1F00E4FB2E /* Build configuration list for PBXNativeTarget "100FloorsTests" */;
-			buildPhases = (
-				1F2CEE191C387B1F00E4FB2E /* Sources */,
-				1F2CEE1A1C387B1F00E4FB2E /* Frameworks */,
-				1F2CEE1B1C387B1F00E4FB2E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1F2CEE1F1C387B1F00E4FB2E /* PBXTargetDependency */,
-			);
-			name = 100FloorsTests;
-			productName = 100FloorsTests;
-			productReference = 1FCE14C51C476C7500112188 /* 100FloorsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		1F2CEE271C387B1F00E4FB2E /* 100FloorsUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1F2CEE371C387B1F00E4FB2E /* Build configuration list for PBXNativeTarget "100FloorsUITests" */;
-			buildPhases = (
-				1F2CEE241C387B1F00E4FB2E /* Sources */,
-				1F2CEE251C387B1F00E4FB2E /* Frameworks */,
-				1F2CEE261C387B1F00E4FB2E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1F2CEE2A1C387B1F00E4FB2E /* PBXTargetDependency */,
-			);
-			name = 100FloorsUITests;
-			productName = 100FloorsUITests;
-			productReference = 1FCE14C61C476C7500112188 /* 100FloorsUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -295,16 +428,6 @@
 					1F2CEE041C387B1F00E4FB2E = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = M8U6XZ88H5;
-					};
-					1F2CEE1C1C387B1F00E4FB2E = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 9M89R92KVV;
-						TestTargetID = 1F2CEE041C387B1F00E4FB2E;
-					};
-					1F2CEE271C387B1F00E4FB2E = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 9M89R92KVV;
-						TestTargetID = 1F2CEE041C387B1F00E4FB2E;
 					};
 				};
 			};
@@ -322,8 +445,6 @@
 			projectRoot = "";
 			targets = (
 				1F2CEE041C387B1F00E4FB2E /* 100Floors */,
-				1F2CEE1C1C387B1F00E4FB2E /* 100FloorsTests */,
-				1F2CEE271C387B1F00E4FB2E /* 100FloorsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -335,25 +456,29 @@
 			files = (
 				1F2CEE171C387B1F00E4FB2E /* LaunchScreen.storyboard in Resources */,
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
+				1F4A47A01C4B389700813143 /* Map.atlas in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F2CEE1B1C387B1F00E4FB2E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F2CEE261C387B1F00E4FB2E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				1F4A47A11C4B389700813143 /* Map1.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F4F9B851C48C5E2002F314E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\"  \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F2CEE011C387B1F00E4FB2E /* Sources */ = {
@@ -365,13 +490,22 @@
 				1FCE14BE1C45F02100112188 /* Item.swift in Sources */,
 				1F304BAB1C3B2F950069D04D /* SocketEngineClient.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */,
+				1F56B9AC1C4AEC8D0098380D /* SKATestPlayer.m in Sources */,
+				1F56B9AE1C4AEC8D0098380D /* SKACollisionDefine.m in Sources */,
 				1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */,
 				1FD5EABE1C3F47A700634F47 /* EntityController.swift in Sources */,
+				1F56B9B11C4AEC8D0098380D /* SKASprite.m in Sources */,
 				1F2CEE0F1C387B1F00E4FB2E /* MenuViewController.swift in Sources */,
 				1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */,
 				1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */,
+				1F56B9581C4AB7140098380D /* Map.swift in Sources */,
+				1F56B9B01C4AEC8D0098380D /* SKAObjectLayer.m in Sources */,
 				1F304B301C3B16E20069D04D /* ServerInteraction.swift in Sources */,
+				1F56B9A81C4AEC8D0098380D /* SKACroppedMiniMap.m in Sources */,
+				1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */,
 				1F304BB01C3B2F950069D04D /* SocketIOClient.swift in Sources */,
+				1F56B9A71C4AEC8D0098380D /* SKAButtonSprite.m in Sources */,
+				1F56B9541C4A00CE0098380D /* MenuButton.swift in Sources */,
 				1F304BA61C3B2F950069D04D /* SocketAckEmitter.swift in Sources */,
 				1F304BAA1C3B2F950069D04D /* SocketEngine.swift in Sources */,
 				1F48547C1C4192EF008DDC8F /* Global.swift in Sources */,
@@ -384,7 +518,10 @@
 				1F304BAE1C3B2F950069D04D /* SocketEventHandler.swift in Sources */,
 				1F304BB41C3B2F950069D04D /* SocketPacket.swift in Sources */,
 				1F304BAD1C3B2F950069D04D /* SocketEngineSpec.swift in Sources */,
+				1F56B9A91C4AEC8D0098380D /* SKALabelNode.m in Sources */,
 				1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */,
+				1F56B9B31C4AEC8D0098380D /* SKATiledMap.m in Sources */,
+				1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */,
 				1F304BA91C3B2F950069D04D /* SocketClientSpec.swift in Sources */,
 				1F304BB31C3B2F950069D04D /* SocketLogger.swift in Sources */,
 				1F304BAF1C3B2F950069D04D /* SocketFixUTF8.swift in Sources */,
@@ -392,44 +529,22 @@
 				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
 				1F304BB11C3B2F950069D04D /* SocketIOClientOption.swift in Sources */,
 				1FCE14C21C46080600112188 /* Inventory.swift in Sources */,
+				1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */,
+				1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */,
+				1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */,
+				1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */,
 				1F304BB21C3B2F950069D04D /* SocketIOClientStatus.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
 				1F304BA81C3B2F950069D04D /* SocketAnyEvent.swift in Sources */,
 				1F304B281C39CCC10069D04D /* ControlHandler.swift in Sources */,
+				1F56B9AA1C4AEC8D0098380D /* SKAMiniMap.m in Sources */,
+				1F56B9AB1C4AEC8D0098380D /* SKATestHud.m in Sources */,
 				1F304BAC1C3B2F950069D04D /* SocketEnginePacketType.swift in Sources */,
-				1F4DB7C11C44A53C00887FBC /* Map.swift in Sources */,
 				1F304BB51C3B2F950069D04D /* SocketParsable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1F2CEE191C387B1F00E4FB2E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F2CEE241C387B1F00E4FB2E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		1F2CEE1F1C387B1F00E4FB2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1F2CEE041C387B1F00E4FB2E /* 100Floors */;
-			targetProxy = 1F2CEE1E1C387B1F00E4FB2E /* PBXContainerItemProxy */;
-		};
-		1F2CEE2A1C387B1F00E4FB2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1F2CEE041C387B1F00E4FB2E /* 100Floors */;
-			targetProxy = 1F2CEE291C387B1F00E4FB2E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1F2CEE101C387B1F00E4FB2E /* Main.storyboard */ = {
@@ -538,11 +653,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = 100Floors/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00Floors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "100Floors/100Floors-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -550,61 +672,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = 100Floors/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00Floors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		1F2CEE351C387B1F00E4FB2E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				INFOPLIST_FILE = 100FloorsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00FloorsTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/100Floors.app/100Floors";
-			};
-			name = Debug;
-		};
-		1F2CEE361C387B1F00E4FB2E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = 100FloorsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00FloorsTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/100Floors.app/100Floors";
-			};
-			name = Release;
-		};
-		1F2CEE381C387B1F00E4FB2E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				INFOPLIST_FILE = 100FloorsUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00FloorsUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = 100Floors;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		1F2CEE391C387B1F00E4FB2E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = 100FloorsUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00FloorsUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = 100Floors;
-				USES_XCTRUNNER = YES;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "100Floors/100Floors-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -625,24 +702,6 @@
 			buildConfigurations = (
 				1F2CEE321C387B1F00E4FB2E /* Debug */,
 				1F2CEE331C387B1F00E4FB2E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1F2CEE341C387B1F00E4FB2E /* Build configuration list for PBXNativeTarget "100FloorsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1F2CEE351C387B1F00E4FB2E /* Debug */,
-				1F2CEE361C387B1F00E4FB2E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1F2CEE371C387B1F00E4FB2E /* Build configuration list for PBXNativeTarget "100FloorsUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1F2CEE381C387B1F00E4FB2E /* Debug */,
-				1F2CEE391C387B1F00E4FB2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

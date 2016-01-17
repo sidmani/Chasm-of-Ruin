@@ -57,7 +57,7 @@ class Entity { //TODO: rewrite properties in class
 }
 
 class ThisCharacter: Entity {
-    var node:SKSpriteNode? //TODO: fix this
+    var node:SKSpriteNode? //TODO: Turn into graphical texture
     var charClass:CharClass?
     var stats:Stats?
     var equipped:EquippedItems?
@@ -74,7 +74,7 @@ class ThisCharacter: Entity {
         func setImageOrientation() {
             // change image direction
         }
-        func setScreenLoc(newLoc:CGPoint) //TODO: fix this
+        func setScreenLoc(newLoc:CGPoint) //TODO: Write dynamic screen locations
         {
             posData!.screenLoc = newLoc
             node!.position = newLoc

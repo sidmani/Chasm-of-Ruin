@@ -9,11 +9,11 @@
 import SpriteKit
 
 class InGameScene: SKScene {
+     var tileMap = SKATiledMap(mapName: "SampleMapKenny")
     override func didMoveToView(view: SKView) {
-     //   self.addChild(thisCharacter.node!)
-        
+        tileMap.position = CGPoint(x: 0, y: 0)
+        addChild(tileMap)
     }
-    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
     }

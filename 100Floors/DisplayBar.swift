@@ -13,6 +13,8 @@ class DisplayBar: UIProgressView {
     let redVal:Float = 0.2
     let yellowVal:Float = 0.5
     
+    
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.transform = CGAffineTransformMakeScale(1.0, 3.0)

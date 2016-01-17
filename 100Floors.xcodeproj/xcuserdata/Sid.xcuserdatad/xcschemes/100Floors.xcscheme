@@ -20,6 +20,34 @@
                ReferencedContainer = "container:100Floors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1F2CEE1C1C387B1F00E4FB2E"
+               BuildableName = "100FloorsTests.xctest"
+               BlueprintName = "100FloorsTests"
+               ReferencedContainer = "container:100Floors.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1F2CEE271C387B1F00E4FB2E"
+               BuildableName = "100FloorsUITests.xctest"
+               BlueprintName = "100FloorsUITests"
+               ReferencedContainer = "container:100Floors.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,26 +56,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1F2CEE1C1C387B1F00E4FB2E"
-               BuildableName = "100FloorsTests.xctest"
-               BlueprintName = "100FloorsTests"
-               ReferencedContainer = "container:100Floors.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1F2CEE271C387B1F00E4FB2E"
-               BuildableName = "100FloorsUITests.xctest"
-               BlueprintName = "100FloorsUITests"
-               ReferencedContainer = "container:100Floors.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -105,7 +113,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
