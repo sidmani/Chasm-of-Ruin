@@ -9,19 +9,32 @@
 import SpriteKit
 
 class InGameScene: SKScene {
-     var tileMap = SKATiledMap(mapName: "Map1")
+    var tileMap = SKATiledMap(mapName: "Map1")
+    var otherPlayers:SKNode = SKNode()
+    var enemies:SKNode = SKNode()
+    var nonSelfNodes = SKNode()
+    var selfNodes = SKNode()
     override func didMoveToView(view: SKView) {
-        tileMap.position = CGPoint(x: 0, y: 0)
-        tileMap.autoFollowNode = thisCharacter.node
-        addChild(tileMap)
-        addChild(thisCharacter.node!)
+        nonSelfNodes.addChild(tileMap)
+        nonSelfNodes.addChild(otherPlayers)
+        nonSelfNodes.addChild(enemies)
+        nonSelfNodes.position = CGPoint(x: 0, y: 0)
+        nonSelfNodes.physicsBody = SKPhysicsBody()
+        nonSelfNodes.physicsBody!.affectedByGravity = false
+        nonSelfNodes.physicsBody!.friction = 0
+        //////////////////////////////////////////
+        selfNodes.addChild(thisCharacter.node!)
+        
+        addChild(nonSelfNodes)
+        addChild(selfNodes)
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
     }
     
     override func update(currentTime: CFTimeInterval) {
-        tileMap.cullAroundIndexX(0, indexY: 0, columnWidth: 40, rowHeight: 20)
-        thisCharacter.node!.physicsBody!.velocity = CGVector(dx: left_joystick_dx, dy: (-1)*left_joystick_dy)
+        let centerLoc = tileMap.indexForPoint(screenCenter)
+        tileMap.cullAroundIndexX(Int(centerLoc.x), indexY: Int(centerLoc.y), columnWidth: 20, rowHeight: 20)
+        nonSelfNodes.physicsBody!.velocity = CGVector(dx: -1*left_joystick_dx, dy: left_joystick_dy)
     }
 }
