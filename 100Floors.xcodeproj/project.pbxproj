@@ -64,6 +64,7 @@
 		1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */; };
 		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
 		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
+		1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FB3EB951C4B58B60056AAE1 /* chars.atlas */; };
 		1FCE14BE1C45F02100112188 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14BD1C45F02100112188 /* Item.swift */; };
 		1FCE14C21C46080600112188 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C11C46080600112188 /* Inventory.swift */; };
 		1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C31C475A0400112188 /* ItemContainer.swift */; };
@@ -149,6 +150,7 @@
 		1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATMXParser.h; sourceTree = "<group>"; };
 		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
 		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
+		1FB3EB951C4B58B60056AAE1 /* chars.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = chars.atlas; sourceTree = "<group>"; };
 		1FCE14BA1C45E0CD00112188 /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100Floors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCE14BD1C45F02100112188 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../Item.swift; sourceTree = "<group>"; };
 		1FCE14C11C46080600112188 /* Inventory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
@@ -185,10 +187,9 @@
 				1F4DB7C31C44A56B00887FBC /* Connectivity */,
 				1F3D79C41C4B1C700036C680 /* Game Logic */,
 				1F3D79C31C4B1C4B0036C680 /* Graphics */,
-				1F56B97C1C4AEC8D0098380D /* SKAToolKit */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
 				1F4A47A91C4B42BF00813143 /* Map1.tmx */,
-				1F4A47A71C4B426000813143 /* Map.atlas */,
+				1F4A47AB1C4B514100813143 /* Maps and Sprites */,
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
 			);
 			path = 100Floors;
@@ -234,6 +235,7 @@
 		1F3D79C31C4B1C4B0036C680 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				1F56B97C1C4AEC8D0098380D /* SKAToolKit */,
 				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
 				1F56B9571C4AB7140098380D /* Map.swift */,
@@ -256,6 +258,15 @@
 				1F4854791C41853B008DDC8F /* GameLogic.swift */,
 			);
 			name = "Game Logic";
+			sourceTree = "<group>";
+		};
+		1F4A47AB1C4B514100813143 /* Maps and Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				1FB3EB951C4B58B60056AAE1 /* chars.atlas */,
+				1F4A47A71C4B426000813143 /* Map.atlas */,
+			);
+			name = "Maps and Sprites";
 			sourceTree = "<group>";
 		};
 		1F4DB7C21C44A54600887FBC /* Interface */ = {
@@ -451,6 +462,7 @@
 				1F4A47A81C4B426000813143 /* Map.atlas in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
 				1F4A47AA1C4B42BF00813143 /* Map1.tmx in Resources */,
+				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

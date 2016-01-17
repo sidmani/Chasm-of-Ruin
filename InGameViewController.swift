@@ -70,6 +70,8 @@ class InGameViewController: UIViewController {
     @IBAction func LeftJoystickControl(sender: JoystickControl) {
         left_joystick_angle = sender.angle
         left_joystick_distance = sender.abs_distance
+        left_joystick_dx = sender.dx
+        left_joystick_dy = sender.dy
     }
     //////////////
     

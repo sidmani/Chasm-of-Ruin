@@ -28,7 +28,8 @@ class JoystickControl:UIControl{
             return min(distance, ring_size)
         }
     }
-    
+    var dx:CGFloat = 0
+    var dy:CGFloat = 0
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -65,6 +66,8 @@ class JoystickControl:UIControl{
         if let touch = touches.first {
             currentPoint = touch.locationInView(self)
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
+            dx = min(currentPoint.x - center_offset, 25)
+            dy = min(currentPoint.y - center_offset, 25)
             distance = hypot(currentPoint.x, currentPoint.y)
             if (distance < ring_size) {
                 
@@ -81,6 +84,9 @@ class JoystickControl:UIControl{
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             currentPoint = touch.locationInView(self)
+            dx = min(currentPoint.x - center_offset, 25)
+            dy = min(currentPoint.y - center_offset, 25)
+
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
             if (distance < ring_size) {
@@ -97,6 +103,8 @@ class JoystickControl:UIControl{
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touches.first != nil) {
+            dx = 0
+            dy = 0
             stickView.center = CGPoint(x: 0, y: 0)
             currentPoint = CGPoint(x:0, y:0)
             distance = 0

@@ -69,14 +69,19 @@ class ThisCharacter: Entity {
     
     ///POSITION/DIRECTION METHODS
     
-    
+    init(_class:CharClass, _ID: String) {
+        super.init(_ID: _ID)
+        charClass = _class
+        node = SKSpriteNode(texture: SKTextureAtlas(named: "chars").textureNamed(charClass!.img_base))
+        node!.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
+    }
     ///GRAPHICAL METHODS
         func setImageOrientation() {
             // change image direction
         }
         func setScreenLoc(newLoc:CGPoint) //TODO: Write dynamic screen locations
         {
-            posData!.screenLoc = newLoc
+          //  posData!.screenLoc = newLoc
             node!.position = newLoc
         }
     
