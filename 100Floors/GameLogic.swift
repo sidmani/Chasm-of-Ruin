@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+
 var thisCharacter = GameLogic.getThisCharacter()
 
 class GameLogic {
@@ -17,7 +18,12 @@ class GameLogic {
         // Get data from server
         // construct character
         let out = ThisCharacter(_class: Wizard, _ID: "test")
-        out.setScreenLoc(CGPoint(x: screenSize.width / 2, y: screenSize.height / 2))
+        out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
         return out
+    }
+    static func calculateMapPosition() -> CGPoint {
+        let mapX = screenSize.width/2 - thisCharacter.absoluteLoc!.x
+        let mapY = screenSize.height/2 - thisCharacter.absoluteLoc!.y
+        return CGPoint(x: mapX, y: mapY)
     }
 }

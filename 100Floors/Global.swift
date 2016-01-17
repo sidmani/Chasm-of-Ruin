@@ -15,14 +15,18 @@ let mapTilesHeight:Int = Int(screenSize.height/(16))
 let mapCenterLoc:CGPoint = CGPoint(x: mapTileWidth/2,y: mapTilesHeight/2)
 let inventory_size = 8 // TODO: fix this (get from server, IAP)
 
-//Functions
+//Operator overloads
 func +(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x+right.x, y: left.y+right.y)
 }
 func -(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x-right.x, y: left.y-right.y)
 }
-
+prefix operator ~ {}
+prefix func ~ (vector:CGVector) -> CGVector
+{
+    return CGVectorMake(-1*vector.dx, -1*vector.dy)
+}
 //UI controls
 var LeftJoystick:JoystickControl?
 var RightJoystick:JoystickControl?

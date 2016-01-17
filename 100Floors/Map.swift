@@ -6,20 +6,3 @@
 //
 //
 
-import UIKit
-import SpriteKit
-
-class Tile : SKNode {
-    
-}
-class TileData {
-    
-}
-
-class TileSet {
-    
-}
-
-class TileMap {
-    
-}

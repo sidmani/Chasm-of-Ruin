@@ -11,8 +11,8 @@ import SpriteKit
 class InGameScene: SKScene {
     
     var tileMap = SKATiledMap(mapName: "Map1") //load map
-    var otherPlayers:SKNode = SKNode()
-    var enemies:SKNode = SKNode()
+    var otherPlayers = SKNode()
+    var enemies = SKNode()
     var nonSelfNodes = SKNode()
     var selfNodes = SKNode()
     
@@ -21,12 +21,13 @@ class InGameScene: SKScene {
         nonSelfNodes.addChild(tileMap)
         nonSelfNodes.addChild(otherPlayers)
         nonSelfNodes.addChild(enemies)
-        nonSelfNodes.position = CGPoint(x: 0, y: 0)
+        nonSelfNodes.position = GameLogic.calculateMapPosition()
         nonSelfNodes.physicsBody = SKPhysicsBody()
         nonSelfNodes.physicsBody!.affectedByGravity = false
         nonSelfNodes.physicsBody!.friction = 0
         //////////////////////////////////////////
         selfNodes.addChild(thisCharacter.node!)
+       // selfNodes.position = thisCharacter.posData!.screenLoc
         addChild(nonSelfNodes)
         addChild(selfNodes)
     }
@@ -35,9 +36,12 @@ class InGameScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
+        //cull unnecessary tiles
         let mapLoc = tileMap.indexForPoint(nonSelfNodes.position)
         let newLoc = mapCenterLoc-mapLoc
-        tileMap.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTileWidth+2, rowHeight: mapTilesHeight+3)
-        nonSelfNodes.physicsBody!.velocity = CGVector(dx: -5*LeftJoystick!.dx, dy: 5*LeftJoystick!.dy)
+        tileMap.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTileWidth+4, rowHeight: mapTilesHeight+3)
+        //////////////
+        
+        nonSelfNodes.physicsBody!.velocity = ~thisCharacter.velocity!
     }
 }

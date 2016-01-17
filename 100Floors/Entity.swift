@@ -30,12 +30,6 @@ enum StatTypes {
     case mana
     case rage
 }
-struct PosData {
-    var absoluteLoc:CGPoint
-    var screenLoc:CGPoint //TODO: Make computed property
-    var velocity:CGFloat
-    var direction:CGFloat //direction in radians
-}
 struct EquippedItems {
     var shield:Shield
     var weapon:Weapon
@@ -45,8 +39,8 @@ struct EquippedItems {
 //////////////////////
 
 
-class Entity { //TODO: rewrite properties in class
-    var posData:PosData?
+class Entity {
+  
     var ID:String
     
     init(_ID:String)
@@ -57,6 +51,8 @@ class Entity { //TODO: rewrite properties in class
 }
 
 class ThisCharacter: Entity {
+    
+
     var node:SKSpriteNode? //TODO: Turn into graphical texture
     var charClass:CharClass?
     var stats:Stats?
@@ -67,56 +63,68 @@ class ThisCharacter: Entity {
         }
     }
     
-    ///POSITION/DIRECTION METHODS
+    var absoluteLoc:CGPoint?
+    var screenLoc:CGPoint? {
+        didSet {
+            node!.position = screenLoc!
+        }
+    }
+    var velocity:CGVector?
+        {
+        get {
+            return CGVector(dx: 5*LeftJoystick!.dx, dy: -5*LeftJoystick!.dy)
+        }
+    }
     
     init(_class:CharClass, _ID: String) {
         super.init(_ID: _ID)
         charClass = _class
         node = SKSpriteNode(texture: SKTextureAtlas(named: "chars").textureNamed(charClass!.img_base))
         node!.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
+        node!.physicsBody!.affectedByGravity = false
+        node!.physicsBody!.friction = 0
+        absoluteLoc = CGPointMake(0, 0)
     }
+    
+    ///POSITION/DIRECTION METHODS
+
     ///GRAPHICAL METHODS
-        func setImageOrientation() {
-            // change image direction
-        }
-        func setScreenLoc(newLoc:CGPoint) //TODO: Write dynamic screen locations
-        {
-          //  posData!.screenLoc = newLoc
-            node!.position = newLoc
-        }
+    func setImageOrientation() {
+        // change image direction
+    }
     
     //ITEM HANDLER METHODS
-        func consumeItem(c:Consumable)
-        {
-            //inform the server
-            //perform stat changes
-        }
+    func consumeItem(c:Consumable)
+    {
+        //inform the server
+        //perform stat changes
+    }
     
-        ///equip functions
-            func equipShield(shield:Shield) -> Shield?
-            {
-                let old = equipped?.shield
-                equipped?.shield = shield
-                return old
-            }
-            func equipWeapon(weapon:Weapon) -> Weapon?
-            {
-                let old = equipped?.weapon
-                equipped?.weapon = weapon
-                return old
-            }
-            func equipEnhancer(enhancer:Enhancer) -> Enhancer?
-            {
-                let old = equipped?.enhancer
-                equipped?.enhancer = enhancer
-                return old
-            }
-            func equipSkill(skill:Skill) -> Skill?
-            {
-                let old = equipped?.skill
-                equipped?.skill = skill
-                return old
-            }
+    ///equip functions
+    func equipShield(shield:Shield) -> Shield?
+    {
+        let old = equipped?.shield
+        equipped?.shield = shield
+        return old
+    }
+    func equipWeapon(weapon:Weapon) -> Weapon?
+    {
+        let old = equipped?.weapon
+        equipped?.weapon = weapon
+        return old
+    }
+    func equipEnhancer(enhancer:Enhancer) -> Enhancer?
+    {
+        let old = equipped?.enhancer
+        equipped?.enhancer = enhancer
+        return old
+    }
+    func equipSkill(skill:Skill) -> Skill?
+    {
+        let old = equipped?.skill
+        equipped?.skill = skill
+        return old
+    }
     ///////////////////
 }
 
