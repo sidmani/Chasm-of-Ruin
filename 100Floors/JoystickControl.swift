@@ -19,7 +19,7 @@ class JoystickControl:UIControl{
     var currentPoint = CGPoint(x:0, y:0)
     var angle: CGFloat {
         get {
-           return atan2(currentPoint.y, currentPoint.x)
+            return atan2(currentPoint.y, currentPoint.x)
         }
     }
     var distance: CGFloat = 0
@@ -30,14 +30,13 @@ class JoystickControl:UIControl{
     }
     var dx:CGFloat = 0
     var dy:CGFloat = 0
-    
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
         let ringLayer = CAShapeLayer()
         let stickLayer = CAShapeLayer()
         ringView = UIView()
         stickView = UIView()
-
+        
         super.init(coder: aDecoder)
         
         //set up paths
@@ -56,7 +55,7 @@ class JoystickControl:UIControl{
         //add layer to views
         ringView.layer.addSublayer(ringLayer)
         stickView.layer.addSublayer(stickLayer)
-
+        
         //add views to main view
         self.addSubview(ringView)
         self.addSubview(stickView)
@@ -84,7 +83,7 @@ class JoystickControl:UIControl{
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             currentPoint = touch.locationInView(self)
-
+            
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
             if (distance < ring_size) {
@@ -103,14 +102,14 @@ class JoystickControl:UIControl{
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        dx = 0
-        dy = 0
         if (touches.first != nil) {
-          
+            dx = 0
+            dy = 0
             stickView.center = CGPoint(x: 0, y: 0)
             currentPoint = CGPoint(x:0, y:0)
             distance = 0
         }
     }
+    
     
 }

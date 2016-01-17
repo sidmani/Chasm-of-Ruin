@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+
 class InGameViewController: UIViewController {
     
     // MARK: Properties
@@ -28,6 +29,17 @@ class InGameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //setup global UI components
+        LeftJoystick = LeftJoystickControl
+        RightJoystick = RightJoystickControl
+        HPBar = HPDisplayBar
+        ManaBar = ManaDisplayBar
+        HungerBar = HungerDisplayBar
+        Equip1 = EquipContainer1
+        Equip2 = EquipContainer2
+        Equip3 = EquipContainer3
+        Equip4 = EquipContainer4
+
         //////////
         //Joysticks
         LeftJoystickControl.center = CGPoint(x: 75, y: screenSize.height - 75)
@@ -36,7 +48,9 @@ class InGameViewController: UIViewController {
         RightJoystickControl.backgroundColor = UIColor.clearColor()
         
         //////////
+     
         //Status bars
+     
         HungerDisplayBar.center = CGPoint(x: 100, y: 20)
         ManaDisplayBar.center = CGPoint(x: 100, y: 38)
         HPDisplayBar.center = CGPoint(x: screenSize.width-200, y: 27)
@@ -54,28 +68,13 @@ class InGameViewController: UIViewController {
 
         //////////
         let skView = view as! SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
         scene = InGameScene(size:skView.bounds.size)
         scene.scaleMode = .AspectFill
         skView.presentScene(scene)
 
     }
-    //////////////
-    // UI triggers
-    //////////////
-    @IBAction func RightJoystickControl(sender: JoystickControl) {
-        right_joystick_angle = sender.angle
-        right_joystick_distance = sender.abs_distance
-    }
-    
-    @IBAction func LeftJoystickControl(sender: JoystickControl) {
-        left_joystick_angle = sender.angle
-        left_joystick_distance = sender.abs_distance
-        left_joystick_dx = sender.dx
-        left_joystick_dy = sender.dy
-        
-    
-    }
-    //////////////
     
     
     override func shouldAutorotate() -> Bool {
