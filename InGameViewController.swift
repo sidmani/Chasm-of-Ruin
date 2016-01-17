@@ -72,7 +72,7 @@ class InGameViewController: UIViewController {
         left_joystick_distance = sender.abs_distance
         left_joystick_dx = sender.dx
         left_joystick_dy = sender.dy
-        print(left_joystick_dy)
+        
     
     }
     //////////////

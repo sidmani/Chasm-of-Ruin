@@ -33,8 +33,9 @@ class InGameScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        let centerLoc = tileMap.indexForPoint(screenCenter)
-        tileMap.cullAroundIndexX(Int(centerLoc.x), indexY: Int(centerLoc.y), columnWidth: 20, rowHeight: 20)
+        let mapLoc = tileMap.indexForPoint(nonSelfNodes.position)
+        let newLoc = mapCenterLoc-mapLoc
+        tileMap.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTileWidth+5, rowHeight: mapTilesHeight+5)
         nonSelfNodes.physicsBody!.velocity = CGVector(dx: -1*left_joystick_dx, dy: left_joystick_dy)
     }
 }
