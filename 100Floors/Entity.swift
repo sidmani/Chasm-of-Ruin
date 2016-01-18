@@ -40,7 +40,7 @@ struct EquippedItems {
 
 
 class Entity {
-  
+    
     var ID:String
     
     init(_ID:String)
@@ -52,7 +52,7 @@ class Entity {
 
 class ThisCharacter: Entity {
     
-
+    
     var node:SKSpriteNode? //TODO: Turn into graphical texture
     var charClass:CharClass?
     var stats:Stats?
@@ -63,7 +63,14 @@ class ThisCharacter: Entity {
         }
     }
     
-    var absoluteLoc:CGPoint?
+    var absoluteLoc:CGPoint? { // guaranteed to be correct, unless server returns different value
+        set {
+            nonSelfNodes!.position = GameLogic.calculateMapPosition(newValue!)
+        }
+        get {
+            return GameLogic.calculatePlayerPosition()
+        }
+    }
     var screenLoc:CGPoint? {
         didSet {
             node!.position = screenLoc!
@@ -72,7 +79,7 @@ class ThisCharacter: Entity {
     var velocity:CGVector?
         {
         get {
-            return CGVector(dx: 5*LeftJoystick!.dx, dy: -5*LeftJoystick!.dy)
+            return CGVector(dx: 5*LeftJoystick!.dx, dy: -5*LeftJoystick!.dy) //TODO: item modifies speed
         }
     }
     
@@ -87,7 +94,7 @@ class ThisCharacter: Entity {
     }
     
     ///POSITION/DIRECTION METHODS
-
+    
     ///GRAPHICAL METHODS
     func setImageOrientation() {
         // change image direction
@@ -103,25 +110,28 @@ class ThisCharacter: Entity {
     ///equip functions
     func equipShield(shield:Shield) -> Shield?
     {
-        let old = equipped?.shield
+        let old:Shield? = equipped!.shield
         equipped!.shield = shield
         return old
     }
+    
     func equipWeapon(weapon:Weapon) -> Weapon?
     {
-        let old = equipped?.weapon
+        let old:Weapon? = equipped!.weapon
         equipped!.weapon = weapon
         return old
     }
+    
     func equipEnhancer(enhancer:Enhancer) -> Enhancer?
     {
-        let old = equipped?.enhancer
+        let old:Enhancer? = equipped!.enhancer
         equipped!.enhancer = enhancer
         return old
     }
+    
     func equipSkill(skill:Skill) -> Skill?
     {
-        let old = equipped?.skill
+        let old:Skill? = equipped!.skill
         equipped!.skill = skill
         return old
     }

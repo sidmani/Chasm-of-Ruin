@@ -27,6 +27,11 @@ prefix func ~ (vector:CGVector) -> CGVector
 {
     return CGVectorMake(-1*vector.dx, -1*vector.dy)
 }
+// test overloads
+func print(point:CGPoint)
+{
+    print("(\(point.x),\(point.y))")
+}
 //UI controls
 var LeftJoystick:JoystickControl?
 var RightJoystick:JoystickControl?

@@ -22,17 +22,19 @@ class GameLogic {
         out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
         return out
     }
-    static func calculateMapPosition() -> CGPoint {
-        let mapX = screenSize.width/2 - thisCharacter.absoluteLoc!.x
-        let mapY = screenSize.height/2 - thisCharacter.absoluteLoc!.y
+    
+    static func calculateMapPosition(characterLoc:CGPoint) -> CGPoint {
+        let mapX = screenSize.width/2 - characterLoc.x
+        let mapY = screenSize.height/2 - characterLoc.y
         return CGPoint(x: mapX, y: mapY)
     }
+    
     static func calculatePlayerPosition() -> CGPoint {
         
         let point = currentMap!.convertPoint(currentMap!.position, fromNode: thisCharacter.node!)
-        print("\(point.x) , \(point.y)")
         return point
     }
+    
     static func getPlayerPosition() -> CGPoint? { //get from server, do some comparison with device
         return nil
     }
