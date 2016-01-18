@@ -10,3 +10,4 @@ import UIKit
 class MenuButton:UIButton {
     
 }
+//SKAButton or something can replace this

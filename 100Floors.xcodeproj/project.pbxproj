@@ -16,7 +16,6 @@
 		1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */; };
 		1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */; };
 		1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */; };
-		1F304B281C39CCC10069D04D /* ControlHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B271C39CCC10069D04D /* ControlHandler.swift */; };
 		1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B2D1C3A33D30069D04D /* Projectile.swift */; };
 		1F304B301C3B16E20069D04D /* ServerInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */; };
 		1F304BA61C3B2F950069D04D /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B7C1C3B2F950069D04D /* SocketAckEmitter.swift */; };
@@ -39,6 +38,7 @@
 		1F304BB71C3B2F950069D04D /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8D1C3B2F950069D04D /* SocketTypes.swift */; };
 		1F304BB81C3B2F950069D04D /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */; };
 		1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8F1C3B2F950069D04D /* WebSocket.swift */; };
+		1F45F9B71C4CAED900334AB5 /* Items.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F45F9B61C4CAED900334AB5 /* Items.plist */; };
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F48547C1C4192EF008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F48547B1C4192EF008DDC8F /* Global.swift */; };
 		1F4A47A81C4B426000813143 /* Map.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A47A71C4B426000813143 /* Map.atlas */; };
@@ -83,7 +83,6 @@
 		1F2CEE681C38B38F00E4FB2E /* InGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameScene.swift; sourceTree = "<group>"; };
 		1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InGameViewController.swift; path = ../InGameViewController.swift; sourceTree = "<group>"; };
 		1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickControl.swift; sourceTree = "<group>"; };
-		1F304B271C39CCC10069D04D /* ControlHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHandler.swift; sourceTree = SOURCE_ROOT; };
 		1F304B2D1C3A33D30069D04D /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Projectile.swift; path = ../Projectile.swift; sourceTree = "<group>"; };
 		1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerInteraction.swift; sourceTree = "<group>"; };
 		1F304B7C1C3B2F950069D04D /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
@@ -106,6 +105,7 @@
 		1F304B8D1C3B2F950069D04D /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		1F304B8F1C3B2F950069D04D /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		1F45F9B61C4CAED900334AB5 /* Items.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Items.plist; sourceTree = "<group>"; };
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F48547B1C4192EF008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		1F4A47A71C4B426000813143 /* Map.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Map.atlas; path = Resources/Map.atlas; sourceTree = "<group>"; };
@@ -174,7 +174,6 @@
 		1F2CEDFC1C387B1F00E4FB2E = {
 			isa = PBXGroup;
 			children = (
-				1F56B96E1C4AE37E0098380D /* libz.tbd */,
 				1F2CEE071C387B1F00E4FB2E /* 100Floors */,
 				1FCE14BA1C45E0CD00112188 /* 100Floors.app */,
 			);
@@ -183,14 +182,13 @@
 		1F2CEE071C387B1F00E4FB2E /* 100Floors */ = {
 			isa = PBXGroup;
 			children = (
+				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
 				1F4DB7C31C44A56B00887FBC /* Connectivity */,
 				1F3D79C41C4B1C700036C680 /* Game Logic */,
 				1F3D79C31C4B1C4B0036C680 /* Graphics */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
-				1F4A47A91C4B42BF00813143 /* Map1.tmx */,
-				1F4A47AB1C4B514100813143 /* Maps and Sprites */,
-				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
+				1F4A47AB1C4B514100813143 /* Resources */,
 			);
 			path = 100Floors;
 			sourceTree = "<group>";
@@ -236,9 +234,6 @@
 			isa = PBXGroup;
 			children = (
 				1F56B97C1C4AEC8D0098380D /* SKAToolKit */,
-				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
-				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
-				1F56B9571C4AB7140098380D /* Map.swift */,
 				1F4DB7C21C44A54600887FBC /* Interface */,
 				1F3D79C21C4B1C3C0036C680 /* Scenes */,
 			);
@@ -260,23 +255,51 @@
 			name = "Game Logic";
 			sourceTree = "<group>";
 		};
-		1F4A47AB1C4B514100813143 /* Maps and Sprites */ = {
+		1F45F9B31C4CAE9A00334AB5 /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
-				1FB3EB951C4B58B60056AAE1 /* chars.atlas */,
 				1F4A47A71C4B426000813143 /* Map.atlas */,
+				1FB3EB951C4B58B60056AAE1 /* chars.atlas */,
 			);
-			name = "Maps and Sprites";
+			name = Atlases;
+			sourceTree = "<group>";
+		};
+		1F45F9B41C4CAEA400334AB5 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				1F4A47A91C4B42BF00813143 /* Map1.tmx */,
+			);
+			name = Maps;
+			sourceTree = "<group>";
+		};
+		1F45F9B51C4CAEAF00334AB5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1F45F9B61C4CAED900334AB5 /* Items.plist */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		1F4A47AB1C4B514100813143 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F45F9B51C4CAEAF00334AB5 /* Data */,
+				1F45F9B41C4CAEA400334AB5 /* Maps */,
+				1F45F9B31C4CAE9A00334AB5 /* Atlases */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		1F4DB7C21C44A54600887FBC /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
+				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
+				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
+				1F56B9571C4AB7140098380D /* Map.swift */,
 				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
 				1F56B9531C4A00CE0098380D /* MenuButton.swift */,
-				1F304B271C39CCC10069D04D /* ControlHandler.swift */,
+				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 			);
@@ -295,6 +318,7 @@
 		1F56B97C1C4AEC8D0098380D /* SKAToolKit */ = {
 			isa = PBXGroup;
 			children = (
+				1F56B96E1C4AE37E0098380D /* libz.tbd */,
 				1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */,
 				1F56B97D1C4AEC8D0098380D /* SKAButton */,
 				1F56B9801C4AEC8D0098380D /* SKACroppedMiniMap */,
@@ -461,6 +485,7 @@
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
 				1F4A47A81C4B426000813143 /* Map.atlas in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
+				1F45F9B71C4CAED900334AB5 /* Items.plist in Resources */,
 				1F4A47AA1C4B42BF00813143 /* Map1.tmx in Resources */,
 				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
 			);
@@ -540,7 +565,6 @@
 				1F304BB21C3B2F950069D04D /* SocketIOClientStatus.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
 				1F304BA81C3B2F950069D04D /* SocketAnyEvent.swift in Sources */,
-				1F304B281C39CCC10069D04D /* ControlHandler.swift in Sources */,
 				1F56B9AA1C4AEC8D0098380D /* SKAMiniMap.m in Sources */,
 				1F56B9AB1C4AEC8D0098380D /* SKATestHud.m in Sources */,
 				1F304BAC1C3B2F950069D04D /* SocketEnginePacketType.swift in Sources */,

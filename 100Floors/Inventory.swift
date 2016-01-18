@@ -7,18 +7,22 @@
 //
 
 class Inventory {
-    static private var inventory:[Item?] = [Item?]()
-    static var inventoryFull:Bool {
+    private var inventory:[Item?] = [Item?]()
+    init()
+    {
+        
+    }
+    var inventoryFull:Bool {
         get{
             return inventory.count == inventory_size
         }
     }
-    static var inventoryEmpty:Bool {
+    var inventoryEmpty:Bool {
         get{
             return inventory.isEmpty
         }
     }
-    static func addItem(item:Item, atIndex:Int)
+    func addItem(item:Item, atIndex:Int)
     {
         if (!inventoryFull)
         {
@@ -26,7 +30,7 @@ class Inventory {
         }
         
     }
-    static func consumeItem(atIndex:Int) -> Consumable?
+    func consumeItem(atIndex:Int) -> Consumable?
     {
         if let item = inventory[atIndex] as? Consumable
         {
@@ -36,7 +40,7 @@ class Inventory {
         //TODO: add throw here
         return nil
     }
-    static func discardItem(atIndex:Int) -> Item?
+    func discardItem(atIndex:Int) -> Item?
     {
         if let item = inventory[atIndex]
         {

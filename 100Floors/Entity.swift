@@ -51,9 +51,8 @@ class Entity {
 }
 
 class ThisCharacter: Entity {
-    
-    
-    var node:SKSpriteNode? //TODO: Turn into graphical texture
+    var inventory:Inventory = Inventory()
+    var node:SKSpriteNode?
     var charClass:CharClass?
     var stats:Stats?
     var equipped:EquippedItems?

@@ -42,7 +42,7 @@ class InGameScene: SKScene {
         //cull unnecessary tiles
         let mapLoc = currentMap!.indexForPoint(nonSelfNodes!.position)
         let newLoc = mapCenterLoc-mapLoc
-        currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTileWidth+4, rowHeight: mapTilesHeight+3)
+        currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth+4, rowHeight: mapTilesHeight+3)
         //////////////
         nonSelfNodes!.physicsBody!.velocity = ~thisCharacter.velocity!
     }

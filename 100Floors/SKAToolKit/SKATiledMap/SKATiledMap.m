@@ -689,7 +689,6 @@
     // hide everything
     if(!self.culledBefore)
     {
-        // TODO: Look into better ways to do this
         for(NSInteger l = 0; l < self.spriteLayers.count; l++)
         {
             for(NSInteger x = 0; x < self.mapWidth - 1; x++)
@@ -723,7 +722,6 @@
         NSInteger endingX = startingX + width;
         NSInteger endingY = startingY + height;
 
-        // TODO: Explain why we do this
         if(startingX < 0)
         {
             startingX = 0;

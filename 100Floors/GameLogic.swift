@@ -30,7 +30,6 @@ class GameLogic {
     }
     
     static func calculatePlayerPosition() -> CGPoint {
-        
         let point = currentMap!.convertPoint(currentMap!.position, fromNode: thisCharacter.node!)
         return point
     }
@@ -38,4 +37,5 @@ class GameLogic {
     static func getPlayerPosition() -> CGPoint? { //get from server, do some comparison with device
         return nil
     }
+    
 }

@@ -27,8 +27,6 @@
 
 @interface SKAObject : NSObject
 
-// TODO: these can be a struct {{x: NSInteger, y: NSInteger}, {width: NSInteger,
-// height: NSInteger}}
 @property (nonatomic) NSInteger x;
 @property (nonatomic) NSInteger y;
 @property (nonatomic) NSInteger height;
@@ -44,7 +42,6 @@
 
 @property (nonatomic, strong) NSDictionary *properties;
 
-// TODO: This should return a CGPoint and be one function
 - (float)centerX;
 - (float)centerY;
 

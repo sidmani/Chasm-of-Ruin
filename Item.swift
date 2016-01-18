@@ -9,6 +9,7 @@
 import SpriteKit
 
 class Item {
+    var node:SKSpriteNode?
     init()
     {
         
@@ -40,7 +41,7 @@ class Skill: Item {
 class Shield: Item {
     var statToBoost = StatTypes.defense
     
-
+    
 }
 
 class Enhancer: Item {
