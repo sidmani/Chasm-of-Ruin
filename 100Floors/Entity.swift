@@ -104,25 +104,25 @@ class ThisCharacter: Entity {
     func equipShield(shield:Shield) -> Shield?
     {
         let old = equipped?.shield
-        equipped?.shield = shield
+        equipped!.shield = shield
         return old
     }
     func equipWeapon(weapon:Weapon) -> Weapon?
     {
         let old = equipped?.weapon
-        equipped?.weapon = weapon
+        equipped!.weapon = weapon
         return old
     }
     func equipEnhancer(enhancer:Enhancer) -> Enhancer?
     {
         let old = equipped?.enhancer
-        equipped?.enhancer = enhancer
+        equipped!.enhancer = enhancer
         return old
     }
     func equipSkill(skill:Skill) -> Skill?
     {
         let old = equipped?.skill
-        equipped?.skill = skill
+        equipped!.skill = skill
         return old
     }
     ///////////////////

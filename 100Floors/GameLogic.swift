@@ -9,6 +9,7 @@
 import SpriteKit
 
 var thisCharacter = GameLogic.getThisCharacter()
+var currentMap:Map?
 
 class GameLogic {
     static func setup() {
@@ -25,5 +26,14 @@ class GameLogic {
         let mapX = screenSize.width/2 - thisCharacter.absoluteLoc!.x
         let mapY = screenSize.height/2 - thisCharacter.absoluteLoc!.y
         return CGPoint(x: mapX, y: mapY)
+    }
+    static func calculatePlayerPosition() -> CGPoint {
+        
+        let point = currentMap!.convertPoint(currentMap!.position, fromNode: thisCharacter.node!)
+        print("\(point.x) , \(point.y)")
+        return point
+    }
+    static func getPlayerPosition() -> CGPoint? { //get from server, do some comparison with device
+        return nil
     }
 }
