@@ -38,7 +38,6 @@
 		1F304BB71C3B2F950069D04D /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8D1C3B2F950069D04D /* SocketTypes.swift */; };
 		1F304BB81C3B2F950069D04D /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */; };
 		1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8F1C3B2F950069D04D /* WebSocket.swift */; };
-		1F45F9B71C4CAED900334AB5 /* Items.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F45F9B61C4CAED900334AB5 /* Items.plist */; };
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F48547C1C4192EF008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F48547B1C4192EF008DDC8F /* Global.swift */; };
 		1F4A47A81C4B426000813143 /* Map.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A47A71C4B426000813143 /* Map.atlas */; };
@@ -71,6 +70,7 @@
 		1FD5EABE1C3F47A700634F47 /* EntityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABD1C3F47A700634F47 /* EntityController.swift */; };
 		1FD5EAC01C3F80EB00634F47 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABF1C3F80EB00634F47 /* Classes.swift */; };
 		1FDD42791C4DBEEF008C809E /* ItemDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD42781C4DBEEF008C809E /* ItemDefinitions.swift */; };
+		1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FDD427D1C4DDD65008C809E /* Projectiles.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,7 +106,6 @@
 		1F304B8D1C3B2F950069D04D /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		1F304B8F1C3B2F950069D04D /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
-		1F45F9B61C4CAED900334AB5 /* Items.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Items.plist; sourceTree = "<group>"; };
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F48547B1C4192EF008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		1F4A47A71C4B426000813143 /* Map.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Map.atlas; path = Resources/Map.atlas; sourceTree = "<group>"; };
@@ -159,6 +158,7 @@
 		1FD5EABD1C3F47A700634F47 /* EntityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityController.swift; path = ../EntityController.swift; sourceTree = "<group>"; };
 		1FD5EABF1C3F80EB00634F47 /* Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Classes.swift; path = ../Classes.swift; sourceTree = "<group>"; };
 		1FDD42781C4DBEEF008C809E /* ItemDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDefinitions.swift; sourceTree = "<group>"; };
+		1FDD427D1C4DDD65008C809E /* Projectiles.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Projectiles.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +261,7 @@
 		1F45F9B31C4CAE9A00334AB5 /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
+				1FDD427D1C4DDD65008C809E /* Projectiles.atlas */,
 				1F4A47A71C4B426000813143 /* Map.atlas */,
 				1FB3EB951C4B58B60056AAE1 /* chars.atlas */,
 			);
@@ -275,18 +276,9 @@
 			name = Maps;
 			sourceTree = "<group>";
 		};
-		1F45F9B51C4CAEAF00334AB5 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				1F45F9B61C4CAED900334AB5 /* Items.plist */,
-			);
-			name = Data;
-			sourceTree = "<group>";
-		};
 		1F4A47AB1C4B514100813143 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1F45F9B51C4CAEAF00334AB5 /* Data */,
 				1F45F9B41C4CAEA400334AB5 /* Maps */,
 				1F45F9B31C4CAE9A00334AB5 /* Atlases */,
 			);
@@ -485,10 +477,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F2CEE171C387B1F00E4FB2E /* LaunchScreen.storyboard in Resources */,
+				1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */,
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
 				1F4A47A81C4B426000813143 /* Map.atlas in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
-				1F45F9B71C4CAED900334AB5 /* Items.plist in Resources */,
 				1F4A47AA1C4B42BF00813143 /* Map1.tmx in Resources */,
 				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
 			);

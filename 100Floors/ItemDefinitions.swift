@@ -44,3 +44,5 @@ struct ProjectileDefinition {
 }
 
 ////////////////////////////
+let SwordProjectile = ProjectileDefinition(imgMain: "SwordProjectile", imgAlt: "", range: 5)
+let Sword = WeaponDefinition(statMods: nullStats, imgMain: "", imgAlt: "", projectile: SwordProjectile)

@@ -17,6 +17,9 @@ class Item {
     }
 }
 
+class ItemBag { // Container for item dropped on the ground
+    
+}
 // 6 basic kinds of item: consumable, weapon, skill, shield, enhancer, style
 // consumable: increases stats temporarily or permanently
 // skill: skill move
@@ -30,11 +33,12 @@ class Consumable: Item {
 }
 
 class Weapon: Item {
-    var projectile:Projectile?
-        //TODO: some sort of special effect when rage hits max
+    var projectile:ProjectileDefinition?
+    //TODO: some sort of special effect when rage hits max
     init(definition:WeaponDefinition)
     {
         super.init(stats: definition.statMods)
+        projectile = definition.projectile
     }
 }
 

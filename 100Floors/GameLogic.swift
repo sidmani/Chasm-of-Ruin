@@ -20,6 +20,7 @@ class GameLogic {
         // construct character
         let out = ThisCharacter(_class: Wizard, _ID: "test")
         out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
+        out.equipped.weapon = Weapon(definition: Sword)
         return out
     }
     
@@ -28,11 +29,6 @@ class GameLogic {
         let mapY = screenSize.height/2 - characterLoc.y
         return CGPoint(x: mapX, y: mapY)
     }
-    
- /*   static func calculatePlayerPosition() -> CGPoint { //TODO: delete this
-        let point = currentMap!.convertPoint(currentMap!.position, fromNode: thisCharacter.node!)
-        return point
-    }*/
     
     static func calculateRelativePosition(node:SKNode) -> CGPoint {
         let point = currentMap!.convertPoint(currentMap!.position, fromNode: node)

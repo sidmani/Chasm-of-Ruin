@@ -45,5 +45,10 @@ class InGameScene: SKScene {
         currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth+4, rowHeight: mapTilesHeight+3)
         //////////////
         nonSelfNodes!.physicsBody!.velocity = ~thisCharacter.velocity!
+        //////////////
+        if (RightJoystick!.currentPoint != CGPoint(x: 0, y: 0))
+        {
+            thisCharacter.fireProjectile()
+        }
     }
 }

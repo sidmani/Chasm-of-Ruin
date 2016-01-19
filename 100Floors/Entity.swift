@@ -19,6 +19,7 @@ struct Stats { //TODO: add base stat and current stat definitions
     var mana:Int      // Mana (used when casting spells)
     var rage:Int      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
+let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //remove this later
 enum StatTypes {
     case health
     case defense
@@ -31,12 +32,12 @@ enum StatTypes {
     case rage
 }
 struct EquippedItems {
-    var shield:Shield
-    var weapon:Weapon
-    var enhancer:Enhancer
-    var skill:Skill
+    var shield:Shield?
+    var weapon:Weapon?
+    var enhancer:Enhancer?
+    var skill:Skill?
     func totalStatChanges() -> Stats {
-        return shield.statMods+weapon.statMods+skill.statMods+enhancer.statMods
+        return shield!.statMods+weapon!.statMods+skill!.statMods+enhancer!.statMods
     }
 }
 //////////////////////
@@ -52,16 +53,18 @@ class Entity {
     }
     
 }
+//////////////////////
 
 class ThisCharacter: Entity {
+    // properties
     var inventory:Inventory = Inventory()
     var node:SKSpriteNode?
     var charClass:CharClass?
     var stats:Stats?
-    var equipped:EquippedItems?
-    var currentProjectile:Projectile {
+    var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
+    var currentProjectile:ProjectileDefinition {
         get{
-            return equipped!.weapon.projectile! //set weapon based on item
+            return equipped.weapon!.projectile! //set weapon based on item
         }
     }
     
@@ -84,7 +87,7 @@ class ThisCharacter: Entity {
             return CGVector(dx: 5*LeftJoystick!.dx, dy: -5*LeftJoystick!.dy) //TODO: item modifies speed
         }
     }
-    
+    //////////////
     init(_class:CharClass, _ID: String) {
         super.init(_ID: _ID)
         charClass = _class
@@ -92,6 +95,7 @@ class ThisCharacter: Entity {
         node!.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
         node!.physicsBody!.affectedByGravity = false
         node!.physicsBody!.friction = 0
+        node!.physicsBody!.pinned = true
         absoluteLoc = CGPointMake(0, 0)
     }
     
@@ -112,32 +116,37 @@ class ThisCharacter: Entity {
     ///equip functions
     func equipShield(shield:Shield) -> Shield?
     {
-        let old:Shield? = equipped!.shield
-        equipped!.shield = shield
+        let old:Shield? = equipped.shield
+        equipped.shield = shield
         return old
     }
     
     func equipWeapon(weapon:Weapon) -> Weapon?
     {
-        let old:Weapon? = equipped!.weapon
-        equipped!.weapon = weapon
+        let old:Weapon? = equipped.weapon
+        equipped.weapon = weapon
         return old
     }
     
     func equipEnhancer(enhancer:Enhancer) -> Enhancer?
     {
-        let old:Enhancer? = equipped!.enhancer
-        equipped!.enhancer = enhancer
+        let old:Enhancer? = equipped.enhancer
+        equipped.enhancer = enhancer
         return old
     }
     
     func equipSkill(skill:Skill) -> Skill?
     {
-        let old:Skill? = equipped!.skill
-        equipped!.skill = skill
+        let old:Skill? = equipped.skill
+        equipped.skill = skill
         return old
     }
     ///////////////////
+    //Projectile Methods
+    func fireProjectile() {
+        let newProjectile = Projectile(definition: currentProjectile)
+        newProjectile.launch(absoluteLoc!, withVelocity: CGVector(dx: RightJoystick!.dx, dy: RightJoystick!.dy))
+    }
 }
 
 
