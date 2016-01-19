@@ -23,14 +23,19 @@ class GameLogic {
         return out
     }
     
-    static func calculateMapPosition(characterLoc:CGPoint) -> CGPoint {
+    static func calculateMapPosition(characterLoc:CGPoint) -> CGPoint { //TODO: fix this (use convertPoint)
         let mapX = screenSize.width/2 - characterLoc.x
         let mapY = screenSize.height/2 - characterLoc.y
         return CGPoint(x: mapX, y: mapY)
     }
     
-    static func calculatePlayerPosition() -> CGPoint {
+ /*   static func calculatePlayerPosition() -> CGPoint { //TODO: delete this
         let point = currentMap!.convertPoint(currentMap!.position, fromNode: thisCharacter.node!)
+        return point
+    }*/
+    
+    static func calculateRelativePosition(node:SKNode) -> CGPoint {
+        let point = currentMap!.convertPoint(currentMap!.position, fromNode: node)
         return point
     }
     

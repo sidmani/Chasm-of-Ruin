@@ -8,7 +8,7 @@
 import SpriteKit
 
 //// data structs ////
-struct Stats {
+struct Stats { //TODO: add base stat and current stat definitions
     var health:Int    // Health
     var defense:Int   // Defense (% projectile is weakened by)
     var attack:Int    // Attack (% own projectile is strengthened by)
@@ -35,6 +35,9 @@ struct EquippedItems {
     var weapon:Weapon
     var enhancer:Enhancer
     var skill:Skill
+    func totalStatChanges() -> Stats {
+        return shield.statMods+weapon.statMods+skill.statMods+enhancer.statMods
+    }
 }
 //////////////////////
 
@@ -67,7 +70,7 @@ class ThisCharacter: Entity {
             nonSelfNodes!.position = GameLogic.calculateMapPosition(newValue!)
         }
         get {
-            return GameLogic.calculatePlayerPosition()
+            return GameLogic.calculateRelativePosition(node!)
         }
     }
     var screenLoc:CGPoint? {

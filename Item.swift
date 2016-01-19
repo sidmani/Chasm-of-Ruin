@@ -10,9 +10,10 @@ import SpriteKit
 
 class Item {
     var node:SKSpriteNode?
-    init()
+    var statMods:Stats
+    init(stats:Stats)
     {
-        
+        statMods = stats
     }
 }
 
@@ -30,31 +31,37 @@ class Consumable: Item {
 
 class Weapon: Item {
     var projectile:Projectile?
-    var power:Int?
-    
+        //TODO: some sort of special effect when rage hits max
+    init(definition:WeaponDefinition)
+    {
+        super.init(stats: definition.statMods)
+    }
 }
 
 class Skill: Item {
-    
+    init(definition:SkillDefinition)
+    {
+        super.init(stats: definition.statMods)
+    }
 }
 
-class Shield: Item {
-    var statToBoost = StatTypes.defense
-    
-    
+class Shield: Item {    
+    init(definition:ShieldDefinition)
+    {
+        super.init(stats: definition.statMods)
+    }
 }
 
 class Enhancer: Item {
-    var statToBoost:StatTypes?
-    var amountToBoost:Int?
-    var permanent = true
-    init(_statToBoost:StatTypes, _amountToBoost:Int)
+    var permanent:Bool?
+    
+    init(definition:EnhancerDefinition)
     {
-        statToBoost = _statToBoost
-        amountToBoost = _amountToBoost
+        super.init(stats: definition.statMods)
     }
 }
 
 class Style: Item {
     
 }
+

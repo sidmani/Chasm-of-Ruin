@@ -7,28 +7,26 @@
 //
 
 import SpriteKit
-class Projectile{
-    var image: SKSpriteNode
-    var ID:String
-    var velocity: Float
-    var angle: Float
-    var range: Float
-    var absoluteX:Int = 0
-    var absoluteY:Int = 0
-    
-    var screenY:Int = 0 //fix these with dynamic assignment
-    var screenX:Int = 0 //replace with CGPoint
-    
-    init(_image:String, _ID:String, _velocity:Float, _angle:Float, _range:Float){ //maybe pass shoot function as param
-        image = SKSpriteNode(imageNamed: _image)
-        ID = _ID
-        velocity = _velocity
-        angle = _angle
-        range = _range
+class Projectile {
+    var node: SKSpriteNode?
+    var ID:String?
+    var velocity: CGVector?
+        {
+            didSet{
+                node!.physicsBody!.velocity = velocity!
+            }
     }
-    func create() { //override this for complex projectiles
-    
-        
+    var range: CGFloat?
+    var absoluteLoc:CGPoint?
+    init (definition:ProjectileDefinition) {
+        node = SKSpriteNode(texture: SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)) //TODO: create atlases & possibly optimize textures
+        node!.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
+        range = definition.range
+    }
+    func launch(fromPoint:CGPoint, withVelocity:CGVector) { //override this for complex projectiles
+        absoluteLoc = fromPoint
+        velocity = withVelocity
+        //TODO: rotate sprite to correct position
     }
     func destroy() {
         

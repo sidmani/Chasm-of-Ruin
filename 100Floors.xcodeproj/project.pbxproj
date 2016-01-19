@@ -70,6 +70,7 @@
 		1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C31C475A0400112188 /* ItemContainer.swift */; };
 		1FD5EABE1C3F47A700634F47 /* EntityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABD1C3F47A700634F47 /* EntityController.swift */; };
 		1FD5EAC01C3F80EB00634F47 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5EABF1C3F80EB00634F47 /* Classes.swift */; };
+		1FDD42791C4DBEEF008C809E /* ItemDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD42781C4DBEEF008C809E /* ItemDefinitions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,6 +158,7 @@
 		1FCE14C31C475A0400112188 /* ItemContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemContainer.swift; path = ../ItemContainer.swift; sourceTree = "<group>"; };
 		1FD5EABD1C3F47A700634F47 /* EntityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityController.swift; path = ../EntityController.swift; sourceTree = "<group>"; };
 		1FD5EABF1C3F80EB00634F47 /* Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Classes.swift; path = ../Classes.swift; sourceTree = "<group>"; };
+		1FDD42781C4DBEEF008C809E /* ItemDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDefinitions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 				1FD5EABF1C3F80EB00634F47 /* Classes.swift */,
 				1F48547B1C4192EF008DDC8F /* Global.swift */,
 				1FCE14BD1C45F02100112188 /* Item.swift */,
+				1FDD42781C4DBEEF008C809E /* ItemDefinitions.swift */,
 				1F4854791C41853B008DDC8F /* GameLogic.swift */,
 			);
 			name = "Game Logic";
@@ -539,6 +542,7 @@
 				1F304BAA1C3B2F950069D04D /* SocketEngine.swift in Sources */,
 				1F48547C1C4192EF008DDC8F /* Global.swift in Sources */,
 				1F304BB71C3B2F950069D04D /* SocketTypes.swift in Sources */,
+				1FDD42791C4DBEEF008C809E /* ItemDefinitions.swift in Sources */,
 				1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */,
 				1F304BB61C3B2F950069D04D /* SocketStringReader.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,

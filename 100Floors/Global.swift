@@ -25,6 +25,11 @@ func +(left: CGPoint, right:CGPoint) -> CGPoint {
 func -(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x-right.x, y: left.y-right.y)
 }
+
+
+func +(left: Stats, right:Stats) -> Stats { // add Stats together
+    return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, hunger: left.hunger + right.hunger, level: left.level+right.level, mana: left.mana+right.mana, rage: left.rage + right.rage)
+}
 prefix operator ~ {}
 prefix func ~ (vector:CGVector) -> CGVector
 {
