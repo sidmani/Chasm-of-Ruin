@@ -76,7 +76,7 @@ class JoystickControl:UIControl{
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle))) //this can be optimized further
             }
             dx = stickView.center.x
-            dy = stickView.center.y
+            dy = -1*stickView.center.y
         }
     }
     
@@ -96,7 +96,7 @@ class JoystickControl:UIControl{
             }
             self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
             dx = stickView.center.x
-            dy = stickView.center.y
+            dy = -1*stickView.center.y
 
         }
     }

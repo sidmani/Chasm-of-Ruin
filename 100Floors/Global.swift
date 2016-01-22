@@ -22,13 +22,21 @@ var rotate_sensitivity:Int8 = 0
 func +(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x+right.x, y: left.y+right.y)
 }
+
 func -(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x-right.x, y: left.y-right.y)
 }
 
-
 func +(left: Stats, right:Stats) -> Stats { // add Stats together
     return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, hunger: left.hunger + right.hunger, level: left.level+right.level, mana: left.mana+right.mana, rage: left.rage + right.rage)
+}
+func +(left:CGVector, right:CGVector) -> CGVector {
+    return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
+}
+infix operator %% {}
+
+func %%(left: Int, right: Int) -> Bool {
+    return left % right == 0
 }
 prefix operator ~ {}
 prefix func ~ (vector:CGVector) -> CGVector

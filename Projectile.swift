@@ -7,33 +7,42 @@
 //
 
 import SpriteKit
-class Projectile {
-    var node: SKSpriteNode?
+class Projectile:SKSpriteNode{
     var ID:String?
-    var velocity: CGVector?
-        {
-            didSet{
-                node!.physicsBody!.velocity = velocity!
-            }
+    var distanceTraveled:CGFloat {
+        get{
+            return hypot(self.position.x - absoluteLoc!.x, self.position.y - absoluteLoc!.y)
+        }
     }
+    var relVelocity: CGVector?
     var range: CGFloat?
     var absoluteLoc:CGPoint?
         {
         didSet{
-            node!.position = absoluteLoc!
+            self.position = absoluteLoc!
         }
     }
     init (definition:ProjectileDefinition) {
-        node = SKSpriteNode(texture: SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)) //TODO: create atlases & possibly optimize textures
-        node!.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
-        node!.physicsBody!.friction = 0
-        node!.physicsBody!.affectedByGravity = false
+        let texture = SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)
+        let size = texture.size()
+        super.init(texture: texture, color: UIColor.clearColor(), size: size)
+        //node = SKSpriteNode(texture: SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)) //TODO: create atlases & possibly optimize textures
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
+        self.physicsBody!.friction = 0
+        self.physicsBody!.affectedByGravity = false
         range = definition.range
+        
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     func launch(fromPoint:CGPoint, withVelocity:CGVector) { //override this for complex projectiles
-        nonSelfNodes!.addChild(node!)
         absoluteLoc = fromPoint
-        velocity = withVelocity
+        relVelocity = withVelocity
+        self.physicsBody!.velocity = withVelocity
+  //      nonMapNodes.addChild(self)
+        
         //TODO: rotate sprite to correct position
     }
     func destroy() {

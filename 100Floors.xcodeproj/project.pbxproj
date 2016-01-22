@@ -632,8 +632,8 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				"Texture Atlas Format" = RGB565_COMPRESSED;
-				"Texture Atlas Maximum Size" = 4096x4096;
+				"Texture Atlas Format" = RGBA5551_COMPRESSED;
+				"Texture Atlas Maximum Size" = 2048x2048;
 			};
 			name = Debug;
 		};
@@ -671,8 +671,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				"Texture Atlas Format" = RGB565_COMPRESSED;
-				"Texture Atlas Maximum Size" = 4096x4096;
+				"Texture Atlas Format" = RGBA5551_COMPRESSED;
+				"Texture Atlas Maximum Size" = 2048x2048;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

@@ -61,6 +61,8 @@ class ThisCharacter: Entity {
     var node:SKSpriteNode?
     var charClass:CharClass?
     var stats:Stats?
+    var projectileTimer:NSTimer?
+    var projectileTimerEnabled = false
     var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
     var currentProjectile:ProjectileDefinition {
         get{
@@ -70,7 +72,7 @@ class ThisCharacter: Entity {
     
     var absoluteLoc:CGPoint? { // guaranteed to be correct, unless server returns different value
         set {
-            nonSelfNodes!.position = GameLogic.calculateMapPosition(newValue!)
+            nonSelfNodes.position = GameLogic.calculateMapPosition(newValue!)
         }
         get {
             return GameLogic.calculateRelativePosition(node!)
@@ -84,7 +86,7 @@ class ThisCharacter: Entity {
     var velocity:CGVector?
         {
         get {
-            return CGVector(dx: 5*LeftJoystick!.dx, dy: -5*LeftJoystick!.dy) //TODO: item modifies speed
+            return CGVector(dx: 5*LeftJoystick!.dx, dy: 5*LeftJoystick!.dy) //TODO: item modifies speed
         }
     }
     //////////////
@@ -143,9 +145,22 @@ class ThisCharacter: Entity {
     }
     ///////////////////
     //Projectile Methods
-    func fireProjectile() {
+    @objc func fireProjectile() {
         let newProjectile = Projectile(definition: currentProjectile)
-        newProjectile.launch(absoluteLoc!, withVelocity: CGVector(dx: RightJoystick!.dx, dy: RightJoystick!.dy))
+        newProjectile.launch(absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.dx, dy: 5*RightJoystick!.dy))
+        nonMapNodes.addChild(newProjectile)
+    }
+    func attachProjectileCreator(enable:Bool) {
+        if (enable) {
+            projectileTimerEnabled = true
+            projectileTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "fireProjectile", userInfo: nil, repeats: true) //TODO: calculate rate of fire
+        }
+        else {
+            if ((projectileTimer) != nil) {
+                projectileTimerEnabled = false
+                projectileTimer!.invalidate()
+            }
+        }
     }
 }
 
