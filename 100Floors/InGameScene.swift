@@ -5,13 +5,15 @@
 //  Created by Sid Mani on 1/2/16.
 //
 //
+//TODO: restructure this class (update and didSimulatePhysics)
+
 
 import SpriteKit
 var nonSelfNodes:SKNode = SKNode()
-    var mapNodes:SKNode = SKNode()
-    var nonMapNodes:SKNode = SKNode()
- //       var otherPlayers = SKNode()
- //       var enemies = SKNode()
+var mapNodes:SKNode = SKNode()
+var nonMapNodes:SKNode = SKNode()
+//       var otherPlayers = SKNode()
+//       var enemies = SKNode()
 var selfNodes = SKNode()
 
 class InGameScene: SKScene {
@@ -20,9 +22,9 @@ class InGameScene: SKScene {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         currentMap = Map(mapName: "Map1") //load map
         mapNodes.addChild(currentMap!)
-        
-      //  nonMapNodes.addChild(otherPlayers)
-      //  nonMapNodes.addChild(enemies)
+        mapNodes.zPosition = 0
+        //  nonMapNodes.addChild(otherPlayers)
+        //  nonMapNodes.addChild(enemies)
         
         
         nonSelfNodes.addChild(mapNodes)
@@ -30,25 +32,29 @@ class InGameScene: SKScene {
         nonSelfNodes.physicsBody = SKPhysicsBody()
         nonSelfNodes.physicsBody!.affectedByGravity = false
         nonSelfNodes.physicsBody!.friction = 0
-
+        
         //////////////////////////////////////////
         thisCharacter.absoluteLoc = CGPoint(x: 0, y: 0)
-        selfNodes.addChild(thisCharacter.node!)
+        selfNodes.addChild(thisCharacter)
+        selfNodes.zPosition = 5
         //////////////////////////////////////////
         addChild(nonSelfNodes)
         addChild(selfNodes)
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-    }
+    
+    //override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    
+    //}
+    
     func setMap(newMap:Map)
     {
         
     }
+    ////////
     override func update(currentTime: CFTimeInterval) {
         currFrame++
         currFrame = currFrame % 60
-
+        
         //cull unnecessary tiles
         let mapLoc = currentMap!.indexForPoint(nonSelfNodes.position)
         let newLoc = mapCenterLoc-mapLoc
@@ -63,24 +69,34 @@ class InGameScene: SKScene {
             thisCharacter.attachProjectileCreator(false)
         }
     }
+    
+    //////
+    
     override func didSimulatePhysics() {
         updateNonSelfNodes()
-        nonSelfNodes.physicsBody!.velocity = ~thisCharacter.velocity!
-
-
+        
     }
+    
+    //////
+    
     func updateNonSelfNodes() {
-        for i in nonMapNodes.children {
-            if let spriteNode = i as? Projectile {
-                if (spriteNode.distanceTraveled > spriteNode.range)
-                {
-                    spriteNode.removeFromParent()
-                }
-                else
-                {
-                spriteNode.physicsBody!.velocity = spriteNode.relVelocity! + nonSelfNodes.physicsBody!.velocity
-                }
-            }
+        if (LeftJoystick!.valueChanged) {
+            LeftJoystick!.valueChanged = false
+            nonSelfNodes.physicsBody!.velocity = ~thisCharacter.velocity!
         }
+            for i in nonMapNodes.children {
+                if let spriteNode = i as? Projectile{
+                    if (spriteNode.distanceTraveled > spriteNode.range) {
+                        spriteNode.removeFromParent()
+                    }
+                    else {
+                        spriteNode.physicsBody!.velocity = spriteNode.relVelocity + nonSelfNodes.physicsBody!.velocity
+                    }
+                }
+                
+            }
+    
     }
+    
+    
 }

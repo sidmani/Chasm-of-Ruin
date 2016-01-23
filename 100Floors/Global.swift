@@ -17,6 +17,7 @@ let mapCenterLoc:CGPoint = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
 let inventory_size = 8 // TODO: fix this (get from server, IAP)
 var move_sensitivity:Int8 = 0
 var rotate_sensitivity:Int8 = 0
+let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later
 
 //Operator overloads
 func +(left: CGPoint, right:CGPoint) -> CGPoint {
@@ -30,9 +31,11 @@ func -(left: CGPoint, right:CGPoint) -> CGPoint {
 func +(left: Stats, right:Stats) -> Stats { // add Stats together
     return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, hunger: left.hunger + right.hunger, level: left.level+right.level, mana: left.mana+right.mana, rage: left.rage + right.rage)
 }
+
 func +(left:CGVector, right:CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
 }
+
 infix operator %% {}
 
 func %%(left: Int, right: Int) -> Bool {

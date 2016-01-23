@@ -19,7 +19,8 @@ struct Stats { //TODO: add base stat and current stat definitions
     var mana:Int      // Mana (used when casting spells)
     var rage:Int      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
-let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //remove this later
+
+
 enum StatTypes {
     case health
     case defense
@@ -31,6 +32,7 @@ enum StatTypes {
     case mana
     case rage
 }
+
 struct EquippedItems {
     var shield:Shield?
     var weapon:Weapon?
@@ -43,13 +45,17 @@ struct EquippedItems {
 //////////////////////
 
 
-class Entity {
+class Entity:SKSpriteNode {
     
     var ID:String
-    
-    init(_ID:String)
+    init(_ID:String, texture: SKTexture)
     {
         ID = _ID
+        super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
@@ -58,29 +64,16 @@ class Entity {
 class ThisCharacter: Entity {
     // properties
     var inventory:Inventory = Inventory()
-    var node:SKSpriteNode?
-    var charClass:CharClass?
-    var stats:Stats?
+    var charClass:CharClass
+    var stats:Stats = nullStats
     var projectileTimer:NSTimer?
     var projectileTimerEnabled = false
     var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
+    
+    //convenience variables
     var currentProjectile:ProjectileDefinition {
         get{
             return equipped.weapon!.projectile! //set weapon based on item
-        }
-    }
-    
-    var absoluteLoc:CGPoint? { // guaranteed to be correct, unless server returns different value
-        set {
-            nonSelfNodes.position = GameLogic.calculateMapPosition(newValue!)
-        }
-        get {
-            return GameLogic.calculateRelativePosition(node!)
-        }
-    }
-    var screenLoc:CGPoint? {
-        didSet {
-            node!.position = screenLoc!
         }
     }
     var velocity:CGVector?
@@ -89,16 +82,40 @@ class ThisCharacter: Entity {
             return CGVector(dx: 5*LeftJoystick!.dx, dy: 5*LeftJoystick!.dy) //TODO: item modifies speed
         }
     }
+    
+    /////////////
+    
+    var absoluteLoc:CGPoint? { // guaranteed to be correct, unless server returns different value
+        set {
+            nonSelfNodes.position = GameLogic.calculateMapPosition(newValue!)
+        }
+        get {
+            return GameLogic.calculateRelativePosition(self)
+        }
+    }
+    
+    var screenLoc:CGPoint? {
+        didSet {
+            self.position = screenLoc!
+        }
+    }
+    
+  
     //////////////
+    //INIT
+    
     init(_class:CharClass, _ID: String) {
-        super.init(_ID: _ID)
         charClass = _class
-        node = SKSpriteNode(texture: SKTextureAtlas(named: "chars").textureNamed(charClass!.img_base))
-        node!.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-        node!.physicsBody!.affectedByGravity = false
-        node!.physicsBody!.friction = 0
-        node!.physicsBody!.pinned = true
+        super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed(charClass.img_base))
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
+        self.physicsBody!.affectedByGravity = false
+        self.physicsBody!.friction = 0
+        self.physicsBody!.pinned = true
         absoluteLoc = CGPointMake(0, 0)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     ///POSITION/DIRECTION METHODS
@@ -143,25 +160,28 @@ class ThisCharacter: Entity {
         equipped.skill = skill
         return old
     }
+    
     ///////////////////
     //Projectile Methods
     @objc func fireProjectile() {
-        let newProjectile = Projectile(definition: currentProjectile)
-        newProjectile.launch(absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.dx, dy: 5*RightJoystick!.dy))
+        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.dx, dy: 5*RightJoystick!.dy))
         nonMapNodes.addChild(newProjectile)
     }
+    
     func attachProjectileCreator(enable:Bool) {
         if (enable) {
+            fireProjectile()
             projectileTimerEnabled = true
-            projectileTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "fireProjectile", userInfo: nil, repeats: true) //TODO: calculate rate of fire
+            projectileTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "fireProjectile", userInfo: nil, repeats: true) //TODO: calculate rate of fire
         }
         else {
+            projectileTimerEnabled = false
             if ((projectileTimer) != nil) {
-                projectileTimerEnabled = false
                 projectileTimer!.invalidate()
             }
         }
     }
+    ///////////////////
 }
 
 
@@ -169,11 +189,11 @@ class ThisCharacter: Entity {
 
 
 class OtherCharacter:Entity {
-    var charClass:CharClass
-    init(_class:CharClass, _ID:String) {
-        charClass = _class
-        super.init(_ID: _ID)
-    }
+   // var charClass:CharClass
+   // init(_class:CharClass, _ID:String) {
+   //     charClass = _class
+   //     super.init(_ID: _ID)
+   // }
 }
 
 

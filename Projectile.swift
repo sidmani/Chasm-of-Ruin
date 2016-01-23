@@ -9,43 +9,45 @@
 import SpriteKit
 class Projectile:SKSpriteNode{
     var ID:String?
+    
     var distanceTraveled:CGFloat {
         get{
-            return hypot(self.position.x - absoluteLoc!.x, self.position.y - absoluteLoc!.y)
+            return hypot(self.position.x - absoluteLoc.x, self.position.y - absoluteLoc.y)
         }
     }
-    var relVelocity: CGVector?
-    var range: CGFloat?
-    var absoluteLoc:CGPoint?
+    
+    var relVelocity: CGVector
+    var range: CGFloat = 50
+    var absoluteLoc:CGPoint
         {
         didSet{
-            self.position = absoluteLoc!
+            self.position = absoluteLoc
         }
     }
-    init (definition:ProjectileDefinition) {
+    
+    init (definition:ProjectileDefinition, fromPoint:CGPoint, withVelocity:CGVector) {
         let texture = SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)
         let size = texture.size()
+        relVelocity = withVelocity
+        range = definition.range
+        absoluteLoc = fromPoint
+
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
-        //node = SKSpriteNode(texture: SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)) //TODO: create atlases & possibly optimize textures
+        
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
         self.physicsBody!.friction = 0
+        self.physicsBody!.velocity = withVelocity
         self.physicsBody!.affectedByGravity = false
-        range = definition.range
+        self.position = absoluteLoc
+        self.zPosition = 4
         
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    func launch(fromPoint:CGPoint, withVelocity:CGVector) { //override this for complex projectiles
-        absoluteLoc = fromPoint
-        relVelocity = withVelocity
-        self.physicsBody!.velocity = withVelocity
-  //      nonMapNodes.addChild(self)
-        
-        //TODO: rotate sprite to correct position
-    }
-    func destroy() {
+    
+    func destroy() { //call when range is exceeded
         
     }
 }
