@@ -49,7 +49,14 @@ class Projectile:SKSpriteNode{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    func rangeCheck() {
+        if (self.distanceTraveled > self.range) {
+            self.removeFromParent()
+        }
+    }
+    func updateVelocity() {
+        self.physicsBody!.velocity = self.relVelocity + nonSelfNodes.physicsBody!.velocity
+    }
     func destroy() { //call when range is exceeded
         
     }

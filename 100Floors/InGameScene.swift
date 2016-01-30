@@ -12,7 +12,6 @@ import SpriteKit
 var nonSelfNodes:SKNode = SKNode()
 var mapNodes:SKNode = SKNode()
 var nonMapNodes:SKNode = SKNode()
-//       var otherPlayers = SKNode()
 //       var enemies = SKNode()
 var selfNodes = SKNode()
 
@@ -24,7 +23,6 @@ class InGameScene: SKScene {
         currentMap = Map(mapName: "Map1") //load map
         mapNodes.addChild(currentMap!)
         mapNodes.zPosition = 0
-        //  nonMapNodes.addChild(otherPlayers)
         //  nonMapNodes.addChild(enemies)
         
         
@@ -47,28 +45,22 @@ class InGameScene: SKScene {
     
     //}
     
-    func setMap(newMap:Map)
+    func setLevel(newLevel:Level)
     {
-        
+        //remove all nodes
+        //display loading screen
+        //load new nodes
+        //end loading screen
+        //addChild()
     }
     ////////
     override func update(currentTime: CFTimeInterval) {
-        currFrame++
-        currFrame = currFrame % 60
-        
         //cull unnecessary tiles
         let mapLoc = currentMap!.indexForPoint(nonSelfNodes.position)
         let newLoc = mapCenterLoc-mapLoc
         currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth+4, rowHeight: mapTilesHeight+3)
         //////////////
-        if (RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !thisCharacter.projectileTimerEnabled)
-        {
-            thisCharacter.attachProjectileCreator(true)
-        }
-        else if (RightJoystick!.currentPoint == CGPoint(x: 0, y: 0))
-        {
-            thisCharacter.attachProjectileCreator(false)
-        }
+        thisCharacter.updateProjectileState()
     }
     
     //////
@@ -79,7 +71,7 @@ class InGameScene: SKScene {
     }
     
     //////
-    
+
     func updateNonSelfNodes() {
         if (LeftJoystick!.valueChanged) {
             LeftJoystick!.valueChanged = false
@@ -87,12 +79,8 @@ class InGameScene: SKScene {
         }
             for i in nonMapNodes.children {
                 if let spriteNode = i as? Projectile{
-                    if (spriteNode.distanceTraveled > spriteNode.range) {
-                        spriteNode.removeFromParent()
-                    }
-                    else {
-                        spriteNode.physicsBody!.velocity = spriteNode.relVelocity + nonSelfNodes.physicsBody!.velocity
-                    }
+                    spriteNode.updateVelocity()
+                    spriteNode.rangeCheck()
                 }
                 
             }

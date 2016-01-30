@@ -21,7 +21,7 @@ struct Stats { //TODO: add base stat and current stat definitions
 }
 
 
-enum StatTypes {
+enum StatTypes { // this may be unnecessary
     case health
     case defense
     case attack
@@ -79,13 +79,13 @@ class ThisCharacter: Entity {
     var velocity:CGVector?
         {
         get {
-            return CGVector(dx: 5*LeftJoystick!.dx, dy: 5*LeftJoystick!.dy) //TODO: item modifies speed
+            return CGVector(dx: 5*LeftJoystick!.displacement.dx, dy: 5*LeftJoystick!.displacement.dy) //TODO: item modifies speed
         }
     }
     
     /////////////
     
-    var absoluteLoc:CGPoint? { // guaranteed to be correct, unless server returns different value
+    var absoluteLoc:CGPoint? {
         set {
             nonSelfNodes.position = GameLogic.calculateMapPosition(newValue!)
         }
@@ -131,7 +131,6 @@ class ThisCharacter: Entity {
     //ITEM HANDLER METHODS
     func consumeItem(c:Consumable)
     {
-        //inform the server
         //perform stat changes
     }
     
@@ -167,7 +166,7 @@ class ThisCharacter: Entity {
     ///////////////////
     //Projectile Methods
     @objc func fireProjectile() {
-        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.dx, dy: 5*RightJoystick!.dy))
+        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy))
         nonMapNodes.addChild(newProjectile)
     }
     
@@ -183,6 +182,17 @@ class ThisCharacter: Entity {
                 projectileTimer!.invalidate()
             }
         }
+    }
+    func updateProjectileState() {
+        if (RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
+        {
+            self.attachProjectileCreator(true)
+        }
+        else if (RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
+        {
+            self.attachProjectileCreator(false)
+        }
+
     }
     ///////////////////
 }

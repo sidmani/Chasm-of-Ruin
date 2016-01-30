@@ -10,8 +10,8 @@ import UIKit
 import SpriteKit
 
 class JoystickControl:UIControl{
-    var ringView:UIView
-    var stickView:UIView
+    let ringView:UIView = UIView()
+    let stickView:UIView = UIView()
     let ring_size: CGFloat = 25
     let center_offset:CGFloat = 50
     
@@ -29,14 +29,13 @@ class JoystickControl:UIControl{
             return min(distance, ring_size)
         }
     }
-    var dx:CGFloat = 0
-    var dy:CGFloat = 0
+    var displacement:CGVector {
+        return CGVectorMake(stickView.center.x, -1*stickView.center.y)
+    }
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
         let ringLayer = CAShapeLayer()
         let stickLayer = CAShapeLayer()
-        ringView = UIView()
-        stickView = UIView()
         
         super.init(coder: aDecoder)
         
@@ -76,8 +75,6 @@ class JoystickControl:UIControl{
                 let _angle = angle
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle))) //this can be optimized further
             }
-            dx = stickView.center.x
-            dy = -1*stickView.center.y
             valueChanged = true
         }
     }
@@ -97,8 +94,6 @@ class JoystickControl:UIControl{
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle)))
             }
             self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
-            dx = stickView.center.x
-            dy = -1*stickView.center.y
             valueChanged = true
 
         }
@@ -106,8 +101,6 @@ class JoystickControl:UIControl{
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touches.first != nil) {
-            dx = 0
-            dy = 0
             stickView.center = CGPoint(x: 0, y: 0)
             currentPoint = CGPoint(x:0, y:0)
             distance = 0
