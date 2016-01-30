@@ -19,6 +19,7 @@ var selfNodes = SKNode()
 class InGameScene: SKScene {
     var currFrame:Int = 0
     override func didMoveToView(view: SKView) {
+
         self.physicsWorld.gravity = CGVectorMake(0,0)
         currentMap = Map(mapName: "Map1") //load map
         mapNodes.addChild(currentMap!)

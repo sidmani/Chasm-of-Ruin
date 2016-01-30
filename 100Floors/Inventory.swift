@@ -37,7 +37,6 @@ class Inventory {
             inventory.removeAtIndex(atIndex)
             return item
         }
-        //TODO: add throw here
         return nil
     }
     func discardItem(atIndex:Int) -> Item?

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0CC8BD1C5324EF00C26E12 /* Map2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1F0CC8BC1C5324EF00C26E12 /* Map2.tmx */; };
+		1F0CC8BF1C53367600C26E12 /* map3.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1F0CC8BE1C53367600C26E12 /* map3.tmx */; };
 		1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */; };
 		1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */; };
 		1F2CEE0F1C387B1F00E4FB2E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */; };
@@ -17,27 +19,7 @@
 		1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */; };
 		1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */; };
 		1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B2D1C3A33D30069D04D /* Projectile.swift */; };
-		1F304B301C3B16E20069D04D /* ServerInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */; };
-		1F304BA61C3B2F950069D04D /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B7C1C3B2F950069D04D /* SocketAckEmitter.swift */; };
-		1F304BA71C3B2F950069D04D /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B7D1C3B2F950069D04D /* SocketAckManager.swift */; };
-		1F304BA81C3B2F950069D04D /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B7E1C3B2F950069D04D /* SocketAnyEvent.swift */; };
-		1F304BA91C3B2F950069D04D /* SocketClientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B7F1C3B2F950069D04D /* SocketClientSpec.swift */; };
-		1F304BAA1C3B2F950069D04D /* SocketEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B801C3B2F950069D04D /* SocketEngine.swift */; };
-		1F304BAB1C3B2F950069D04D /* SocketEngineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B811C3B2F950069D04D /* SocketEngineClient.swift */; };
-		1F304BAC1C3B2F950069D04D /* SocketEnginePacketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B821C3B2F950069D04D /* SocketEnginePacketType.swift */; };
-		1F304BAD1C3B2F950069D04D /* SocketEngineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B831C3B2F950069D04D /* SocketEngineSpec.swift */; };
-		1F304BAE1C3B2F950069D04D /* SocketEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B841C3B2F950069D04D /* SocketEventHandler.swift */; };
-		1F304BAF1C3B2F950069D04D /* SocketFixUTF8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B851C3B2F950069D04D /* SocketFixUTF8.swift */; };
-		1F304BB01C3B2F950069D04D /* SocketIOClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B861C3B2F950069D04D /* SocketIOClient.swift */; };
-		1F304BB11C3B2F950069D04D /* SocketIOClientOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B871C3B2F950069D04D /* SocketIOClientOption.swift */; };
-		1F304BB21C3B2F950069D04D /* SocketIOClientStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B881C3B2F950069D04D /* SocketIOClientStatus.swift */; };
-		1F304BB31C3B2F950069D04D /* SocketLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B891C3B2F950069D04D /* SocketLogger.swift */; };
-		1F304BB41C3B2F950069D04D /* SocketPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8A1C3B2F950069D04D /* SocketPacket.swift */; };
-		1F304BB51C3B2F950069D04D /* SocketParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8B1C3B2F950069D04D /* SocketParsable.swift */; };
-		1F304BB61C3B2F950069D04D /* SocketStringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8C1C3B2F950069D04D /* SocketStringReader.swift */; };
-		1F304BB71C3B2F950069D04D /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8D1C3B2F950069D04D /* SocketTypes.swift */; };
-		1F304BB81C3B2F950069D04D /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */; };
-		1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B8F1C3B2F950069D04D /* WebSocket.swift */; };
+		1F4686151C5C50AD004D3F55 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4686141C5C50AD004D3F55 /* Level.swift */; };
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F48547C1C4192EF008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F48547B1C4192EF008DDC8F /* Global.swift */; };
 		1F4A47A81C4B426000813143 /* Map.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A47A71C4B426000813143 /* Map.atlas */; };
@@ -74,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F0CC8BC1C5324EF00C26E12 /* Map2.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Map2.tmx; path = Resources/Map2.tmx; sourceTree = "<group>"; };
+		1F0CC8BE1C53367600C26E12 /* map3.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map3.tmx; path = Resources/map3.tmx; sourceTree = "<group>"; };
 		1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -85,27 +69,7 @@
 		1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InGameViewController.swift; path = ../InGameViewController.swift; sourceTree = "<group>"; };
 		1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickControl.swift; sourceTree = "<group>"; };
 		1F304B2D1C3A33D30069D04D /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Projectile.swift; path = ../Projectile.swift; sourceTree = "<group>"; };
-		1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerInteraction.swift; sourceTree = "<group>"; };
-		1F304B7C1C3B2F950069D04D /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
-		1F304B7D1C3B2F950069D04D /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
-		1F304B7E1C3B2F950069D04D /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
-		1F304B7F1C3B2F950069D04D /* SocketClientSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketClientSpec.swift; sourceTree = "<group>"; };
-		1F304B801C3B2F950069D04D /* SocketEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngine.swift; sourceTree = "<group>"; };
-		1F304B811C3B2F950069D04D /* SocketEngineClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineClient.swift; sourceTree = "<group>"; };
-		1F304B821C3B2F950069D04D /* SocketEnginePacketType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEnginePacketType.swift; sourceTree = "<group>"; };
-		1F304B831C3B2F950069D04D /* SocketEngineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineSpec.swift; sourceTree = "<group>"; };
-		1F304B841C3B2F950069D04D /* SocketEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEventHandler.swift; sourceTree = "<group>"; };
-		1F304B851C3B2F950069D04D /* SocketFixUTF8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketFixUTF8.swift; sourceTree = "<group>"; };
-		1F304B861C3B2F950069D04D /* SocketIOClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClient.swift; sourceTree = "<group>"; };
-		1F304B871C3B2F950069D04D /* SocketIOClientOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClientOption.swift; sourceTree = "<group>"; };
-		1F304B881C3B2F950069D04D /* SocketIOClientStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClientStatus.swift; sourceTree = "<group>"; };
-		1F304B891C3B2F950069D04D /* SocketLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketLogger.swift; sourceTree = "<group>"; };
-		1F304B8A1C3B2F950069D04D /* SocketPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketPacket.swift; sourceTree = "<group>"; };
-		1F304B8B1C3B2F950069D04D /* SocketParsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketParsable.swift; sourceTree = "<group>"; };
-		1F304B8C1C3B2F950069D04D /* SocketStringReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketStringReader.swift; sourceTree = "<group>"; };
-		1F304B8D1C3B2F950069D04D /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
-		1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
-		1F304B8F1C3B2F950069D04D /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		1F4686141C5C50AD004D3F55 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F48547B1C4192EF008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		1F4A47A71C4B426000813143 /* Map.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Map.atlas; path = Resources/Map.atlas; sourceTree = "<group>"; };
@@ -186,41 +150,12 @@
 			children = (
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
-				1F4DB7C31C44A56B00887FBC /* Connectivity */,
 				1F3D79C41C4B1C700036C680 /* Game Logic */,
 				1F3D79C31C4B1C4B0036C680 /* Graphics */,
 				1F2CEE131C387B1F00E4FB2E /* Assets.xcassets */,
 				1F4A47AB1C4B514100813143 /* Resources */,
 			);
 			path = 100Floors;
-			sourceTree = "<group>";
-		};
-		1F304B7B1C3B2F950069D04D /* SocketIO */ = {
-			isa = PBXGroup;
-			children = (
-				1F304B7C1C3B2F950069D04D /* SocketAckEmitter.swift */,
-				1F304B7D1C3B2F950069D04D /* SocketAckManager.swift */,
-				1F304B7E1C3B2F950069D04D /* SocketAnyEvent.swift */,
-				1F304B7F1C3B2F950069D04D /* SocketClientSpec.swift */,
-				1F304B801C3B2F950069D04D /* SocketEngine.swift */,
-				1F304B811C3B2F950069D04D /* SocketEngineClient.swift */,
-				1F304B821C3B2F950069D04D /* SocketEnginePacketType.swift */,
-				1F304B831C3B2F950069D04D /* SocketEngineSpec.swift */,
-				1F304B841C3B2F950069D04D /* SocketEventHandler.swift */,
-				1F304B851C3B2F950069D04D /* SocketFixUTF8.swift */,
-				1F304B861C3B2F950069D04D /* SocketIOClient.swift */,
-				1F304B871C3B2F950069D04D /* SocketIOClientOption.swift */,
-				1F304B881C3B2F950069D04D /* SocketIOClientStatus.swift */,
-				1F304B891C3B2F950069D04D /* SocketLogger.swift */,
-				1F304B8A1C3B2F950069D04D /* SocketPacket.swift */,
-				1F304B8B1C3B2F950069D04D /* SocketParsable.swift */,
-				1F304B8C1C3B2F950069D04D /* SocketStringReader.swift */,
-				1F304B8D1C3B2F950069D04D /* SocketTypes.swift */,
-				1F304B8E1C3B2F950069D04D /* SwiftRegex.swift */,
-				1F304B8F1C3B2F950069D04D /* WebSocket.swift */,
-			);
-			name = SocketIO;
-			path = "socket.io-client-swift-master/Source";
 			sourceTree = "<group>";
 		};
 		1F3D79C21C4B1C3C0036C680 /* Scenes */ = {
@@ -247,6 +182,7 @@
 			children = (
 				1FD5EABD1C3F47A700634F47 /* EntityController.swift */,
 				1F5078371C3C9AEA00EC773E /* Entity.swift */,
+				1F4686141C5C50AD004D3F55 /* Level.swift */,
 				1F304B2D1C3A33D30069D04D /* Projectile.swift */,
 				1FCE14C11C46080600112188 /* Inventory.swift */,
 				1FD5EABF1C3F80EB00634F47 /* Classes.swift */,
@@ -272,6 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				1F4A47A91C4B42BF00813143 /* Map1.tmx */,
+				1F0CC8BC1C5324EF00C26E12 /* Map2.tmx */,
+				1F0CC8BE1C53367600C26E12 /* map3.tmx */,
 			);
 			name = Maps;
 			sourceTree = "<group>";
@@ -299,15 +237,6 @@
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 			);
 			name = Interface;
-			sourceTree = "<group>";
-		};
-		1F4DB7C31C44A56B00887FBC /* Connectivity */ = {
-			isa = PBXGroup;
-			children = (
-				1F304B7B1C3B2F950069D04D /* SocketIO */,
-				1F304B2F1C3B16E20069D04D /* ServerInteraction.swift */,
-			);
-			name = Connectivity;
 			sourceTree = "<group>";
 		};
 		1F56B97C1C4AEC8D0098380D /* SKAToolKit */ = {
@@ -480,9 +409,11 @@
 				1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */,
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
 				1F4A47A81C4B426000813143 /* Map.atlas in Resources */,
+				1F0CC8BF1C53367600C26E12 /* map3.tmx in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
 				1F4A47AA1C4B42BF00813143 /* Map1.tmx in Resources */,
 				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
+				1F0CC8BD1C5324EF00C26E12 /* Map2.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,10 +440,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F304BB81C3B2F950069D04D /* SwiftRegex.swift in Sources */,
 				1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */,
 				1FCE14BE1C45F02100112188 /* Item.swift in Sources */,
-				1F304BAB1C3B2F950069D04D /* SocketEngineClient.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */,
 				1F56B9AC1C4AEC8D0098380D /* SKATestPlayer.m in Sources */,
 				1F56B9AE1C4AEC8D0098380D /* SKACollisionDefine.m in Sources */,
@@ -524,47 +453,29 @@
 				1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */,
 				1F56B9581C4AB7140098380D /* Map.swift in Sources */,
 				1F56B9B01C4AEC8D0098380D /* SKAObjectLayer.m in Sources */,
-				1F304B301C3B16E20069D04D /* ServerInteraction.swift in Sources */,
 				1F56B9A81C4AEC8D0098380D /* SKACroppedMiniMap.m in Sources */,
 				1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */,
-				1F304BB01C3B2F950069D04D /* SocketIOClient.swift in Sources */,
 				1F56B9A71C4AEC8D0098380D /* SKAButtonSprite.m in Sources */,
 				1F56B9541C4A00CE0098380D /* MenuButton.swift in Sources */,
-				1F304BA61C3B2F950069D04D /* SocketAckEmitter.swift in Sources */,
-				1F304BAA1C3B2F950069D04D /* SocketEngine.swift in Sources */,
 				1F48547C1C4192EF008DDC8F /* Global.swift in Sources */,
-				1F304BB71C3B2F950069D04D /* SocketTypes.swift in Sources */,
 				1FDD42791C4DBEEF008C809E /* ItemDefinitions.swift in Sources */,
-				1F304BB91C3B2F950069D04D /* WebSocket.swift in Sources */,
-				1F304BB61C3B2F950069D04D /* SocketStringReader.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,
 				1FD5EAC01C3F80EB00634F47 /* Classes.swift in Sources */,
 				1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */,
-				1F304BAE1C3B2F950069D04D /* SocketEventHandler.swift in Sources */,
-				1F304BB41C3B2F950069D04D /* SocketPacket.swift in Sources */,
-				1F304BAD1C3B2F950069D04D /* SocketEngineSpec.swift in Sources */,
 				1F56B9A91C4AEC8D0098380D /* SKALabelNode.m in Sources */,
 				1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */,
 				1F56B9B31C4AEC8D0098380D /* SKATiledMap.m in Sources */,
 				1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */,
-				1F304BA91C3B2F950069D04D /* SocketClientSpec.swift in Sources */,
-				1F304BB31C3B2F950069D04D /* SocketLogger.swift in Sources */,
-				1F304BAF1C3B2F950069D04D /* SocketFixUTF8.swift in Sources */,
-				1F304BA71C3B2F950069D04D /* SocketAckManager.swift in Sources */,
 				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
-				1F304BB11C3B2F950069D04D /* SocketIOClientOption.swift in Sources */,
 				1FCE14C21C46080600112188 /* Inventory.swift in Sources */,
 				1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */,
 				1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */,
+				1F4686151C5C50AD004D3F55 /* Level.swift in Sources */,
 				1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */,
 				1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */,
-				1F304BB21C3B2F950069D04D /* SocketIOClientStatus.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
-				1F304BA81C3B2F950069D04D /* SocketAnyEvent.swift in Sources */,
 				1F56B9AA1C4AEC8D0098380D /* SKAMiniMap.m in Sources */,
 				1F56B9AB1C4AEC8D0098380D /* SKATestHud.m in Sources */,
-				1F304BAC1C3B2F950069D04D /* SocketEnginePacketType.swift in Sources */,
-				1F304BB51C3B2F950069D04D /* SocketParsable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,7 +543,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				"Texture Atlas Format" = RGBA5551_COMPRESSED;
+				"Texture Atlas Format" = RGBA4444_COMPRESSED;
 				"Texture Atlas Maximum Size" = 2048x2048;
 			};
 			name = Debug;
@@ -671,7 +582,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				"Texture Atlas Format" = RGBA5551_COMPRESSED;
+				"Texture Atlas Format" = RGBA4444_COMPRESSED;
 				"Texture Atlas Maximum Size" = 2048x2048;
 				VALIDATE_PRODUCT = YES;
 			};

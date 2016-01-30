@@ -16,7 +16,6 @@ class GameLogic {
         
     }
     static func getThisCharacter() -> ThisCharacter {
-        // Get data from server
         // construct character
         let out = ThisCharacter(_class: Wizard, _ID: "test")
         out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
@@ -35,7 +34,7 @@ class GameLogic {
         return point
     }
     
-    static func getPlayerPosition() -> CGPoint? { //get from server, do some comparison with device
+    static func getPlayerPosition() -> CGPoint? { 
         return nil
     }
     

@@ -107,10 +107,13 @@ class ThisCharacter: Entity {
     init(_class:CharClass, _ID: String) {
         charClass = _class
         super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed(charClass.img_base))
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.friction = 0
         self.physicsBody!.pinned = true
+        self.physicsBody!.categoryBitMask = thisPlayerMask
+        self.physicsBody!.contactTestBitMask = enemyProjectileMask | mapObjectMask
+        self.physicsBody!.collisionBitMask = 0x0
         absoluteLoc = CGPointMake(0, 0)
     }
 
@@ -183,19 +186,6 @@ class ThisCharacter: Entity {
     }
     ///////////////////
 }
-
-
-
-
-
-class OtherCharacter:Entity {
-   // var charClass:CharClass
-   // init(_class:CharClass, _ID:String) {
-   //     charClass = _class
-   //     super.init(_ID: _ID)
-   // }
-}
-
 
 
 

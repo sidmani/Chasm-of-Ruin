@@ -8,16 +8,27 @@
 import UIKit
 
 //Constants
+//Screen/Map constants
 let screenSize: CGRect = UIScreen.mainScreen().bounds
 let screenCenter:CGPoint = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
 let tileEdge:CGFloat = 16
 let mapTilesWidth:Int = Int(screenSize.width/(tileEdge))
 let mapTilesHeight:Int = Int(screenSize.height/(tileEdge))
 let mapCenterLoc:CGPoint = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
-let inventory_size = 8 // TODO: fix this (get from server, IAP)
+//Game logic constants
+let inventory_size = 8 // TODO: fix this (IAP)
+//Gameplay constants
 var move_sensitivity:Int8 = 0
 var rotate_sensitivity:Int8 = 0
+
 let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later
+///////////
+//Physics bitmasks
+let friendlyProjectileMask : UInt32 = 0x0<<1
+let thisPlayerMask: UInt32 = 0x0<<2
+let enemyMask: UInt32 = 0x0<<3
+let mapObjectMask:UInt32 = 0x0<<4
+let enemyProjectileMask:UInt32 = 0x0<<5
 
 //Operator overloads
 func +(left: CGPoint, right:CGPoint) -> CGPoint {
@@ -41,16 +52,20 @@ infix operator %% {}
 func %%(left: Int, right: Int) -> Bool {
     return left % right == 0
 }
+
 prefix operator ~ {}
+
 prefix func ~ (vector:CGVector) -> CGVector
 {
     return CGVectorMake(-1*vector.dx, -1*vector.dy)
 }
+
 // test overloads
 func print(point:CGPoint)
 {
     print("(\(point.x),\(point.y))")
 }
+
 //UI controls
 var LeftJoystick:JoystickControl?
 var RightJoystick:JoystickControl?

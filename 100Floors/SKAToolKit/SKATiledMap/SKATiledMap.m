@@ -362,14 +362,13 @@
                         NSInteger x = (sprite.size.width / 2 - self.tileWidth / 2) + self.tileWidth / 2 + j * self.tileWidth;
                         NSInteger y = (sprite.size.height / 2 - self.tileHeight / 2) + self.tileHeight / 2 + i * self.tileHeight;
                         sprite.position = CGPointMake(x, y);
-
                         sprite.properties = mapTile.properties;
-
                         if([sprite.properties[@"SKACollisionType"]
                                isEqualToString:@"SKACollisionTypeRect"])
                         {
                             sprite.physicsBody = [SKPhysicsBody
                                 bodyWithRectangleOfSize:sprite.size];
+                            //sprite.physicsBody.pinned = YES;
                             sprite.physicsBody.dynamic = NO;
                             sprite.physicsBody.categoryBitMask = SKACategoryFloor;
                             sprite.physicsBody.contactTestBitMask = SKACategoryPlayer;
@@ -452,6 +451,7 @@
                     floorSprite.physicsBody = [SKPhysicsBody
                         bodyWithRectangleOfSize:floorSprite.size];
                     floorSprite.physicsBody.dynamic = NO;
+                    //floorSprite.physicsBody.pinned = YES;
                     floorSprite.physicsBody.categoryBitMask = SKACategoryFloor;
                     floorSprite.physicsBody.contactTestBitMask = SKACategoryPlayer;
                     [self addChild:floorSprite];
@@ -474,6 +474,7 @@
     self.spriteLayers = spriteLayers;
     self.objectLayers = objectLayers;
 }
+
 
 - (SKSpriteNode *)miniMapWithWidth:(NSInteger)width
 {

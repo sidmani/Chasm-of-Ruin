@@ -42,7 +42,7 @@ class MenuViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func joinButton(sender: UIButton) {
-        ServerInteraction.connect()
+
     }
    
 }

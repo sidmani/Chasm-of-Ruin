@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="Floor" tilewidth="64" tileheight="64" tilecount="2" columns="0">
+  <tile id="0">
+   <image width="16" height="16" source="Map.atlas/Floor155.png"/>
+  </tile>
+  <tile id="1">
+   <image width="64" height="64" source="Map.atlas/floor155large.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKHj+4ceLIeCq6aqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv4DIkZOIQ==
+  </data>
+ </layer>
+</map>

@@ -8,7 +8,7 @@
 
 import SpriteKit
 class Projectile:SKSpriteNode{
-    var ID:String?
+    //var ID:String?
     
     var distanceTraveled:CGFloat {
         get{
@@ -38,6 +38,9 @@ class Projectile:SKSpriteNode{
         self.physicsBody!.friction = 0
         self.physicsBody!.velocity = withVelocity
         self.physicsBody!.affectedByGravity = false
+        self.physicsBody!.categoryBitMask = friendlyProjectileMask
+        self.physicsBody!.contactTestBitMask = 0x0 << 0
+        self.physicsBody!.collisionBitMask = 0x0 << 0
         self.position = absoluteLoc
         self.zPosition = 4
         
