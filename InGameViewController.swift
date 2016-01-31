@@ -25,7 +25,7 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var EquipContainer3: ItemContainer!
     @IBOutlet weak var EquipContainer4: ItemContainer!
     
-    var scene: InGameScene!
+  //  var scene: InGameScene!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +71,9 @@ class InGameViewController: UIViewController {
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
-        scene = InGameScene(size:skView.bounds.size)
-        scene.scaleMode = .AspectFill
-        skView.presentScene(scene)
-
+        gameScene = InGameScene(size:skView.bounds.size)
+        gameScene.scaleMode = .AspectFill
+        skView.presentScene(gameScene)
     }
     
     

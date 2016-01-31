@@ -9,19 +9,19 @@ import SpriteKit
 
 //// data structs ////
 struct Stats { //TODO: add base stat and current stat definitions
-    var health:Int    // Health
-    var defense:Int   // Defense (% projectile is weakened by)
-    var attack:Int    // Attack (% own projectile is strengthened by)
-    var speed:Int     // Speed
-    var dexterity:Int // Dexterity (rate of projectile release)
-    var hunger:Int    // Hunger (decrease with time)
-    var level:Int     // Level (Overall boost to all stats)
-    var mana:Int      // Mana (used when casting spells)
-    var rage:Int      // Builds up over time, released when hunger/health are low (last resort kinda thing)
+    var health:CGFloat    // Health
+    var defense:CGFloat   // Defense (% projectile is weakened by)
+    var attack:CGFloat    // Attack (% own projectile is strengthened by)
+    var speed:CGFloat     // Speed
+    var dexterity:CGFloat // Dexterity (rate of projectile release)
+    var hunger:CGFloat    // Hunger (decrease with time)
+    var level:CGFloat     // Level (Overall boost to all stats)
+    var mana:CGFloat      // Mana (used when casting spells)
+    var rage:CGFloat      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
 
 
-enum StatTypes { // this may be unnecessary
+/*enum StatTypes {
     case health
     case defense
     case attack
@@ -31,7 +31,7 @@ enum StatTypes { // this may be unnecessary
     case level
     case mana
     case rage
-}
+}*/
 
 struct EquippedItems {
     var shield:Shield?
@@ -73,13 +73,14 @@ class ThisCharacter: Entity {
     //convenience variables
     var currentProjectile:ProjectileDefinition {
         get{
-            return equipped.weapon!.projectile! //set weapon based on item
+            return equipped.weapon!.projectile //set weapon based on item
         }
     }
     var velocity:CGVector?
-        {
+    {
         get {
-            return CGVector(dx: 5*LeftJoystick!.displacement.dx, dy: 5*LeftJoystick!.displacement.dy) //TODO: item modifies speed
+            return CGVector(dx: 5*LeftJoystick!.displacement.dx, dy: 5*LeftJoystick!.displacement.dy)
+            //return CGVector(dx: 5*stats.speed*LeftJoystick!.displacement.dx, dy: 5*stats.speed*LeftJoystick!.displacement.dy)
         }
     }
     
@@ -87,7 +88,7 @@ class ThisCharacter: Entity {
     
     var absoluteLoc:CGPoint? {
         set {
-            nonSelfNodes.position = GameLogic.calculateMapPosition(newValue!)
+            gameScene.nonCharNodes.position = GameLogic.calculateMapPosition(newValue!)
         }
         get {
             return GameLogic.calculateRelativePosition(self)
@@ -166,8 +167,9 @@ class ThisCharacter: Entity {
     ///////////////////
     //Projectile Methods
     @objc func fireProjectile() {
-        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy))
-        nonMapNodes.addChild(newProjectile)
+        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
+        gameScene.addProjectile(newProjectile)
+     //   gameScene.projectiles.addChild(newProjectile)
     }
     
     func attachProjectileCreator(enable:Bool) {
@@ -183,6 +185,9 @@ class ThisCharacter: Entity {
             }
         }
     }
+    //////////////////
+    //Update methods
+    
     func updateProjectileState() {
         if (RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
         {
@@ -193,6 +198,9 @@ class ThisCharacter: Entity {
             self.attachProjectileCreator(false)
         }
 
+    }
+    func update() {
+        updateProjectileState()
     }
     ///////////////////
 }

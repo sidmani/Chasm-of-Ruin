@@ -33,12 +33,12 @@ class Consumable: Item {
 }
 
 class Weapon: Item {
-    var projectile:ProjectileDefinition?
+    var projectile:ProjectileDefinition
     //TODO: some sort of special effect when rage hits max
     init(definition:WeaponDefinition)
     {
-        super.init(stats: definition.statMods)
         projectile = definition.projectile
+        super.init(stats: definition.statMods)
     }
 }
 
@@ -57,7 +57,7 @@ class Shield: Item {
 }
 
 class Enhancer: Item {
-    var permanent:Bool?
+    var permanent:Bool = false
     
     init(definition:EnhancerDefinition)
     {

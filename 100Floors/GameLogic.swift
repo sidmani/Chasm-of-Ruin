@@ -10,11 +10,49 @@ import SpriteKit
 
 var thisCharacter = GameLogic.getThisCharacter()
 var currentMap:Map?
+var gameScene: InGameScene!
 
 class GameLogic {
-    static func setup() {
+    
+    static func runGame() {
+        //for each level in the game, load level
+        //wait for level to be completed
+        //go to next level
+    }
+    
+    static func update() {
+        thisCharacter.update()
+        let newVelocity = ~thisCharacter.velocity!
+        gameScene.nonCharNodes.physicsBody!.velocity = newVelocity
+        updateProjectiles(LeftJoystick!.valueChanged, newVelocity: newVelocity)
+        //updateEnemies(LeftJoystick!.valueChanged)
+        //update velocity of everything else
+        LeftJoystick!.valueChanged = false
+
+    }
+    
+    static func updateNonCharNodes(velocityChanged:Bool) {
         
     }
+    
+    static func updateProjectiles(velocityChanged:Bool, newVelocity: CGVector) {
+        for node in gameScene.projectiles.children {
+            if let projectile = node as? Projectile {
+            projectile.update(velocityChanged, newVelocity: newVelocity)
+            }
+        }
+
+    }
+    static func updateEnemies(velocityChanged:Bool) {
+        for node in gameScene.enemies.children {
+            if let enemy = node as? Enemy {
+                //enemy.update(velocityChanged)
+            }
+        }
+    }
+    
+    
+    ////Utility
     static func getThisCharacter() -> ThisCharacter {
         // construct character
         let out = ThisCharacter(_class: Wizard, _ID: "test")
@@ -30,8 +68,7 @@ class GameLogic {
     }
     
     static func calculateRelativePosition(node:SKNode) -> CGPoint {
-        let point = currentMap!.convertPoint(currentMap!.position, fromNode: node)
-        return point
+        return currentMap!.convertPoint(currentMap!.position, fromNode: node)
     }
     
     static func getPlayerPosition() -> CGPoint? { 
