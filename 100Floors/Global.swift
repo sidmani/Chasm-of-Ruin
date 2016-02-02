@@ -49,7 +49,13 @@ func +(left: Stats, right:Stats) -> Stats { // add Stats together
 func +(left:CGVector, right:CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
 }
+func >(left:CGPoint, right:CGPoint) -> Bool {
+    return (left.x > right.x && left.y > right.y)
+}
 
+func <(left:CGPoint, right:CGPoint) -> Bool {
+    return (left.x < right.x && left.y < right.y)
+}
 infix operator %% {}
 
 func %%(left: Int, right: Int) -> Bool {

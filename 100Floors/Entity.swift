@@ -169,7 +169,6 @@ class ThisCharacter: Entity {
     @objc func fireProjectile() {
         let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
         gameScene.addProjectile(newProjectile)
-     //   gameScene.projectiles.addChild(newProjectile)
     }
     
     func attachProjectileCreator(enable:Bool) {

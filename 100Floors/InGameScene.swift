@@ -23,7 +23,8 @@ class InGameScene: SKScene {
     override func didMoveToView(view: SKView) {
 
         self.physicsWorld.gravity = CGVectorMake(0,0)
-        currentMap = Map(mapName: "Map1") //load map
+        //currentMap = Map(mapName: "Map") //load map
+        currentMap = TileMap()
         map.addChild(currentMap!)
         map.zPosition = 0
     
@@ -64,11 +65,12 @@ class InGameScene: SKScene {
     ////////
     override func update(currentTime: CFTimeInterval) {
         //cull unnecessary tiles
-        let mapLoc = currentMap!.indexForPoint(nonCharNodes.position)
-        let newLoc = mapCenterLoc-mapLoc
-        currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth+4, rowHeight: mapTilesHeight+3)
+      //  let mapLoc = currentMap!.indexForPoint(nonCharNodes.position)
+       // let newLoc = mapCenterLoc-mapLoc
+       // currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth+4, rowHeight: mapTilesHeight+3)
         //////////////
         GameLogic.update()
+        currentMap!.update()
         //////////////
 
     }

@@ -49,7 +49,7 @@ class Projectile:SKSpriteNode{
         self.physicsBody!.contactTestBitMask = 0x0 << 0
         self.physicsBody!.collisionBitMask = 0x0 << 0
         self.position = startLoc
-        self.zPosition = 4
+        self.zPosition = 4 //TODO: standardize layering
         
     }
 
@@ -74,8 +74,5 @@ class Projectile:SKSpriteNode{
     }
     func updateVelocity(newVelocity:CGVector) {
         self.physicsBody!.velocity = self.relVelocity + newVelocity
-    }
-    func destroy() { //call when range is exceeded
-        
     }
 }

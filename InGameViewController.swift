@@ -70,6 +70,7 @@ class InGameViewController: UIViewController {
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
+        skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
         gameScene = InGameScene(size:skView.bounds.size)
         gameScene.scaleMode = .AspectFill
