@@ -23,7 +23,9 @@ class Map:SKATiledMap {
 }
 
 class TileMap:SKNode {
-    
+    var tileWidth:CGFloat = 32
+    var screenTileHeight:Int
+    var screenTileWidth:Int
     var allNodes = [[SKSpriteNode]]()
     var leftEdgeIndex:Int = 0 {
         willSet {
@@ -42,25 +44,18 @@ class TileMap:SKNode {
         }
     }
     
-    var rightEdgeIndex:Int {
-        get {
-            return leftEdgeIndex + Int(screenSize.width/tileWidth)
-        }
-    }
-    var topEdgeIndex:Int {
-        get {
-            return bottomEdgeIndex + Int(screenSize.height/tileWidth)
-        }
-    }
+    var rightEdgeIndex:Int = 0
+    var topEdgeIndex:Int  = 0
    
     // var bottomEdgeIndexChanged = true
     // var leftEdgeIndexChanged = true
     var bottomEdgeIndexOld:Int = 0
     var leftEdgeIndexOld:Int = 0
-    
-    var tileWidth:CGFloat = 16
+
     
     override init() {
+        screenTileHeight = Int(screenSize.height/tileWidth)
+        screenTileWidth = Int(screenSize.width/tileWidth)
         let texture:SKTexture = SKTextureAtlas(named: "Map").textureNamed("Floor155")
         texture.filteringMode = SKTextureFilteringMode.Nearest
         super.init()
@@ -81,28 +76,63 @@ class TileMap:SKNode {
         let absLoc = self.convertPoint(CGPointMake(0, 0), toNode: gameScene) + CGPointMake(tileWidth, tileWidth)
         leftEdgeIndex = Int(ceil(absLoc.x / tileWidth)*(-1))
         bottomEdgeIndex = Int(ceil(absLoc.y / tileWidth)*(-1))
-        //topEdgeIndex = bottomEdgeIndex + Int(screenSize.height/tileWidth)
-        //rightEdgeIndex = leftEdgeIndex + Int(screenSize.width/tileWidth)
-        //print("left edge = \(leftEdgeIndex) | bottom edge = \(bottomEdgeIndex)")
+        topEdgeIndex = bottomEdgeIndex + screenTileHeight
+        rightEdgeIndex = leftEdgeIndex + screenTileWidth
+         print("left edge = \(leftEdgeIndex) | bottom edge = \(bottomEdgeIndex)")
         /////
         if (bottomEdgeIndexOld > bottomEdgeIndex && bottomEdgeIndex > 0) {
             for i in bottomEdgeIndex...bottomEdgeIndexOld {
                 for node in allNodes[i] {
-                    if (node.parent != nil) {
-                    node.removeFromParent()
+                    if (node.parent == nil) {
+                        self.addChild(node)
                     }
+                }
+                if (i+topEdgeIndex < 50) {
+                for node in allNodes[i+topEdgeIndex] {
+                    if (node.parent != nil) {
+                        node.removeFromParent()
+                    }
+                }
                 }
             }
         }
         else if (bottomEdgeIndex > bottomEdgeIndexOld && bottomEdgeIndex > 0) {
             for i in bottomEdgeIndexOld...bottomEdgeIndex {
                 for node in allNodes[i] {
+                    if (node.parent != nil) {
+                        node.removeFromParent()
+                    }
+                }
+                if (i+topEdgeIndex < 50) {
+
+                for node in allNodes[i+topEdgeIndex] {
+                    if (node.parent == nil) {
+                        self.addChild(node)
+                    }
+                }
+                }
+            }
+        }
+        //////
+      /*  if (leftEdgeIndexOld > leftEdgeIndex && leftEdgeIndex > 0) {
+            for i in leftEdgeIndex...leftEdgeIndexOld {
+                for node in allNodes[i] {
+                    if (node.parent != nil) {
+                        node.removeFromParent()
+                    }
+                }
+            }
+        }
+        else if (leftEdgeIndex > leftEdgeIndexOld && leftEdgeIndex > 0) {
+            for i in leftEdgeIndexOld...leftEdgeIndex {
+                for node in allNodes[i] {
                     if (node.parent == nil) {
                         self.addChild(node)
                     }
                 }
             }
-        }
+        }*/
+
     }
     func isOnScreen(node:SKNode) -> Bool {
         var point = node.convertPoint(node.position, toNode: thisCharacter)
