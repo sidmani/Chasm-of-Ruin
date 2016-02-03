@@ -9,7 +9,7 @@
 import SpriteKit
 
 var thisCharacter = GameLogic.getThisCharacter()
-var currentMap:TileMap?
+var currentMap:SKATiledMap?
 var gameScene: InGameScene!
 
 class GameLogic {

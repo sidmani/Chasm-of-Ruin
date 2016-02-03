@@ -22,7 +22,7 @@ class Map:SKATiledMap {
     
 }
 
-class TileMap:SKNode {
+/*class TileMap:SKNode {
     var tileWidth:CGFloat = 32
     var screenTileHeight:Int
     var screenTileWidth:Int
@@ -149,4 +149,4 @@ func abs(point:CGPoint) -> CGPoint {
 
 func /(right:CGPoint, left: CGFloat) -> CGPoint{
     return CGPointMake(floor(right.x / left), floor(right.y / left))
-}
+}*/

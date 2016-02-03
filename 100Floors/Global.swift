@@ -15,6 +15,7 @@ let tileEdge:CGFloat = 16
 let mapTilesWidth:Int = Int(screenSize.width/(tileEdge))
 let mapTilesHeight:Int = Int(screenSize.height/(tileEdge))
 let mapCenterLoc:CGPoint = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
+let mapEdgeLoc:CGPoint = CGPoint(x: mapTilesWidth, y: mapTilesHeight)
 //Game logic constants
 let inventory_size = 8 // TODO: fix this (IAP)
 //Gameplay constants

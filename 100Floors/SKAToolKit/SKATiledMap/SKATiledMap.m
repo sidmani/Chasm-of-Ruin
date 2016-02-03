@@ -375,7 +375,7 @@
                             sprite.zPosition = 20;
                         }
 
-                        [spriteLayer addChild:sprite];
+                        //[spriteLayer addChild:sprite];
 
                         if(!spriteLayer.visible)
                         {
@@ -475,7 +475,10 @@
     self.objectLayers = objectLayers;
 }
 
-
+- (void) updateMap
+{
+    
+}
 - (SKSpriteNode *)miniMapWithWidth:(NSInteger)width
 {
     SKTexture *texture = [self.scene.view textureFromNode:self];
@@ -681,112 +684,137 @@
 
     return [objectLayer objectsWithName:name];
 }
-
+- (CGPoint) constrainPointBottomLeft: (CGPoint) bottomLeftConstraint
+                            topRight: (CGPoint) topRightConstraint
+                            inputPoint: (CGPoint) input
+{
+    CGPoint output = CGPointMake(input.x, input.y);
+    if (input.x < bottomLeftConstraint.x) {
+        output.x = bottomLeftConstraint.x;
+    }
+    else if (input.x > topRightConstraint.x) {
+        output.x = topRightConstraint.x;
+    }
+    if (input.y < bottomLeftConstraint.y) {
+        output.y = bottomLeftConstraint.y;
+    }
+    else if (input.y > topRightConstraint.y) {
+        output.y = topRightConstraint.y;
+    }
+    return output;
+  
+}
 - (void)cullAroundIndexX:(NSInteger)x
                   indexY:(NSInteger)y
              columnWidth:(NSInteger)width
                rowHeight:(NSInteger)height
 {
-    // hide everything
-    if(!self.culledBefore)
-    {
-        for(NSInteger l = 0; l < self.spriteLayers.count; l++)
-        {
-            for(NSInteger x = 0; x < self.mapWidth - 1; x++)
-            {
-                for(NSInteger y = 0; y < self.mapHeight - 1; y++)
-                {
-                    SKASprite *sprite =
-                        [self spriteOnLayer:l
-                                     indexX:x
-                                     indexY:y];
-                    sprite.hidden = YES;
-                }
-            }
-        }
-    }
-
+    // only improves performance if you remove all invisible nodes, and then add all visible ones (in the beginning, before this method is ever called)
+    //this method basically assumes that you're moving across the map, not jumping from point to point. It will leave fragments if you change x and y randomly.
     // only update if something changed
     if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
     {
-        // hide sprites that were previsouly visible
-        for(SKASprite *sprite in self.visibleArray)
-        {
-            sprite.hidden = YES;
-        }
+        CGPoint bottomLeft = CGPointMake(0, 0);
+        CGPoint topRight = CGPointMake(self.mapWidth-1, self.mapHeight-1);
 
-        // calculate what to make visiable
-        self.visibleArray = [[NSMutableArray alloc] init];
-
-        NSInteger startingX = x - width / 2;
-        NSInteger startingY = y - height / 2;
-        NSInteger endingX = startingX + width;
-        NSInteger endingY = startingY + height;
-
-        if(startingX < 0)
-        {
-            startingX = 0;
-
-            endingX = width;
-        }
-
-        if(startingY < 0)
-        {
-            startingY = 0;
-
-            endingY = height;
-        }
-
-        if(endingX > self.mapWidth - 1)
-        {
-            endingX = self.mapWidth - 1;
-
-            startingX = endingX - width;
-        }
-
-        if(endingY > self.mapHeight - 1)
-        {
-            endingY = self.mapHeight - 1;
-
-            startingY = endingY - height;
-        }
-
-        if(startingX < 0)
-        {
-            startingX = 0;
-        }
-
-        if(startingY < 0)
-        {
-            startingY = 0;
-        }
-
-        if(endingX < 0)
-        {
-            endingX = 0;
-        }
-
-        if(endingY < 0)
-        {
-            endingY = 0;
-        }
-
-        for(NSInteger l = 0; l < self.spriteLayers.count; l++)
-        {
-            for(NSInteger x = startingX; x < endingX; x++)
-            {
-                for(NSInteger y = startingY; y < endingY; y++)
-                {
-                    SKASprite *sprite =
-                        [self spriteOnLayer:l
-                                     indexX:x
-                                     indexY:y];
-                    sprite.hidden = NO;
-
-                    if(sprite)
+        CGPoint leftEdgeIndex = [self constrainPointBottomLeft:bottomLeft topRight:topRight inputPoint:CGPointMake(x, y)]; //bottom left corner of visible area
+        CGPoint rightEdgeIndex = [self constrainPointBottomLeft:bottomLeft topRight:topRight inputPoint:CGPointMake(x+width, y+height)]; //top right corner of visible area
+        CGPoint leftEdgeIndexOld = [self constrainPointBottomLeft:bottomLeft topRight:topRight inputPoint:CGPointMake(self.lastX, self.lastY)]; //previous values of above
+        CGPoint rightEdgeIndexOld = [self constrainPointBottomLeft:bottomLeft topRight:topRight inputPoint: CGPointMake(self.lastX + self.lastWidth, self.lastY + self.lastHeight)];
+        //remove rows/columns that have moved out of visible area
+        //add rows/columns that have moved into visible area
+        
+        if (leftEdgeIndex.x > leftEdgeIndexOld.x) {
+            for (int i = leftEdgeIndexOld.x; i < leftEdgeIndex.x; i++) {
+                for (int k = leftEdgeIndexOld.y; k < rightEdgeIndexOld.y; k++) {
+                    //remove sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    [sprite removeFromParent];
+                }
+            }
+            for (int i = rightEdgeIndexOld.x; i < rightEdgeIndex.x; i++) {
+                for (int k = leftEdgeIndex.y; k < rightEdgeIndex.y; k++) {
+                    //add sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    if (sprite.parent == nil)
                     {
-                        [self.visibleArray addObject:sprite];
+                    [self addChild:sprite];
                     }
+                }
+            }
+        }
+        else if (leftEdgeIndexOld.x > leftEdgeIndex.x) {
+            for (int i = leftEdgeIndex.x; i < leftEdgeIndexOld.x; i++) {
+                for (int k = leftEdgeIndex.y; k < rightEdgeIndex.y; k++) {
+                    //add sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    if (sprite.parent == nil)
+                    {
+                    [self addChild:sprite];
+                    }
+
+                }
+            }
+            for (int i = rightEdgeIndex.x; i < rightEdgeIndexOld.x; i++) {
+                for (int k = leftEdgeIndexOld.y; k < rightEdgeIndexOld.y; k++) {
+                    //remove sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    [sprite removeFromParent];
+                }
+            }
+        }
+        if (leftEdgeIndex.y > leftEdgeIndexOld.y) {
+            for (int i = leftEdgeIndex.x; i < rightEdgeIndexOld.x; i++) {
+                for (int k = leftEdgeIndexOld.y; k < leftEdgeIndex.y; k++) {
+                    //remove sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    [sprite removeFromParent];
+                }
+            }
+            for (int i = leftEdgeIndex.x; i < rightEdgeIndexOld.x; i++) {
+                for (int k = rightEdgeIndexOld.y; k < rightEdgeIndex.y; k++) {
+                    //add sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    if (sprite.parent == nil)
+                    {
+                    [self addChild:sprite];
+                    }
+
+                }
+            }
+        }
+        else if (leftEdgeIndexOld.y > leftEdgeIndex.y) {
+            for (int i = leftEdgeIndexOld.x; i < rightEdgeIndex.x; i++) {
+                for (int k = leftEdgeIndex.y; k < leftEdgeIndexOld.y; k++) {
+                    //add sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    if (sprite.parent == nil)
+                    {
+                    [self addChild:sprite];
+                    }
+                }
+            }
+            for (int i = leftEdgeIndexOld.x; i < rightEdgeIndex.x; i++) {
+                for (int k = rightEdgeIndex.y; k < rightEdgeIndexOld.y; k++) {
+                    //remove sprite at location i,k
+                    SKASprite *sprite = [self spriteOnLayer:0
+                                                     indexX:i
+                                                     indexY:k];
+                    [sprite removeFromParent];
                 }
             }
         }
@@ -797,7 +825,6 @@
     self.lastWidth = width;
     self.lastHeight = height;
 
-    self.culledBefore = YES;
 }
 
 @end
