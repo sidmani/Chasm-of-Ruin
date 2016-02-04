@@ -376,7 +376,7 @@
                         }
 
                         //[spriteLayer addChild:sprite];
-
+                        
                         if(!spriteLayer.visible)
                         {
                             sprite.hidden = YES;
@@ -704,7 +704,8 @@
     return output;
   
 }
-- (void)cullAroundIndexX:(NSInteger)x
+
+/*- (void)cullAroundIndexX:(NSInteger)x
                   indexY:(NSInteger)y
              columnWidth:(NSInteger)width
                rowHeight:(NSInteger)height
@@ -714,6 +715,12 @@
     // only update if something changed
     if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
     {
+        for(SKASprite *sprite in self.visibleArray)
+        {
+            [sprite removeFromParent];
+        }
+        self.visibleArray = [[NSMutableArray alloc] init];
+
         CGPoint bottomLeft = CGPointMake(0, 0);
         CGPoint topRight = CGPointMake(self.mapWidth-1, self.mapHeight-1);
 
@@ -743,6 +750,7 @@
                     if (sprite.parent == nil)
                     {
                     [self addChild:sprite];
+                    [self.visibleArray addObject:sprite];
                     }
                 }
             }
@@ -757,6 +765,8 @@
                     if (sprite.parent == nil)
                     {
                     [self addChild:sprite];
+                    [self.visibleArray addObject:sprite];
+
                     }
 
                 }
@@ -790,6 +800,8 @@
                     if (sprite.parent == nil)
                     {
                     [self addChild:sprite];
+                    [self.visibleArray addObject:sprite];
+
                     }
 
                 }
@@ -805,6 +817,8 @@
                     if (sprite.parent == nil)
                     {
                     [self addChild:sprite];
+                    [self.visibleArray addObject:sprite];
+
                     }
                 }
             }
@@ -825,6 +839,91 @@
     self.lastWidth = width;
     self.lastHeight = height;
 
+}*/
+- (void)cullAroundIndexX:(NSInteger)x
+                  indexY:(NSInteger)y
+             columnWidth:(NSInteger)width
+               rowHeight:(NSInteger)height
+{
+    // hide everything
+    
+    // only update if something changed
+    if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
+    {
+        // hide sprites that were previsouly visible
+        for(SKASprite *sprite in self.visibleArray)
+        {
+            [sprite removeFromParent];
+        }
+        
+        // calculate what to make visiable
+        self.visibleArray = [[NSMutableArray alloc] init];
+        
+        NSInteger startingX = x - width / 2;
+        NSInteger startingY = y - height / 2 ;
+        NSInteger endingX = startingX + width;
+        NSInteger endingY = startingY + height;
+        
+        if(startingX < 0)
+        {
+            startingX = 0;
+            
+            endingX = width;
+        }
+        
+        if(startingY < 0)
+        {
+            startingY = 0;
+            
+            endingY = height;
+        }
+        
+        if(endingX > self.mapWidth - 1)
+        {
+            endingX = self.mapWidth - 1;
+            
+            startingX = endingX - width;
+        }
+        
+        if(endingY > self.mapHeight - 1)
+        {
+            endingY = self.mapHeight - 1;
+            
+            startingY = endingY - height;
+        }
+
+        for(NSInteger l = 0; l < self.spriteLayers.count; l++)
+        {
+            for(NSInteger x = 0; x < self.mapWidth - 1; x++)
+                {
+                    for(NSInteger y = 0; y < self.mapHeight - 1; y++)
+                    {
+                        
+                        SKASprite *sprite =
+                        [self spriteOnLayer:l
+                                     indexX:x
+                                     indexY:y];
+                        if (sprite && x >= startingX && x < endingX && y >= startingY && y < endingY){
+                            if (sprite.parent == nil) {
+                                SKASpriteLayer *layer = self.spriteLayers[l];
+                                [layer addChild:sprite];
+                            }
+                           [self.visibleArray addObject:sprite];
+                        }
+                     
+                    }
+                }
+        }
+        
+    }
+    
+    self.lastX = x;
+    self.lastY = y;
+    self.lastWidth = width;
+    self.lastHeight = height;
+    
+    self.culledBefore = YES;
 }
+
 
 @end
