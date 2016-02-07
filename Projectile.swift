@@ -10,14 +10,14 @@ import SpriteKit
 class Projectile:SKSpriteNode{
     //var ID:Int
     
-    var distanceTraveled:CGFloat {
+    private var distanceTraveled:CGFloat {
         get{
             return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
         }
     }
-    var friendly: Bool
-    var relVelocity: CGVector
-    var range: CGFloat
+    private var friendly: Bool
+    private var relVelocity: CGVector
+    private var range: CGFloat
     var startLoc: CGPoint
         {
         didSet{

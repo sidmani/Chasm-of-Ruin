@@ -27,7 +27,7 @@ class InGameScene: SKScene {
         currentMap = SKATiledMap(mapName: "Map1")
         map.addChild(currentMap!)
         map.zPosition = 0
-
+        GameLogic.setScene(self)
         nonCharNodes.physicsBody = SKPhysicsBody()
         nonCharNodes.physicsBody!.affectedByGravity = false
         nonCharNodes.physicsBody!.friction = 0

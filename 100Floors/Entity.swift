@@ -20,19 +20,6 @@ struct Stats { //TODO: add base stat and current stat definitions
     var rage:CGFloat      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
 
-
-/*enum StatTypes {
-    case health
-    case defense
-    case attack
-    case speed
-    case dexterity
-    case hunger
-    case level
-    case mana
-    case rage
-}*/
-
 struct EquippedItems {
     var shield:Shield?
     var weapon:Weapon?
@@ -66,8 +53,8 @@ class ThisCharacter: Entity {
     var inventory:Inventory = Inventory()
     var charClass:CharClass
     var stats:Stats = nullStats
-    var projectileTimer:NSTimer?
-    var projectileTimerEnabled = false
+    private var projectileTimer:NSTimer?
+    private var projectileTimerEnabled = false
     var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
     
     //convenience variables
@@ -85,15 +72,15 @@ class ThisCharacter: Entity {
     }
     
     /////////////
-    
-    var absoluteLoc:CGPoint? {
+    var absoluteLoc:CGPoint
+   /* var absoluteLoc:CGPoint? { //TODO: fix this
         set {
             gameScene.nonCharNodes.position = GameLogic.calculateMapPosition(newValue!)
         }
         get {
             return GameLogic.calculateRelativePosition(self)
         }
-    }
+    }*/
     
     var screenLoc:CGPoint? {
         didSet {
@@ -105,8 +92,9 @@ class ThisCharacter: Entity {
     //////////////
     //INIT
     
-    init(_class:CharClass, _ID: String) {
+    init(_class:CharClass, _ID: String, _absoluteLoc: CGPoint) {
         charClass = _class
+        absoluteLoc = _absoluteLoc
         super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed(charClass.img_base))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.affectedByGravity = false
@@ -125,7 +113,7 @@ class ThisCharacter: Entity {
     ///POSITION/DIRECTION METHODS
     
     ///GRAPHICAL METHODS
-    func setImageOrientation() {
+    private func setImageOrientation() {
         // change image direction
     }
     
@@ -166,12 +154,12 @@ class ThisCharacter: Entity {
     
     ///////////////////
     //Projectile Methods
-    @objc func fireProjectile() {
-        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc!, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
-        gameScene.addProjectile(newProjectile)
+    @objc private func fireProjectile() {
+        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
+        //gameScene.addProjectile(newProjectile)
     }
     
-    func attachProjectileCreator(enable:Bool) {
+    private func attachProjectileCreator(enable:Bool) {
         if (enable) {
             fireProjectile()
             projectileTimerEnabled = true
@@ -187,7 +175,7 @@ class ThisCharacter: Entity {
     //////////////////
     //Update methods
     
-    func updateProjectileState() {
+    private func updateProjectileState() {
         if (RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
         {
             self.attachProjectileCreator(true)

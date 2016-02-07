@@ -13,38 +13,43 @@ var currentMap:SKATiledMap?
 var gameScene: InGameScene!
 
 class GameLogic {
-    
+    ////internal methods (can be accessed from any class)////
     static func runGame() {
         //for each level in the game, load level
         //wait for level to be completed
         //go to next level
     }
-    
+    static func setScene(newScene:InGameScene) {
+        gameScene = newScene
+    }
     static func update() {
         thisCharacter.update()
         let newVelocity = ~thisCharacter.velocity!
         gameScene.nonCharNodes.physicsBody!.velocity = newVelocity
-        updateProjectiles(LeftJoystick!.valueChanged, newVelocity: newVelocity)
+        updateProjectiles(LeftJoystick!.valueChanged, newVelocity: newVelocity, projectileArray: gameScene.projectiles.children)
         //updateEnemies(LeftJoystick!.valueChanged)
         //update velocity of everything else
         LeftJoystick!.valueChanged = false
 
     }
-    
-    static func updateNonCharNodes(velocityChanged:Bool) {
+    static func addProjectile(p:Projectile) {
+        
+    }
+    /////private methods//////
+    private static func updateNonCharNodes(velocityChanged:Bool) {
         
     }
     
-    static func updateProjectiles(velocityChanged:Bool, newVelocity: CGVector) {
-        for node in gameScene.projectiles.children {
+    private static func updateProjectiles(velocityChanged:Bool, newVelocity: CGVector, projectileArray: [SKNode]) {
+        for node in projectileArray {
             if let projectile = node as? Projectile {
             projectile.update(velocityChanged, newVelocity: newVelocity)
             }
         }
 
     }
-    static func updateEnemies(velocityChanged:Bool) {
-        for node in gameScene.enemies.children {
+    private static func updateEnemies(velocityChanged:Bool, enemyArray: [SKNode]) {
+        for node in enemyArray {
             if let enemy = node as? Enemy {
                 //enemy.update(velocityChanged)
             }
@@ -55,7 +60,7 @@ class GameLogic {
     ////Utility
     static func getThisCharacter() -> ThisCharacter {
         // construct character
-        let out = ThisCharacter(_class: Wizard, _ID: "test")
+        let out = ThisCharacter(_class: Wizard, _ID: "test", _absoluteLoc: CGPointMake(0,0))
         out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
         out.equipped.weapon = Weapon(definition: Sword)
         return out
@@ -71,7 +76,7 @@ class GameLogic {
         return currentMap!.convertPoint(currentMap!.position, fromNode: node)
     }
     
-    static func getPlayerPosition() -> CGPoint? { 
+    static func getPlayerPosition() -> CGPoint? {
         return nil
     }
     
