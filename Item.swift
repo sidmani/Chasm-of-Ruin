@@ -9,11 +9,15 @@
 import SpriteKit
 
 class Item {
-    var node:SKSpriteNode?
+    private var node:SKSpriteNode
     var statMods:Stats
     init(stats:Stats)
     {
+        node = SKSpriteNode()
         statMods = stats
+    }
+    func getNode() -> SKSpriteNode {
+        return node
     }
 }
 

@@ -18,7 +18,7 @@ class Projectile:SKSpriteNode{
     private var friendly: Bool
     private var relVelocity: CGVector
     private var range: CGFloat
-    var startLoc: CGPoint
+    private var startLoc: CGPoint
         {
         didSet{
             self.position = startLoc
@@ -58,7 +58,7 @@ class Projectile:SKSpriteNode{
     }
     
     ///update functions
-    func rangeCheck() -> Bool {
+    private func rangeCheck() -> Bool {
         if (self.distanceTraveled > self.range) {
             self.removeFromParent()
             return true
@@ -72,7 +72,7 @@ class Projectile:SKSpriteNode{
         updateVelocity(newVelocity)
         }
     }
-    func updateVelocity(newVelocity:CGVector) {
+    private func updateVelocity(newVelocity:CGVector) {
         self.physicsBody!.velocity = self.relVelocity + newVelocity
     }
 }

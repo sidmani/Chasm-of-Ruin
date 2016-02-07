@@ -5,7 +5,7 @@
 //  Created by Sid Mani on 1/2/16.
 //  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
 //
-// This can probably be used for animations in the menu bg
+// This can probably be used for animations in the menu
 import SpriteKit
 
 class MenuScene: SKScene {

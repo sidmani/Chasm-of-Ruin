@@ -22,9 +22,9 @@ let inventory_size = 8 // TODO: fix this (IAP)
 var move_sensitivity:Int8 = 0
 var rotate_sensitivity:Int8 = 0
 
-protocol nonPlayerObject {
+/*protocol nonPlayerObject {
     func update()
-}
+}*/
 let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later
 ///////////
 //Physics bitmasks
@@ -33,7 +33,6 @@ let thisPlayerMask: UInt32 = 0x0<<2
 let enemyMask: UInt32 = 0x0<<3
 let mapObjectMask:UInt32 = 0x0<<4
 let enemyProjectileMask:UInt32 = 0x0<<5
-
 //Operator overloads
 func +(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x+right.x, y: left.y+right.y)
@@ -57,12 +56,16 @@ func >(left:CGPoint, right:CGPoint) -> Bool {
 func <(left:CGPoint, right:CGPoint) -> Bool {
     return (left.x < right.x && left.y < right.y)
 }
+
+//Is left divisible by right?
+
 infix operator %% {}
 
 func %%(left: Int, right: Int) -> Bool {
     return left % right == 0
 }
 
+//Shorthand to invert a vector
 prefix operator ~ {}
 
 prefix func ~ (vector:CGVector) -> CGVector

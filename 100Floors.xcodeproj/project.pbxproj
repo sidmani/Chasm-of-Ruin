@@ -26,7 +26,6 @@
 		1F4A47AA1C4B42BF00813143 /* Map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A47A91C4B42BF00813143 /* Map1.tmx */; };
 		1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078371C3C9AEA00EC773E /* Entity.swift */; };
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
-		1F56B9541C4A00CE0098380D /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9531C4A00CE0098380D /* MenuButton.swift */; };
 		1F56B96F1C4AE37E0098380D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56B96E1C4AE37E0098380D /* libz.tbd */; };
 		1F56B9A71C4AEC8D0098380D /* SKAButtonSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B97F1C4AEC8D0098380D /* SKAButtonSprite.m */; };
 		1F56B9A81C4AEC8D0098380D /* SKACroppedMiniMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9821C4AEC8D0098380D /* SKACroppedMiniMap.m */; };
@@ -74,7 +73,6 @@
 		1F4A47A91C4B42BF00813143 /* Map1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Map1.tmx; path = Resources/Map1.tmx; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
-		1F56B9531C4A00CE0098380D /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
 		1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "100Floors-Bridging-Header.h"; path = "../100Floors-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F56B96E1C4AE37E0098380D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1F56B97E1C4AEC8D0098380D /* SKAButtonSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAButtonSprite.h; sourceTree = "<group>"; };
@@ -225,7 +223,6 @@
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
 				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
-				1F56B9531C4A00CE0098380D /* MenuButton.swift */,
 				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
@@ -448,7 +445,6 @@
 				1F56B9A81C4AEC8D0098380D /* SKACroppedMiniMap.m in Sources */,
 				1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */,
 				1F56B9A71C4AEC8D0098380D /* SKAButtonSprite.m in Sources */,
-				1F56B9541C4A00CE0098380D /* MenuButton.swift in Sources */,
 				1F48547C1C4192EF008DDC8F /* Global.swift in Sources */,
 				1FDD42791C4DBEEF008C809E /* ItemDefinitions.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,

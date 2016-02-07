@@ -93,7 +93,7 @@ class JoystickControl:UIControl{
                 let _angle = angle
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle)))
             }
-            self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
+            //self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
             valueChanged = true
 
         }

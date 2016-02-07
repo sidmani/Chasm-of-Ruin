@@ -10,12 +10,12 @@ import UIKit
 import SpriteKit
 
 class MenuViewController: UIViewController {
-    var scene: MenuScene!
+    //var scene: MenuScene!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let skView = view as! SKView
-        scene = MenuScene()
-        skView.presentScene(scene)
+      //  let skView = view as! SKView
+      //  scene = MenuScene()
+      //  skView.presentScene(scene)
     }
   
     

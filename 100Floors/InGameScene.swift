@@ -5,7 +5,6 @@
 //  Created by Sid Mani on 1/2/16.
 //
 //
-//TODO: restructure this class (update and didSimulatePhysics)
 
 
 import SpriteKit
@@ -19,11 +18,9 @@ class InGameScene: SKScene {
             var projectiles:SKNode = SKNode()
             var enemies:SKNode = SKNode()
 
-    //var currFrame:Int = 0
     override func didMoveToView(view: SKView) {
 
         self.physicsWorld.gravity = CGVectorMake(0,0)
-        //currentMap = Map(mapName: "Map") //load map
         currentMap = SKATiledMap(mapName: "Map1")
         map.addChild(currentMap!)
         map.zPosition = 0
@@ -33,7 +30,6 @@ class InGameScene: SKScene {
         nonCharNodes.physicsBody!.friction = 0
         
         //////////////////////////////////////////
-        thisCharacter.absoluteLoc = CGPoint(x: 0, y: 0)
         character.addChild(thisCharacter)
         character.zPosition = 5
         //////////////////////////////////////////
@@ -48,10 +44,7 @@ class InGameScene: SKScene {
         addChild(nonCharNodes)
         addChild(character)
     }
-    
-    //override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    
-    //}
+
     
     func setLevel(newLevel:Level)
     {
@@ -83,24 +76,6 @@ class InGameScene: SKScene {
     func addMapObject(m:SKSpriteNode) {
         mapObjects.addChild(m)
     }
-    
-    //////
-    
-   // override func didSimulatePhysics() {
-        
-   // }
-    
-    //////
-
-   /* func updatenonCharNodes() {
-        
-       // for i in nonMapNodes.children {
-       //     if let spriteNode = i as? nonPlayerObject {
-       //         spriteNode.update()
-       //     }
-       // }
-    
-    }*/
     
     
 }
