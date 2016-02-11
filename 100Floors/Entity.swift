@@ -73,7 +73,7 @@ class ThisCharacter: Entity {
     
     /////////////
     var absoluteLoc:CGPoint
-   /* var absoluteLoc:CGPoint? { //TODO: fix this
+   /* var absoluteLoc:CGPoint? { //TODO: is this even necessary? (use collisions)
         set {
             gameScene.nonCharNodes.position = GameLogic.calculateMapPosition(newValue!)
         }
@@ -156,7 +156,8 @@ class ThisCharacter: Entity {
     //Projectile Methods
     @objc private func fireProjectile() {
         let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
-        //gameScene.addProjectile(newProjectile)
+        //TODO: check if projectiles can be shot etc
+        gameScene!.addProjectile(newProjectile)
     }
     
     private func attachProjectileCreator(enable:Bool) {

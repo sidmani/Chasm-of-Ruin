@@ -10,21 +10,18 @@
 import SpriteKit
 
 class InGameScene: SKScene {
+    var currentLevel:Level?
     var character = SKNode()
     var nonCharNodes:SKNode = SKNode()
         var map:SKNode = SKNode()
-        var mapObjects:SKNode = SKNode()
-        var nonMapNodes:SKNode = SKNode()
-            var projectiles:SKNode = SKNode()
-            var enemies:SKNode = SKNode()
+        var projectiles:SKNode = SKNode()
+        var enemies:SKNode = SKNode()
 
     override func didMoveToView(view: SKView) {
-
         self.physicsWorld.gravity = CGVectorMake(0,0)
-        currentMap = SKATiledMap(mapName: "Map1")
-        map.addChild(currentMap!)
         map.zPosition = 0
         GameLogic.setScene(self)
+        GameLogic.setup()
         nonCharNodes.physicsBody = SKPhysicsBody()
         nonCharNodes.physicsBody!.affectedByGravity = false
         nonCharNodes.physicsBody!.friction = 0
@@ -34,12 +31,9 @@ class InGameScene: SKScene {
         character.zPosition = 5
         //////////////////////////////////////////
         
-        nonMapNodes.addChild(enemies)
-        nonMapNodes.addChild(projectiles)
-        
+        nonCharNodes.addChild(enemies)
+        nonCharNodes.addChild(projectiles)
         nonCharNodes.addChild(map)
-        nonCharNodes.addChild(nonMapNodes)
-        nonCharNodes.addChild(mapObjects)
         
         addChild(nonCharNodes)
         addChild(character)
@@ -48,18 +42,35 @@ class InGameScene: SKScene {
     
     func setLevel(newLevel:Level)
     {
-        //remove all nodes
-        //display loading screen
-        //load new nodes
+        character.hidden = true
+        nonCharNodes.hidden = true
+        //TODO: trigger loading screen
+        if (currentMap != nil) {
+        currentMap!.removeFromParent()
+        }
+        for node in enemies.children {
+            node.removeFromParent()
+        }
+        for node in projectiles.children {
+            node.removeFromParent()
+        }
+        currentLevel = newLevel
+        currentMap = (currentLevel!.map)
+        map.addChild(currentMap!)
         //end loading screen
-        //addChild()
+        character.hidden = false
+        nonCharNodes.hidden = false
+        print("ran")
+        
     }
     ////////
     override func update(currentTime: CFTimeInterval) {
         //cull unnecessary tiles
+        if (currentMap != nil) {
         let mapLoc = currentMap!.indexForPoint(nonCharNodes.position)
         let newLoc = mapCenterLoc-mapLoc
         currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth-1, rowHeight: mapTilesHeight-1)
+        }
         //////////////
         GameLogic.update()
         //////////////
@@ -73,9 +84,9 @@ class InGameScene: SKScene {
     func addEnemy(e:Enemy) {
         enemies.addChild(e)
     }
-    func addMapObject(m:SKSpriteNode) {
-        mapObjects.addChild(m)
-    }
+    //func addMapObject(m:SKSpriteNode) {
+    //    mapObjects.addChild(m)
+    //}
     
     
 }

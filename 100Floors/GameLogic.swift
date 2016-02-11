@@ -10,14 +10,34 @@ import SpriteKit
 
 var thisCharacter = GameLogic.getThisCharacter()
 var currentMap:SKATiledMap?
-var gameScene: InGameScene!
-
+var gameScene: InGameScene?
+var itemXML: AEXMLDocument?
 class GameLogic {
-    ////internal methods (can be accessed from any class)////
+    ////internal methods (can be accessed from any class)////   
+    static var currLevel:Level?
+    static func setup() {
+        //setup items/projectiles xml
+        /*guard let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml"),
+            data = NSData(contentsOfFile: xmlPath)
+            else { return }
+        
+        do {
+            itemXML = try AEXMLDocument(xmlData: data)
+        }
+        catch {
+            print("\(error)")
+        }*/
+        //setup level xml
+        currLevel = Level(_map: "Map1", _id: "test", _name: "test")
+        gameScene!.setLevel(currLevel!)
+        //load save state xml
+        
+    }
     static func runGame() {
-        //for each level in the game, load level
-        //wait for level to be completed
-        //go to next level
+        
+    }
+    static func nextEvent(previousEventID:String) {
+        
     }
     static func setScene(newScene:InGameScene) {
         gameScene = newScene
@@ -25,8 +45,8 @@ class GameLogic {
     static func update() {
         thisCharacter.update()
         let newVelocity = ~thisCharacter.velocity!
-        gameScene.nonCharNodes.physicsBody!.velocity = newVelocity
-        updateProjectiles(LeftJoystick!.valueChanged, newVelocity: newVelocity, projectileArray: gameScene.projectiles.children)
+        gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
+        updateProjectiles(LeftJoystick!.valueChanged, newVelocity: newVelocity, projectileArray: gameScene!.projectiles.children)
         //updateEnemies(LeftJoystick!.valueChanged)
         //update velocity of everything else
         LeftJoystick!.valueChanged = false
