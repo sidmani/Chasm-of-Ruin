@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <items>
+        <item id="wep1">
+            <type>Weapon</type>
+            <name>Dragonsword</name>
+            <desc>test description</desc>
+            <img>test image</img>
+            <stats>
+                <health>0</health>
+                <def>0</def>
+                <atk>0</atk>
+                <spd>0</spd>
+                <dex>0</dex>
+                <hunger>0</hunger>
+                <level>0</level>
+                <mana>0</mana>
+                <rage>0</rage>
+            </stats>
+            <consumable>false</consumable>
+            <projectile-id>testid</projectile-id>
+        </item>
+    </items>
+    <projectiles>
+        <projectile id="testid">
+            <img>SwordProjectile</img>
+            <range>25</range>
+        </projectile>
+    </projectiles>
+</root>

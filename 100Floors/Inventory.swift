@@ -30,9 +30,9 @@ class Inventory {
         }
         
     }
-    func consumeItem(atIndex:Int) -> Consumable?
+    func consumeItem(atIndex:Int) -> Item?
     {
-        if let item = inventory[atIndex] as? Consumable
+        if let item = inventory[atIndex]
         {
             inventory.removeAtIndex(atIndex)
             return item

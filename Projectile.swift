@@ -25,11 +25,23 @@ class Projectile:SKSpriteNode{
         }
     }
     
-    init (definition:ProjectileDefinition, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) {
-        let texture = SKTextureAtlas(named: "Projectiles").textureNamed(definition.imgMain)
+    init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) {
+        var thisProjectile:AEXMLElement
+        if let projectiles = itemXML!.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
+            if (projectiles.count != 1) {
+                fatalError("Projectile ID error")
+            }
+            else {
+                thisProjectile = projectiles[0]
+            }
+        }
+        else {
+            fatalError("Projectile Not Found")
+        }
+        let texture = SKTextureAtlas(named: "Projectiles").textureNamed(thisProjectile["img"].value!)
         let size = texture.size()
         relVelocity = withVelocity
-        range = definition.range
+        range = CGFloat(thisProjectile["range"].doubleValue)
         startLoc = fromPoint
         friendly = isFriendly
         super.init(texture: texture, color: UIColor.clearColor(), size: size)

@@ -21,10 +21,10 @@ struct Stats { //TODO: add base stat and current stat definitions
 }
 
 struct EquippedItems {
-    var shield:Shield?
-    var weapon:Weapon?
-    var enhancer:Enhancer?
-    var skill:Skill?
+    var shield:Item?
+    var weapon:Item?
+    var enhancer:Item?
+    var skill:Item?
     func totalStatChanges() -> Stats {
         return shield!.statMods+weapon!.statMods+skill!.statMods+enhancer!.statMods
     }
@@ -58,9 +58,9 @@ class ThisCharacter: Entity {
     var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
     
     //convenience variables
-    var currentProjectile:ProjectileDefinition {
+    var currentProjectile:String {
         get{
-            return equipped.weapon!.projectile //set weapon based on item
+            return equipped.weapon!.projectile! //set weapon based on item
         }
     }
     var velocity:CGVector?
@@ -72,15 +72,15 @@ class ThisCharacter: Entity {
     }
     
     /////////////
-    var absoluteLoc:CGPoint
-   /* var absoluteLoc:CGPoint? { //TODO: is this even necessary? (use collisions)
+    //var absoluteLoc:CGPoint
+    var absoluteLoc:CGPoint { //TODO: is this even necessary? (use collisions)
         set {
-            gameScene.nonCharNodes.position = GameLogic.calculateMapPosition(newValue!)
+            GameLogic.gameScene!.nonCharNodes.position = GameLogic.calculateMapPosition(newValue)
         }
         get {
             return GameLogic.calculateRelativePosition(self)
         }
-    }*/
+    }
     
     var screenLoc:CGPoint? {
         didSet {
@@ -94,7 +94,6 @@ class ThisCharacter: Entity {
     
     init(_class:CharClass, _ID: String, _absoluteLoc: CGPoint) {
         charClass = _class
-        absoluteLoc = _absoluteLoc
         super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed(charClass.img_base))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.affectedByGravity = false
@@ -103,7 +102,9 @@ class ThisCharacter: Entity {
         self.physicsBody!.categoryBitMask = thisPlayerMask
         self.physicsBody!.contactTestBitMask = enemyProjectileMask | mapObjectMask
         self.physicsBody!.collisionBitMask = 0x0
-        absoluteLoc = CGPointMake(0, 0)
+        absoluteLoc = _absoluteLoc
+
+        //absoluteLoc = CGPointMake(0, 0)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -118,36 +119,36 @@ class ThisCharacter: Entity {
     }
     
     //ITEM HANDLER METHODS
-    func consumeItem(c:Consumable)
+    func consumeItem(c:Item)
     {
         //perform stat changes
     }
     
     ///equip functions
-    func equipShield(shield:Shield) -> Shield?
+    func equipShield(shield:Item) -> Item?
     {
-        let old:Shield? = equipped.shield
+        let old:Item? = equipped.shield
         equipped.shield = shield
         return old
     }
     
-    func equipWeapon(weapon:Weapon) -> Weapon?
+    func equipWeapon(weapon:Item) -> Item?
     {
-        let old:Weapon? = equipped.weapon
+        let old:Item? = equipped.weapon
         equipped.weapon = weapon
         return old
     }
     
-    func equipEnhancer(enhancer:Enhancer) -> Enhancer?
+    func equipEnhancer(enhancer:Item) -> Item?
     {
-        let old:Enhancer? = equipped.enhancer
+        let old:Item? = equipped.enhancer
         equipped.enhancer = enhancer
         return old
     }
     
-    func equipSkill(skill:Skill) -> Skill?
+    func equipSkill(skill:Item) -> Item?
     {
-        let old:Skill? = equipped.skill
+        let old:Item? = equipped.skill
         equipped.skill = skill
         return old
     }
@@ -155,7 +156,7 @@ class ThisCharacter: Entity {
     ///////////////////
     //Projectile Methods
     @objc private func fireProjectile() {
-        let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
         //TODO: check if projectiles can be shot etc
         GameLogic.addProjectile(newProjectile)
     }

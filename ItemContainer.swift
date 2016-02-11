@@ -36,7 +36,7 @@ class ItemContainer:UIView {
             view.removeFromSuperview()
         }
 
-        itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.getNode().texture!.CGImage())))
+        itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.getNode()!.texture!.CGImage())))
         return oldItem
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

@@ -12,19 +12,24 @@ var thisCharacter = GameLogic.getThisCharacter()
 var currentMap:SKATiledMap?
 var itemXML: AEXMLDocument?
 class GameLogic {
-    static private var gameScene: InGameScene?
+    static var gameScene: InGameScene?
     ////internal methods (can be accessed from any class)////   
     static var currLevel:Level?
     static func setup() {
         //setup items/projectiles xml
-        let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
-        let data = NSData(contentsOfFile: xmlPath!)
+        guard let
+            xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml"),
+            data = NSData(contentsOfFile: xmlPath)
+            else { print("error")
+                return }
+        
         do {
-            itemXML = try AEXMLDocument(xmlData: data!)
+            itemXML = try AEXMLDocument(xmlData: data)
         }
         catch {
             print("\(error)")
         }
+      
         //setup level xml     
         //load save state xml
         currLevel = Level(_map: "Map1", _id: "test", _name: "test")
@@ -51,7 +56,7 @@ class GameLogic {
 
     }
     static func addProjectile(p:Projectile) {
-        gameScene?.addProjectile(p)
+        gameScene!.addProjectile(p)
     }
     /////private methods//////
     private static func updateNonCharNodes(velocityChanged:Bool) {
@@ -80,7 +85,7 @@ class GameLogic {
         // construct character
         let out = ThisCharacter(_class: Wizard, _ID: "test", _absoluteLoc: CGPointMake(0,0))
         out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
-        out.equipped.weapon = Weapon(definition: Sword)
+        out.equipped.weapon = Item(withID: "wep1")
         return out
     }
     
