@@ -157,7 +157,7 @@ class ThisCharacter: Entity {
     @objc private func fireProjectile() {
         let newProjectile = Projectile(definition: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
         //TODO: check if projectiles can be shot etc
-        gameScene!.addProjectile(newProjectile)
+        GameLogic.addProjectile(newProjectile)
     }
     
     private func attachProjectileCreator(enable:Bool) {

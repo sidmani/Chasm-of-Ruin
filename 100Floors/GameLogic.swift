@@ -10,27 +10,25 @@ import SpriteKit
 
 var thisCharacter = GameLogic.getThisCharacter()
 var currentMap:SKATiledMap?
-var gameScene: InGameScene?
 var itemXML: AEXMLDocument?
 class GameLogic {
+    static private var gameScene: InGameScene?
     ////internal methods (can be accessed from any class)////   
     static var currLevel:Level?
     static func setup() {
         //setup items/projectiles xml
-        /*guard let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
-            else { return }
-        
+        let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
+        let data = NSData(contentsOfFile: xmlPath!)
         do {
-            itemXML = try AEXMLDocument(xmlData: data)
+            itemXML = try AEXMLDocument(xmlData: data!)
         }
         catch {
             print("\(error)")
-        }*/
-        //setup level xml
+        }
+        //setup level xml     
+        //load save state xml
         currLevel = Level(_map: "Map1", _id: "test", _name: "test")
         gameScene!.setLevel(currLevel!)
-        //load save state xml
         
     }
     static func runGame() {
@@ -53,7 +51,7 @@ class GameLogic {
 
     }
     static func addProjectile(p:Projectile) {
-        
+        gameScene?.addProjectile(p)
     }
     /////private methods//////
     private static func updateNonCharNodes(velocityChanged:Bool) {
