@@ -19,14 +19,9 @@ class Item {
     var type:ItemType
     var projectile:String?
     
-   /* init(stats:Stats)
-    {
-        node = SKSpriteNode()
-        statMods = stats
-    }*/
     init(withID:String) {
         var thisItem:AEXMLElement
-        if let items = itemXML!.root["items"]["item"].allWithAttributes(["id":"wep1"]) {
+        if let items = itemXML!.root["items"]["item"].allWithAttributes(["id":withID]) {
             if (items.count != 1) {
                 fatalError("Item ID error")
             }
@@ -78,7 +73,7 @@ class Item {
     }
 }
 
-class ItemBag { // Container for item dropped on the ground
+class ItemBag { // Container for item dropped on the ground (is this necessary?)
     
 }
 // 6 basic kinds of item: consumable, weapon, skill, shield, enhancer, style
@@ -89,44 +84,4 @@ class ItemBag { // Container for item dropped on the ground
 // enhancer: boosts a stat while equipped
 // style: changes appearance
 
-/*class Consumable: Item {
-    
-}
-
-class Weapon: Item {
-    var projectile:ProjectileDefinition
-    //TODO: some sort of special effect when rage hits max
-    init(definition:WeaponDefinition)
-    {
-        projectile = definition.projectile
-        super.init(stats: definition.statMods)
-    }
-}
-
-class Skill: Item {
-    init(definition:SkillDefinition)
-    {
-        super.init(stats: definition.statMods)
-    }
-}
-
-class Shield: Item {    
-    init(definition:ShieldDefinition)
-    {
-        super.init(stats: definition.statMods)
-    }
-}
-
-class Enhancer: Item {
-    var permanent:Bool = false
-    
-    init(definition:EnhancerDefinition)
-    {
-        super.init(stats: definition.statMods)
-    }
-}
-
-class Style: Item {
-    
-}*/
 

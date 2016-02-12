@@ -17,7 +17,6 @@ class JoystickControl:UIControl{
     
     // MARK: Properties
     var currentPoint = CGPoint(x:0, y:0)
-    var valueChanged = true
     var angle: CGFloat {
         get {
             return atan2(currentPoint.y, currentPoint.x)
@@ -75,7 +74,6 @@ class JoystickControl:UIControl{
                 let _angle = angle
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle))) //this can be optimized further
             }
-            valueChanged = true
         }
     }
     
@@ -93,9 +91,6 @@ class JoystickControl:UIControl{
                 let _angle = angle
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle)))
             }
-            //self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
-            valueChanged = true
-
         }
     }
     
@@ -104,7 +99,6 @@ class JoystickControl:UIControl{
             stickView.center = CGPoint(x: 0, y: 0)
             currentPoint = CGPoint(x:0, y:0)
             distance = 0
-            valueChanged = true
         }
     }
     

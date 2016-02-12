@@ -60,7 +60,6 @@ class InGameScene: SKScene {
         //end loading screen
         character.hidden = false
         nonCharNodes.hidden = false
-        print("ran")
         
     }
     ////////

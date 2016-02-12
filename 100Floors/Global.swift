@@ -22,7 +22,7 @@ let inventory_size = 8 // TODO: fix this (IAP)
 var move_sensitivity:Int8 = 0
 var rotate_sensitivity:Int8 = 0
 
-/*protocol nonPlayerObject {
+/*protocol Updatable {
     func update()
 }*/
 let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later

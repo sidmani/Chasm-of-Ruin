@@ -10,12 +10,12 @@ import SpriteKit
 class Projectile:SKSpriteNode{
     //var ID:Int
     
-    private var distanceTraveled:CGFloat {
-        get{
-            return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
-        }
-    }
-    private var friendly: Bool
+    //private var distanceTraveled:CGFloat {
+    //    get{
+    //        return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
+    //    }
+    //}
+    //var friendly: Bool
     private var relVelocity: CGVector
     private var range: CGFloat
     private var startLoc: CGPoint
@@ -43,7 +43,7 @@ class Projectile:SKSpriteNode{
         relVelocity = withVelocity
         range = CGFloat(thisProjectile["range"].doubleValue)
         startLoc = fromPoint
-        friendly = isFriendly
+        //friendly = isFriendly
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
@@ -51,7 +51,7 @@ class Projectile:SKSpriteNode{
         self.physicsBody!.velocity = withVelocity
         self.physicsBody!.affectedByGravity = false
         
-        if (friendly) {
+        if (isFriendly) {
         self.physicsBody!.categoryBitMask = friendlyProjectileMask
         }
         else {
@@ -61,8 +61,7 @@ class Projectile:SKSpriteNode{
         self.physicsBody!.contactTestBitMask = 0x0 << 0
         self.physicsBody!.collisionBitMask = 0x0 << 0
         self.position = startLoc
-        self.zPosition = 4 //TODO: standardize layering
-        
+        self.zPosition = 4
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -71,7 +70,7 @@ class Projectile:SKSpriteNode{
     
     ///update functions
     private func rangeCheck() -> Bool {
-        if (self.distanceTraveled > self.range) {
+        if ((hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)) > self.range) {
             self.removeFromParent()
             return true
         }
@@ -79,12 +78,14 @@ class Projectile:SKSpriteNode{
         return false
         }
     }
-    func update(velocityChanged:Bool, newVelocity:CGVector) {
-        if (!rangeCheck() && velocityChanged) {
-        updateVelocity(newVelocity)
-        }
-    }
     private func updateVelocity(newVelocity:CGVector) {
         self.physicsBody!.velocity = self.relVelocity + newVelocity
     }
+    
+    func update(newVelocity:CGVector) {
+        if (!rangeCheck()) {
+        updateVelocity(newVelocity)
+        }
+    }
+  
 }

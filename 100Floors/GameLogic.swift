@@ -11,13 +11,14 @@ import SpriteKit
 var thisCharacter = GameLogic.getThisCharacter()
 var currentMap:SKATiledMap?
 var itemXML: AEXMLDocument?
+var levelXML: AEXMLDocument?
 class GameLogic {
     static var gameScene: InGameScene?
     ////internal methods (can be accessed from any class)////   
     static var currLevel:Level?
     static func setup() {
         //setup items/projectiles xml
-        guard let
+        guard var
             xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml"),
             data = NSData(contentsOfFile: xmlPath)
             else { print("error")
@@ -30,48 +31,46 @@ class GameLogic {
             print("\(error)")
         }
       
-        //setup level xml     
+        //setup level xml
+            xmlPath = NSBundle.mainBundle().pathForResource("Levels", ofType: "xml")!
+            data = NSData(contentsOfFile: xmlPath)!
+        do {
+            levelXML = try AEXMLDocument(xmlData: data)
+        }
+        catch {
+            print("\(error)")
+        }
+        
         //load save state xml
-        currLevel = Level(_map: "Map1", _id: "test", _name: "test")
-        gameScene!.setLevel(currLevel!)
+        setLevel(Level(_id: "0"))
         
     }
-    static func runGame() {
+   
+    static func nextEvent(previousEventID:String) { // what does this do?
         
     }
-    static func nextEvent(previousEventID:String) {
-        
-    }
-    static func setScene(newScene:InGameScene) {
-        gameScene = newScene
-    }
+ 
+    
+    ///////UPDATE////////
     static func update() {
         thisCharacter.update()
         let newVelocity = ~thisCharacter.velocity!
         gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
-        updateProjectiles(LeftJoystick!.valueChanged, newVelocity: newVelocity, projectileArray: gameScene!.projectiles.children)
+        updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
         //updateEnemies(LeftJoystick!.valueChanged)
         //update velocity of everything else
-        LeftJoystick!.valueChanged = false
 
-    }
-    static func addProjectile(p:Projectile) {
-        gameScene!.addProjectile(p)
-    }
-    /////private methods//////
-    private static func updateNonCharNodes(velocityChanged:Bool) {
-        
     }
     
-    private static func updateProjectiles(velocityChanged:Bool, newVelocity: CGVector, projectileArray: [SKNode]) {
+    private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode]) {
         for node in projectileArray {
             if let projectile = node as? Projectile {
-            projectile.update(velocityChanged, newVelocity: newVelocity)
+                projectile.update(newVelocity)
             }
         }
-
+        
     }
-    private static func updateEnemies(velocityChanged:Bool, enemyArray: [SKNode]) {
+    private static func updateEnemies(enemyArray: [SKNode]) {
         for node in enemyArray {
             if let enemy = node as? Enemy {
                 //enemy.update(velocityChanged)
@@ -79,17 +78,29 @@ class GameLogic {
         }
     }
     
+    /////////////////////////
+    /////////////////////////
+    static func addProjectile(p:Projectile) {
+        gameScene!.addProjectile(p)
+    }
+    static func setScene(newScene:InGameScene) {
+        gameScene = newScene
+    }
+    static func setLevel(l:Level) {
+        gameScene!.setLevel(l)
+    }
     
-    ////Utility
+    
+    ////Utility////
     static func getThisCharacter() -> ThisCharacter {
         // construct character
-        let out = ThisCharacter(_class: Wizard, _ID: "test", _absoluteLoc: CGPointMake(0,0))
+        let out = ThisCharacter(_ID: "test", _absoluteLoc: CGPointMake(0,0))
         out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
         out.equipped.weapon = Item(withID: "wep1")
         return out
     }
     
-    static func calculateMapPosition(characterLoc:CGPoint) -> CGPoint { //TODO: fix this (use convertPoint)
+    static func calculateMapPosition(characterLoc:CGPoint) -> CGPoint { //TODO: use convertPoint
         let mapX = screenSize.width/2 - characterLoc.x
         let mapY = screenSize.height/2 - characterLoc.y
         return CGPoint(x: mapX, y: mapY)

@@ -51,7 +51,7 @@ class Entity:SKSpriteNode {
 class ThisCharacter: Entity {
     // properties
     var inventory:Inventory = Inventory()
-    var charClass:CharClass
+    //var charClass:CharClass
     var stats:Stats = nullStats
     private var projectileTimer:NSTimer?
     private var projectileTimerEnabled = false
@@ -72,7 +72,6 @@ class ThisCharacter: Entity {
     }
     
     /////////////
-    //var absoluteLoc:CGPoint
     var absoluteLoc:CGPoint { //TODO: is this even necessary? (use collisions)
         set {
             GameLogic.gameScene!.nonCharNodes.position = GameLogic.calculateMapPosition(newValue)
@@ -92,9 +91,8 @@ class ThisCharacter: Entity {
     //////////////
     //INIT
     
-    init(_class:CharClass, _ID: String, _absoluteLoc: CGPoint) {
-        charClass = _class
-        super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed(charClass.img_base))
+    init(_ID: String, _absoluteLoc: CGPoint) {
+        super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.friction = 0
