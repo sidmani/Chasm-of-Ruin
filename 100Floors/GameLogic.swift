@@ -44,16 +44,11 @@ class GameLogic {
         setLevel(Level(_id: "0"))
         
     }
-   
-    static func nextEvent(previousEventID:String) { // what does this do?
-        
-    }
- 
     
     ///////UPDATE////////
     static func update() {
         thisCharacter.update()
-        let newVelocity = ~thisCharacter.velocity!
+        let newVelocity = ~thisCharacter.velocity
         gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
         updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
         //updateEnemies(LeftJoystick!.valueChanged)
@@ -92,11 +87,10 @@ class GameLogic {
     
     
     ////Utility////
-    static func getThisCharacter() -> ThisCharacter {
+    static func getThisCharacter() -> ThisCharacter { //TODO: delete this
         // construct character
         let out = ThisCharacter(_ID: "test", _absoluteLoc: CGPointMake(0,0))
-        out.screenLoc = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
-        out.equipped.weapon = Item(withID: "wep1")
+        out.equipItem(Item(withID: "wep1"))
         return out
     }
     

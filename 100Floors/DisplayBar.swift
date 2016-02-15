@@ -14,15 +14,13 @@ class DisplayBar: UIProgressView {
     let yellowVal:Float = 0.5
     
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.transform = CGAffineTransformMakeScale(1.0, 3.0)
-        self.updateVal(0.6)
+        self.update(0.6)
     }
     
-    func updateVal(newVal:Float)
-    {
+    func update(newVal:Float) {
         self.setProgress(newVal, animated: false)
         if newVal <= redVal {
             self.progressTintColor = UIColor.redColor()
@@ -37,10 +35,10 @@ class DisplayBar: UIProgressView {
 }
 
 class ReallyBigDisplayBar: DisplayBar {
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.transform = CGAffineTransformMakeScale(2.5, 12.0)
-        self.updateVal(0.6)
+        self.update(0.6)
     }
 }

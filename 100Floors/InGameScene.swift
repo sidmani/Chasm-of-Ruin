@@ -10,13 +10,14 @@
 import SpriteKit
 
 class InGameScene: SKScene {
-    var currentLevel:Level?
+    private var currentLevel:Level?
     var currentMap:SKATiledMap?
     var character = SKNode()
-    var nonCharNodes:SKNode = SKNode()
-        var map:SKNode = SKNode()
-        var projectiles:SKNode = SKNode()
-        var enemies:SKNode = SKNode()
+    var nonCharNodes = SKNode()
+        var mapObjects = SKNode()
+        var map = SKNode()
+        var projectiles = SKNode()
+        var enemies = SKNode()
 
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
@@ -35,7 +36,7 @@ class InGameScene: SKScene {
         nonCharNodes.addChild(enemies)
         nonCharNodes.addChild(projectiles)
         nonCharNodes.addChild(map)
-        
+        nonCharNodes.addChild(mapObjects)
         addChild(nonCharNodes)
         addChild(character)
     }
@@ -45,6 +46,7 @@ class InGameScene: SKScene {
     {
         character.hidden = true
         nonCharNodes.hidden = true
+        //Hide controls
         //TODO: trigger loading screen 
         if (currentMap != nil) {
         currentMap!.removeFromParent()
@@ -84,9 +86,9 @@ class InGameScene: SKScene {
     func addEnemy(e:Enemy) {
         enemies.addChild(e)
     }
-    //func addMapObject(m:SKSpriteNode) {
-    //    mapObjects.addChild(m)
-    //}
+    func addMapObject(m:MapObject) {
+        mapObjects.addChild(m)
+    }
     
     
 }

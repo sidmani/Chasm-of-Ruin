@@ -6,7 +6,7 @@
 //
 //
 import UIKit
-
+//TODO: clean this up
 //Constants
 //Screen/Map constants
 let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -15,12 +15,8 @@ let tileEdge:CGFloat = 32
 let mapTilesWidth:Int = Int(screenSize.width/(tileEdge))
 let mapTilesHeight:Int = Int(screenSize.height/(tileEdge))
 let mapCenterLoc:CGPoint = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
-//let mapEdgeLoc:CGPoint = CGPoint(x: mapTilesWidth, y: mapTilesHeight)
 //Game logic constants
 let inventory_size = 8 // TODO: fix this (IAP)
-//Gameplay constants
-var move_sensitivity:Int8 = 0
-var rotate_sensitivity:Int8 = 0
 
 protocol Updatable {
     func update()
@@ -61,7 +57,6 @@ func +(left:CGVector, right:CGVector) -> CGVector {
 }*/
 
 //Is left divisible by right?
-
 
 infix operator %% {}
 

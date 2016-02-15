@@ -36,7 +36,7 @@ class ItemContainer:UIView {
             view.removeFromSuperview()
         }
 
-        itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.getNode()!.texture!.CGImage())))
+        itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.node!.texture!.CGImage())))
         return oldItem
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -60,7 +60,7 @@ class ItemContainer:UIView {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touches.first != nil) {
             if item != nil {
-                //if inside rectangle, set position back to 0,0
+                //if inside rectangle, set position back to center
                 //else if outside rectangle, drop item (call inventory.drop or something)
             }
         }

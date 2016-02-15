@@ -45,8 +45,7 @@ class InGameViewController: UIViewController {
         RightJoystickControl.center = CGPoint(x: screenSize.width - 75, y: screenSize.height - 75)
         RightJoystickControl.backgroundColor = UIColor.clearColor()
         
-        //////////
-     
+        /////////
         //Status bars
      
         HungerDisplayBar.center = CGPoint(x: 100, y: 20)

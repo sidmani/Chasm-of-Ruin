@@ -11,6 +11,8 @@ class Level { //level is just a map with attributes etc
     var id:String
     var name:String
     var startLoc:CGPoint
+   // var objects:[MapObject]
+    
     init(_map:String, _id: String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
         id = _id

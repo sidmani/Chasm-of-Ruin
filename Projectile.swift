@@ -7,9 +7,7 @@
 //
 
 import SpriteKit
-class Projectile:SKSpriteNode{
-    //var ID:Int
-    
+class Projectile:SKSpriteNode{    
     private var distanceTraveled:CGFloat {
     
             return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
@@ -64,21 +62,15 @@ class Projectile:SKSpriteNode{
     }
     
     ///update functions
-    private func rangeCheck() -> Bool {
-        if (distanceTraveled > self.range) {
-            self.removeFromParent()
-            return true
-        }
-        else {
-        return false
-        }
-    }
     private func updateVelocity(newVelocity:CGVector) {
         self.physicsBody!.velocity = self.relVelocity + newVelocity
     }
     
     func update(newVelocity:CGVector) {
-        if (!rangeCheck()) {
+        if (distanceTraveled > range) {
+            self.removeFromParent()
+        }
+        else {
         updateVelocity(newVelocity)
         }
     }

@@ -15,13 +15,14 @@ import SpriteKit
 // enhancer: boosts a stat while equipped
 // style: changes appearance
 enum ItemType {
-    case Weapon, Consumable, Skill, Shield, Enhancer, Style
+    case Weapon, Skill, Shield, Enhancer, Style
 }
 class Item {
     var statMods:Stats
     var description:String
     var name:String
     var consumable:Bool
+    var permanent:Bool = false
     var type:ItemType
     var node:SKSpriteNode?
     var projectile:String?
@@ -42,8 +43,6 @@ class Item {
         type = {switch (thisItem["type"].value!) {
             case "Weapon":
             return ItemType.Weapon
-            case "Consumable":
-            return ItemType.Consumable
             case "Skill":
             return ItemType.Skill
             case "Shield":
@@ -59,6 +58,9 @@ class Item {
         description = thisItem["desc"].value!
         name = thisItem["name"].value!
         consumable = thisItem["consumable"].boolValue
+        if (consumable) {
+            permanent = thisItem["permanent"].boolValue
+        }
         statMods = Stats(
                 health: CGFloat(thisItem["Stats"]["health"].doubleValue),
                 defense: CGFloat(thisItem["Stats"]["def"].doubleValue),
@@ -74,10 +76,6 @@ class Item {
         }
         
     }
-    
-    /*func getNode() -> SKSpriteNode? {
-        return node
-    }*/
 }
 
 class ItemBag:SKSpriteNode { // Container for item dropped on the ground (is this necessary?)

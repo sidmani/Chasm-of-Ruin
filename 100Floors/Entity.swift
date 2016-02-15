@@ -49,10 +49,9 @@ class Entity:SKSpriteNode {
 //////////////////////
 
 class ThisCharacter: Entity {
-    // properties
     var inventory:Inventory = Inventory()
-    //var charClass:CharClass
-    var stats:Stats = nullStats
+    private var currStats:Stats = nullStats
+    private var baseStats:Stats = nullStats
     private var projectileTimer:NSTimer?
     private var projectileTimerEnabled = false
     var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
@@ -63,16 +62,16 @@ class ThisCharacter: Entity {
             return equipped.weapon!.projectile! //set weapon based on item
         }
     }
-    var velocity:CGVector?
+    var velocity:CGVector
     {
         get {
             return CGVector(dx: 5*LeftJoystick!.displacement.dx, dy: 5*LeftJoystick!.displacement.dy)
-            //return CGVector(dx: 5*stats.speed*LeftJoystick!.displacement.dx, dy: 5*stats.speed*LeftJoystick!.displacement.dy)
+            //return CGVector(dx: 5*currStats.speed*LeftJoystick!.displacement.dx, dy: 5*currStats.speed*LeftJoystick!.displacement.dy)
         }
     }
     
     /////////////
-    var absoluteLoc:CGPoint { //TODO: is this even necessary? (use collisions)
+    var absoluteLoc:CGPoint { //TODO: cleanup
         set {
             GameLogic.gameScene!.nonCharNodes.position = GameLogic.calculateMapPosition(newValue)
         }
@@ -81,11 +80,11 @@ class ThisCharacter: Entity {
         }
     }
     
-    var screenLoc:CGPoint? {
+   /* var screenLoc:CGPoint? {
         didSet {
             self.position = screenLoc!
         }
-    }
+    }*/
     
   
     //////////////
@@ -96,13 +95,12 @@ class ThisCharacter: Entity {
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.friction = 0
-        self.physicsBody!.pinned = true
+        self.physicsBody!.pinned = true //really?
         self.physicsBody!.categoryBitMask = thisPlayerMask
         self.physicsBody!.contactTestBitMask = enemyProjectileMask | mapObjectMask
         self.physicsBody!.collisionBitMask = 0x0
+        self.position = screenCenter
         absoluteLoc = _absoluteLoc
-
-        //absoluteLoc = CGPointMake(0, 0)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -117,38 +115,42 @@ class ThisCharacter: Entity {
     }
     
     //ITEM HANDLER METHODS
-    func consumeItem(c:Item)
+    func consumeItem(c:Item?)
     {
-        //perform stat changes
+        if (c != nil)
+        {
+            if (c!.permanent) {
+                baseStats = baseStats + c!.statMods
+            }
+            else {
+                currStats = currStats + c!.statMods
+            }
+        }
     }
     
     ///equip functions
-    func equipShield(shield:Item) -> Item?
-    {
-        let old:Item? = equipped.shield
-        equipped.shield = shield
-        return old
-    }
-    
-    func equipWeapon(weapon:Item) -> Item?
-    {
-        let old:Item? = equipped.weapon
-        equipped.weapon = weapon
-        return old
-    }
-    
-    func equipEnhancer(enhancer:Item) -> Item?
-    {
-        let old:Item? = equipped.enhancer
-        equipped.enhancer = enhancer
-        return old
-    }
-    
-    func equipSkill(skill:Item) -> Item?
-    {
-        let old:Item? = equipped.skill
-        equipped.skill = skill
-        return old
+    func equipItem(new:Item) -> Item? {
+            switch (new.type)
+            {
+            case ItemType.Shield:
+                let old = equipped.shield
+                equipped.shield = new
+                return old
+            case ItemType.Skill:
+                let old = equipped.skill
+                equipped.skill = new
+                return old
+            case ItemType.Weapon:
+                let old = equipped.weapon
+                equipped.weapon = new
+                return old
+            case ItemType.Enhancer:
+                let old = equipped.enhancer
+                equipped.enhancer = new
+                return old
+            case ItemType.Style:
+                return nil
+            }
     }
     
     ///////////////////
