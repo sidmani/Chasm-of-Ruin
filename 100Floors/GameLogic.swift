@@ -9,7 +9,6 @@
 import SpriteKit
 
 var thisCharacter = GameLogic.getThisCharacter()
-var currentMap:SKATiledMap?
 var itemXML: AEXMLDocument?
 var levelXML: AEXMLDocument?
 class GameLogic {
@@ -87,6 +86,7 @@ class GameLogic {
         gameScene = newScene
     }
     static func setLevel(l:Level) {
+        thisCharacter.absoluteLoc = tileEdge * l.startLoc
         gameScene!.setLevel(l)
     }
     
@@ -107,7 +107,7 @@ class GameLogic {
     }
     
     static func calculateRelativePosition(node:SKNode) -> CGPoint {
-        return currentMap!.convertPoint(currentMap!.position, fromNode: node)
+        return gameScene!.currentMap!.convertPoint(gameScene!.currentMap!.position, fromNode: node)
     }
     
     static func getPlayerPosition() -> CGPoint? {

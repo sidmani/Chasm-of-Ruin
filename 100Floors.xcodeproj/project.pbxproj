@@ -19,6 +19,8 @@
 		1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F304B2D1C3A33D30069D04D /* Projectile.swift */; };
 		1F457D431C6D009500E0CB37 /* Items.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1F457D421C6D009500E0CB37 /* Items.xml */; };
 		1F457D451C6D647400E0CB37 /* Levels.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1F457D441C6D647400E0CB37 /* Levels.xml */; };
+		1F457D471C6D8B4E00E0CB37 /* Berry Garden.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F457D461C6D8B4E00E0CB37 /* Berry Garden.png */; };
+		1F457D491C6D8FB700E0CB37 /* Hub.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1F457D481C6D8FB700E0CB37 /* Hub.tmx */; };
 		1F4686151C5C50AD004D3F55 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4686141C5C50AD004D3F55 /* Level.swift */; };
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F48547C1C4192EF008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F48547B1C4192EF008DDC8F /* Global.swift */; };
@@ -43,12 +45,14 @@
 		1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */; };
 		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
 		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
+		1F9669FE1C6E6C88009B3971 /* Berry Garden@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */; };
 		1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D9381C67C0E100ECA534 /* AEXML.swift */; };
 		1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FB3EB951C4B58B60056AAE1 /* chars.atlas */; };
 		1FCE14BE1C45F02100112188 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14BD1C45F02100112188 /* Item.swift */; };
 		1FCE14C21C46080600112188 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C11C46080600112188 /* Inventory.swift */; };
 		1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C31C475A0400112188 /* ItemContainer.swift */; };
 		1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FDD427D1C4DDD65008C809E /* Projectiles.atlas */; };
+		1FEC7C8C1C7033E0005AEDB3 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +69,8 @@
 		1F304B2D1C3A33D30069D04D /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Projectile.swift; path = ../Projectile.swift; sourceTree = "<group>"; };
 		1F457D421C6D009500E0CB37 /* Items.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Items.xml; sourceTree = "<group>"; };
 		1F457D441C6D647400E0CB37 /* Levels.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Levels.xml; sourceTree = "<group>"; };
+		1F457D461C6D8B4E00E0CB37 /* Berry Garden.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Berry Garden.png"; sourceTree = "<group>"; };
+		1F457D481C6D8FB700E0CB37 /* Hub.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Hub.tmx; path = Resources/Hub.tmx; sourceTree = "<group>"; };
 		1F4686141C5C50AD004D3F55 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F48547B1C4192EF008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 		1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATMXParser.h; sourceTree = "<group>"; };
 		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
 		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
+		1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Berry Garden@2x.png"; sourceTree = "<group>"; };
 		1FA7D9381C67C0E100ECA534 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
 		1FB3EB951C4B58B60056AAE1 /* chars.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = chars.atlas; sourceTree = "<group>"; };
 		1FCE14BA1C45E0CD00112188 /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100Floors.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +122,7 @@
 		1FCE14C11C46080600112188 /* Inventory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		1FCE14C31C475A0400112188 /* ItemContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemContainer.swift; path = ../ItemContainer.swift; sourceTree = "<group>"; };
 		1FDD427D1C4DDD65008C809E /* Projectiles.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Projectiles.atlas; sourceTree = "<group>"; };
+		1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +187,7 @@
 				1FCE14C11C46080600112188 /* Inventory.swift */,
 				1F48547B1C4192EF008DDC8F /* Global.swift */,
 				1FCE14BD1C45F02100112188 /* Item.swift */,
+				1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */,
 				1F4854791C41853B008DDC8F /* GameLogic.swift */,
 			);
 			name = "Game Logic";
@@ -187,6 +196,8 @@
 		1F45F9B31C4CAE9A00334AB5 /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
+				1F457D461C6D8B4E00E0CB37 /* Berry Garden.png */,
+				1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */,
 				1FDD427D1C4DDD65008C809E /* Projectiles.atlas */,
 				1F4A47A71C4B426000813143 /* Map.atlas */,
 				1FB3EB951C4B58B60056AAE1 /* chars.atlas */,
@@ -197,6 +208,7 @@
 		1F45F9B41C4CAEA400334AB5 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
+				1F457D481C6D8FB700E0CB37 /* Hub.tmx */,
 				1F4A47A91C4B42BF00813143 /* Map1.tmx */,
 			);
 			name = Maps;
@@ -401,6 +413,9 @@
 				1F4A47AA1C4B42BF00813143 /* Map1.tmx in Resources */,
 				1F457D451C6D647400E0CB37 /* Levels.xml in Resources */,
 				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
+				1F9669FE1C6E6C88009B3971 /* Berry Garden@2x.png in Resources */,
+				1F457D471C6D8B4E00E0CB37 /* Berry Garden.png in Resources */,
+				1F457D491C6D8FB700E0CB37 /* Hub.tmx in Resources */,
 				1F457D431C6D009500E0CB37 /* Items.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,6 +458,7 @@
 				1F56B9A81C4AEC8D0098380D /* SKACroppedMiniMap.m in Sources */,
 				1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */,
 				1F56B9A71C4AEC8D0098380D /* SKAButtonSprite.m in Sources */,
+				1FEC7C8C1C7033E0005AEDB3 /* MapObject.swift in Sources */,
 				1F48547C1C4192EF008DDC8F /* Global.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,
 				1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */,

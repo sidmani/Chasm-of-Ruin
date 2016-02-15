@@ -7,16 +7,23 @@
 //
 
 import SpriteKit
+// 6 basic kinds of item: consumable, weapon, skill, shield, enhancer, style
+// consumable: increases stats temporarily or permanently
+// skill: skill move
+// weapon: fires projectiles
+// shield: boosts DEF and potentially decreases SPD
+// enhancer: boosts a stat while equipped
+// style: changes appearance
 enum ItemType {
     case Weapon, Consumable, Skill, Shield, Enhancer, Style
 }
 class Item {
-    var node:SKSpriteNode?
     var statMods:Stats
     var description:String
     var name:String
     var consumable:Bool
     var type:ItemType
+    var node:SKSpriteNode?
     var projectile:String?
     
     init(withID:String) {
@@ -68,20 +75,14 @@ class Item {
         
     }
     
-    func getNode() -> SKSpriteNode? {
+    /*func getNode() -> SKSpriteNode? {
         return node
-    }
+    }*/
 }
 
-class ItemBag { // Container for item dropped on the ground (is this necessary?)
+class ItemBag:SKSpriteNode { // Container for item dropped on the ground (is this necessary?)
+    var item:Item?
     
 }
-// 6 basic kinds of item: consumable, weapon, skill, shield, enhancer, style
-// consumable: increases stats temporarily or permanently
-// skill: skill move
-// weapon: fires projectiles
-// shield: boosts DEF and potentially decreases SPD
-// enhancer: boosts a stat while equipped
-// style: changes appearance
 
 

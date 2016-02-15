@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <levels>
 	<level index="0">
-		<map>Map1</map>
+		<map>Hub</map>
 		<name>TestLevel</name>
 		<desc></desc>
+        <spawn-loc>
+            <random>false</random>
+            <x>10</x>
+            <y>10</y>
+        </spawn-loc>
 	</level>
 </levels>

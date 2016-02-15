@@ -10,10 +10,12 @@ class Level { //level is just a map with attributes etc
     var map:SKATiledMap
     var id:String
     var name:String
-    init(_map:String, _id: String, _name:String) {
+    var startLoc:CGPoint
+    init(_map:String, _id: String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
         id = _id
         name = _name
+        startLoc = _startLoc
     }
     convenience init (_id:String) {
         var thisLevel:AEXMLElement
@@ -28,7 +30,8 @@ class Level { //level is just a map with attributes etc
         else {
             fatalError("Level Not Found")
         }
-        self.init(_map:thisLevel["map"].value!, _id:_id, _name:thisLevel["name"].value!)
+        let point = CGPointMake(CGFloat(thisLevel["spawn-loc"]["x"].doubleValue), CGFloat(thisLevel["spawn-loc"]["y"].doubleValue))
+        self.init(_map:thisLevel["map"].value!, _id:_id, _name:thisLevel["name"].value!, _startLoc:point)
     }
 }
 

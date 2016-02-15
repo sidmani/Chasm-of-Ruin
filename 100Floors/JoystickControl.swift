@@ -71,6 +71,7 @@ class JoystickControl:UIControl{
             }
             else
             {
+                
                 let _angle = angle
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle))) //this can be optimized further
             }
@@ -90,6 +91,10 @@ class JoystickControl:UIControl{
             {
                 let _angle = angle
                 stickView.center = CGPoint(x: (ring_size * cos(_angle)), y:  (ring_size * sin(_angle)))
+              //  let newX = ring_size/pow(pow((displacement.dx / displacement.dy),2) - 1, 0.5)
+              //  let newY = newX * (displacement.dx / displacement.dy)
+              //  stickView.center = CGPointMake(newX, newY)
+
             }
         }
     }

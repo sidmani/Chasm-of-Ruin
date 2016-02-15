@@ -5,9 +5,31 @@
    <image width="16" height="16" source="Map.atlas/Floor155.png"/>
   </tile>
  </tileset>
+ <tileset firstgid="480" name="Stairs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+  <image source="../../../../Desktop/Stairs.png" trans="ffffff" width="48" height="48"/>
+ </tileset>
+ <tileset firstgid="489" name="Berry Garden" tilewidth="16" tileheight="16" margin="2" tilecount="49" columns="7">
+  <image source="../../../../Downloads/Berry Garden.png" trans="ffffff" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="538" name="Cliffs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+  <image source="../../../../Desktop/Cliffs.png" trans="ffffff" width="48" height="48"/>
+ </tileset>
+ <tileset firstgid="547" name="Stairs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+  <image source="../../../../Desktop/Stairs" trans="ffffff" width="48" height="48"/>
+ </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMA6C9f8hVGTyHgr2kqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrqHxS1L/8=
+   eJzt1TsKgDAUBEC18Bh6/1P5RT2GESJYaCcayBQDWy5vIenKougAAAAAAAAAAAAAAAAAAAB4TV09+7tbbs67TzG3wRxyE7NNvt9iCHkN+uiaxwR65uK6xVjev1dTAj1zcdx7iXts9kiC/wEAAAAAAAAAAAAAAAAAAAAAAAAAAIAdIBAYIA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1cEJwCAMBVDjGj10/6167S0jFBFBB7Be3oMQj5JPSCkAAAAAAAAAAAAAAAAAAADsktH7Vfv7rmuxX9S1c84bp3/ALKc82n6MHZHT/8bsn2n2LYdWKY8j3AwAAAAAAAAAAAAAAAAAAAAAAAAAAAA+67oJAQ==
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0bENACAMA8F4/1GhYQMKBqBCobiTvrfkKgAAAAAAAAAAAAAAAAAAAID3RroXcLPip1/MnAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAeG60ABKU=
   </data>
  </layer>
 </map>

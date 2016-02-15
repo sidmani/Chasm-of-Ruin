@@ -11,6 +11,7 @@ import SpriteKit
 
 class InGameScene: SKScene {
     var currentLevel:Level?
+    var currentMap:SKATiledMap?
     var character = SKNode()
     var nonCharNodes:SKNode = SKNode()
         var map:SKNode = SKNode()
@@ -44,7 +45,7 @@ class InGameScene: SKScene {
     {
         character.hidden = true
         nonCharNodes.hidden = true
-        //TODO: trigger loading screen
+        //TODO: trigger loading screen 
         if (currentMap != nil) {
         currentMap!.removeFromParent()
         }
@@ -66,10 +67,10 @@ class InGameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         //cull unnecessary tiles
         if (currentMap != nil) {
-        let mapLoc = currentMap!.indexForPoint(nonCharNodes.position)
-        let newLoc = mapCenterLoc-mapLoc
-        currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth-1, rowHeight: mapTilesHeight-1)
-        }
+            let mapLoc = currentMap!.indexForPoint(nonCharNodes.position)
+            let newLoc = mapCenterLoc-mapLoc
+            currentMap!.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth-1, rowHeight: mapTilesHeight-1)
+            }
         //////////////
         GameLogic.update()
         //////////////

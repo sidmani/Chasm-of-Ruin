@@ -10,20 +10,15 @@ import SpriteKit
 class Projectile:SKSpriteNode{
     //var ID:Int
     
-    //private var distanceTraveled:CGFloat {
-    //    get{
-    //        return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
-    //    }
-    //}
-    //var friendly: Bool
+    private var distanceTraveled:CGFloat {
+    
+            return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
+    
+    }
+    var friendly: Bool
     private var relVelocity: CGVector
     private var range: CGFloat
     private var startLoc: CGPoint
-        {
-        didSet{
-            self.position = startLoc
-        }
-    }
     
     init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) {
         var thisProjectile:AEXMLElement
@@ -43,7 +38,7 @@ class Projectile:SKSpriteNode{
         relVelocity = withVelocity
         range = CGFloat(thisProjectile["range"].doubleValue)
         startLoc = fromPoint
-        //friendly = isFriendly
+        friendly = isFriendly
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
@@ -70,7 +65,7 @@ class Projectile:SKSpriteNode{
     
     ///update functions
     private func rangeCheck() -> Bool {
-        if ((hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)) > self.range) {
+        if (distanceTraveled > self.range) {
             self.removeFromParent()
             return true
         }

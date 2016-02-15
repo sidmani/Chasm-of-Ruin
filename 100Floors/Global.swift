@@ -11,20 +11,20 @@ import UIKit
 //Screen/Map constants
 let screenSize: CGRect = UIScreen.mainScreen().bounds
 let screenCenter:CGPoint = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
-let tileEdge:CGFloat = 16
+let tileEdge:CGFloat = 32
 let mapTilesWidth:Int = Int(screenSize.width/(tileEdge))
 let mapTilesHeight:Int = Int(screenSize.height/(tileEdge))
 let mapCenterLoc:CGPoint = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
-let mapEdgeLoc:CGPoint = CGPoint(x: mapTilesWidth, y: mapTilesHeight)
+//let mapEdgeLoc:CGPoint = CGPoint(x: mapTilesWidth, y: mapTilesHeight)
 //Game logic constants
 let inventory_size = 8 // TODO: fix this (IAP)
 //Gameplay constants
 var move_sensitivity:Int8 = 0
 var rotate_sensitivity:Int8 = 0
 
-/*protocol Updatable {
+protocol Updatable {
     func update()
-}*/
+}
 let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later
 ///////////
 //Physics bitmasks
@@ -41,6 +41,9 @@ func +(left: CGPoint, right:CGPoint) -> CGPoint {
 func -(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x-right.x, y: left.y-right.y)
 }
+func *(left: CGFloat, right: CGPoint) -> CGPoint {
+    return CGPointMake(left*right.x, left*right.y)
+}
 
 func +(left: Stats, right:Stats) -> Stats { // add Stats together
     return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, hunger: left.hunger + right.hunger, level: left.level+right.level, mana: left.mana+right.mana, rage: left.rage + right.rage)
@@ -49,15 +52,16 @@ func +(left: Stats, right:Stats) -> Stats { // add Stats together
 func +(left:CGVector, right:CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
 }
-func >(left:CGPoint, right:CGPoint) -> Bool {
+/*func >(left:CGPoint, right:CGPoint) -> Bool {
     return (left.x > right.x && left.y > right.y)
-}
+}*/
 
-func <(left:CGPoint, right:CGPoint) -> Bool {
+/*func <(left:CGPoint, right:CGPoint) -> Bool {
     return (left.x < right.x && left.y < right.y)
-}
+}*/
 
 //Is left divisible by right?
+
 
 infix operator %% {}
 

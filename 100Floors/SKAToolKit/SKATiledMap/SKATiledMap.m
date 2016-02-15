@@ -368,7 +368,7 @@
                         {
                             sprite.physicsBody = [SKPhysicsBody
                                 bodyWithRectangleOfSize:sprite.size];
-                            //sprite.physicsBody.pinned = YES;
+                            sprite.physicsBody.pinned = YES;
                             sprite.physicsBody.dynamic = NO;
                             sprite.physicsBody.categoryBitMask = SKACategoryFloor;
                             sprite.physicsBody.contactTestBitMask = SKACategoryPlayer;
@@ -451,7 +451,7 @@
                     floorSprite.physicsBody = [SKPhysicsBody
                         bodyWithRectangleOfSize:floorSprite.size];
                     floorSprite.physicsBody.dynamic = NO;
-                    //floorSprite.physicsBody.pinned = YES;
+                    floorSprite.physicsBody.pinned = YES;
                     floorSprite.physicsBody.categoryBitMask = SKACategoryFloor;
                     floorSprite.physicsBody.contactTestBitMask = SKACategoryPlayer;
                     [self addChild:floorSprite];
@@ -687,10 +687,9 @@
              columnWidth:(NSInteger)width
                rowHeight:(NSInteger)height
 {
-    // hide everything
     
     // only update if something changed
-    if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
+  if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
     {
       
         NSInteger startingX = x - width / 2;
@@ -725,15 +724,16 @@
             
             startingY = endingY - height;
         }
+        NSMutableArray *spritesToTrash = [[NSMutableArray alloc] init];
        [self.visibleArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
         {
             SKASprite *sprite = obj;
             if (sprite.positionOnMap.x < startingX || sprite.positionOnMap.x >= endingX || sprite.positionOnMap.y < startingY || sprite.positionOnMap.y >= endingY) {
                 [sprite removeFromParent];
-                [self.visibleArray removeObjectAtIndex:idx];
+                [spritesToTrash addObject:sprite];
             }
         }];
-
+        [self.visibleArray removeObjectsInArray:spritesToTrash];
 
         for(NSInteger l = 0; l < self.spriteLayers.count; l++)
         {
@@ -748,9 +748,9 @@
                                          indexY:y];
 
                             if (sprite && sprite.parent == nil) {
-                                SKASpriteLayer *layer = self.spriteLayers[l];
-                                [layer addChild:sprite];
-                                [self.visibleArray addObject:sprite];
+                                    SKASpriteLayer *layer = self.spriteLayers[l];
+                                    [layer addChild:sprite];
+                                    [self.visibleArray addObject:sprite];
                             }
                     }
                 }
