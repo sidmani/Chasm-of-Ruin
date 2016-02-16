@@ -25,7 +25,7 @@ class Item {
     var permanent:Bool = false
     var type:ItemType
     var node:SKSpriteNode?
-    var projectile:String?
+    var projectile:String = ""
     
     init(withID:String) {
         var thisItem:AEXMLElement

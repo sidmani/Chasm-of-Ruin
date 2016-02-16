@@ -32,7 +32,7 @@ struct EquippedItems {
 //////////////////////
 
 
-class Entity:SKSpriteNode {
+class Entity:SKSpriteNode, Updatable {
     
     var ID:String
     init(_ID:String, texture: SKTexture)
@@ -40,7 +40,9 @@ class Entity:SKSpriteNode {
         ID = _ID
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
     }
-
+    func update() {
+        
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -49,17 +51,17 @@ class Entity:SKSpriteNode {
 //////////////////////
 
 class ThisCharacter: Entity {
-    var inventory:Inventory = Inventory()
-    private var currStats:Stats = nullStats
-    private var baseStats:Stats = nullStats
+    var inventory:Inventory
+    private var currStats:Stats
+    private var baseStats:Stats
     private var projectileTimer:NSTimer?
     private var projectileTimerEnabled = false
-    var equipped:EquippedItems = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
+    private var equipped:EquippedItems
     
     //convenience variables
     var currentProjectile:String {
         get{
-            return equipped.weapon!.projectile! //set weapon based on item
+            return equipped.weapon!.projectile //set weapon based on item
         }
     }
     var velocity:CGVector
@@ -71,27 +73,21 @@ class ThisCharacter: Entity {
     }
     
     /////////////
-    var absoluteLoc:CGPoint { //TODO: cleanup
-        set {
-            GameLogic.gameScene!.nonCharNodes.position = GameLogic.calculateMapPosition(newValue)
-        }
+    var absoluteLoc:CGPoint {
         get {
-            return GameLogic.calculateRelativePosition(self)
+            return GameLogic.getPositionOnMap(self)
         }
     }
-    
-   /* var screenLoc:CGPoint? {
-        didSet {
-            self.position = screenLoc!
-        }
-    }*/
-    
   
     //////////////
     //INIT
     
-    init(_ID: String, _absoluteLoc: CGPoint) {
-        super.init(_ID: _ID, texture: SKTextureAtlas(named: "chars").textureNamed("character"))
+    init() {
+        currStats = nullStats
+        baseStats = nullStats
+        inventory = Inventory()
+        equipped = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
+        super.init(_ID: "mainchar", texture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.friction = 0
@@ -100,14 +96,11 @@ class ThisCharacter: Entity {
         self.physicsBody!.contactTestBitMask = enemyProjectileMask | mapObjectMask
         self.physicsBody!.collisionBitMask = 0x0
         self.position = screenCenter
-        absoluteLoc = _absoluteLoc
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    ///POSITION/DIRECTION METHODS
     
     ///GRAPHICAL METHODS
     private func setImageOrientation() {
@@ -117,7 +110,7 @@ class ThisCharacter: Entity {
     //ITEM HANDLER METHODS
     func consumeItem(c:Item?)
     {
-        if (c != nil)
+        if (c != nil && c!.consumable)
         {
             if (c!.permanent) {
                 baseStats = baseStats + c!.statMods
@@ -127,7 +120,6 @@ class ThisCharacter: Entity {
             }
         }
     }
-    
     ///equip functions
     func equipItem(new:Item) -> Item? {
             switch (new.type)
@@ -156,7 +148,7 @@ class ThisCharacter: Entity {
     ///////////////////
     //Projectile Methods
     @objc private func fireProjectile() {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 5*RightJoystick!.displacement.dx, dy: 5*RightJoystick!.displacement.dy), isFriendly: true)
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(RightJoystick!.angle), dy: -500*sin(RightJoystick!.angle)), isFriendly: true)
         //TODO: check if projectiles can be shot etc
         GameLogic.addProjectile(newProjectile)
     }
@@ -169,7 +161,7 @@ class ThisCharacter: Entity {
         }
         else {
             projectileTimerEnabled = false
-            if ((projectileTimer) != nil) {
+            if (projectileTimer != nil) {
                 projectileTimer!.invalidate()
             }
         }
@@ -188,7 +180,7 @@ class ThisCharacter: Entity {
         }
 
     }
-    func update() {
+    override func update() {
         updateProjectileState()
     }
     ///////////////////
@@ -198,5 +190,7 @@ class ThisCharacter: Entity {
 
 
 class Enemy:Entity {
-    
+    override func update() {
+        
+    }
 }

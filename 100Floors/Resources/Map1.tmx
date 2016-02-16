@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" name="Floor" tilewidth="16" tileheight="16" tilecount="1" columns="0">
-  <tile id="478">
-   <image width="16" height="16" source="Map.atlas/Floor155.png"/>
-  </tile>
- </tileset>
- <tileset firstgid="480" name="Stairs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+ <tileset firstgid="1" name="Stairs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
   <image source="../../../../Desktop/Stairs.png" trans="ffffff" width="48" height="48"/>
  </tileset>
- <tileset firstgid="489" name="Berry Garden" tilewidth="16" tileheight="16" margin="2" tilecount="49" columns="7">
+ <tileset firstgid="10" name="Berry Garden" tilewidth="16" tileheight="16" margin="2" tilecount="49" columns="7">
   <image source="../../../../Downloads/Berry Garden.png" trans="ffffff" width="128" height="128"/>
  </tileset>
- <tileset firstgid="538" name="Cliffs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+ <tileset firstgid="59" name="Cliffs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
   <image source="../../../../Desktop/Cliffs.png" trans="ffffff" width="48" height="48"/>
  </tileset>
- <tileset firstgid="547" name="Stairs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+ <tileset firstgid="68" name="Stairs" tilewidth="16" tileheight="16" tilecount="9" columns="3">
   <image source="../../../../Desktop/Stairs" trans="ffffff" width="48" height="48"/>
+ </tileset>
+ <tileset firstgid="77" name="Character" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../../../../Desktop/Character.png" trans="ffffff" width="64" height="64"/>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1TsKgDAUBEC18Bh6/1P5RT2GESJYaCcayBQDWy5vIenKougAAAAAAAAAAAAAAAAAAAB4TV09+7tbbs67TzG3wRxyE7NNvt9iCHkN+uiaxwR65uK6xVjev1dTAj1zcdx7iXts9kiC/wEAAAAAAAAAAAAAAAAAAAAAAAAAAIAdIBAYIA==
+   eJzt1TsKwzAQBcB17PxO4i5XSO5/qmiRDC6Cq2AVmoGHtxRvkRUBAAAAAAAAAAAAAAAAAADAP1zadz0I51midv7azZ+Sa8m7zXZyjrwbz6h95/womVr289zrgIO5R+37FrX/7P3X/2rpdcABZd+5l9zHdlfso6+jt9zbAQAAAAAAAAAAAAAAAAAAAAAAAAAAMIYvWygF7A==
   </data>
  </layer>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1cEJwCAMBVDjGj10/6167S0jFBFBB7Be3oMQj5JPSCkAAAAAAAAAAAAAAAAAAADsktH7Vfv7rmuxX9S1c84bp3/ALKc82n6MHZHT/8bsn2n2LYdWKY8j3AwAAAAAAAAAAAAAAAAAAAAAAAAAAAA+67oJAQ==
+   eJzt1TEOgCAMAEBcHNz4gu9w8P+vcqlRcJZqcpc0LYShoSGUAgAAAAAAAAAAAAAAAADwX1t2AzTM41vMI8cUMce6Rt6i3rvgfWuXybNkN0Cj3uq1XG/EnMY773667S0R9XmcAfwZAAAAAAAAAAAAAAAAAAAAAAAAAAAAHA6tAzI=
   </data>
  </layer>
  <layer name="Tile Layer 3" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt0bENACAMA8F4/1GhYQMKBqBCobiTvrfkKgAAAAAAAAAAAAAAAAAAAID3RroXcLPip1/MnAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAeG60ABKU=
+   eJzt1+FJw0AYBuCvWEhB/aML5F+HELTZxFEcpaM4SkfxzqR4LWkUTEiNzwMvyaUtHPeS5BoBAAAAAAAAAAAAAAAAwDWqIg4p9dzz+G+2EW855XlOEzqZQ9lBTx/76mucs2/mnvCCXeri2Mc65SnlJaVpr4c+pvNdH+neiJvue7mP59DHlMr1L6/nDo7rvu6Oxz7KMK6yj1V6d5ef5efU7nT8+by61CG/d76udymP3fmq7Wi36Y4p7+VvdDK+vjXdnI0fou0pS5286mI6Q2ub75PblPto/4DU3fVuD1zrY3xDz55tz/si77eq9njQx/iG9rs/ydzzXxp9XBddLIM+AAAAAAAAAAAAAAAAAAAAAAAAAOBv+ABnmFod
+  </data>
+ </layer>
+ <layer name="Tile Layer 4" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzjEBAAAIA6AVtH8dK+zSBxKQAAAAAAAAAAAAAAAAAAAAANyY7wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFBYXXABO
   </data>
  </layer>
 </map>

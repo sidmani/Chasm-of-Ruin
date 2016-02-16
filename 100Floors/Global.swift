@@ -7,7 +7,6 @@
 //
 import UIKit
 //TODO: clean this up
-//Constants
 //Screen/Map constants
 let screenSize: CGRect = UIScreen.mainScreen().bounds
 let screenCenter:CGPoint = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
