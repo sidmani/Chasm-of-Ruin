@@ -18,7 +18,7 @@ class Projectile:SKSpriteNode{
     private var range: CGFloat
     private var startLoc: CGPoint
     
-    init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) {
+    init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat) {
         var thisProjectile:AEXMLElement
         if let projectiles = itemXML!.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
             if (projectiles.count != 1) {
@@ -34,7 +34,7 @@ class Projectile:SKSpriteNode{
         let texture = SKTextureAtlas(named: "Projectiles").textureNamed(thisProjectile["img"].value!)
         let size = texture.size()
         relVelocity = withVelocity
-        range = CGFloat(thisProjectile["range"].doubleValue)
+        range = withRange
         startLoc = fromPoint
         friendly = isFriendly
         super.init(texture: texture, color: UIColor.clearColor(), size: size)

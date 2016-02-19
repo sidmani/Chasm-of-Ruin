@@ -40,9 +40,8 @@ class Entity:SKSpriteNode, Updatable {
         ID = _ID
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
     }
-    func update() {
-        
-    }
+    func update() {}
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -67,7 +66,7 @@ class ThisCharacter: Entity {
     var velocity:CGVector
     {
         get {
-            return CGVector(dx: 5*LeftJoystick!.displacement.dx, dy: 5*LeftJoystick!.displacement.dy)
+            return CGVector(dx: 5*GameLogic.LeftJoystick!.displacement.dx, dy: 5*GameLogic.LeftJoystick!.displacement.dy)
             //return CGVector(dx: 5*currStats.speed*LeftJoystick!.displacement.dx, dy: 5*currStats.speed*LeftJoystick!.displacement.dy)
         }
     }
@@ -147,17 +146,22 @@ class ThisCharacter: Entity {
     
     ///////////////////
     //Projectile Methods
-    @objc private func fireProjectile() {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(RightJoystick!.angle), dy: -500*sin(RightJoystick!.angle)), isFriendly: true)
+    func fireProjectile(withVelocity:CGVector) {
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: equipped.weapon!.range)
+        GameLogic.addProjectile(newProjectile)
+    }
+    
+    @objc private func fireProjectileFromTimer() {
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(GameLogic.RightJoystick!.angle), dy: -500*sin(GameLogic.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range)
         //TODO: check if projectiles can be shot etc
         GameLogic.addProjectile(newProjectile)
     }
     
     private func attachProjectileCreator(enable:Bool) {
         if (enable) {
-            fireProjectile()
+            fireProjectileFromTimer()
             projectileTimerEnabled = true
-            projectileTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "fireProjectile", userInfo: nil, repeats: true) //TODO: calculate rate of fire
+            projectileTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "fireProjectileFromTimer", userInfo: nil, repeats: true) //TODO: calculate rate of fire
         }
         else {
             projectileTimerEnabled = false
@@ -166,24 +170,34 @@ class ThisCharacter: Entity {
             }
         }
     }
+    
     //////////////////
     //Update methods
     
     private func updateProjectileState() {
-        if (RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
+        if (GameLogic.RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
         {
             self.attachProjectileCreator(true)
         }
-        else if (RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
+        else if (GameLogic.RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
         {
             self.attachProjectileCreator(false)
         }
 
     }
+    private func updateHealthState() {
+        if (self.currStats.health == 0) {
+            die()
+        }
+    }
     override func update() {
         updateProjectileState()
+        //updateHealthState()
     }
     ///////////////////
+    private func die() {
+        
+    }
 }
 
 
@@ -191,6 +205,10 @@ class ThisCharacter: Entity {
 
 class Enemy:Entity {
     override func update() {
+        //run AI
+    }
+    func die() {
         
     }
+    
 }

@@ -78,13 +78,13 @@ func print(point:CGPoint)
 }
 
 //UI controls
-var LeftJoystick:JoystickControl?
-var RightJoystick:JoystickControl?
-var HPBar:ReallyBigDisplayBar?
-var ManaBar:DisplayBar?
-var HungerBar:DisplayBar?
-var Equip1:ItemContainer?
-var Equip2:ItemContainer?
-var Equip3:ItemContainer?
-var Equip4:ItemContainer?
+//var LeftJoystick:JoystickControl?
+//var RightJoystick:JoystickControl?
+//var HPBar:ReallyBigDisplayBar?
+//var ManaBar:DisplayBar?
+//var HungerBar:DisplayBar?
+//var Equip1:ItemContainer?
+//var Equip2:ItemContainer?
+//var Equip3:ItemContainer?
+//var Equip4:ItemContainer?
 

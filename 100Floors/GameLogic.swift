@@ -13,6 +13,10 @@ var itemXML: AEXMLDocument?
 var levelXML: AEXMLDocument?
 var saveXML: AEXMLDocument?
 class GameLogic {
+    static var LeftJoystick:JoystickControl?
+    static var RightJoystick:JoystickControl?
+    static var HPBar:ReallyBigDisplayBar?
+    static var HungerBar:DisplayBar?
     private static var gameScene: InGameScene?
     ////internal methods (can be accessed from any class)////   
     static func setup() {
@@ -42,6 +46,15 @@ class GameLogic {
         
     }
     
+    static func doubleTapTrigger(sender:JoystickControl) {
+        if (sender == LeftJoystick!) {
+            //rage attack
+        }
+        else {
+            //skill attack
+        }
+    }
+    
     ///////UPDATE////////
     static func update() {
         thisCharacter.update()
@@ -49,10 +62,13 @@ class GameLogic {
         gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
         updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
         //updateEnemies(LeftJoystick!.valueChanged)
+        //updateUIObjects()
         //update velocity of everything else
 
     }
-    
+    private static func updateUIObjects() {
+
+    }
     private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode]) {
         for node in projectileArray {
             if let projectile = node as? Projectile {

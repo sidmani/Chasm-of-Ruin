@@ -12,35 +12,21 @@ class Inventory {
     {
         
     }
-    var inventoryFull:Bool {
+    var inventoryCount:Int {
         get{
-            return inventory.count == inventory_size
+            return inventory.count
         }
     }
-    var inventoryEmpty:Bool {
-        get{
-            return inventory.isEmpty
-        }
-    }
-    func addItem(item:Item, atIndex:Int)
-    {
-        if (!inventoryFull)
+
+    func addItem(item:Item, atIndex:Int) {
+        if (inventoryCount < inventory_size)
         {
             inventory.insert(item, atIndex: atIndex)
         }
         
     }
-    func consumeItem(atIndex:Int) -> Item?
-    {
-        if let item = inventory[atIndex]
-        {
-            inventory.removeAtIndex(atIndex)
-            return item
-        }
-        return nil
-    }
-    func discardItem(atIndex:Int) -> Item?
-    {
+    
+    func removeItem(atIndex:Int) -> Item? {
         if let item = inventory[atIndex]
         {
             inventory.removeAtIndex(atIndex)

@@ -26,7 +26,7 @@ class Item {
     var type:ItemType
     var node:SKSpriteNode?
     var projectile:String = ""
-    
+    var range:CGFloat = 0
     init(withID:String) {
         var thisItem:AEXMLElement
         if let items = itemXML!.root["items"]["item"].allWithAttributes(["id":withID]) {
@@ -73,6 +73,7 @@ class Item {
                 rage: CGFloat(thisItem["Stats"]["rage"].doubleValue))
         if (type == ItemType.Weapon) {
             projectile = thisItem["projectile-id"].value!
+            range = CGFloat(thisItem["range"].doubleValue)
         }
         
     }

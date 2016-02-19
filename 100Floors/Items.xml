@@ -19,12 +19,12 @@
             </stats>
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
+            <range>25</range>
         </item>
     </items>
     <projectiles>
         <projectile id="testid">
             <img>SwordProjectile</img>
-            <range>25</range>
         </projectile>
     </projectiles>
 </root>
