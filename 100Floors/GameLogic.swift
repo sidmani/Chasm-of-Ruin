@@ -90,6 +90,9 @@ class GameLogic {
     static func addProjectile(p:Projectile) {
         gameScene!.addProjectile(p)
     }
+    static func addMapObject() {
+        
+    }
     static func setScene(newScene:InGameScene) {
         gameScene = newScene
     }

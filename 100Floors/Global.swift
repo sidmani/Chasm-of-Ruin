@@ -6,7 +6,7 @@
 //
 //
 import UIKit
-//TODO: clean this up
+
 //Screen/Map constants
 let screenSize: CGRect = UIScreen.mainScreen().bounds
 let screenCenter:CGPoint = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
@@ -47,13 +47,6 @@ func +(left: Stats, right:Stats) -> Stats { // add Stats together
 func +(left:CGVector, right:CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
 }
-/*func >(left:CGPoint, right:CGPoint) -> Bool {
-    return (left.x > right.x && left.y > right.y)
-}*/
-
-/*func <(left:CGPoint, right:CGPoint) -> Bool {
-    return (left.x < right.x && left.y < right.y)
-}*/
 
 //Is left divisible by right?
 
@@ -76,15 +69,3 @@ func print(point:CGPoint)
 {
     print("(\(point.x),\(point.y))")
 }
-
-//UI controls
-//var LeftJoystick:JoystickControl?
-//var RightJoystick:JoystickControl?
-//var HPBar:ReallyBigDisplayBar?
-//var ManaBar:DisplayBar?
-//var HungerBar:DisplayBar?
-//var Equip1:ItemContainer?
-//var Equip2:ItemContainer?
-//var Equip3:ItemContainer?
-//var Equip4:ItemContainer?
-
