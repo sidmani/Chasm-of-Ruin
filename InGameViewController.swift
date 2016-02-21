@@ -17,52 +17,33 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var RightJoystickControl: JoystickControl!
     
     @IBOutlet weak var HPDisplayBar: ReallyBigDisplayBar!
-//  @IBOutlet weak var ManaDisplayBar: DisplayBar!
     @IBOutlet weak var HungerDisplayBar: DisplayBar!
     
- //   @IBOutlet weak var EquipContainer1: ItemContainer!
- //   @IBOutlet weak var EquipContainer2: ItemContainer!
- //   @IBOutlet weak var EquipContainer3: ItemContainer!
- //   @IBOutlet weak var EquipContainer4: ItemContainer!
+    @IBOutlet weak var MenuButton: UIButton!
+    @IBOutlet weak var InventoryButton: UIButton!
+    @IBOutlet weak var InteractButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //setup global UI components
+        //setup UI components
         GameLogic.LeftJoystick = LeftJoystickControl
         GameLogic.RightJoystick = RightJoystickControl
         GameLogic.HPBar = HPDisplayBar
-//        ManaBar = ManaDisplayBar
         GameLogic.HungerBar = HungerDisplayBar
-//        Equip1 = EquipContainer1
-//        Equip2 = EquipContainer2
-//        Equip3 = EquipContainer3
-//        Equip4 = EquipContainer4
-
+        GameLogic.MenuButton = MenuButton
+        GameLogic.InventoryButton = InventoryButton
+        GameLogic.InteractButton = InteractButton
         //////////
         //Joysticks
-        LeftJoystickControl.center = CGPoint(x: 75, y: screenSize.height - 75)
-        LeftJoystickControl.backgroundColor = UIColor.clearColor()
-        RightJoystickControl.center = CGPoint(x: screenSize.width - 75, y: screenSize.height - 75)
-        RightJoystickControl.backgroundColor = UIColor.clearColor()
+        //LeftJoystickControl.center = CGPoint(x: 75, y: screenSize.height - 75)
+        //LeftJoystickControl.backgroundColor = UIColor.clearColor()
+        //RightJoystickControl.center = CGPoint(x: screenSize.width - 75, y: screenSize.height - 75)
+        //RightJoystickControl.backgroundColor = UIColor.clearColor()
         
         /////////
         //Status bars
-     
-        HungerDisplayBar.center = CGPoint(x: 100, y: 20)
-//        ManaDisplayBar.center = CGPoint(x: 100, y: 38)
-        HPDisplayBar.center = CGPoint(x: screenSize.width-200, y: 27)
-        
-        //////////
-        //Equipment containers
-//        EquipContainer1.center = CGPoint(x:200, y: screenSize.height - 75)
-//        EquipContainer1.backgroundColor = UIColor.clearColor()
-//        EquipContainer2.center = CGPoint(x:275, y: screenSize.height - 75)
-//        EquipContainer2.backgroundColor = UIColor.clearColor()
-//        EquipContainer3.center = CGPoint(x:350, y: screenSize.height - 75)
-//        EquipContainer3.backgroundColor = UIColor.clearColor()
-//        EquipContainer4.center = CGPoint(x:425, y: screenSize.height - 75)
-//        EquipContainer4.backgroundColor = UIColor.clearColor()
-
+        //HungerDisplayBar.center = CGPoint(x: 100, y: 20)
+        //HPDisplayBar.center = CGPoint(x: screenSize.width-200, y: 27)
         //////////
         let skView = view as! SKView
         skView.showsFPS = true

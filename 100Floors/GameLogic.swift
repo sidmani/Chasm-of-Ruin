@@ -17,8 +17,11 @@ class GameLogic {
     static var RightJoystick:JoystickControl?
     static var HPBar:ReallyBigDisplayBar?
     static var HungerBar:DisplayBar?
+    static var InteractButton:UIButton?
+    static var InventoryButton:UIButton?
+    static var MenuButton:UIButton?
     private static var gameScene: InGameScene?
-    ////internal methods (can be accessed from any class)////   
+
     static func setup() {
         //setup items/projectiles xml
         var xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
@@ -67,7 +70,7 @@ class GameLogic {
 
     }
     private static func updateUIObjects() {
-
+        
     }
     private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode]) {
         for node in projectileArray {
@@ -105,6 +108,13 @@ class GameLogic {
     }
     static func getPositionOnMap(ofNode:SKNode) -> CGPoint {
         return gameScene!.getPositionOnMap(ofNode)
+    }
+    static func usePortal(p:Portal) {
+        setLevel(Level(_id: p.destinationID))
+    }
+    static func withinInteractDistance(ofMapObject: MapObject) {
+        //switch button from "use set item" to "interact"
+        //
     }
     ////Utility////
     static func getThisCharacter() -> ThisCharacter { //TODO: delete this

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 class ItemContainer:UIView {
     var containerView:UIView
     var itemView:UIView

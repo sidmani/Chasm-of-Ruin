@@ -11,7 +11,7 @@ import SpriteKit
 
 class JoystickControl:UIControl{
     let ring_size: CGFloat = 25
-    let progress_size:CGFloat = 50
+    //let progress_size:CGFloat = 30
     let center_offset:CGFloat = 50
     let ringView = UIView()
     let stickView = UIView()
@@ -22,17 +22,7 @@ class JoystickControl:UIControl{
 
     var currentPoint = CGPoint(x:0, y:0)
     var angle: CGFloat = 0
-        /*{
-        get {
-            return atan2(currentPoint.y, currentPoint.x)
-        }
-    }*/
     var distance: CGFloat = 0
-  /*  var abs_distance: CGFloat {
-        get{
-            return min(distance, ring_size)
-        }
-    }*/
     var displacement:CGVector {
         return CGVectorMake(stickView.center.x, -1*stickView.center.y)
     }
@@ -54,11 +44,11 @@ class JoystickControl:UIControl{
         stickLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         stickLayer.lineWidth = 2.0
         //setup progress view
-        let progressPath = UIBezierPath(arcCenter: CGPoint(x:center_offset, y: center_offset), radius: progress_size, startAngle: CGFloat(0), endAngle: CGFloat(M_PI) * 2, clockwise: true)
+        let progressPath = UIBezierPath(arcCenter: CGPoint(x:center_offset, y: center_offset), radius: ring_size+14, startAngle: CGFloat(0), endAngle: CGFloat(M_PI) * 2, clockwise: true)
         progressLayer.path = progressPath.CGPath
-        progressLayer.fillColor = UIColor.clearColor().CGColor
-        progressLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
-        progressLayer.lineWidth = 20
+        progressLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
+       // progressLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
+        //progressLayer.lineWidth = 20
         //set up double tap gesture
         let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
         tap.numberOfTapsRequired = 2

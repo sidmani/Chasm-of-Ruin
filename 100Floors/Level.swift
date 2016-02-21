@@ -6,18 +6,19 @@
 //
 //
 
-class Level { //level is just a map with attributes etc
-    var map:SKATiledMap
-    var id:String
-    var name:String
+class Level:SKNode { //level is just a map with attributes etc
+    private var map:SKATiledMap
+  //  var id:String
     var startLoc:CGPoint
-   // var objects:[MapObject]
+    var objects = [MapObject]()
     
-    init(_map:String, _id: String, _name:String, _startLoc:CGPoint) {
+    init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
-        id = _id
-        name = _name
+   //     id = _id
         startLoc = _startLoc
+        super.init()
+        name = _name
+        self.addChild(map)
     }
     convenience init (_id:String) {
         var thisLevel:AEXMLElement
@@ -33,7 +34,17 @@ class Level { //level is just a map with attributes etc
             fatalError("Level Not Found")
         }
         let point = CGPointMake(CGFloat(thisLevel["spawn-loc"]["x"].doubleValue), CGFloat(thisLevel["spawn-loc"]["y"].doubleValue))
-        self.init(_map:thisLevel["map"].value!, _id:_id, _name:thisLevel["name"].value!, _startLoc:point)
+        self.init(_map:thisLevel["map"].value!, _name:thisLevel["name"].value!, _startLoc:point)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func indexForPoint(p:CGPoint) -> CGPoint {
+        return map.indexForPoint(p)
+    }
+    func cull(x:Int, y:Int, width:Int, height:Int) {
+        map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
     }
 }
 
@@ -41,6 +52,6 @@ class Dungeon { //this is procedurally generated
     
 }
 
-class Hub:Level {
+class Hub:Level { //probably delete this
 
 }

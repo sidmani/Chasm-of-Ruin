@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//TODO: replace with LDProgressView
 class DisplayBar: UIProgressView {
     
     let redVal:Float = 0.2

@@ -11,19 +11,13 @@ import SpriteKit
 
 class InGameScene: SKScene {
     private var currentLevel:Level?
-    //var currentMap:SKATiledMap? {
-    //    return currentLevel?.map
-    //}
     var character = SKNode()
     var nonCharNodes = SKNode()
-        var mapObjects = SKNode()
-        //var map = SKNode()
-        var projectiles = SKNode()
+    var projectiles = SKNode()
         var enemies = SKNode()
 
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
-        //map.zPosition = 0
         GameLogic.setScene(self)
         GameLogic.setup()
         nonCharNodes.physicsBody = SKPhysicsBody()
@@ -37,8 +31,6 @@ class InGameScene: SKScene {
         
         nonCharNodes.addChild(enemies)
         nonCharNodes.addChild(projectiles)
-        //nonCharNodes.addChild(map)
-        nonCharNodes.addChild(mapObjects)
         addChild(nonCharNodes)
         addChild(character)
     }
@@ -50,20 +42,18 @@ class InGameScene: SKScene {
         nonCharNodes.hidden = true
         //Hide controls
         //TODO: trigger loading screen 
-        if (currentLevel?.map != nil) {
-        currentLevel!.map.removeFromParent()
-        }
+        currentLevel = newLevel
+        nonCharNodes.addChild(currentLevel!)
         for node in enemies.children {
             node.removeFromParent()
         }
         for node in projectiles.children {
             node.removeFromParent()
         }
-        currentLevel = newLevel
-        currentLevel!.map.zPosition = 0
-        nonCharNodes.addChild(currentLevel!.map)
+        currentLevel!.zPosition = 0
         setCharPosition(tileEdge * newLevel.startLoc)
         //end loading screen
+        //show controls
         character.hidden = false
         nonCharNodes.hidden = false
         
@@ -72,15 +62,15 @@ class InGameScene: SKScene {
         nonCharNodes.position = CGPointMake(screenSize.width/2 - atPoint.x, screenSize.height/2 - atPoint.y)
     }
     func getPositionOnMap(ofNode:SKNode) -> CGPoint {
-        return currentLevel!.map.convertPoint(currentLevel!.map.position, fromNode: ofNode)
+        return currentLevel!.convertPoint(currentLevel!.position, fromNode: ofNode)
     }
     ////////
     override func update(currentTime: CFTimeInterval) {
         //cull unnecessary tiles
         if (currentLevel != nil) {
-            let mapLoc = currentLevel!.map.indexForPoint(nonCharNodes.position)
+            let mapLoc = currentLevel!.indexForPoint(nonCharNodes.position)
             let newLoc = mapCenterLoc-mapLoc
-            currentLevel!.map.cullAroundIndexX(Int(newLoc.x), indexY: Int(newLoc.y), columnWidth: mapTilesWidth-1, rowHeight: mapTilesHeight-1)
+            currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: mapTilesWidth-1, height: mapTilesHeight-1)
             }
         //////////////
         GameLogic.update()
@@ -101,11 +91,4 @@ class InGameScene: SKScene {
         enemies.addChild(e)
         }
     }
-    func addMapObject(m:MapObject) {
-        if (m.parent == nil) {
-        mapObjects.addChild(m)
-        }
-    }
-    
-    
 }
