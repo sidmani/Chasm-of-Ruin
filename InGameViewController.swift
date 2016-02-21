@@ -34,23 +34,13 @@ class InGameViewController: UIViewController {
         GameLogic.InventoryButton = InventoryButton
         GameLogic.InteractButton = InteractButton
         //////////
-        //Joysticks
-        //LeftJoystickControl.center = CGPoint(x: 75, y: screenSize.height - 75)
-        //LeftJoystickControl.backgroundColor = UIColor.clearColor()
-        //RightJoystickControl.center = CGPoint(x: screenSize.width - 75, y: screenSize.height - 75)
-        //RightJoystickControl.backgroundColor = UIColor.clearColor()
-        
-        /////////
-        //Status bars
-        //HungerDisplayBar.center = CGPoint(x: 100, y: 20)
-        //HPDisplayBar.center = CGPoint(x: screenSize.width-200, y: 27)
-        //////////
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
         let gameScene = InGameScene(size:skView.bounds.size)
+        GameLogic.setScene(gameScene)
         gameScene.scaleMode = .AspectFill
         skView.presentScene(gameScene)
     }

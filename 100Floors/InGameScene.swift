@@ -9,16 +9,15 @@
 
 import SpriteKit
 
-class InGameScene: SKScene {
+class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var currentLevel:Level?
     var character = SKNode()
     var nonCharNodes = SKNode()
-    var projectiles = SKNode()
+        var projectiles = SKNode()
         var enemies = SKNode()
-
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
-        GameLogic.setScene(self)
+        self.physicsWorld.contactDelegate = self
         GameLogic.setup()
         nonCharNodes.physicsBody = SKPhysicsBody()
         nonCharNodes.physicsBody!.affectedByGravity = false
@@ -35,6 +34,9 @@ class InGameScene: SKScene {
         addChild(character)
     }
 
+    func didBeginContact(contact: SKPhysicsContact) {
+        print("contact!")
+    }
     
     func setLevel(newLevel:Level)
     {
@@ -42,15 +44,14 @@ class InGameScene: SKScene {
         nonCharNodes.hidden = true
         //Hide controls
         //TODO: trigger loading screen 
-        currentLevel = newLevel
-        nonCharNodes.addChild(currentLevel!)
         for node in enemies.children {
             node.removeFromParent()
         }
         for node in projectiles.children {
             node.removeFromParent()
         }
-        currentLevel!.zPosition = 0
+        currentLevel = newLevel
+        nonCharNodes.addChild(currentLevel!)
         setCharPosition(tileEdge * newLevel.startLoc)
         //end loading screen
         //show controls

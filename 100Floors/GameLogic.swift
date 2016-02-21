@@ -65,11 +65,12 @@ class GameLogic {
         gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
         updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
         //updateEnemies(LeftJoystick!.valueChanged)
-        //updateUIObjects()
+        //updateUIElements()
         //update velocity of everything else
 
     }
-    private static func updateUIObjects() {
+    
+    private static func updateUIElements() {
         
     }
     private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode]) {

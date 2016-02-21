@@ -40,15 +40,22 @@ class Spawner:MapObject, Updatable {
 
 class Portal:MapObject {
     var destinationID:String
-    var enabledTexture:String
-    var disabledTexture:String
-    init(loc:CGPoint, _destinationID:String, _enabledTexture: String, _disabledTexture: String) {
+    //var enabledTexture:String
+    //var disabledTexture:String
+    init(loc:CGPoint, _destinationID:String) {
         destinationID = _destinationID
-        enabledTexture = _enabledTexture
-        disabledTexture = _disabledTexture
+      //  enabledTexture = _enabledTexture
+      //  disabledTexture = _disabledTexture
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
-        self.physicsBody!.categoryBitMask = mapObjectMask
+        self.physicsBody!.categoryBitMask = PhysicsCategory.MapObject
+        self.physicsBody!.contactTestBitMask = PhysicsCategory.None
+        self.physicsBody!.collisionBitMask = PhysicsCategory.None
+        self.physicsBody!.pinned = true
+        let testNode = SKSpriteNode(color: UIColor.blueColor(), size: CGSize(width: 32, height: 32))
+        testNode.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        testNode.physicsBody!.pinned = true;
+        self.addChild(testNode)
     }
     //convenience init(withID:String) {
         

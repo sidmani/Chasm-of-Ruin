@@ -26,7 +26,7 @@ class DisplayBar: UIProgressView {
             self.progressTintColor = UIColor.redColor()
         }
         else if newVal < yellowVal {
-            self.progressTintColor = UIColor(red: 255, green: CGFloat((newVal-0.2)/0.3), blue: 0, alpha: 1.0) //TODO: generalize
+            self.progressTintColor = UIColor(red: 255, green: CGFloat((newVal-0.2)/0.3), blue: 0, alpha: 1.0)
         }
         else {
             self.progressTintColor = UIColor(red: CGFloat(2-2*newVal), green: 255, blue: 0, alpha: 1.0)

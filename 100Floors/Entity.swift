@@ -8,7 +8,7 @@
 import SpriteKit
 
 //// data structs ////
-struct Stats { //TODO: add base stat and current stat definitions
+struct Stats {
     var health:CGFloat    // Health
     var defense:CGFloat   // Defense (% projectile is weakened by)
     var attack:CGFloat    // Attack (% own projectile is strengthened by)
@@ -26,7 +26,7 @@ struct EquippedItems {
     var enhancer:Item?
     var skill:Item?
     func totalStatChanges() -> Stats {
-        return shield!.statMods+weapon!.statMods+skill!.statMods+enhancer!.statMods
+        return shield!.statMods+weapon!.statMods+skill!.statMods+enhancer!.statMods //TODO: handle nil case
     }
 }
 //////////////////////
@@ -80,7 +80,6 @@ class ThisCharacter: Entity {
   
     //////////////
     //INIT
-    
     init() {
         currStats = nullStats
         baseStats = nullStats
@@ -91,15 +90,16 @@ class ThisCharacter: Entity {
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.friction = 0
         self.physicsBody!.pinned = true //really?
-        self.physicsBody!.categoryBitMask = thisPlayerMask
-        self.physicsBody!.contactTestBitMask = enemyProjectileMask | mapObjectMask
-        self.physicsBody!.collisionBitMask = 0x0
+        self.physicsBody!.categoryBitMask = PhysicsCategory.ThisPlayer
+        self.physicsBody!.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.MapObject
+        self.physicsBody!.collisionBitMask = PhysicsCategory.None
         self.position = screenCenter
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    ///collision handling
     
     ///GRAPHICAL METHODS
     private func setImageOrientation() {

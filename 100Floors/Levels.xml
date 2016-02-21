@@ -9,5 +9,16 @@
             <x>10</x>
             <y>10</y>
         </spawn-loc>
+        <map-objects>
+            <map-object>
+                <type>Portal</type>
+                <dest-id>0</dest-id>
+                <autotrigger>false</autotrigger>
+                <loc>
+                    <x>5</x>
+                    <y>5</y>
+                </loc>
+            </map-object>
+        </map-objects>
 	</level>
 </levels>

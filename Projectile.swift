@@ -45,10 +45,10 @@ class Projectile:SKSpriteNode{
         self.physicsBody!.affectedByGravity = false
         
         if (isFriendly) {
-        self.physicsBody!.categoryBitMask = friendlyProjectileMask
+        self.physicsBody!.categoryBitMask = PhysicsCategory.FriendlyProjectile
         }
         else {
-        self.physicsBody!.categoryBitMask = enemyProjectileMask
+        self.physicsBody!.categoryBitMask = PhysicsCategory.EnemyProjectile
         }
         
         self.physicsBody!.contactTestBitMask = 0x0 << 0

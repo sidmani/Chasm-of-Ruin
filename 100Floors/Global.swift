@@ -23,11 +23,15 @@ protocol Updatable {
 let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later
 ///////////
 //Physics bitmasks
-let friendlyProjectileMask : UInt32 = 0x0<<1
-let thisPlayerMask: UInt32 = 0x0<<2
-let enemyMask: UInt32 = 0x0<<3
-let mapObjectMask:UInt32 = 0x0<<4
-let enemyProjectileMask:UInt32 = 0x0<<5
+struct PhysicsCategory {
+    static let None: UInt32 = 0
+    static let All: UInt32 = UINT32_MAX
+    static let FriendlyProjectile: UInt32 = 0b00001
+    static let ThisPlayer: UInt32 = 0b00010
+    static let Enemy: UInt32 = 0b00100
+    static let MapObject: UInt32 = 0b01000
+    static let EnemyProjectile: UInt32 = 0b10000
+}
 //Operator overloads
 func +(left: CGPoint, right:CGPoint) -> CGPoint {
     return CGPoint(x: left.x+right.x, y: left.y+right.y)

@@ -78,7 +78,7 @@
 		1F4A47A91C4B42BF00813143 /* Map1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Map1.tmx; path = Resources/Map1.tmx; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
-		1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "100Floors-Bridging-Header.h"; path = "../100Floors-Bridging-Header.h"; sourceTree = "<group>"; };
+		1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "100Floors-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F56B96E1C4AE37E0098380D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1F56B97E1C4AEC8D0098380D /* SKAButtonSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAButtonSprite.h; sourceTree = "<group>"; };
 		1F56B97F1C4AEC8D0098380D /* SKAButtonSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAButtonSprite.m; sourceTree = "<group>"; };
@@ -150,6 +150,7 @@
 			children = (
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
+				1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */,
 				1FA7D9381C67C0E100ECA534 /* AEXML.swift */,
 				1F3D79C41C4B1C700036C680 /* Game Logic */,
 				1F3D79C31C4B1C4B0036C680 /* Graphics */,
@@ -243,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				1F56B96E1C4AE37E0098380D /* libz.tbd */,
-				1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */,
 				1F56B97D1C4AEC8D0098380D /* SKAButton */,
 				1F56B9801C4AEC8D0098380D /* SKACroppedMiniMap */,
 				1F56B9831C4AEC8D0098380D /* SKALabelNode */,
