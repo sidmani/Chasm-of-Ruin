@@ -26,13 +26,13 @@ class InGameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //setup UI components
-        GameLogic.LeftJoystick = LeftJoystickControl
-        GameLogic.RightJoystick = RightJoystickControl
-        GameLogic.HPBar = HPDisplayBar
-        GameLogic.HungerBar = HungerDisplayBar
-        GameLogic.MenuButton = MenuButton
-        GameLogic.InventoryButton = InventoryButton
-        GameLogic.InteractButton = InteractButton
+        UIElements.LeftJoystick = LeftJoystickControl
+        UIElements.RightJoystick = RightJoystickControl
+        UIElements.HPBar = HPDisplayBar
+        UIElements.HungerBar = HungerDisplayBar
+        UIElements.MenuButton = MenuButton
+        UIElements.InventoryButton = InventoryButton
+        UIElements.InteractButton = InteractButton
         //////////
         let skView = view as! SKView
         skView.showsFPS = true

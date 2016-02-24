@@ -26,7 +26,32 @@ struct EquippedItems {
     var enhancer:Item?
     var skill:Item?
     func totalStatChanges() -> Stats {
-        return shield!.statMods+weapon!.statMods+skill!.statMods+enhancer!.statMods //TODO: handle nil case
+        var stats1, stats2, stats3, stats4:Stats
+        if (shield == nil) {
+            stats1 = nilStats
+        }
+        else {
+            stats1 = shield!.statMods
+        }
+        if (weapon == nil) {
+            stats2 = nilStats
+        }
+        else {
+            stats2 = weapon!.statMods
+        }
+        if (enhancer == nil) {
+            stats3 = nilStats
+        }
+        else {
+            stats3 = enhancer!.statMods
+        }
+        if (skill == nil) {
+            stats4 = nilStats
+        }
+        else {
+            stats4 = skill!.statMods
+        }
+        return stats1 + stats2 + stats3 + stats4
     }
 }
 //////////////////////
@@ -66,7 +91,7 @@ class ThisCharacter: Entity {
     var velocity:CGVector
     {
         get {
-            return CGVector(dx: 5*GameLogic.LeftJoystick!.displacement.dx, dy: 5*GameLogic.LeftJoystick!.displacement.dy)
+            return CGVector(dx: 5*UIElements.LeftJoystick!.displacement.dx, dy: 5*UIElements.LeftJoystick!.displacement.dy)
             //return CGVector(dx: 5*currStats.speed*LeftJoystick!.displacement.dx, dy: 5*currStats.speed*LeftJoystick!.displacement.dy)
         }
     }
@@ -81,17 +106,16 @@ class ThisCharacter: Entity {
     //////////////
     //INIT
     init() {
-        currStats = nullStats
-        baseStats = nullStats
+        currStats = nilStats
+        baseStats = nilStats
         inventory = Inventory()
         equipped = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
         super.init(_ID: "mainchar", texture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
-        self.physicsBody!.affectedByGravity = false
         self.physicsBody!.friction = 0
         self.physicsBody!.pinned = true //really?
         self.physicsBody!.categoryBitMask = PhysicsCategory.ThisPlayer
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.MapObject
+        self.physicsBody!.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.Interactive
         self.physicsBody!.collisionBitMask = PhysicsCategory.None
         self.position = screenCenter
     }
@@ -152,7 +176,7 @@ class ThisCharacter: Entity {
     }
     
     @objc private func fireProjectileFromTimer() {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(GameLogic.RightJoystick!.angle), dy: -500*sin(GameLogic.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range)
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range)
         //TODO: check if projectiles can be shot etc
         GameLogic.addProjectile(newProjectile)
     }
@@ -175,11 +199,11 @@ class ThisCharacter: Entity {
     //Update methods
     
     private func updateProjectileState() {
-        if (GameLogic.RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
+        if (UIElements.RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
         {
             self.attachProjectileCreator(true)
         }
-        else if (GameLogic.RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
+        else if (UIElements.RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
         {
             self.attachProjectileCreator(false)
         }

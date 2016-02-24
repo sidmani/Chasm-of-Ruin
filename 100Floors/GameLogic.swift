@@ -7,12 +7,7 @@
 //
 
 import SpriteKit
-
-var thisCharacter = GameLogic.getThisCharacter()
-var itemXML: AEXMLDocument?
-var levelXML: AEXMLDocument?
-var saveXML: AEXMLDocument?
-class GameLogic {
+struct UIElements {
     static var LeftJoystick:JoystickControl?
     static var RightJoystick:JoystickControl?
     static var HPBar:ReallyBigDisplayBar?
@@ -20,8 +15,15 @@ class GameLogic {
     static var InteractButton:UIButton?
     static var InventoryButton:UIButton?
     static var MenuButton:UIButton?
+}
+var thisCharacter = GameLogic.getThisCharacter()
+var itemXML: AEXMLDocument?
+var levelXML: AEXMLDocument?
+var saveXML: AEXMLDocument?
+class GameLogic {
+    
     private static var gameScene: InGameScene?
-
+    private static var currentInteractiveObject: Interactive?
     static func setup() {
         //setup items/projectiles xml
         var xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
@@ -44,13 +46,13 @@ class GameLogic {
             print("\(error)")
         }
         
-        //load save state xml
+        //TODO: load save state xml
         setLevel(Level(_id: "0"))
         
     }
     
     static func doubleTapTrigger(sender:JoystickControl) {
-        if (sender == LeftJoystick!) {
+        if (sender == UIElements.LeftJoystick!) {
             //rage attack
         }
         else {
@@ -64,14 +66,20 @@ class GameLogic {
         let newVelocity = ~thisCharacter.velocity
         gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
         updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
-        //updateEnemies(LeftJoystick!.valueChanged)
+        //updateEnemies(newVelocity, )
         //updateUIElements()
-        //update velocity of everything else
 
     }
     
     private static func updateUIElements() {
         
+    }
+    private static func updateMapObjects(mapObjectArray: [SKNode]) {
+        for node in mapObjectArray {
+            if let mapObject = node as? Updatable {
+                mapObject.update()
+            }
+        }
     }
     private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode]) {
         for node in projectileArray {
@@ -81,27 +89,26 @@ class GameLogic {
         }
         
     }
-    private static func updateEnemies(enemyArray: [SKNode]) {
+    private static func updateEnemies(newVelocity: CGVector, enemyArray: [SKNode]) {
         for node in enemyArray {
             if let enemy = node as? Enemy {
-                //enemy.update(velocityChanged)
+                //enemy.update(newVelocity)
             }
         }
     }
     
     /////////////////////////
+    static func setScene(newScene:InGameScene) { //called once
+        gameScene = newScene
+    }
+
     /////////////////////////
     static func addProjectile(p:Projectile) {
         gameScene!.addProjectile(p)
     }
-    static func addMapObject() {
-        
-    }
-    static func setScene(newScene:InGameScene) {
-        gameScene = newScene
-    }
     static func setLevel(l:Level) {
         gameScene!.setLevel(l)
+        currentInteractiveObject = nil
     }
     
     static func setCharPosition(atPoint:CGPoint) {
@@ -110,12 +117,23 @@ class GameLogic {
     static func getPositionOnMap(ofNode:SKNode) -> CGPoint {
         return gameScene!.getPositionOnMap(ofNode)
     }
+    
     static func usePortal(p:Portal) {
         setLevel(Level(_id: p.destinationID))
     }
-    static func withinInteractDistance(ofMapObject: MapObject) {
-        //switch button from "use set item" to "interact"
-        //
+    static func withinInteractDistance(ofObject: Interactive) {
+        currentInteractiveObject = ofObject
+        if (ofObject.autotrigger) {
+            ofObject.trigger()
+        }
+        else {
+            UIElements.InteractButton!.setTitle("Enter", forState: UIControlState.Normal) //TODO: use icons
+        }
+    }
+    static func exitedInteractDistance() {
+        currentInteractiveObject = nil
+        UIElements.InteractButton!.setTitle("Interact", forState: UIControlState.Normal)
+
     }
     ////Utility////
     static func getThisCharacter() -> ThisCharacter { //TODO: delete this

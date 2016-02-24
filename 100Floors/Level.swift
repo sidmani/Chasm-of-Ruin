@@ -10,6 +10,7 @@ class Level:SKNode { //level is just a map with attributes etc
     private var map:SKATiledMap
     var startLoc:CGPoint
     var objects = SKNode()
+    var desc:String?
     
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
@@ -50,7 +51,8 @@ class Level:SKNode { //level is just a map with attributes etc
             case "Portal":
                 let loc = CGPointMake(CGFloat(obj["loc"]["x"].doubleValue), CGFloat(obj["loc"]["y"].doubleValue))
                 let destID = obj["dest-id"].stringValue
-                newObj = Portal(loc: tileEdge*loc, _destinationID: destID)
+                let autotrigger = obj["autotrigger"].boolValue
+                newObj = Portal(loc: tileEdge*loc, _destinationID: destID, _autotrigger: autotrigger)
             default:
                 fatalError("unsupported map object type")
             }
@@ -62,14 +64,12 @@ class Level:SKNode { //level is just a map with attributes etc
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     func indexForPoint(p:CGPoint) -> CGPoint {
         return map.indexForPoint(p)
     }
     func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
-    }
-    func updateMapObjects() {
-        
     }
 }
 

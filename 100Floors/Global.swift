@@ -20,7 +20,11 @@ let inventory_size = 8 // TODO: fix this (IAP)
 protocol Updatable {
     func update()
 }
-let nullStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0) //TODO: remove this later
+protocol Interactive {
+    var autotrigger:Bool { get }
+    func trigger()
+}
+let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0)
 ///////////
 //Physics bitmasks
 struct PhysicsCategory {
@@ -29,7 +33,7 @@ struct PhysicsCategory {
     static let FriendlyProjectile: UInt32 = 0b00001
     static let ThisPlayer: UInt32 = 0b00010
     static let Enemy: UInt32 = 0b00100
-    static let MapObject: UInt32 = 0b01000
+    static let Interactive: UInt32 = 0b01000
     static let EnemyProjectile: UInt32 = 0b10000
 }
 //Operator overloads

@@ -38,30 +38,29 @@ class Spawner:MapObject, Updatable {
     }
 }
 
-class Portal:MapObject {
+class Portal:MapObject, Interactive {
     var destinationID:String
+    var autotrigger:Bool
     //var enabledTexture:String
     //var disabledTexture:String
-    init(loc:CGPoint, _destinationID:String) {
+    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool) {
         destinationID = _destinationID
+        autotrigger = _autotrigger
       //  enabledTexture = _enabledTexture
       //  disabledTexture = _disabledTexture
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
-        self.physicsBody!.categoryBitMask = PhysicsCategory.MapObject
+        self.physicsBody!.categoryBitMask = PhysicsCategory.Interactive
         self.physicsBody!.contactTestBitMask = PhysicsCategory.None
         self.physicsBody!.collisionBitMask = PhysicsCategory.None
         self.physicsBody!.pinned = true
-        let testNode = SKSpriteNode(color: UIColor.blueColor(), size: CGSize(width: 32, height: 32))
-        testNode.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-        testNode.physicsBody!.pinned = true;
-        self.addChild(testNode)
     }
-    //convenience init(withID:String) {
-        
-    //}
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    func trigger() {
+        GameLogic.usePortal(self)
     }
     func enable() {
         

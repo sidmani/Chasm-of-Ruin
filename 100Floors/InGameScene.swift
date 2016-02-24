@@ -35,7 +35,21 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func didBeginContact(contact: SKPhysicsContact) {
-        print("contact!")
+        if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            GameLogic.withinInteractDistance(contact.bodyA.node as! Interactive)
+            return
+        }
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            GameLogic.withinInteractDistance(contact.bodyB.node as! Interactive)
+            return
+        }
+    }
+    
+    func didEndContact(contact: SKPhysicsContact) {
+        if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer || contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            GameLogic.exitedInteractDistance()
+            return
+        }
     }
     
     func setLevel(newLevel:Level)
@@ -50,6 +64,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         for node in projectiles.children {
             node.removeFromParent()
         }
+        currentLevel?.removeFromParent()
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
         setCharPosition(tileEdge * newLevel.startLoc)
