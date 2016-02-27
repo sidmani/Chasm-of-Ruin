@@ -50,7 +50,8 @@ class GameLogic {
         setLevel(Level(_id: "0"))
         
     }
-    
+    /////////////
+    //UI Triggers
     static func doubleTapTrigger(sender:JoystickControl) {
         if (sender == UIElements.LeftJoystick!) {
             //rage attack
@@ -59,13 +60,17 @@ class GameLogic {
             //skill attack
         }
     }
-    
+    static func interactButtonPressed() {
+        currentInteractiveObject?.trigger()
+    }
+    /////////////////////
     ///////UPDATE////////
     static func update() {
         thisCharacter.update()
         let newVelocity = ~thisCharacter.velocity
         gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
         updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
+
         //updateEnemies(newVelocity, )
         //updateUIElements()
 
@@ -108,7 +113,6 @@ class GameLogic {
     }
     static func setLevel(l:Level) {
         gameScene!.setLevel(l)
-        currentInteractiveObject = nil
     }
     
     static func setCharPosition(atPoint:CGPoint) {
@@ -118,9 +122,13 @@ class GameLogic {
         return gameScene!.getPositionOnMap(ofNode)
     }
     
+    
     static func usePortal(p:Portal) {
         setLevel(Level(_id: p.destinationID))
+        UIElements.InteractButton!.setTitle("Interact", forState: UIControlState.Normal)
+        currentInteractiveObject = nil
     }
+    
     static func withinInteractDistance(ofObject: Interactive) {
         currentInteractiveObject = ofObject
         if (ofObject.autotrigger) {

@@ -57,7 +57,7 @@ struct EquippedItems {
 //////////////////////
 
 
-class Entity:SKSpriteNode, Updatable {
+class Entity:SKSpriteNode {
     
     var ID:String
     init(_ID:String, texture: SKTexture)
@@ -65,7 +65,6 @@ class Entity:SKSpriteNode, Updatable {
         ID = _ID
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
     }
-    func update() {}
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -74,7 +73,7 @@ class Entity:SKSpriteNode, Updatable {
 }
 //////////////////////
 
-class ThisCharacter: Entity {
+class ThisCharacter: Entity, Updatable {
     var inventory:Inventory
     private var currStats:Stats
     private var baseStats:Stats
@@ -124,7 +123,20 @@ class ThisCharacter: Entity {
         fatalError("init(coder:) has not been implemented")
     }
     ///collision handling
-    
+    func struckByProjectile(p:Projectile) {
+        takeDamage(p.attack - self.currStats.defense)
+    }
+    //health/stats handling
+    private func takeDamage(d:CGFloat) {
+        currStats.health -= d
+        if (currStats.health <= 0) {
+            currStats.health = 0
+            die()
+        }
+    }
+    private func die() {
+        
+    }
     ///GRAPHICAL METHODS
     private func setImageOrientation() {
         // change image direction
@@ -171,12 +183,12 @@ class ThisCharacter: Entity {
     ///////////////////
     //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: equipped.weapon!.range)
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: equipped.weapon!.range, withAtk: 10)
         GameLogic.addProjectile(newProjectile)
     }
     
     @objc private func fireProjectileFromTimer() {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range)
+        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range, withAtk: self.currStats.attack)
         //TODO: check if projectiles can be shot etc
         GameLogic.addProjectile(newProjectile)
     }
@@ -201,34 +213,25 @@ class ThisCharacter: Entity {
     private func updateProjectileState() {
         if (UIElements.RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
         {
-            self.attachProjectileCreator(true)
+            attachProjectileCreator(true)
         }
         else if (UIElements.RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
         {
-            self.attachProjectileCreator(false)
+            attachProjectileCreator(false)
         }
 
     }
-    private func updateHealthState() {
-        if (self.currStats.health == 0) {
-            die()
-        }
-    }
-    override func update() {
+   
+    func update() {
         updateProjectileState()
-        //updateHealthState()
-    }
-    ///////////////////
-    private func die() {
-        
     }
 }
 
 
 
 
-class Enemy:Entity {
-    override func update() {
+class Enemy:Entity, Updatable{
+    func update() {
         //run AI
     }
     func die() {

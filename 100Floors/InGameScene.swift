@@ -11,6 +11,7 @@ import SpriteKit
 
 class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var currentLevel:Level?
+    private var oldLoc:CGPoint = CGPointZero
     var character = SKNode()
     var nonCharNodes = SKNode()
         var projectiles = SKNode()
@@ -51,6 +52,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
     }
+    override func didFinishUpdate() {
+        oldLoc = nonCharNodes.position
+        nonCharNodes.position = CGPointMake(floor(nonCharNodes.position.x*6)/6, floor(nonCharNodes.position.y*6)/6)
+    }
     
     func setLevel(newLevel:Level)
     {
@@ -76,17 +81,20 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     func setCharPosition(atPoint:CGPoint) {
         nonCharNodes.position = CGPointMake(screenSize.width/2 - atPoint.x, screenSize.height/2 - atPoint.y)
+        oldLoc = nonCharNodes.position
     }
     func getPositionOnMap(ofNode:SKNode) -> CGPoint {
         return currentLevel!.convertPoint(currentLevel!.position, fromNode: ofNode)
     }
     ////////
     override func update(currentTime: CFTimeInterval) {
+        nonCharNodes.position = oldLoc
+        
         //cull unnecessary tiles
         if (currentLevel != nil) {
             let mapLoc = currentLevel!.indexForPoint(nonCharNodes.position)
             let newLoc = mapCenterLoc-mapLoc
-            currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: mapTilesWidth-1, height: mapTilesHeight-1)
+            currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: mapTilesWidth+3, height: mapTilesHeight+3)
             }
         //////////////
         GameLogic.update()

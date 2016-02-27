@@ -41,6 +41,7 @@ class Spawner:MapObject, Updatable {
 class Portal:MapObject, Interactive {
     var destinationID:String
     var autotrigger:Bool
+    //var destinationLoc:CGPoint
     //var enabledTexture:String
     //var disabledTexture:String
     init(loc:CGPoint, _destinationID:String, _autotrigger:Bool) {

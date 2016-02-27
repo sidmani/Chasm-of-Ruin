@@ -14,11 +14,12 @@ class Projectile:SKSpriteNode{
     
     }
     var friendly: Bool
+    var attack:CGFloat
     private var relVelocity: CGVector
     private var range: CGFloat
     private var startLoc: CGPoint
     
-    init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat) {
+    init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat) {
         var thisProjectile:AEXMLElement
         if let projectiles = itemXML!.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
             if (projectiles.count != 1) {
@@ -37,12 +38,13 @@ class Projectile:SKSpriteNode{
         range = withRange
         startLoc = fromPoint
         friendly = isFriendly
+        attack = withAtk
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
         self.physicsBody!.friction = 0
         self.physicsBody!.velocity = withVelocity
-        self.physicsBody!.affectedByGravity = false
+        //self.physicsBody!.affectedByGravity = false
         
         if (isFriendly) {
         self.physicsBody!.categoryBitMask = PhysicsCategory.FriendlyProjectile

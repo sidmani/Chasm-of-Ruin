@@ -56,14 +56,6 @@ func +(left:CGVector, right:CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
 }
 
-//Is left divisible by right?
-
-infix operator %% {}
-
-func %%(left: Int, right: Int) -> Bool {
-    return left % right == 0
-}
-
 //Shorthand to invert a vector
 prefix operator ~ {}
 

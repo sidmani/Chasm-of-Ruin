@@ -368,7 +368,7 @@
                         {
                             sprite.physicsBody = [SKPhysicsBody
                                                   bodyWithRectangleOfSize:sprite.size];
-                            sprite.physicsBody.pinned = YES;
+                          //  sprite.physicsBody.pinned = YES;
                             sprite.physicsBody.dynamic = NO;
                             sprite.physicsBody.categoryBitMask = SKACategoryFloor;
                             sprite.physicsBody.contactTestBitMask = SKACategoryPlayer;
@@ -451,7 +451,7 @@
                     floorSprite.physicsBody = [SKPhysicsBody
                                                bodyWithRectangleOfSize:floorSprite.size];
                     floorSprite.physicsBody.dynamic = NO;
-                    floorSprite.physicsBody.pinned = YES;
+                    //floorSprite.physicsBody.pinned = YES;
                     floorSprite.physicsBody.categoryBitMask = SKACategoryFloor;
                     floorSprite.physicsBody.contactTestBitMask = SKACategoryPlayer;
                     [self addChild:floorSprite];

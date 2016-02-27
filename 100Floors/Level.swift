@@ -73,6 +73,6 @@ class Level:SKNode { //level is just a map with attributes etc
     }
 }
 
-class Dungeon { //this is procedurally generated
+class DungeonLevel:Level { //this is procedurally generated
     
 }

@@ -45,6 +45,9 @@ class InGameViewController: UIViewController {
         skView.presentScene(gameScene)
     }
     
+    @IBAction func interactButtonPressed(sender: UIButton) {
+        GameLogic.interactButtonPressed()
+    }
     
     override func shouldAutorotate() -> Bool {
         return true
