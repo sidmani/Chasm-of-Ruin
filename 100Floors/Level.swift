@@ -49,10 +49,7 @@ class Level:SKNode { //level is just a map with attributes etc
             var newObj:MapObject
             switch (obj["type"].stringValue) { //handle different types of map objects
             case "Portal":
-                let loc = CGPointMake(CGFloat(obj["loc"]["x"].doubleValue), CGFloat(obj["loc"]["y"].doubleValue))
-                let destID = obj["dest-id"].stringValue
-                let autotrigger = obj["autotrigger"].boolValue
-                newObj = Portal(loc: tileEdge*loc, _destinationID: destID, _autotrigger: autotrigger)
+                newObj = Portal(fromXMLObject: obj)
             default:
                 fatalError("unsupported map object type")
             }

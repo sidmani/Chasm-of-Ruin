@@ -131,15 +131,15 @@ class ThisCharacter: Entity, Updatable {
     }
     
     //ITEM HANDLER METHODS
-    func consumeItem(c:Item?)
+    func consumeItem(c:Item)
     {
-        if (c != nil && c!.consumable)
+        if (c.consumable)
         {
-            if (c!.permanent) {
-                baseStats = baseStats + c!.statMods
+            if (c.permanent) {
+                baseStats = baseStats + c.statMods
             }
             else {
-                currStats = currStats + c!.statMods
+                currStats = currStats + c.statMods
             }
         }
     }

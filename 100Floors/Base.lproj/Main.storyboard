@@ -63,6 +63,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cs-Y9-J62">
                                 <rect key="frame" x="531" y="30" width="39" height="30"/>
                                 <state key="normal" title="Menu"/>
+                                <connections>
+                                    <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="MYi-rL-BhV"/>
+                                    <segue destination="vb3-7V-c1Z" kind="presentation" id="JJd-2I-DG8"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h">
                                 <rect key="frame" x="60" y="440" width="64" height="30"/>
@@ -118,6 +122,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbL-Y6-bd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1102" y="566"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="GM0-G2-SZq">
+            <objects>
+                <viewController modalPresentationStyle="overCurrentContext" id="vb3-7V-c1Z" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Chk-cv-qsX"/>
+                        <viewControllerLayoutGuide type="bottom" id="3gB-3g-vgw"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="veO-m4-WIr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-A9-QqI">
+                                <rect key="frame" x="524" y="30" width="46" height="30"/>
+                                <state key="normal" title="Return"/>
+                                <connections>
+                                    <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitInGameMenu:" id="yae-jV-9qs"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VQ3-A9-QqI" firstAttribute="top" secondItem="Chk-cv-qsX" secondAttribute="bottom" constant="10" id="Ue5-fS-7Eg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VQ3-A9-QqI" secondAttribute="trailing" constant="10" id="bom-Cw-7Xn"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UTY-WS-eO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ATs-Ty-Sgo" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1881" y="567"/>
         </scene>
     </scenes>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>

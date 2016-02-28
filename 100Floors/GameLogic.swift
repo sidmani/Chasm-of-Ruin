@@ -76,19 +76,22 @@ class GameLogic {
         switch(currentState) {
         case .LoadingScreen:
             UIElements.setVisible(false)
+            gameScene?.paused = true
         case .InGame:
             UIElements.setVisible(true)
-           // gameScene?.paused = false
+            gameScene?.paused = false
         case .CutScene:
             UIElements.setVisible(false)
+            gameScene?.paused = false
         case .InventoryMenu:
             UIElements.setVisible(false)
-          //  gameScene?.paused = true
+            gameScene?.paused = true
         case .InGameMenu:
             UIElements.setVisible(false)
-          //  gameScene?.paused = true
+            gameScene?.paused = true
         case .MainMenu:
             UIElements.setVisible(false)
+            gameScene?.paused = true
         default:
             break;
         }
@@ -97,18 +100,24 @@ class GameLogic {
     //UI Triggers
     static func doubleTapTrigger(sender:JoystickControl) {
         if (currentState == .InGame) {
-        if (sender == UIElements.LeftJoystick!) {
+            if (sender == UIElements.LeftJoystick!) {
             //rage attack
-        }
-        else {
+            }
+            else {
             //skill attack
-        }
+            }
         }
     }
     static func interactButtonPressed() {
         if (currentState == .InGame) {
         currentInteractiveObject?.trigger()
         }
+    }
+    static func menuButtonPressed() {
+        setGameState(.InGameMenu)
+    }
+    static func menuExited() {
+        setGameState(.InGame)
     }
     /////////////////////
     ///////UPDATE////////
@@ -179,7 +188,7 @@ class GameLogic {
         exitedInteractDistance()
     }
     
-    ////called by didBeginContact() and didEndContact() in the scene
+    ////called by didBeginContact() and didEndContact() in gameScene
     static func withinInteractDistance(ofObject: Interactive) {
         currentInteractiveObject = ofObject
         if (ofObject.autotrigger) {

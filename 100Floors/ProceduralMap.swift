@@ -8,6 +8,6 @@
 enum MapThemes {
     case Grass, Rock, Lava
 }
-class ProceduralMap {
-    
+class ProceduralMap:SKATiledMap {
+    //do the stuff from the other file
 }

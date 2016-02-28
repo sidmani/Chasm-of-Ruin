@@ -46,7 +46,34 @@ class InGameViewController: UIViewController {
     @IBAction func interactButtonPressed(sender: UIButton) {
         GameLogic.interactButtonPressed()
     }
+    @IBAction func menuButtonPressed(sender: UIButton) {
+        self.view.backgroundColor = UIColor.clearColor()
+        let blurEffectView = UIVisualEffectView()
+        //always fill the view
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blurEffectView)
+        UIView.animateWithDuration(0.5) {
+            blurEffectView.effect = UIBlurEffect(style: .Light)
+        }
+        GameLogic.menuButtonPressed()
+    }
+    @IBAction func exitInGameMenu(segue: UIStoryboardSegue) {
     
+        for view:UIView in self.view.subviews {
+            if let effectView = view as? UIVisualEffectView {
+                UIView.animateWithDuration(0.5, animations: {
+                   effectView.effect = nil
+                },
+                    completion: {(finished:Bool) in
+                    effectView.removeFromSuperview()
+                })
+                break
+            }
+        }
+        GameLogic.menuExited()
+
+    }
     override func shouldAutorotate() -> Bool {
         return true
     }
@@ -58,7 +85,7 @@ class InGameViewController: UIViewController {
             return .All
         }
     }
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.

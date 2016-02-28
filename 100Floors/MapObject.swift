@@ -56,7 +56,12 @@ class Portal:MapObject, Interactive {
         self.physicsBody?.collisionBitMask = PhysicsCategory.None
         self.physicsBody?.pinned = true
     }
-    
+    convenience init(fromXMLObject:AEXMLElement) {
+        let loc = CGPointMake(CGFloat(fromXMLObject["loc"]["x"].doubleValue), CGFloat(fromXMLObject["loc"]["y"].doubleValue))
+        let destID = fromXMLObject["dest-id"].stringValue
+        let autotrigger = fromXMLObject["autotrigger"].boolValue
+        self.init(loc: tileEdge*loc, _destinationID: destID, _autotrigger: autotrigger)
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
