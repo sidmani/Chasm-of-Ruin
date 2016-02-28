@@ -10,7 +10,7 @@ class Level:SKNode { //level is just a map with attributes etc
     private var map:SKATiledMap
     var startLoc:CGPoint
     var objects = SKNode()
-    var desc:String?
+    var desc:String = ""
     
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
@@ -21,9 +21,9 @@ class Level:SKNode { //level is just a map with attributes etc
         self.addChild(objects)
         self.zPosition = 0
         self.physicsBody = SKPhysicsBody()
-        self.physicsBody!.pinned = true
+        self.physicsBody?.pinned = true
         objects.physicsBody = SKPhysicsBody()
-        objects.physicsBody!.pinned = true
+        objects.physicsBody?.pinned = true
         objects.zPosition = 1
 
     }
@@ -47,7 +47,7 @@ class Level:SKNode { //level is just a map with attributes etc
         //add all map objects
         for obj in thisLevel["map-objects"].children {
             var newObj:MapObject
-            switch (obj["type"].stringValue) {
+            switch (obj["type"].stringValue) { //handle different types of map objects
             case "Portal":
                 let loc = CGPointMake(CGFloat(obj["loc"]["x"].doubleValue), CGFloat(obj["loc"]["y"].doubleValue))
                 let destID = obj["dest-id"].stringValue

@@ -41,7 +41,7 @@ class Spawner:MapObject, Updatable {
 class Portal:MapObject, Interactive {
     var destinationID:String
     var autotrigger:Bool
-    //var destinationLoc:CGPoint
+    //var destinationLoc:CGPoint // if different than the map's defined start loc.
     //var enabledTexture:String
     //var disabledTexture:String
     init(loc:CGPoint, _destinationID:String, _autotrigger:Bool) {
@@ -51,10 +51,10 @@ class Portal:MapObject, Interactive {
       //  disabledTexture = _disabledTexture
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
-        self.physicsBody!.categoryBitMask = PhysicsCategory.Interactive
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.None
-        self.physicsBody!.collisionBitMask = PhysicsCategory.None
-        self.physicsBody!.pinned = true
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Interactive
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.None
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None
+        self.physicsBody?.pinned = true
     }
     
     required init?(coder aDecoder: NSCoder) {

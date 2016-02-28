@@ -7,6 +7,9 @@
 //
 
 import SpriteKit
+enum GameStates {
+    case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene
+}
 struct UIElements {
     static var LeftJoystick:JoystickControl?
     static var RightJoystick:JoystickControl?
@@ -15,62 +18,105 @@ struct UIElements {
     static var InteractButton:UIButton?
     static var InventoryButton:UIButton?
     static var MenuButton:UIButton?
+    static func setVisible(var toState:Bool) {
+        toState = !toState
+        UIElements.LeftJoystick?.hidden = toState
+        UIElements.RightJoystick?.hidden = toState
+        UIElements.HPBar?.hidden = toState
+        UIElements.HungerBar?.hidden = toState
+        UIElements.InteractButton?.hidden = toState
+        UIElements.InventoryButton?.hidden = toState
+        UIElements.MenuButton?.hidden = toState
+    }
 }
-var thisCharacter = GameLogic.getThisCharacter()
-var itemXML: AEXMLDocument?
-var levelXML: AEXMLDocument?
-var saveXML: AEXMLDocument?
-class GameLogic {
+let thisCharacter = ThisCharacter()
+let itemXML: AEXMLDocument? = {() -> AEXMLDocument? in
+    let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
+    let data = NSData(contentsOfFile: xmlPath!)!
+    do {
+        return try AEXMLDocument(xmlData: data)
+    }
+    catch {
+        return nil
+    }
     
+}()
+let levelXML: AEXMLDocument? = {() -> AEXMLDocument? in
+    let xmlPath = NSBundle.mainBundle().pathForResource("Levels", ofType: "xml")!
+    let data = NSData(contentsOfFile: xmlPath)!
+    do {
+        return try AEXMLDocument(xmlData: data)
+    }
+    catch {
+        return nil
+    }
+    
+}()
+
+//let saveXML: AEXMLDocument?
+class GameLogic {
+    private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene?
     private static var currentInteractiveObject: Interactive?
-    static func setup() {
-        //setup items/projectiles xml
-        var xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
-        var data = NSData(contentsOfFile: xmlPath!)!
+    static func loadSaveState() { //use this instead of setup?
         
-        do {
-            itemXML = try AEXMLDocument(xmlData: data)
-        }
-        catch {
-            print("\(error)")
-        }
-      
-        //setup level xml
-            xmlPath = NSBundle.mainBundle().pathForResource("Levels", ofType: "xml")!
-            data = NSData(contentsOfFile: xmlPath!)!
-        do {
-            levelXML = try AEXMLDocument(xmlData: data)
-        }
-        catch {
-            print("\(error)")
-        }
-        
+    }
+    static func setup(withScene: InGameScene) {
+        gameScene = withScene
         //TODO: load save state xml
-        setLevel(Level(_id: "0"))
-        
+        setLevel(Level(_id: "0")) //this shouldn't be here
+        thisCharacter.equipItem(Item(withID: "wep1"))
+    }
+    /////////////
+    static func getCurrentState() -> GameStates {
+        return currentState
+    }
+    static func setGameState(toState: GameStates) {
+        currentState = toState
+        switch(currentState) {
+        case .LoadingScreen:
+            UIElements.setVisible(false)
+        case .InGame:
+            UIElements.setVisible(true)
+           // gameScene?.paused = false
+        case .CutScene:
+            UIElements.setVisible(false)
+        case .InventoryMenu:
+            UIElements.setVisible(false)
+          //  gameScene?.paused = true
+        case .InGameMenu:
+            UIElements.setVisible(false)
+          //  gameScene?.paused = true
+        case .MainMenu:
+            UIElements.setVisible(false)
+        default:
+            break;
+        }
     }
     /////////////
     //UI Triggers
     static func doubleTapTrigger(sender:JoystickControl) {
+        if (currentState == .InGame) {
         if (sender == UIElements.LeftJoystick!) {
             //rage attack
         }
         else {
             //skill attack
         }
+        }
     }
     static func interactButtonPressed() {
+        if (currentState == .InGame) {
         currentInteractiveObject?.trigger()
+        }
     }
     /////////////////////
     ///////UPDATE////////
     static func update() {
         thisCharacter.update()
         let newVelocity = ~thisCharacter.velocity
-        gameScene!.nonCharNodes.physicsBody!.velocity = newVelocity
+        gameScene!.nonCharNodes.physicsBody?.velocity = newVelocity
         updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
-
         //updateEnemies(newVelocity, )
         //updateUIElements()
 
@@ -101,54 +147,50 @@ class GameLogic {
             }
         }
     }
-    
-    /////////////////////////
-    static func setScene(newScene:InGameScene) { //called once
-        gameScene = newScene
-    }
-
     /////////////////////////
     static func addProjectile(p:Projectile) {
-        gameScene!.addProjectile(p)
+        if (currentState == .InGame) {
+            gameScene?.addProjectile(p)
+        }
     }
     static func setLevel(l:Level) {
-        gameScene!.setLevel(l)
+        if (currentState == .InGame) {
+            gameScene?.setLevel(l)
+        }
     }
-    
+    ///character position (link to gameScene)
     static func setCharPosition(atPoint:CGPoint) {
-        gameScene!.setCharPosition(atPoint)
+        if (currentState == .InGame) {
+            gameScene?.setCharPosition(atPoint)
+        }
     }
     static func getPositionOnMap(ofNode:SKNode) -> CGPoint {
-        return gameScene!.getPositionOnMap(ofNode)
+        if (gameScene != nil) {
+            return gameScene!.getPositionOnMap(ofNode)
+        }
+        else {
+            return CGPointZero
+        }
     }
     
-    
+    ///////
     static func usePortal(p:Portal) {
         setLevel(Level(_id: p.destinationID))
-        UIElements.InteractButton!.setTitle("Interact", forState: UIControlState.Normal)
-        currentInteractiveObject = nil
+        exitedInteractDistance()
     }
     
+    ////called by didBeginContact() and didEndContact() in the scene
     static func withinInteractDistance(ofObject: Interactive) {
         currentInteractiveObject = ofObject
         if (ofObject.autotrigger) {
             ofObject.trigger()
         }
         else {
-            UIElements.InteractButton!.setTitle("Enter", forState: UIControlState.Normal) //TODO: use icons
+            UIElements.InteractButton?.setTitle("Enter", forState: UIControlState.Normal) //TODO: use icons
         }
     }
     static func exitedInteractDistance() {
         currentInteractiveObject = nil
-        UIElements.InteractButton!.setTitle("Interact", forState: UIControlState.Normal)
-
+        UIElements.InteractButton?.setTitle("Interact", forState: UIControlState.Normal)
     }
-    ////Utility////
-    static func getThisCharacter() -> ThisCharacter { //TODO: delete this
-        // construct character
-        let out = ThisCharacter()
-        out.equipItem(Item(withID: "wep1"))
-        return out
-    }
-    
 }

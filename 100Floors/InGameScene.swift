@@ -19,7 +19,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
-        GameLogic.setup()
+        GameLogic.setGameState(.InGame)
+        GameLogic.setup(self)
         nonCharNodes.physicsBody = SKPhysicsBody()
         nonCharNodes.physicsBody!.affectedByGravity = false
         nonCharNodes.physicsBody!.friction = 0
@@ -61,8 +62,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     {
         character.hidden = true
         nonCharNodes.hidden = true
-        //Hide controls
-        //TODO: trigger loading screen 
+        //TODO: trigger loading screen
+        GameLogic.setGameState(.LoadingScreen)
         for node in enemies.children {
             node.removeFromParent()
         }
@@ -72,40 +73,42 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         currentLevel?.removeFromParent()
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
-        setCharPosition(tileEdge * newLevel.startLoc)
+        setCharPosition(tileEdge * currentLevel!.startLoc)
         //end loading screen
-        //show controls
+        GameLogic.setGameState(.InGame)
         character.hidden = false
         nonCharNodes.hidden = false
         
     }
     func setCharPosition(atPoint:CGPoint) {
-        nonCharNodes.position = CGPointMake(screenSize.width/2 - atPoint.x, screenSize.height/2 - atPoint.y)
+        nonCharNodes.position = screenCenter - atPoint //this really should be fixed
         oldLoc = nonCharNodes.position
     }
     func getPositionOnMap(ofNode:SKNode) -> CGPoint {
+        if (currentLevel != nil) {
         return currentLevel!.convertPoint(currentLevel!.position, fromNode: ofNode)
+        }
+        else {
+        return CGPointZero
+        }
     }
     ////////
     override func update(currentTime: CFTimeInterval) {
-        nonCharNodes.position = oldLoc
-        
-        //cull unnecessary tiles
-        if (currentLevel != nil) {
-            let mapLoc = currentLevel!.indexForPoint(nonCharNodes.position)
-            let newLoc = mapCenterLoc-mapLoc
-            currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: mapTilesWidth+3, height: mapTilesHeight+3)
+        if (GameLogic.getCurrentState() == GameStates.InGame) {
+            nonCharNodes.position = oldLoc //reset position to floating-point value for SKPhysics
+            if (currentLevel != nil) {
+                let mapLoc = currentLevel!.indexForPoint(nonCharNodes.position)
+                let newLoc = mapCenterLoc-mapLoc
+                currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: mapTilesWidth+3, height: mapTilesHeight+3) //Remove tiles that are off-screen
             }
-        //////////////
-        GameLogic.update()
-        //////////////
+            GameLogic.update()
+        }
 
     }
-    func getCurrentLevel() -> Level {
-        return currentLevel!
+    func getCurrentLevel() -> Level? {
+        return currentLevel
     }
-    func addProjectile(p:Projectile)
-    {
+    func addProjectile(p:Projectile) {
         if (p.parent == nil) {
         projectiles.addChild(p)
         }

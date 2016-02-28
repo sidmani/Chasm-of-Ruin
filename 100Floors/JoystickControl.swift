@@ -11,7 +11,6 @@ import SpriteKit
 
 class JoystickControl:UIControl{
     let ring_size: CGFloat = 25
-    //let progress_size:CGFloat = 30
     let center_offset:CGFloat = 50
     let ringView = UIView()
     let stickView = UIView()
@@ -47,8 +46,6 @@ class JoystickControl:UIControl{
         let progressPath = UIBezierPath(arcCenter: CGPoint(x:center_offset, y: center_offset), radius: ring_size+14, startAngle: CGFloat(0), endAngle: CGFloat(M_PI) * 2, clockwise: true)
         progressLayer.path = progressPath.CGPath
         progressLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
-       // progressLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
-        //progressLayer.lineWidth = 20
         //set up double tap gesture
         let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
         tap.numberOfTapsRequired = 2

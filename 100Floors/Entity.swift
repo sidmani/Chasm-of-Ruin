@@ -26,29 +26,17 @@ struct EquippedItems {
     var enhancer:Item?
     var skill:Item?
     func totalStatChanges() -> Stats {
-        var stats1, stats2, stats3, stats4:Stats
-        if (shield == nil) {
-            stats1 = nilStats
-        }
-        else {
+        var stats1 = nilStats, stats2 = nilStats, stats3 = nilStats, stats4 = nilStats
+        if (shield != nil) {
             stats1 = shield!.statMods
         }
-        if (weapon == nil) {
-            stats2 = nilStats
-        }
-        else {
+        if (weapon != nil) {
             stats2 = weapon!.statMods
         }
-        if (enhancer == nil) {
-            stats3 = nilStats
-        }
-        else {
+        if (enhancer != nil) {
             stats3 = enhancer!.statMods
         }
-        if (skill == nil) {
-            stats4 = nilStats
-        }
-        else {
+        if (skill != nil) {
             stats4 = skill!.statMods
         }
         return stats1 + stats2 + stats3 + stats4
@@ -82,9 +70,9 @@ class ThisCharacter: Entity, Updatable {
     private var equipped:EquippedItems
     
     //convenience variables
-    var currentProjectile:String {
+    var currentProjectile:String? {
         get{
-            return equipped.weapon!.projectile //set weapon based on item
+            return equipped.weapon?.projectile //set weapon based on item
         }
     }
     var velocity:CGVector
@@ -111,11 +99,11 @@ class ThisCharacter: Entity, Updatable {
         equipped = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
         super.init(_ID: "mainchar", texture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
-        self.physicsBody!.friction = 0
-        self.physicsBody!.pinned = true //really?
-        self.physicsBody!.categoryBitMask = PhysicsCategory.ThisPlayer
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.Interactive
-        self.physicsBody!.collisionBitMask = PhysicsCategory.None
+        self.physicsBody?.friction = 0
+        self.physicsBody?.pinned = true //really?
+        self.physicsBody?.categoryBitMask = PhysicsCategory.ThisPlayer
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.Interactive
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None
         self.position = screenCenter
     }
 
@@ -124,7 +112,7 @@ class ThisCharacter: Entity, Updatable {
     }
     ///collision handling
     func struckByProjectile(p:Projectile) {
-        takeDamage(p.attack - self.currStats.defense)
+        takeDamage(p.attack - currStats.defense)
     }
     //health/stats handling
     private func takeDamage(d:CGFloat) {
@@ -183,14 +171,18 @@ class ThisCharacter: Entity, Updatable {
     ///////////////////
     //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: equipped.weapon!.range, withAtk: 10)
-        GameLogic.addProjectile(newProjectile)
+        if (equipped.weapon != nil) {
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: equipped.weapon!.range, withAtk: 10)
+            GameLogic.addProjectile(newProjectile)
+        }
     }
     
     @objc private func fireProjectileFromTimer() {
-        let newProjectile = Projectile(withID: currentProjectile, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range, withAtk: self.currStats.attack)
-        //TODO: check if projectiles can be shot etc
-        GameLogic.addProjectile(newProjectile)
+        if (equipped.weapon != nil) {
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range, withAtk: self.currStats.attack)
+            //TODO: check if projectiles can be shot etc
+            GameLogic.addProjectile(newProjectile)
+        }
     }
     
     private func attachProjectileCreator(enable:Bool) {
@@ -201,9 +193,7 @@ class ThisCharacter: Entity, Updatable {
         }
         else {
             projectileTimerEnabled = false
-            if (projectileTimer != nil) {
-                projectileTimer!.invalidate()
-            }
+            projectileTimer?.invalidate()
         }
     }
     
@@ -211,15 +201,14 @@ class ThisCharacter: Entity, Updatable {
     //Update methods
     
     private func updateProjectileState() {
-        if (UIElements.RightJoystick!.currentPoint != CGPoint(x: 0, y: 0) && !self.projectileTimerEnabled)
+        if (!projectileTimerEnabled && UIElements.RightJoystick!.currentPoint != CGPointZero)
         {
             attachProjectileCreator(true)
         }
-        else if (UIElements.RightJoystick!.currentPoint == CGPoint(x: 0, y: 0) && self.projectileTimerEnabled)
+        else if (projectileTimerEnabled && UIElements.RightJoystick!.currentPoint == CGPointZero)
         {
             attachProjectileCreator(false)
         }
-
     }
    
     func update() {

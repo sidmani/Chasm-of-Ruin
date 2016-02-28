@@ -10,12 +10,9 @@ import UIKit
 import SpriteKit
 
 class MenuViewController: UIViewController {
-    //var scene: MenuScene!
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  let skView = view as! SKView
-      //  scene = MenuScene()
-      //  skView.presentScene(scene)
+        GameLogic.setGameState(.MainMenu)
     }
   
     
@@ -39,7 +36,6 @@ class MenuViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    // MARK: Actions
     
     @IBAction func joinButton(sender: UIButton) {
 

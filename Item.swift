@@ -18,18 +18,20 @@ enum ItemType {
     case Weapon, Skill, Shield, Enhancer, Style
 }
 class Item {
+    
     var statMods:Stats
-    var description:String
     var name:String
+    var description:String
+    var node:SKSpriteNode?
+    var type:ItemType
     var consumable:Bool
     var permanent:Bool = false
-    var type:ItemType
-    var node:SKSpriteNode?
     var projectile:String = ""
     var range:CGFloat = 0
+    
     init(withID:String) {
         var thisItem:AEXMLElement
-        if let items = itemXML!.root["items"]["item"].allWithAttributes(["id":withID]) {
+        if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
             if (items.count != 1) {
                 fatalError("Item ID error")
             }
@@ -40,7 +42,7 @@ class Item {
         else {
             fatalError("Item Not Found")
         }
-        type = {switch (thisItem["type"].value!) {
+        type = {switch (thisItem["type"].stringValue) {
             case "Weapon":
             return ItemType.Weapon
             case "Skill":
@@ -54,9 +56,9 @@ class Item {
             default:
             fatalError("Item Type Error")
             }}()
-        node = SKSpriteNode(fileNamed: thisItem["img"].value!)
-        description = thisItem["desc"].value!
-        name = thisItem["name"].value!
+        node = SKSpriteNode(fileNamed: thisItem["img"].stringValue)
+        description = thisItem["desc"].stringValue
+        name = thisItem["name"].stringValue
         consumable = thisItem["consumable"].boolValue
         if (consumable) {
             permanent = thisItem["permanent"].boolValue
@@ -72,7 +74,7 @@ class Item {
                 mana: CGFloat(thisItem["Stats"]["mana"].doubleValue),
                 rage: CGFloat(thisItem["Stats"]["rage"].doubleValue))
         if (type == ItemType.Weapon) {
-            projectile = thisItem["projectile-id"].value!
+            projectile = thisItem["projectile-id"].stringValue
             range = CGFloat(thisItem["range"].doubleValue)
         }
         

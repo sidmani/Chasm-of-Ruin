@@ -9,9 +9,7 @@
 import SpriteKit
 class Projectile:SKSpriteNode{    
     private var distanceTraveled:CGFloat {
-    
             return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
-    
     }
     var friendly: Bool
     var attack:CGFloat
@@ -42,19 +40,18 @@ class Projectile:SKSpriteNode{
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
-        self.physicsBody!.friction = 0
-        self.physicsBody!.velocity = withVelocity
-        //self.physicsBody!.affectedByGravity = false
+        self.physicsBody?.friction = 0
+        self.physicsBody?.velocity = withVelocity
         
         if (isFriendly) {
-        self.physicsBody!.categoryBitMask = PhysicsCategory.FriendlyProjectile
+        self.physicsBody?.categoryBitMask = PhysicsCategory.FriendlyProjectile
         }
         else {
-        self.physicsBody!.categoryBitMask = PhysicsCategory.EnemyProjectile
+        self.physicsBody?.categoryBitMask = PhysicsCategory.EnemyProjectile
         }
         
-        self.physicsBody!.contactTestBitMask = 0x0 << 0
-        self.physicsBody!.collisionBitMask = 0x0 << 0
+        self.physicsBody?.contactTestBitMask = 0x0 << 0
+        self.physicsBody?.collisionBitMask = 0x0 << 0
         self.position = startLoc
         self.zPosition = 4
     }
@@ -65,12 +62,12 @@ class Projectile:SKSpriteNode{
     
     ///update functions
     private func updateVelocity(newVelocity:CGVector) {
-        self.physicsBody!.velocity = self.relVelocity + newVelocity
+        physicsBody?.velocity = relVelocity + newVelocity
     }
     
     func update(newVelocity:CGVector) {
         if (distanceTraveled > range) {
-            self.removeFromParent()
+            removeFromParent()
         }
         else {
         updateVelocity(newVelocity)

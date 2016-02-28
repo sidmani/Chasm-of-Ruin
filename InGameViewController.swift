@@ -10,7 +10,6 @@ import UIKit
 import SpriteKit
 
 class InGameViewController: UIViewController {
-    
     // MARK: Properties
     
     @IBOutlet weak var LeftJoystickControl: JoystickControl!
@@ -40,7 +39,6 @@ class InGameViewController: UIViewController {
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
         let gameScene = InGameScene(size:skView.bounds.size)
-        GameLogic.setScene(gameScene)
         gameScene.scaleMode = .AspectFill
         skView.presentScene(gameScene)
     }
