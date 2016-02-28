@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */; };
+		1F0428971C8367B400FB4516 /* InventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428961C8367B400FB4516 /* InventoryViewController.swift */; };
 		1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */; };
 		1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */; };
 		1F2CEE0F1C387B1F00E4FB2E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */; };
@@ -58,6 +60,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameMenuViewController.swift; sourceTree = "<group>"; };
+		1F0428961C8367B400FB4516 /* InventoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryViewController.swift; sourceTree = "<group>"; };
 		1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
 				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
+				1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */,
+				1F0428961C8367B400FB4516 /* InventoryViewController.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
 				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
@@ -451,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F2CEE6B1C38B42100E4FB2E /* InGameViewController.swift in Sources */,
+				1F0428971C8367B400FB4516 /* InventoryViewController.swift in Sources */,
 				1FCE14BE1C45F02100112188 /* Item.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */,
 				1F56B9AC1C4AEC8D0098380D /* SKATestPlayer.m in Sources */,
@@ -476,6 +483,7 @@
 				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
 				1FCE14C21C46080600112188 /* Inventory.swift in Sources */,
 				1F8FEA461C8125E8003794D3 /* ProceduralMap.swift in Sources */,
+				1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */,
 				1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */,
 				1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */,
 				1F4686151C5C50AD004D3F55 /* Level.swift in Sources */,

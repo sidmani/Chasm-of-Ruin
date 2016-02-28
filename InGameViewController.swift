@@ -33,6 +33,7 @@ class InGameViewController: UIViewController {
         UIElements.InventoryButton = InventoryButton
         UIElements.InteractButton = InteractButton
         //////////
+        self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -47,33 +48,40 @@ class InGameViewController: UIViewController {
         GameLogic.interactButtonPressed()
     }
     @IBAction func menuButtonPressed(sender: UIButton) {
-        self.view.backgroundColor = UIColor.clearColor()
-        let blurEffectView = UIVisualEffectView()
-        //always fill the view
-        blurEffectView.frame = self.view.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        self.view.addSubview(blurEffectView)
-        UIView.animateWithDuration(0.5) {
-            blurEffectView.effect = UIBlurEffect(style: .Light)
-        }
-        GameLogic.menuButtonPressed()
+        blurView()
+        GameLogic.setGameState(.InGameMenu)
     }
-    @IBAction func exitInGameMenu(segue: UIStoryboardSegue) {
-    
+ 
+    @IBAction func inventoryButtonPressed(sender: UIButton) {
+        blurView()
+        GameLogic.setGameState(.InventoryMenu)
+    }
+    @IBAction func exitMenu(segue: UIStoryboardSegue) {
+        
         for view:UIView in self.view.subviews {
             if let effectView = view as? UIVisualEffectView {
                 UIView.animateWithDuration(0.5, animations: {
-                   effectView.effect = nil
-                },
+                    effectView.effect = nil
+                    },
                     completion: {(finished:Bool) in
-                    effectView.removeFromSuperview()
+                        effectView.removeFromSuperview()
                 })
                 break
             }
         }
-        GameLogic.menuExited()
+        GameLogic.setGameState(.InGame)
+    }
+    
+    private func blurView() {
+        let blurEffectView = UIVisualEffectView(frame: self.view.bounds)
+         blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blurEffectView)
+        UIView.animateWithDuration(0.5) {
+            blurEffectView.effect = UIBlurEffect(style: .Light)
+        }
 
     }
+    
     override func shouldAutorotate() -> Bool {
         return true
     }

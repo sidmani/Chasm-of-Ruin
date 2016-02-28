@@ -113,12 +113,6 @@ class GameLogic {
         currentInteractiveObject?.trigger()
         }
     }
-    static func menuButtonPressed() {
-        setGameState(.InGameMenu)
-    }
-    static func menuExited() {
-        setGameState(.InGame)
-    }
     /////////////////////
     ///////UPDATE////////
     static func update() {

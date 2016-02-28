@@ -23,7 +23,7 @@
                                 <state key="normal" title="Join Game"/>
                                 <connections>
                                     <action selector="joinButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="hsn-Oe-aZb"/>
-                                    <segue destination="MLO-tX-9Zl" kind="presentation" id="qI1-Lu-2ay"/>
+                                    <segue destination="MLO-tX-9Zl" kind="presentation" modalTransitionStyle="crossDissolve" id="qI1-Lu-2ay"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -32,7 +32,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="418" y="567"/>
+            <point key="canvasLocation" x="401" y="567"/>
         </scene>
         <!--InGame-->
         <scene sceneID="GMw-B6-Bhm">
@@ -71,6 +71,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h">
                                 <rect key="frame" x="60" y="440" width="64" height="30"/>
                                 <state key="normal" title="Inventory"/>
+                                <connections>
+                                    <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
+                                    <segue destination="CGb-Sh-tvY" kind="presentation" id="rS0-84-0BE"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dvb-ey-rYt">
                                 <rect key="frame" x="487" y="440" width="53" height="30"/>
@@ -123,10 +127,179 @@
             </objects>
             <point key="canvasLocation" x="1102" y="566"/>
         </scene>
-        <!--View Controller-->
+        <!--Inventory View Controller-->
+        <scene sceneID="X8T-87-8dq">
+            <objects>
+                <viewController modalPresentationStyle="overCurrentContext" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OqS-s8-3dQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="CJs-Wc-P5S"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Eyw-Cl-2hO">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGy-f6-MZ2">
+                                <rect key="frame" x="519" y="35" width="46" height="30"/>
+                                <state key="normal" title="Return"/>
+                                <connections>
+                                    <segue destination="iyI-Oc-9DT" kind="unwind" unwindAction="exitMenu:" id="chs-95-AFL"/>
+                                </connections>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="I8D-V4-wCT">
+                                <rect key="frame" x="155" y="340" width="290" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="9eG-os-i7R"/>
+                                    <constraint firstAttribute="width" constant="290" id="CaQ-rO-W9u"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xcL-gX-Vef">
+                                    <size key="itemSize" width="60" height="60"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="J9k-rf-X4S">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lDi-GI-IPF" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692131410495" green="1" blue="0.52299442374309058" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="HPm-Ra-XNh">
+                                        <rect key="frame" x="77" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8kP-37-52c" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bfP-xr-Lel">
+                                        <rect key="frame" x="153" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-f2-fv4" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="n6W-9N-tYr">
+                                        <rect key="frame" x="230" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDB-T3-hu7" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Udj-hf-hto">
+                                        <rect key="frame" x="0.0" y="70" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VB-oX-Mea" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yt1-0b-V62">
+                                        <rect key="frame" x="77" y="70" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AlW-YR-hO7" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="KLj-NS-xfS">
+                                        <rect key="frame" x="153" y="70" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E1R-QO-HDk" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tdM-UU-3sL">
+                                        <rect key="frame" x="230" y="70" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uMX-58-bcR" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="I8D-V4-wCT" secondAttribute="bottom" constant="100" id="LD8-Oa-two"/>
+                            <constraint firstItem="mGy-f6-MZ2" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="15" id="WoH-fn-yt4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mGy-f6-MZ2" secondAttribute="trailing" constant="15" id="iGT-I2-34V"/>
+                            <constraint firstItem="I8D-V4-wCT" firstAttribute="centerX" secondItem="Eyw-Cl-2hO" secondAttribute="centerX" id="nR4-qN-tRq"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gGn-KE-Oze" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="iyI-Oc-9DT" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1102" y="1369"/>
+        </scene>
+        <!--In Game Menu View Controller-->
         <scene sceneID="GM0-G2-SZq">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="vb3-7V-c1Z" sceneMemberID="viewController">
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="vb3-7V-c1Z" customClass="InGameMenuViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Chk-cv-qsX"/>
                         <viewControllerLayoutGuide type="bottom" id="3gB-3g-vgw"/>
@@ -139,7 +312,7 @@
                                 <rect key="frame" x="524" y="30" width="46" height="30"/>
                                 <state key="normal" title="Return"/>
                                 <connections>
-                                    <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitInGameMenu:" id="yae-jV-9qs"/>
+                                    <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitMenu:" id="2mi-Lk-89H"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -153,7 +326,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UTY-WS-eO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ATs-Ty-Sgo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1881" y="567"/>
+            <point key="canvasLocation" x="1914" y="567"/>
         </scene>
     </scenes>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>

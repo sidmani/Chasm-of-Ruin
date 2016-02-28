@@ -8,15 +8,15 @@
 
 import UIKit
 class ItemContainer:UIView {
-    var containerView:UIView
-    var itemView:UIView
+    var containerView:UIView = UIView()
+    var itemView:UIView = UIView()
     var item:Item?
     
     required init?(coder aDecoder: NSCoder) {
         ///create container
-        containerView = UIView()
-        itemView = UIView()
-        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 60, height: 60), cornerRadius: 8)
+        super.init(coder: aDecoder)
+
+        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.width), cornerRadius: self.bounds.size.width/5)
         let rectangleLayer = CAShapeLayer()
         rectangleLayer.path = rectanglePath.CGPath
         rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
@@ -24,7 +24,6 @@ class ItemContainer:UIView {
         rectangleLayer.lineWidth = 2.0
         containerView.layer.addSublayer(rectangleLayer)
         ////////////////////////////
-        super.init(coder: aDecoder)
         self.addSubview(containerView)
     }
     func addItem(newItem:Item) -> Item?
