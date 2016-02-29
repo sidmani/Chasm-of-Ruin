@@ -75,3 +75,16 @@ class Portal:MapObject, Interactive {
         
     }
 }
+/*class ItemBag:MapObject, Interactive {
+    var autotrigger:Bool
+    init() {
+        
+    }
+    
+}*/
+
+
+
+
+
+

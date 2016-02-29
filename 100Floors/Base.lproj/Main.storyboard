@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -146,148 +147,150 @@
                                     <segue destination="iyI-Oc-9DT" kind="unwind" unwindAction="exitMenu:" id="chs-95-AFL"/>
                                 </connections>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="I8D-V4-wCT">
-                                <rect key="frame" x="155" y="340" width="290" height="160"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEx-UK-b1H">
+                                <rect key="frame" x="467" y="105" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDg-aE-dq9">
+                                <rect key="frame" x="467" y="156" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kra-YF-ujF" userLabel="#1" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="20" y="40" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="9eG-os-i7R"/>
-                                    <constraint firstAttribute="width" constant="290" id="CaQ-rO-W9u"/>
+                                    <constraint firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="height" multiplier="1:1" id="ZDu-CL-aSx"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xcL-gX-Vef">
-                                    <size key="itemSize" width="60" height="60"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="J9k-rf-X4S">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lDi-GI-IPF" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692131410495" green="1" blue="0.52299442374309058" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="HPm-Ra-XNh">
-                                        <rect key="frame" x="77" y="0.0" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8kP-37-52c" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bfP-xr-Lel">
-                                        <rect key="frame" x="153" y="0.0" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-f2-fv4" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="n6W-9N-tYr">
-                                        <rect key="frame" x="230" y="0.0" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDB-T3-hu7" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Udj-hf-hto">
-                                        <rect key="frame" x="0.0" y="70" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VB-oX-Mea" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yt1-0b-V62">
-                                        <rect key="frame" x="77" y="70" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AlW-YR-hO7" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="KLj-NS-xfS">
-                                        <rect key="frame" x="153" y="70" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E1R-QO-HDk" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tdM-UU-3sL">
-                                        <rect key="frame" x="230" y="70" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uMX-58-bcR" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpT-80-UGS" userLabel="#2" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="102" y="40" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="KpT-80-UGS" secondAttribute="height" multiplier="1:1" id="a8R-w2-p8Y"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDO-d3-vkd" userLabel="#3" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="184" y="40" width="61" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="NDO-d3-vkd" secondAttribute="height" multiplier="1:1" id="yKu-hv-bTb"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76i-vO-7fy" userLabel="#4" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="265" y="40" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="76i-vO-7fy" secondAttribute="height" multiplier="1:1" id="J6L-Hf-JiA"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vny-ML-aYa" userLabel="#5" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="20" y="122" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Vny-ML-aYa" secondAttribute="height" multiplier="1:1" id="VKS-Sd-9d5"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJo-PS-vbI" userLabel="#6" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="102" y="122" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="EJo-PS-vbI" secondAttribute="height" multiplier="1:1" id="e5B-J1-jks"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsv-u5-0kg" userLabel="#7" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="184" y="122" width="61" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="nsv-u5-0kg" secondAttribute="height" multiplier="1:1" id="099-G4-LuA"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nw5-gl-VzE" userLabel="#8" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="265" y="122" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Nw5-gl-VzE" secondAttribute="height" multiplier="1:1" id="OY3-Xh-UDT"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Emf-hc-WII" userLabel="Weapon" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="20" y="488" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Emf-hc-WII" secondAttribute="height" multiplier="1:1" id="uGE-q0-UFe"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="skR-eN-Prc" userLabel="Shield" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="102" y="488" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="skR-eN-Prc" secondAttribute="height" multiplier="1:1" id="9IE-UE-QmD"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x0S-9K-E7q" userLabel="Skill" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="184" y="488" width="61" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="x0S-9K-E7q" secondAttribute="height" multiplier="1:1" id="Hok-Wt-AMU"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XN9-6p-wk6" userLabel="Enhancer" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="265" y="488" width="62" height="62"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XN9-6p-wk6" secondAttribute="height" multiplier="1:1" id="VBH-0Q-cRd"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="I8D-V4-wCT" secondAttribute="bottom" constant="100" id="LD8-Oa-two"/>
+                            <constraint firstItem="KpT-80-UGS" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="2SY-zJ-Slz"/>
+                            <constraint firstItem="Nw5-gl-VzE" firstAttribute="top" secondItem="76i-vO-7fy" secondAttribute="bottom" constant="20" id="2hz-a5-GWP"/>
+                            <constraint firstItem="gEx-UK-b1H" firstAttribute="leading" secondItem="76i-vO-7fy" secondAttribute="trailing" constant="140" id="2iW-qU-HYb"/>
+                            <constraint firstItem="Nw5-gl-VzE" firstAttribute="leading" secondItem="nsv-u5-0kg" secondAttribute="trailing" constant="20" id="3Jp-mH-q1E"/>
+                            <constraint firstItem="XN9-6p-wk6" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="4e8-sO-j3Y"/>
+                            <constraint firstItem="dDg-aE-dq9" firstAttribute="trailing" secondItem="gEx-UK-b1H" secondAttribute="trailing" id="5iL-6A-5GZ"/>
+                            <constraint firstItem="kra-YF-ujF" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leading" constant="20" id="7QN-27-EBb"/>
+                            <constraint firstItem="dDg-aE-dq9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Nw5-gl-VzE" secondAttribute="trailing" constant="100" id="9Kj-Al-UE5"/>
+                            <constraint firstItem="NDO-d3-vkd" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="AUT-KV-eWy"/>
+                            <constraint firstItem="Vny-ML-aYa" firstAttribute="top" secondItem="kra-YF-ujF" secondAttribute="bottom" constant="20" id="Blk-Lu-EVI"/>
+                            <constraint firstItem="XN9-6p-wk6" firstAttribute="leading" secondItem="x0S-9K-E7q" secondAttribute="trailing" constant="20" id="HgR-mQ-XDM"/>
+                            <constraint firstItem="EJo-PS-vbI" firstAttribute="top" secondItem="KpT-80-UGS" secondAttribute="bottom" constant="20" id="HxV-eT-J3R"/>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="skR-eN-Prc" secondAttribute="bottom" constant="50" id="M5O-Al-5b0"/>
+                            <constraint firstItem="skR-eN-Prc" firstAttribute="leading" secondItem="Emf-hc-WII" secondAttribute="trailing" constant="20" id="OOB-rG-aY2"/>
+                            <constraint firstItem="x0S-9K-E7q" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="P1u-a9-y89"/>
+                            <constraint firstItem="EJo-PS-vbI" firstAttribute="leading" secondItem="Vny-ML-aYa" secondAttribute="trailing" constant="20" id="PxO-FA-BLf"/>
+                            <constraint firstItem="nsv-u5-0kg" firstAttribute="leading" secondItem="EJo-PS-vbI" secondAttribute="trailing" constant="20" id="TcS-po-zwH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gEx-UK-b1H" secondAttribute="trailing" constant="25" id="UgJ-yD-vLB"/>
+                            <constraint firstItem="Emf-hc-WII" firstAttribute="leading" secondItem="Vny-ML-aYa" secondAttribute="leading" id="VWF-XG-t6o"/>
                             <constraint firstItem="mGy-f6-MZ2" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="15" id="WoH-fn-yt4"/>
+                            <constraint firstItem="Vny-ML-aYa" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leading" constant="20" id="YNV-Xa-VLv"/>
+                            <constraint firstItem="gEx-UK-b1H" firstAttribute="top" secondItem="mGy-f6-MZ2" secondAttribute="bottom" constant="40" id="ZLs-03-Fbx"/>
+                            <constraint firstItem="Vny-ML-aYa" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="b89-k7-ne4"/>
+                            <constraint firstItem="kra-YF-ujF" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="bs7-0X-9rZ"/>
+                            <constraint firstItem="skR-eN-Prc" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="byu-un-Si6"/>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="XN9-6p-wk6" secondAttribute="bottom" constant="50" id="dxb-YI-aSv"/>
+                            <constraint firstItem="gEx-UK-b1H" firstAttribute="centerX" secondItem="dDg-aE-dq9" secondAttribute="centerX" id="e54-9l-YvT"/>
+                            <constraint firstItem="NDO-d3-vkd" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="eND-uc-G5H"/>
+                            <constraint firstItem="x0S-9K-E7q" firstAttribute="leading" secondItem="skR-eN-Prc" secondAttribute="trailing" constant="20" id="f6K-q1-Lqr"/>
+                            <constraint firstItem="Nw5-gl-VzE" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="ffe-ki-YaN"/>
+                            <constraint firstItem="KpT-80-UGS" firstAttribute="leading" secondItem="kra-YF-ujF" secondAttribute="trailing" constant="20" id="fwS-56-Z9e"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mGy-f6-MZ2" secondAttribute="trailing" constant="15" id="iGT-I2-34V"/>
-                            <constraint firstItem="I8D-V4-wCT" firstAttribute="centerX" secondItem="Eyw-Cl-2hO" secondAttribute="centerX" id="nR4-qN-tRq"/>
+                            <constraint firstItem="nsv-u5-0kg" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="kRc-c0-6WS"/>
+                            <constraint firstItem="nsv-u5-0kg" firstAttribute="top" secondItem="NDO-d3-vkd" secondAttribute="bottom" constant="20" id="kzG-YL-S5d"/>
+                            <constraint firstItem="76i-vO-7fy" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="l8o-TX-lRe"/>
+                            <constraint firstItem="76i-vO-7fy" firstAttribute="leading" secondItem="NDO-d3-vkd" secondAttribute="trailing" constant="20" id="lvn-V3-Gkx"/>
+                            <constraint firstItem="dDg-aE-dq9" firstAttribute="top" secondItem="gEx-UK-b1H" secondAttribute="bottom" constant="30" id="mbh-9J-JWF"/>
+                            <constraint firstItem="Emf-hc-WII" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="mdy-tE-k6B"/>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="Emf-hc-WII" secondAttribute="bottom" constant="50" id="oSS-mc-C2c"/>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="x0S-9K-E7q" secondAttribute="bottom" constant="50" id="qtG-57-IEj"/>
+                            <constraint firstItem="XN9-6p-wk6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Nw5-gl-VzE" secondAttribute="bottom" constant="40" id="s3J-oc-VhK"/>
+                            <constraint firstItem="76i-vO-7fy" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="sVi-1e-UyU"/>
+                            <constraint firstItem="EJo-PS-vbI" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="uhy-KN-85I"/>
+                            <constraint firstItem="NDO-d3-vkd" firstAttribute="leading" secondItem="KpT-80-UGS" secondAttribute="trailing" constant="20" id="ysG-uK-kZT"/>
+                            <constraint firstItem="KpT-80-UGS" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="zbL-z0-3Ir"/>
                         </constraints>
                     </view>
                 </viewController>

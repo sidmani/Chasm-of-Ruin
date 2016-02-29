@@ -81,9 +81,4 @@ class Item {
     }
 }
 
-class ItemBag:SKSpriteNode { // Container for item dropped on the ground (is this necessary?)
-    var item:Item?
-    
-}
-
 
