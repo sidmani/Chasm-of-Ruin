@@ -63,11 +63,11 @@ class Entity:SKSpriteNode {
 
 class ThisCharacter: Entity, Updatable {
     var inventory:Inventory
+    var equipped:EquippedItems
     private var currStats:Stats
     private var baseStats:Stats
     private var projectileTimer:NSTimer?
     private var projectileTimerEnabled = false
-    private var equipped:EquippedItems
     
     //convenience variables
     var currentProjectile:String? {
@@ -95,7 +95,7 @@ class ThisCharacter: Entity, Updatable {
     init() {
         currStats = nilStats
         baseStats = nilStats
-        inventory = Inventory()
+        inventory = Inventory(withSize: inventory_size)
         equipped = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
         super.init(_ID: "mainchar", texture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
@@ -147,24 +147,26 @@ class ThisCharacter: Entity, Updatable {
     func equipItem(new:Item) -> Item? {
             switch (new.type)
             {
-            case ItemType.Shield:
+            case .Shield:
                 let old = equipped.shield
                 equipped.shield = new
                 return old
-            case ItemType.Skill:
+            case .Skill:
                 let old = equipped.skill
                 equipped.skill = new
                 return old
-            case ItemType.Weapon:
+            case .Weapon:
                 let old = equipped.weapon
                 equipped.weapon = new
                 return old
-            case ItemType.Enhancer:
+            case .Enhancer:
                 let old = equipped.enhancer
                 equipped.enhancer = new
                 return old
-            case ItemType.Style:
+            case .Style:
                 return nil
+            case .None:
+                fatalError("ItemType:None")
             }
     }
     

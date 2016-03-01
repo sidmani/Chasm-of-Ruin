@@ -191,10 +191,10 @@
 			isa = PBXGroup;
 			children = (
 				1F5078371C3C9AEA00EC773E /* Entity.swift */,
-				1F4686141C5C50AD004D3F55 /* Level.swift */,
 				1F304B2D1C3A33D30069D04D /* Projectile.swift */,
 				1FCE14C11C46080600112188 /* Inventory.swift */,
 				1F48547B1C4192EF008DDC8F /* Global.swift */,
+				1F4686141C5C50AD004D3F55 /* Level.swift */,
 				1FCE14BD1C45F02100112188 /* Item.swift */,
 				1F8FEA451C8125E7003794D3 /* ProceduralMap.swift */,
 				1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */,

@@ -75,13 +75,22 @@ class Portal:MapObject, Interactive {
         
     }
 }
-/*class ItemBag:MapObject, Interactive {
-    var autotrigger:Bool
-    init() {
-        
+class ItemBag:MapObject, Interactive {
+    var autotrigger:Bool = false
+    var items:Inventory
+    init(withItems: [Item], loc:CGPoint) {
+        items = Inventory(fromItems: withItems, withSize: inventory_size)
+        super.init(loc: loc)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-}*/
+    func trigger() {
+    
+    }
+}
 
 
 

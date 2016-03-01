@@ -15,7 +15,7 @@ import SpriteKit
 // enhancer: boosts a stat while equipped
 // style: changes appearance
 enum ItemType {
-    case Weapon, Skill, Shield, Enhancer, Style
+    case Weapon, Skill, Shield, Enhancer, Style, None
 }
 class Item {
     

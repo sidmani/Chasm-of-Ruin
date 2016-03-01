@@ -293,6 +293,20 @@
                             <constraint firstItem="KpT-80-UGS" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="zbL-z0-3Ir"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="Container1" destination="kra-YF-ujF" id="HEm-Kh-ZPA"/>
+                        <outlet property="Container2" destination="KpT-80-UGS" id="iI2-yq-QY7"/>
+                        <outlet property="Container3" destination="NDO-d3-vkd" id="yzM-O8-rVe"/>
+                        <outlet property="Container4" destination="76i-vO-7fy" id="Cij-BA-360"/>
+                        <outlet property="Container5" destination="Vny-ML-aYa" id="FuS-qg-YE0"/>
+                        <outlet property="Container6" destination="EJo-PS-vbI" id="Ds2-nW-Eg6"/>
+                        <outlet property="Container7" destination="nsv-u5-0kg" id="Gm8-yI-fx0"/>
+                        <outlet property="Container8" destination="Nw5-gl-VzE" id="pTE-H3-cAs"/>
+                        <outlet property="EnhancerContainer" destination="XN9-6p-wk6" id="L0L-ay-jsJ"/>
+                        <outlet property="ShieldContainer" destination="skR-eN-Prc" id="zrU-Ge-ZQy"/>
+                        <outlet property="SkillContainer" destination="x0S-9K-E7q" id="Jie-2z-vuv"/>
+                        <outlet property="WeaponContainer" destination="Emf-hc-WII" id="r5d-9E-3vS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gGn-KE-Oze" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="iyI-Oc-9DT" userLabel="Exit" sceneMemberID="exit"/>

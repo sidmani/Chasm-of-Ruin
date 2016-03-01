@@ -7,31 +7,38 @@
 //
 
 class Inventory {
-    private var inventory:[Item?] = [Item?]()
-    init()
+    private var inventory:[Item?]
+    init(withSize: Int)
     {
-        
+        inventory = [Item?](count:withSize, repeatedValue: nil)
     }
-    var inventoryCount:Int {
-        get{
-            return inventory.count
+    init(fromItems:[Item], withSize:Int) {
+        inventory = [Item?](count:withSize, repeatedValue: nil)
+        for (var i = 0; i < inventory.count; i++) {
+            setItem(i, toItem: fromItems[i])
         }
     }
-
-    func addItem(item:Item, atIndex:Int) {
-        if (inventoryCount < inventory_size)
-        {
-            inventory.insert(item, atIndex: atIndex)
+    func getItem(atIndex:Int) -> Item? {
+        if (atIndex > inventory.count) {
+            return nil
         }
-        
+        return inventory[atIndex]
+    }
+    func setItem(atIndex:Int, toItem:Item) -> Item? {
+        if (atIndex > inventory.count) {
+            return nil
+        }
+        let out = inventory[atIndex]
+        inventory[atIndex] = toItem
+        return out
     }
     
     func removeItem(atIndex:Int) -> Item? {
-        if let item = inventory[atIndex]
-        {
-            inventory.removeAtIndex(atIndex)
-            return item
+        if (atIndex > inventory.count) {
+            return nil
         }
-        return nil
+        let out = inventory[atIndex]
+        inventory[atIndex] = nil
+        return out
     }
 }

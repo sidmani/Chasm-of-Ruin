@@ -8,10 +8,20 @@
 
 import UIKit
 class ItemContainer:UIView {
-    var containerView:UIView = UIView()
-    var itemView:UIView = UIView()
-    var item:Item?
-    
+    private var containerView:UIView = UIView()
+    private var itemView:UIView = UIView()
+    private var item:Item?
+    private var itemTypeRestriction:ItemType = .None
+    var itemType:ItemType {
+        get {
+            if (item == nil) {
+                return .None
+            }
+            else {
+                return item!.type
+            }
+        }
+    }
     required init?(coder aDecoder: NSCoder) {
         ///create container
         super.init(coder: aDecoder)
@@ -23,18 +33,36 @@ class ItemContainer:UIView {
         rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         rectangleLayer.lineWidth = 2.0
         containerView.layer.addSublayer(rectangleLayer)
+        itemView.center = CGPointZero
         ////////////////////////////
         self.addSubview(containerView)
+        self.addSubview(itemView)
     }
-    func addItem(newItem:Item) -> Item?
+    func getItemTypeRestriction() -> ItemType {
+        return itemTypeRestriction
+    }
+    func setItemTypeRestriction(toType:ItemType) {
+        itemTypeRestriction = toType
+    }
+    func swapItemWith(container:ItemContainer) {
+        if (swappableWith(container)) {
+            self.item = container.setItem(self.item)
+        }
+        
+    }
+    func swappableWith(container:ItemContainer) -> Bool {
+        return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType) && (container.getItemTypeRestriction() == .None || container.getItemTypeRestriction() == self.itemType)
+    }
+    func setItem(newItem:Item?) -> Item?
     {
         let oldItem:Item? = item
         item = newItem
         for view in itemView.subviews{
             view.removeFromSuperview()
         }
-
-        itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.node!.texture!.CGImage())))
+        if (item != nil) {
+            itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.node!.texture!.CGImage())))
+        }
         return oldItem
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -56,10 +84,29 @@ class ItemContainer:UIView {
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touches.first != nil) {
+        if let touch = touches.first {
+            let currentPoint = touch.locationInView(superview)
             if item != nil {
-                //if inside rectangle, set position back to center
-                //else if outside rectangle, drop item (call inventory.drop or something)
+                if (!CGRectContainsPoint(self.frame, currentPoint)) {
+                    for view in superview!.subviews {
+                        if (CGRectContainsPoint(view.frame, currentPoint)) {
+                            if let container = view as? ItemContainer {
+                                swapItemWith(container)
+                                print("swapped with container")
+                                break
+                            }
+                            else {
+                                print("dropped outside")
+                            }
+                            break
+                        }
+                        else {
+                            print("dropped outside")
+                        }
+                        
+                    }
+                }
+                itemView.center = CGPointZero
             }
         }
     }
