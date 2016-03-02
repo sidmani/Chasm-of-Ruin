@@ -79,7 +79,7 @@ class ItemBag:MapObject, Interactive {
     var autotrigger:Bool = false
     var items:Inventory
     init(withItems: [Item], loc:CGPoint) {
-        items = Inventory(fromItems: withItems, withSize: inventory_size)
+        items = Inventory(fromItems: withItems, withEquipment: false, withSize: inventory_size)
         super.init(loc: loc)
     }
 

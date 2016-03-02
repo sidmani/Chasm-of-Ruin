@@ -20,28 +20,7 @@ struct Stats {
     var rage:CGFloat      // Builds up over time, released when hunger/health are low (last resort kinda thing)
 }
 
-struct EquippedItems {
-    var shield:Item?
-    var weapon:Item?
-    var enhancer:Item?
-    var skill:Item?
-    func totalStatChanges() -> Stats {
-        var stats1 = nilStats, stats2 = nilStats, stats3 = nilStats, stats4 = nilStats
-        if (shield != nil) {
-            stats1 = shield!.statMods
-        }
-        if (weapon != nil) {
-            stats2 = weapon!.statMods
-        }
-        if (enhancer != nil) {
-            stats3 = enhancer!.statMods
-        }
-        if (skill != nil) {
-            stats4 = skill!.statMods
-        }
-        return stats1 + stats2 + stats3 + stats4
-    }
-}
+
 //////////////////////
 
 
@@ -62,8 +41,7 @@ class Entity:SKSpriteNode {
 //////////////////////
 
 class ThisCharacter: Entity, Updatable {
-    var inventory:Inventory
-    var equipped:EquippedItems
+    private var inventory:Inventory
     private var currStats:Stats
     private var baseStats:Stats
     private var projectileTimer:NSTimer?
@@ -72,7 +50,7 @@ class ThisCharacter: Entity, Updatable {
     //convenience variables
     var currentProjectile:String? {
         get{
-            return equipped.weapon?.projectile //set weapon based on item
+            return inventory.getEquip(.Weapon)?.projectile //set weapon based on item
         }
     }
     var velocity:CGVector
@@ -95,8 +73,7 @@ class ThisCharacter: Entity, Updatable {
     init() {
         currStats = nilStats
         baseStats = nilStats
-        inventory = Inventory(withSize: inventory_size)
-        equipped = EquippedItems(shield: nil, weapon: nil, enhancer: nil, skill: nil)
+        inventory = Inventory(withEquipment: true, withSize: inventory_size)
         super.init(_ID: "mainchar", texture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody?.friction = 0
@@ -143,45 +120,21 @@ class ThisCharacter: Entity, Updatable {
             }
         }
     }
-    ///equip functions
-    func equipItem(new:Item) -> Item? {
-            switch (new.type)
-            {
-            case .Shield:
-                let old = equipped.shield
-                equipped.shield = new
-                return old
-            case .Skill:
-                let old = equipped.skill
-                equipped.skill = new
-                return old
-            case .Weapon:
-                let old = equipped.weapon
-                equipped.weapon = new
-                return old
-            case .Enhancer:
-                let old = equipped.enhancer
-                equipped.enhancer = new
-                return old
-            case .Style:
-                return nil
-            case .None:
-                fatalError("ItemType:None")
-            }
+    func getInventory() -> Inventory {
+        return inventory
     }
-    
     ///////////////////
     //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
-        if (equipped.weapon != nil) {
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: equipped.weapon!.range, withAtk: 10)
+        if (inventory.getEquip(.Weapon) != nil) {
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: inventory.getEquip(.Weapon)!.range, withAtk: 10)
             GameLogic.addProjectile(newProjectile)
         }
     }
     
     @objc private func fireProjectileFromTimer() {
-        if (equipped.weapon != nil) {
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange: equipped.weapon!.range, withAtk: self.currStats.attack)
+        if (inventory.getEquip(.Weapon) != nil) {
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:inventory.getEquip(.Weapon)!.range, withAtk: self.currStats.attack)
             //TODO: check if projectiles can be shot etc
             GameLogic.addProjectile(newProjectile)
         }

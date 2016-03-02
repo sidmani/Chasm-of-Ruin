@@ -65,7 +65,7 @@ class GameLogic {
         gameScene = withScene
         //TODO: load save state xml
         setLevel(Level(_id: "0")) //this shouldn't be here
-        thisCharacter.equipItem(Item(withID: "wep1"))
+        thisCharacter.getInventory().equipItem(Item(withID: "wep1"))
     }
     /////////////
     static func getCurrentState() -> GameStates {

@@ -5,13 +5,14 @@
 //  Created by Sid Mani on 1/13/16.
 //
 //
-
 import UIKit
-class ItemContainer:UIView {
+class ItemContainer:UIControl {
     private var containerView:UIView = UIView()
     private var itemView:UIView = UIView()
     private var item:Item?
-    private var itemTypeRestriction:ItemType = .None
+    var correspondsToInventoryIndex:Int = -1
+    var droppedAt:CGPoint = CGPointZero
+    var itemTypeRestriction:ItemType = .None
     var itemType:ItemType {
         get {
             if (item == nil) {
@@ -38,21 +39,18 @@ class ItemContainer:UIView {
         self.addSubview(containerView)
         self.addSubview(itemView)
     }
-    func getItemTypeRestriction() -> ItemType {
-        return itemTypeRestriction
-    }
-    func setItemTypeRestriction(toType:ItemType) {
-        itemTypeRestriction = toType
-    }
     func swapItemWith(container:ItemContainer) {
         if (swappableWith(container)) {
             self.item = container.setItem(self.item)
+            
         }
         
     }
+    
     func swappableWith(container:ItemContainer) -> Bool {
-        return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType) && (container.getItemTypeRestriction() == .None || container.getItemTypeRestriction() == self.itemType)
+        return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType) && (container.itemTypeRestriction == .None || container.itemTypeRestriction == self.itemType)
     }
+    
     func setItem(newItem:Item?) -> Item?
     {
         let oldItem:Item? = item
@@ -65,6 +63,7 @@ class ItemContainer:UIView {
         }
         return oldItem
     }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let currentPoint = touch.locationInView(self)
@@ -82,38 +81,19 @@ class ItemContainer:UIView {
             }
         }
     }
-    
+    //This needs to be moved to the view controller
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let currentPoint = touch.locationInView(superview)
-            if item != nil {
+         //   if item != nil {
                 if (!CGRectContainsPoint(self.frame, currentPoint)) {
-                    for view in superview!.subviews {
-                        if (CGRectContainsPoint(view.frame, currentPoint)) {
-                            if let container = view as? ItemContainer {
-                                swapItemWith(container)
-                                print("swapped with container")
-                                break
-                            }
-                            else {
-                                print("dropped outside")
-                            }
-                            break
-                        }
-                        else {
-                            print("dropped outside")
-                        }
-                        
-                    }
+                    droppedAt = currentPoint
+                    sendActionsForControlEvents(.ApplicationReserved)
                 }
                 itemView.center = CGPointZero
-            }
+         //   }
         }
     }
     
-    
-}
-
-class ItemContainerCircular:UIView {
     
 }
