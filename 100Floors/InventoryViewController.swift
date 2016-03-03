@@ -40,8 +40,13 @@ class InventoryViewController: UIViewController {
         SkillContainer.itemTypeRestriction = .Skill
         EnhancerContainer.itemTypeRestriction = .Enhancer
         
+        WeaponContainer.correspondsToInventoryIndex = Inventory.EquippedItems.weaponIndex
+        ShieldContainer.correspondsToInventoryIndex = Inventory.EquippedItems.shieldIndex
+        SkillContainer.correspondsToInventoryIndex = Inventory.EquippedItems.skillIndex
+        EnhancerContainer.correspondsToInventoryIndex = Inventory.EquippedItems.enhancerIndex
+
     }
-    func loadInventory() {
+    func loadInventory() { //this shouldn't be necessary unless the containers and inventory aren't synced correctly
         for (var i = 0; i < 8; i++) {
             containers[i].setItem(thisCharacter.getInventory().getItem(i))
         }
@@ -51,12 +56,11 @@ class InventoryViewController: UIViewController {
         print("itemDropped called")
         for containerB in self.containers {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
-                if (containerA.correspondsToInventoryIndex < 8 && containerB.correspondsToInventoryIndex < 8) {
-                containerA.swapItemWith(containerB)
-                thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
-                print("container \(containerA.correspondsToInventoryIndex) swapped with container \(containerB.correspondsToInventoryIndex)")
+                if (containerA.swappableWith(containerB)) {
+                        containerA.swapItemWith(containerB)
+                        thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
+                        thisCharacter.getInventory().printInventory()
                 }
-                
             }
         }
     }

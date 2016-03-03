@@ -34,17 +34,13 @@ class ItemContainer:UIControl {
         rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         rectangleLayer.lineWidth = 2.0
         containerView.layer.addSublayer(rectangleLayer)
-        itemView.center = CGPointZero
+        itemView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
         ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(itemView)
     }
     func swapItemWith(container:ItemContainer) {
-        if (swappableWith(container)) {
-            self.item = container.setItem(self.item)
-            
-        }
-        
+            setItem(container.setItem(self.item))
     }
     
     func swappableWith(container:ItemContainer) -> Bool {
@@ -59,39 +55,36 @@ class ItemContainer:UIControl {
             view.removeFromSuperview()
         }
         if (item != nil) {
-            itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.node!.texture!.CGImage())))
+            itemView.addSubview(UIImageView(image: UIImage(CGImage:item!.node.texture!.CGImage())))
         }
         return oldItem
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first {
-            let currentPoint = touch.locationInView(self)
-            if item != nil {
-             itemView.center = currentPoint
+        if item != nil {
+            if let touch = touches.first {
+                itemView.center = touch.locationInView(self)
             }
         }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first {
-            let currentPoint = touch.locationInView(self)
-            if item != nil {
-                itemView.center = currentPoint
+        //if item != nil {
+            if let touch = touches.first {
+                itemView.center = touch.locationInView(self)
             }
-        }
+        //}
     }
-    //This needs to be moved to the view controller
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first {
-            let currentPoint = touch.locationInView(superview)
-         //   if item != nil {
+        if item != nil {
+            if let touch = touches.first {
+                let currentPoint = touch.locationInView(superview)
                 if (!CGRectContainsPoint(self.frame, currentPoint)) {
                     droppedAt = currentPoint
                     sendActionsForControlEvents(.ApplicationReserved)
                 }
-                itemView.center = CGPointZero
-         //   }
+                itemView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+            }
         }
     }
     

@@ -77,9 +77,9 @@ class Portal:MapObject, Interactive {
 }
 class ItemBag:MapObject, Interactive {
     var autotrigger:Bool = false
-    var items:Inventory
-    init(withItems: [Item], loc:CGPoint) {
-        items = Inventory(fromItems: withItems, withEquipment: false, withSize: inventory_size)
+    var item:Item
+    init(withItem: Item, loc:CGPoint) {
+        item = withItem
         super.init(loc: loc)
     }
 

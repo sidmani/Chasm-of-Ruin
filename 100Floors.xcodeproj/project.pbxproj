@@ -55,6 +55,9 @@
 		1FCE14BE1C45F02100112188 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14BD1C45F02100112188 /* Item.swift */; };
 		1FCE14C21C46080600112188 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C11C46080600112188 /* Inventory.swift */; };
 		1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C31C475A0400112188 /* ItemContainer.swift */; };
+		1FD105C61C87D67E00C9F624 /* Sword-T1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FD105C51C87D67E00C9F624 /* Sword-T1.png */; };
+		1FD105C81C87D69000C9F624 /* Sword-T6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FD105C71C87D69000C9F624 /* Sword-T6.png */; };
+		1FD105CA1C87D6FC00C9F624 /* Sword-T10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FD105C91C87D6FC00C9F624 /* Sword-T10.png */; };
 		1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FDD427D1C4DDD65008C809E /* Projectiles.atlas */; };
 		1FEC7C8C1C7033E0005AEDB3 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */; };
 /* End PBXBuildFile section */
@@ -129,6 +132,9 @@
 		1FCE14BD1C45F02100112188 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../Item.swift; sourceTree = "<group>"; };
 		1FCE14C11C46080600112188 /* Inventory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		1FCE14C31C475A0400112188 /* ItemContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemContainer.swift; path = ../ItemContainer.swift; sourceTree = "<group>"; };
+		1FD105C51C87D67E00C9F624 /* Sword-T1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sword-T1.png"; path = "../../../100FloorsAssets/Weapons/Swords/PNG/Sword-T1.png"; sourceTree = "<group>"; };
+		1FD105C71C87D69000C9F624 /* Sword-T6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sword-T6.png"; path = "../../../100FloorsAssets/Weapons/Swords/PNG/Sword-T6.png"; sourceTree = "<group>"; };
+		1FD105C91C87D6FC00C9F624 /* Sword-T10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sword-T10.png"; path = "../../../100FloorsAssets/Weapons/Swords/PNG/Sword-T10.png"; sourceTree = "<group>"; };
 		1FDD427D1C4DDD65008C809E /* Projectiles.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Projectiles.atlas; sourceTree = "<group>"; };
 		1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -229,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				1F457D421C6D009500E0CB37 /* Items.xml */,
+				1FD105C41C87D67300C9F624 /* Items */,
 				1F457D441C6D647400E0CB37 /* Levels.xml */,
 				1F45F9B41C4CAEA400334AB5 /* Maps */,
 				1F45F9B31C4CAE9A00334AB5 /* Atlases */,
@@ -358,6 +365,16 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		1FD105C41C87D67300C9F624 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				1FD105C71C87D69000C9F624 /* Sword-T6.png */,
+				1FD105C51C87D67E00C9F624 /* Sword-T1.png */,
+				1FD105C91C87D6FC00C9F624 /* Sword-T10.png */,
+			);
+			name = Items;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -418,9 +435,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F2CEE171C387B1F00E4FB2E /* LaunchScreen.storyboard in Resources */,
+				1FD105CA1C87D6FC00C9F624 /* Sword-T10.png in Resources */,
 				1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */,
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
 				1F8FEA481C815CB5003794D3 /* Stairs.png in Resources */,
+				1FD105C61C87D67E00C9F624 /* Sword-T1.png in Resources */,
 				1F4A47A81C4B426000813143 /* Map.atlas in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
 				1F8FEA4A1C815CC6003794D3 /* Cliffs.png in Resources */,
@@ -430,6 +449,7 @@
 				1F457D471C6D8B4E00E0CB37 /* Berry Garden.png in Resources */,
 				1F457D491C6D8FB700E0CB37 /* Hub.tmx in Resources */,
 				1F457D431C6D009500E0CB37 /* Items.xml in Resources */,
+				1FD105C81C87D69000C9F624 /* Sword-T6.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

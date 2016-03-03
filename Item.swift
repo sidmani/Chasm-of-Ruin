@@ -22,7 +22,7 @@ class Item {
     var statMods:Stats
     var name:String
     var description:String
-    var node:SKSpriteNode?
+    var node:SKSpriteNode
     var type:ItemType
     var consumable:Bool
     var permanent:Bool = false
@@ -56,7 +56,8 @@ class Item {
             default:
             fatalError("Item Type Error")
             }}()
-        node = SKSpriteNode(fileNamed: thisItem["img"].stringValue)
+        print(thisItem["img"].stringValue)
+        node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
         description = thisItem["desc"].stringValue
         name = thisItem["name"].stringValue
         consumable = thisItem["consumable"].boolValue
