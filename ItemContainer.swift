@@ -34,7 +34,7 @@ class ItemContainer:UIControl {
         rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         rectangleLayer.lineWidth = 2.0
         containerView.layer.addSublayer(rectangleLayer)
-        itemView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+        itemView.center = CGPointZero
         ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(itemView)
@@ -44,7 +44,8 @@ class ItemContainer:UIControl {
     }
     
     func swappableWith(container:ItemContainer) -> Bool {
-        return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType) && (container.itemTypeRestriction == .None || container.itemTypeRestriction == self.itemType)
+        print(self.itemType)
+        return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType || container.itemType == .None) && (container.itemTypeRestriction == .None || container.itemTypeRestriction == self.itemType || self.itemType == .None)
     }
     
     func setItem(newItem:Item?) -> Item?
@@ -83,9 +84,10 @@ class ItemContainer:UIControl {
                     droppedAt = currentPoint
                     sendActionsForControlEvents(.ApplicationReserved)
                 }
-                itemView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
             }
         }
+        itemView.center = CGPointZero
+
     }
     
     

@@ -65,7 +65,7 @@ class GameLogic {
         gameScene = withScene
         //TODO: load save state xml
         setLevel(Level(_id: "0")) //this shouldn't be here
-        thisCharacter.getInventory().equipItem(Item(withID: "wep1"))
+        thisCharacter.getInventory().setItem(Inventory.EquippedItems.weaponIndex, toItem: Item(withID: "wep1"))
         thisCharacter.getInventory().setItem(0, toItem: Item(withID: "wep2"))
         thisCharacter.getInventory().setItem(1, toItem: Item(withID: "wep3"))
 

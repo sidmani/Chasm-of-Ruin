@@ -28,8 +28,13 @@ class InventoryViewController: UIViewController {
             containers[i].setItem(thisCharacter.getInventory().getItem(i))
             containers[i].addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
             containers[i].correspondsToInventoryIndex = i
-            containers[i].itemTypeRestriction = .None
+            //containers[i].itemTypeRestriction = .None
         }
+        WeaponContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
+        ShieldContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
+        SkillContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
+        EnhancerContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
+
         WeaponContainer.setItem(thisCharacter.getInventory().getEquip(.Weapon))
         ShieldContainer.setItem(thisCharacter.getInventory().getEquip(.Shield))
         SkillContainer.setItem(thisCharacter.getInventory().getEquip(.Skill))
@@ -44,7 +49,11 @@ class InventoryViewController: UIViewController {
         ShieldContainer.correspondsToInventoryIndex = Inventory.EquippedItems.shieldIndex
         SkillContainer.correspondsToInventoryIndex = Inventory.EquippedItems.skillIndex
         EnhancerContainer.correspondsToInventoryIndex = Inventory.EquippedItems.enhancerIndex
-
+      
+        containers.append(WeaponContainer)
+        containers.append(ShieldContainer)
+        containers.append(SkillContainer)
+        containers.append(EnhancerContainer)
     }
     func loadInventory() { //this shouldn't be necessary unless the containers and inventory aren't synced correctly
         for (var i = 0; i < 8; i++) {
@@ -57,8 +66,8 @@ class InventoryViewController: UIViewController {
         for containerB in self.containers {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
-                        containerA.swapItemWith(containerB)
                         thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
+                        containerA.swapItemWith(containerB)
                         thisCharacter.getInventory().printInventory()
                 }
             }

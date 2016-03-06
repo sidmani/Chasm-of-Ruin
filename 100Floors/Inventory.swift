@@ -60,6 +60,7 @@ class Inventory {
         for (var i = 0; i < 8; i++) {
             print("Item \(i):")
             print(inventory[i]?.name)
+            print(inventory[i]?.type)
             print("\n")
         }
     }
@@ -72,6 +73,21 @@ class Inventory {
         setItem(atIndexA, toItem: getItem(atIndexB))
         setItem(atIndexB, toItem: temp)
     }
+    func getEquip(ofType: ItemType) -> Item? {
+        switch (ofType) {
+        case .Weapon:
+            return getItem(EquippedItems.weaponIndex);
+        case .Shield:
+            return getItem(EquippedItems.shieldIndex);
+        case .Skill:
+            return getItem(EquippedItems.skillIndex);
+        case .Enhancer:
+            return getItem(EquippedItems.enhancerIndex);
+        default:
+            return nil
+        }
+    }
+    
     func getItem(atIndex:Int) -> Item? {
         if (atIndex > inventory.count) {
             return nil
@@ -89,83 +105,40 @@ class Inventory {
             return inventory[atIndex]
         }
     }
-    func setItem(atIndex:Int, toItem:Item?) -> Item? {
-        if (atIndex > inventory.count) {
-            return nil
-        }
-        if (atIndex < 0) {
-            return equipItem(toItem)
-        }
-        let out = inventory[atIndex]
-        inventory[atIndex] = toItem
-        return out
-    }
     
-    func removeItem(atIndex:Int) -> Item? {
+    func setItem(atIndex:Int, toItem:Item?) -> Item? {
         if (atIndex > inventory.count) {
             return nil
         }
         switch(atIndex) {
         case EquippedItems.enhancerIndex:
             let out = equipped?.enhancer
-            equipped?.enhancer = nil
+            if (toItem == nil || toItem!.type == .Enhancer) {
+                equipped?.enhancer = toItem
+            }
             return out
         case EquippedItems.weaponIndex:
             let out = equipped?.weapon
-            equipped?.weapon = nil
+            if (toItem == nil || toItem!.type == .Weapon) {
+                equipped?.weapon = toItem
+            }
             return out
         case EquippedItems.shieldIndex:
             let out = equipped?.shield
-            equipped?.shield = nil
+            if (toItem == nil || toItem!.type == .Shield) {
+                equipped?.shield = toItem
+            }
             return out
         case EquippedItems.skillIndex:
             let out = equipped?.skill
-            equipped?.skill = nil
+            if (toItem == nil || toItem!.type == .Skill) {
+                equipped?.skill = toItem
+            }
             return out
         default:
             let out = inventory[atIndex]
-            inventory[atIndex] = nil
+            inventory[atIndex] = toItem
             return out
-        }
-    }
-    func getEquip(type:ItemType) -> Item? {
-        switch (type) {
-        case .Weapon:
-            return equipped?.weapon
-        case .Shield:
-            return equipped?.shield
-        case .Enhancer:
-            return equipped?.enhancer
-        case .Skill:
-            return equipped?.skill
-        default:
-            return nil
-        }
-    }
-    func equipItem(new:Item?) -> Item? {
-        if (equipped == nil || new == nil) {
-            return new
-        }
-        switch (new!.type)
-        {
-        case .Shield:
-            let old = equipped!.shield
-            equipped!.shield = new
-            return old
-        case .Skill:
-            let old = equipped!.skill
-            equipped!.skill = new
-            return old
-        case .Weapon:
-            let old = equipped!.weapon
-            equipped!.weapon = new
-            return old
-        case .Enhancer:
-            let old = equipped!.enhancer
-            equipped!.enhancer = new
-            return old
-        default:
-            return nil
         }
     }
 }
