@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -153,7 +153,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDg-aE-dq9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDg-aE-dq9">
                                 <rect key="frame" x="467" y="156" width="88" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -302,7 +302,9 @@
                         <outlet property="Container6" destination="EJo-PS-vbI" id="Ds2-nW-Eg6"/>
                         <outlet property="Container7" destination="nsv-u5-0kg" id="Gm8-yI-fx0"/>
                         <outlet property="Container8" destination="Nw5-gl-VzE" id="pTE-H3-cAs"/>
+                        <outlet property="DescriptionLabel" destination="dDg-aE-dq9" id="xpW-cU-LL3"/>
                         <outlet property="EnhancerContainer" destination="XN9-6p-wk6" id="L0L-ay-jsJ"/>
+                        <outlet property="NameLabel" destination="gEx-UK-b1H" id="ZqS-xK-bkn"/>
                         <outlet property="ShieldContainer" destination="skR-eN-Prc" id="zrU-Ge-ZQy"/>
                         <outlet property="SkillContainer" destination="x0S-9K-E7q" id="Jie-2z-vuv"/>
                         <outlet property="WeaponContainer" destination="Emf-hc-WII" id="r5d-9E-3vS"/>

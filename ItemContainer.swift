@@ -9,7 +9,8 @@ import UIKit
 class ItemContainer:UIControl {
     private var containerView:UIView = UIView()
     private var itemView:UIView = UIView()
-    private var item:Item?
+    private var rectangleLayer = CAShapeLayer()
+    var item:Item?
     var correspondsToInventoryIndex:Int = -1
     var droppedAt:CGPoint = CGPointZero
     var itemTypeRestriction:ItemType = .None
@@ -28,7 +29,6 @@ class ItemContainer:UIControl {
         super.init(coder: aDecoder)
 
         let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.width), cornerRadius: self.bounds.size.width/5)
-        let rectangleLayer = CAShapeLayer()
         rectangleLayer.path = rectanglePath.CGPath
         rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
         rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
@@ -42,9 +42,18 @@ class ItemContainer:UIControl {
     func swapItemWith(container:ItemContainer) {
             setItem(container.setItem(self.item))
     }
-    
+    func setSelectedTo(val:Bool) {
+        if (val) {
+            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 1.0).CGColor
+            rectangleLayer.fillColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5).CGColor
+        }
+        else {
+            rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
+            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+        }
+    }
     func swappableWith(container:ItemContainer) -> Bool {
-        print(self.itemType)
+//        print(self.itemType)
         return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType || container.itemType == .None) && (container.itemTypeRestriction == .None || container.itemTypeRestriction == self.itemType || self.itemType == .None)
     }
     
@@ -62,18 +71,20 @@ class ItemContainer:UIControl {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if item != nil {
-            if let touch = touches.first {
-                itemView.center = touch.locationInView(self)
-            }
+        //if item != nil {
+        if let touch = touches.first {
+            itemView.center = touch.locationInView(self)
         }
+        super.touchesBegan(touches, withEvent: event)
+        //}
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //if item != nil {
-            if let touch = touches.first {
-                itemView.center = touch.locationInView(self)
-            }
+        if let touch = touches.first {
+            itemView.center = touch.locationInView(self)
+        }
+        super.touchesMoved(touches, withEvent: event)
         //}
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -84,10 +95,12 @@ class ItemContainer:UIControl {
                     droppedAt = currentPoint
                     sendActionsForControlEvents(.ApplicationReserved)
                 }
+                else {
+                    super.touchesEnded(touches, withEvent: event)
+                }
             }
         }
         itemView.center = CGPointZero
-
     }
     
     

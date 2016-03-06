@@ -7,6 +7,8 @@
 //
 class InventoryViewController: UIViewController {
 
+    @IBOutlet weak var NameLabel: UILabel!
+    @IBOutlet weak var DescriptionLabel: UILabel!
     @IBOutlet weak var Container1: ItemContainer!
     @IBOutlet weak var Container2: ItemContainer!
     @IBOutlet weak var Container3: ItemContainer!
@@ -26,19 +28,24 @@ class InventoryViewController: UIViewController {
         super.viewDidLoad()
         for (var i = 0; i < 8; i++) {
             containers[i].setItem(thisCharacter.getInventory().getItem(i))
-            containers[i].addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
+            containers[i].addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+            containers[i].addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
             containers[i].correspondsToInventoryIndex = i
-            //containers[i].itemTypeRestriction = .None
         }
-        WeaponContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
-        ShieldContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
-        SkillContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
-        EnhancerContainer.addTarget(self, action: "itemDropped:", forControlEvents: UIControlEvents.ApplicationReserved)
+        WeaponContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+        ShieldContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+        SkillContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+        EnhancerContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+       
+        WeaponContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        ShieldContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        SkillContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        EnhancerContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
 
-        WeaponContainer.setItem(thisCharacter.getInventory().getEquip(.Weapon))
-        ShieldContainer.setItem(thisCharacter.getInventory().getEquip(.Shield))
-        SkillContainer.setItem(thisCharacter.getInventory().getEquip(.Skill))
-        EnhancerContainer.setItem(thisCharacter.getInventory().getEquip(.Enhancer))
+        WeaponContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.weaponIndex))
+        ShieldContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.shieldIndex))
+        SkillContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.skillIndex))
+        EnhancerContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.enhancerIndex))
         
         WeaponContainer.itemTypeRestriction = .Weapon
         ShieldContainer.itemTypeRestriction = .Shield
@@ -54,24 +61,29 @@ class InventoryViewController: UIViewController {
         containers.append(ShieldContainer)
         containers.append(SkillContainer)
         containers.append(EnhancerContainer)
-    }
-    func loadInventory() { //this shouldn't be necessary unless the containers and inventory aren't synced correctly
-        for (var i = 0; i < 8; i++) {
-            containers[i].setItem(thisCharacter.getInventory().getItem(i))
-        }
         
+        containers[0].setSelectedTo(true)
     }
+    
     @IBAction func itemDropped(containerA:ItemContainer) {
-        print("itemDropped called")
         for containerB in self.containers {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
                         thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
                         containerA.swapItemWith(containerB)
-                        thisCharacter.getInventory().printInventory()
+                        containerSelected(containerB)
                 }
+                return
             }
         }
+    }
+    @IBAction func containerSelected(sender:ItemContainer) {
+        for container in containers {
+            container.setSelectedTo(false)
+        }
+        sender.setSelectedTo(true)
+    //    NameLabel.text = sender.item!.name
+    //    DescriptionLabel.text = sender.item!.description
     }
     override func shouldAutorotate() -> Bool {
         return true
