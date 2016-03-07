@@ -24,45 +24,51 @@ class InventoryViewController: UIViewController {
     var containers:[ItemContainer] = []
 
     override func viewDidLoad() {
+     //   let charInventory = thisCharacter.getInventory()
         containers = [Container1, Container2, Container3, Container4, Container5, Container6, Container7, Container8]
+        containers.append(WeaponContainer)
+        containers.append(ShieldContainer)
+        containers.append(SkillContainer)
+        containers.append(EnhancerContainer)
         super.viewDidLoad()
-        for (var i = 0; i < 8; i++) {
+        var selected = false
+        for (var i = 0; i < containers.count; i++) {
             containers[i].setItem(thisCharacter.getInventory().getItem(i))
+            if (!selected && containers[i].item != nil) {
+                containerSelected(containers[i])
+                selected = true
+            }
             containers[i].addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
             containers[i].addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
             containers[i].correspondsToInventoryIndex = i
         }
-        WeaponContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-        ShieldContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-        SkillContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-        EnhancerContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+       // WeaponContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+       // ShieldContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+       // SkillContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
+       // EnhancerContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
        
-        WeaponContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-        ShieldContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-        SkillContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-        EnhancerContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        //WeaponContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        //ShieldContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        //SkillContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+        //EnhancerContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
 
-        WeaponContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.weaponIndex))
-        ShieldContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.shieldIndex))
-        SkillContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.skillIndex))
-        EnhancerContainer.setItem(thisCharacter.getInventory().getItem(Inventory.EquippedItems.enhancerIndex))
+        //WeaponContainer.setItem(charInventory.getItem(charInventory.weaponIndex))
+        //ShieldContainer.setItem(charInventory.getItem(charInventory.shieldIndex))
+        //SkillContainer.setItem(charInventory.getItem(charInventory.skillIndex))
+        //EnhancerContainer.setItem(charInventory.getItem(charInventory.skillIndex))
         
         WeaponContainer.itemTypeRestriction = .Weapon
         ShieldContainer.itemTypeRestriction = .Shield
         SkillContainer.itemTypeRestriction = .Skill
         EnhancerContainer.itemTypeRestriction = .Enhancer
         
-        WeaponContainer.correspondsToInventoryIndex = Inventory.EquippedItems.weaponIndex
-        ShieldContainer.correspondsToInventoryIndex = Inventory.EquippedItems.shieldIndex
-        SkillContainer.correspondsToInventoryIndex = Inventory.EquippedItems.skillIndex
-        EnhancerContainer.correspondsToInventoryIndex = Inventory.EquippedItems.enhancerIndex
+        //WeaponContainer.correspondsToInventoryIndex = charInventory.weaponIndex
+        //ShieldContainer.correspondsToInventoryIndex = charInventory.shieldIndex
+        //SkillContainer.correspondsToInventoryIndex = charInventory.skillIndex
+        //EnhancerContainer.correspondsToInventoryIndex = charInventory.enhancerIndex
       
-        containers.append(WeaponContainer)
-        containers.append(ShieldContainer)
-        containers.append(SkillContainer)
-        containers.append(EnhancerContainer)
+     
         
-        containers[0].setSelectedTo(true)
     }
     
     @IBAction func itemDropped(containerA:ItemContainer) {
@@ -72,6 +78,7 @@ class InventoryViewController: UIViewController {
                         thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
                         containerA.swapItemWith(containerB)
                         containerSelected(containerB)
+                        //thisCharacter.getInventory().printInventory()
                 }
                 return
             }

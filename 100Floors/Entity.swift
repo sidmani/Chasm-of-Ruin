@@ -50,7 +50,7 @@ class ThisCharacter: Entity, Updatable {
     //convenience variables
     var currentProjectile:String? {
         get{
-            return inventory.getItem(Inventory.EquippedItems.weaponIndex)?.projectile //set weapon based on item
+            return inventory.getItem(inventory.weaponIndex)?.projectile //set weapon based on item
         }
     }
     var velocity:CGVector
@@ -126,15 +126,15 @@ class ThisCharacter: Entity, Updatable {
     ///////////////////
     //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
-        if (inventory.getItem(Inventory.EquippedItems.weaponIndex) != nil) {
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: inventory.getItem(Inventory.EquippedItems.weaponIndex)!.range, withAtk: 10)
+        if (inventory.getItem(inventory.weaponIndex) != nil) {
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: withVelocity, isFriendly: true, withRange: inventory.getItem(inventory.weaponIndex)!.range, withAtk: 10)
             GameLogic.addProjectile(newProjectile)
         }
     }
     
     @objc private func fireProjectileFromTimer() {
-        if (inventory.getItem(Inventory.EquippedItems.weaponIndex) != nil) {
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:inventory.getItem(Inventory.EquippedItems.weaponIndex)!.range, withAtk: self.currStats.attack)
+        if (inventory.getItem(inventory.weaponIndex) != nil) {
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: absoluteLoc, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:inventory.getItem(inventory.weaponIndex)!.range, withAtk: self.currStats.attack)
             //TODO: check if projectiles can be shot etc
             GameLogic.addProjectile(newProjectile)
         }

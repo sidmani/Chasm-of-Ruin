@@ -7,7 +7,7 @@
 //
 
 class Inventory {
-    struct EquippedItems {
+    /*struct EquippedItems {
         static let shieldIndex = -2
         static let weaponIndex = -1
         static let enhancerIndex = -4
@@ -32,29 +32,55 @@ class Inventory {
             }
             return stats1 + stats2 + stats3 + stats4
         }
+    }*/
+    var weaponIndex:Int {
+        return baseSize
     }
-    private var equipped:EquippedItems?
+    var shieldIndex:Int {
+        return baseSize + 1
+    }
+    var skillIndex:Int {
+        return baseSize + 2
+    }
+    var enhancerIndex:Int {
+        return baseSize + 3
+    }
+    
+    private var baseSize:Int
+   // private var equipped:EquippedItems?
     private var inventory:[Item?]
     //INIT
     init(withEquipment:Bool, withSize: Int)
     {
-        inventory = [Item?](count:withSize, repeatedValue: nil)
+        baseSize = withSize
         if (withEquipment) {
-            equipped = EquippedItems()
+            //equipped = EquippedItems()
+            inventory = [Item?](count:withSize+4, repeatedValue: nil)
+        }
+        else {
+            inventory = [Item?](count:withSize, repeatedValue: nil)
         }
     }
     
-    init(fromItems:[Item], withEquipment:Bool, withSize:Int) {
-        inventory = [Item?](count:withSize, repeatedValue: nil)
-        for (var i = 0; i < inventory.count; i++) {
+   /* init(fromItems:[Item], withEquipment:Bool, withSize:Int) {
+       // inventory = [Item?](count:withSize, repeatedValue: nil)
+        baseSize = withSize
+        if (withEquipment) {
+            //equipped = EquippedItems()
+            inventory = [Item?](count:withSize+4, repeatedValue: nil)
+        }
+        else {
+            inventory = [Item?](count:withSize, repeatedValue: nil)
+        }
+        for (var i = 0; i < fromItems.count && i < withSize; i++) {
             setItem(i, toItem: fromItems[i])
         }
-        if (withEquipment) {
-            equipped = EquippedItems()
-        }
-    }
+  //      if (withEquipment) {
+  //          equipped = EquippedItems()
+  //      }
+    }*/
     func printInventory() {
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < inventory.count; i++) {
             print("Item \(i):")
             print(inventory[i]?.name)
             print(inventory[i]?.type)
@@ -72,21 +98,21 @@ class Inventory {
     }
 
     func getItem(atIndex:Int) -> Item? {
-        if (atIndex > inventory.count) {
+        if (atIndex > inventory.count || atIndex < 0) {
             return nil
         }
-        switch(atIndex) {
-        case EquippedItems.enhancerIndex:
-            return equipped?.enhancer
-        case EquippedItems.weaponIndex:
-            return equipped?.weapon
-        case EquippedItems.shieldIndex:
-            return equipped?.shield
-        case EquippedItems.skillIndex:
-            return equipped?.skill
-        default:
+      //  switch(atIndex) {
+      //  case EquippedItems.enhancerIndex:
+      //      return equipped?.enhancer
+      //  case EquippedItems.weaponIndex:
+      //      return equipped?.weapon
+      //  case EquippedItems.shieldIndex:
+      //      return equipped?.shield
+      //  case EquippedItems.skillIndex:
+      //      return equipped?.skill
+      //  default:
             return inventory[atIndex]
-        }
+      //  }
     }
     
     func setItem(atIndex:Int, toItem:Item?) -> Item? {
@@ -94,38 +120,31 @@ class Inventory {
             return toItem
         }
         switch(atIndex) {
-        case EquippedItems.enhancerIndex:
-            if (toItem == nil || toItem!.type == .Enhancer) {
-                let out = equipped?.enhancer
-                equipped?.enhancer = toItem
-                return out
+        case enhancerIndex:
+            if (toItem != nil && toItem!.type != .Enhancer) {
+                return toItem
             }
-            return toItem
-        case EquippedItems.weaponIndex:
-            if (toItem == nil || toItem!.type == .Weapon) {
-                let out = equipped?.weapon
-                equipped?.weapon = toItem
-                return out
+            break
+        case weaponIndex:
+            if (toItem != nil && toItem!.type != .Weapon) {
+                return toItem
             }
-            return toItem
-        case EquippedItems.shieldIndex:
-            if (toItem == nil || toItem!.type == .Shield) {
-                let out = equipped?.shield
-                equipped?.shield = toItem
-                return out
+            break
+        case shieldIndex:
+            if (toItem != nil && toItem!.type != .Shield) {
+                return toItem
             }
-            return toItem
-        case EquippedItems.skillIndex:
-            if (toItem == nil || toItem!.type == .Skill) {
-                let out = equipped?.skill
-                equipped?.skill = toItem
-                return out
+            break
+        case skillIndex:
+            if (toItem != nil && toItem!.type != .Skill) {
+                return toItem
             }
-            return toItem
+            break
         default:
-            let out = inventory[atIndex]
-            inventory[atIndex] = toItem
-            return out
+            break
         }
+        let out = inventory[atIndex]
+        inventory[atIndex] = toItem
+        return out
     }
 }

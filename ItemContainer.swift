@@ -30,8 +30,9 @@ class ItemContainer:UIControl {
 
         let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.width), cornerRadius: self.bounds.size.width/5)
         rectangleLayer.path = rectanglePath.CGPath
-        rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
-        rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+  //      rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
+  //      rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+        setSelectedTo(false)
         rectangleLayer.lineWidth = 2.0
         containerView.layer.addSublayer(rectangleLayer)
         itemView.center = CGPointZero
@@ -70,14 +71,14 @@ class ItemContainer:UIControl {
         return oldItem
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //if item != nil {
-        if let touch = touches.first {
-            itemView.center = touch.locationInView(self)
-        }
-        super.touchesBegan(touches, withEvent: event)
-        //}
-    }
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        if item != nil {
+//        if let touch = touches.first {
+//            itemView.center = touch.locationInView(self)
+//        }
+//        super.touchesBegan(touches, withEvent: event)
+//        }
+//    }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //if item != nil {
