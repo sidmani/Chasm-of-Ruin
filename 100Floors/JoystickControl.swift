@@ -106,6 +106,7 @@ class JoystickControl:UIControl{
                 stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle))) //this can be optimized further
             }
         }
+        super.touchesBegan(touches, withEvent: event)
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -124,6 +125,7 @@ class JoystickControl:UIControl{
                 stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle)))
             }
         }
+        super.touchesMoved(touches, withEvent: event)
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -131,6 +133,7 @@ class JoystickControl:UIControl{
             currentPoint = CGPoint(x:0, y:0)
             distance = 0
             angle = 0
+        super.touchesEnded(touches, withEvent: event)
     }
     
     

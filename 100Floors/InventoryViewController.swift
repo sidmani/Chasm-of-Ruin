@@ -24,7 +24,6 @@ class InventoryViewController: UIViewController {
     var containers:[ItemContainer] = []
 
     override func viewDidLoad() {
-     //   let charInventory = thisCharacter.getInventory()
         containers = [Container1, Container2, Container3, Container4, Container5, Container6, Container7, Container8]
         containers.append(WeaponContainer)
         containers.append(ShieldContainer)
@@ -42,33 +41,10 @@ class InventoryViewController: UIViewController {
             containers[i].addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
             containers[i].correspondsToInventoryIndex = i
         }
-       // WeaponContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-       // ShieldContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-       // SkillContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-       // EnhancerContainer.addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-       
-        //WeaponContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-        //ShieldContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-        //SkillContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-        //EnhancerContainer.addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
-
-        //WeaponContainer.setItem(charInventory.getItem(charInventory.weaponIndex))
-        //ShieldContainer.setItem(charInventory.getItem(charInventory.shieldIndex))
-        //SkillContainer.setItem(charInventory.getItem(charInventory.skillIndex))
-        //EnhancerContainer.setItem(charInventory.getItem(charInventory.skillIndex))
-        
         WeaponContainer.itemTypeRestriction = .Weapon
         ShieldContainer.itemTypeRestriction = .Shield
         SkillContainer.itemTypeRestriction = .Skill
         EnhancerContainer.itemTypeRestriction = .Enhancer
-        
-        //WeaponContainer.correspondsToInventoryIndex = charInventory.weaponIndex
-        //ShieldContainer.correspondsToInventoryIndex = charInventory.shieldIndex
-        //SkillContainer.correspondsToInventoryIndex = charInventory.skillIndex
-        //EnhancerContainer.correspondsToInventoryIndex = charInventory.enhancerIndex
-      
-     
-        
     }
     
     @IBAction func itemDropped(containerA:ItemContainer) {
