@@ -25,7 +25,11 @@ struct Stats {
 
 
 class Entity:SKSpriteNode {
-    
+    var absoluteLoc:CGPoint {
+        get {
+            return GameLogic.getPositionOnMap(self)
+        }
+    }
     var ID:String
     init(_ID:String, texture: SKTexture)
     {
@@ -62,11 +66,11 @@ class ThisCharacter: Entity, Updatable {
     }
     
     /////////////
-    var absoluteLoc:CGPoint {
+    /*var absoluteLoc:CGPoint {
         get {
             return GameLogic.getPositionOnMap(self)
         }
-    }
+    }*/
   
     //////////////
     //INIT
@@ -166,7 +170,7 @@ class ThisCharacter: Entity, Updatable {
         }
     }
    
-    func update() {
+    func update(deltaT:Double) {
         updateProjectileState()
     }
 }
@@ -174,10 +178,26 @@ class ThisCharacter: Entity, Updatable {
 
 
 
-class Enemy:Entity, Updatable{
-    func update() {
+class Enemy:Entity, Updatable, VelocityCorrectable{
+    var relVelocity: CGVector = CGVectorMake(0, 0)
+    enum EnemyStates {
+        case Attack, Defend, Wander
+    }
+    //init() {
+    //    super.init(_ID: "Enemy", texture: )
+    //}
+    func projectileEnteredRadius() {
+        
+    }
+    
+    func playerEnteredRadius() {
+    
+    }
+    
+    func update(deltaT:Double) {
         //run AI
     }
+    
     func die() {
         
     }

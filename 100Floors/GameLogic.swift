@@ -118,11 +118,11 @@ class GameLogic {
     }
     /////////////////////
     ///////UPDATE////////
-    static func update() {
-        thisCharacter.update()
+    static func update(deltaT:Double) {
+        thisCharacter.update(deltaT)
         let newVelocity = ~thisCharacter.velocity
         gameScene!.nonCharNodes.physicsBody?.velocity = newVelocity
-        updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children)
+        updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children, deltaT: deltaT)
         //updateEnemies(newVelocity, )
         //updateUIElements()
 
@@ -131,22 +131,26 @@ class GameLogic {
     private static func updateUIElements() {
         
     }
-    private static func updateMapObjects(mapObjectArray: [SKNode]) {
+    private static func updateMapObjects(mapObjectArray: [SKNode], newVelocity:CGVector, deltaT:Double) {
         for node in mapObjectArray {
             if let mapObject = node as? Updatable {
-                mapObject.update()
+                mapObject.update(deltaT)
+            }
+            if let mapObject = node as? VelocityCorrectable {
+                mapObject.physicsBody?.velocity = mapObject.relVelocity + newVelocity
             }
         }
     }
-    private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode]) {
+    private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode], deltaT:Double) {
         for node in projectileArray {
             if let projectile = node as? Projectile {
-                projectile.update(newVelocity)
+                projectile.update(deltaT)
+                projectile.physicsBody?.velocity = projectile.relVelocity + newVelocity
             }
         }
         
     }
-    private static func updateEnemies(newVelocity: CGVector, enemyArray: [SKNode]) {
+    private static func updateEnemies(newVelocity: CGVector, enemyArray: [SKNode], deltaT:Double) {
         for node in enemyArray {
             if let enemy = node as? Enemy {
                 //enemy.update(newVelocity)

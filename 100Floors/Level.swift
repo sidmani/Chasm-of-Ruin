@@ -11,10 +11,17 @@ class Level:SKNode { //level is just a map with attributes etc
     var startLoc:CGPoint
     var objects = SKNode()
     var desc:String = ""
-    
+    var mapTilesWidth:Int
+    var mapTilesHeight:Int
+    var mapCenterLoc:CGPoint
+    var tileEdge:CGFloat
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
         startLoc = _startLoc
+        mapTilesWidth = Int(screenSize.width/CGFloat(map.tileWidth))
+        mapTilesHeight = Int(screenSize.height/CGFloat(map.tileHeight))
+        mapCenterLoc = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
+        tileEdge = CGFloat(map.tileWidth)
         super.init()
         name = _name
         self.addChild(map)
@@ -49,7 +56,7 @@ class Level:SKNode { //level is just a map with attributes etc
             var newObj:MapObject
             switch (obj["type"].stringValue) { //handle different types of map objects
             case "Portal":
-                newObj = Portal(fromXMLObject: obj)
+                newObj = Portal(fromXMLObject: obj, withTileEdge: CGFloat(map.tileWidth))
             default:
                 fatalError("unsupported map object type")
             }
@@ -61,10 +68,11 @@ class Level:SKNode { //level is just a map with attributes etc
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    /////////////
     func indexForPoint(p:CGPoint) -> CGPoint {
         return map.indexForPoint(p)
     }
+   
     func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
     }

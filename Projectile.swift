@@ -7,13 +7,13 @@
 //
 
 import SpriteKit
-class Projectile:SKSpriteNode{    
+class Projectile:SKSpriteNode, VelocityCorrectable, Updatable{
     private var distanceTraveled:CGFloat {
             return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
     }
     var friendly: Bool
     var attack:CGFloat
-    private var relVelocity: CGVector
+    var relVelocity: CGVector
     private var range: CGFloat
     private var startLoc: CGPoint
     
@@ -61,17 +61,17 @@ class Projectile:SKSpriteNode{
     }
     
     ///update functions
-    private func updateVelocity(newVelocity:CGVector) {
-        physicsBody?.velocity = relVelocity + newVelocity
-    }
+   // private func updateVelocity(newVelocity:CGVector) {
+   //     physicsBody?.velocity = relVelocity + newVelocity
+   // }
     
-    func update(newVelocity:CGVector) {
-        if (distanceTraveled > range) {
+    func update(deltaT:Double) {
+       if (distanceTraveled > range) {
             removeFromParent()
         }
-        else {
-        updateVelocity(newVelocity)
-        }
+    //    else {
+    //    updateVelocity(newVelocity)
+    //    }
     }
   
 }

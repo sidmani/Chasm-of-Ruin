@@ -51,10 +51,9 @@ class InventoryViewController: UIViewController {
         for containerB in self.containers {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
-                        thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
-                        containerA.swapItemWith(containerB)
-                        containerSelected(containerB)
-                        //thisCharacter.getInventory().printInventory()
+                    thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
+                    containerA.swapItemWith(containerB)
+                    containerSelected(containerB)
                 }
                 return
             }

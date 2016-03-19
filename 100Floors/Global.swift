@@ -7,18 +7,19 @@
 //
 import UIKit
 
-//Screen/Map constants
+//Screen constants
 let screenSize = UIScreen.mainScreen().bounds
 let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
-let tileEdge:CGFloat = 32
-let mapTilesWidth = Int(screenSize.width/(tileEdge))
-let mapTilesHeight = Int(screenSize.height/(tileEdge))
-let mapCenterLoc = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
+
 //Game logic constants
 let inventory_size = 8 // TODO: fix this (IAP)
 
 protocol Updatable {
-    func update()
+    func update(deltaT:Double)
+}
+protocol VelocityCorrectable {
+    var relVelocity: CGVector { get }
+    var physicsBody:SKPhysicsBody? {get}
 }
 protocol Interactive {
     var autotrigger:Bool { get }

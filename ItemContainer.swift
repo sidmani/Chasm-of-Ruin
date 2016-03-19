@@ -100,6 +100,4 @@ class ItemContainer:UIControl {
         }
         itemView.center = centerPoint
     }
-    
-    
 }

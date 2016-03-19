@@ -73,7 +73,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         currentLevel?.removeFromParent()
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
-        setCharPosition(tileEdge * currentLevel!.startLoc)
+        setCharPosition(currentLevel!.tileEdge * currentLevel!.startLoc)
         //end loading screen
         GameLogic.setGameState(.InGame)
         character.hidden = false
@@ -98,10 +98,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             nonCharNodes.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
                 let mapLoc = currentLevel!.indexForPoint(nonCharNodes.position)
-                let newLoc = mapCenterLoc-mapLoc
-                currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: mapTilesWidth+3, height: mapTilesHeight+3) //Remove tiles that are off-screen
+                let newLoc = currentLevel!.mapCenterLoc-mapLoc
+                currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: currentLevel!.mapTilesWidth+3, height: currentLevel!.mapTilesHeight+3) //Remove tiles that are off-screen
             }
-            GameLogic.update()
+            GameLogic.update(currentTime)
         }
 
     }

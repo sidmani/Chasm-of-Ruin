@@ -46,6 +46,7 @@
 		1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */; };
 		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
 		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
+		1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CF03B1C9262F600B00AB7 /* AI.swift */; };
 		1F8FEA461C8125E8003794D3 /* ProceduralMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8FEA451C8125E7003794D3 /* ProceduralMap.swift */; };
 		1F8FEA481C815CB5003794D3 /* Stairs.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FEA471C815CB5003794D3 /* Stairs.png */; };
 		1F8FEA4A1C815CC6003794D3 /* Cliffs.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FEA491C815CC6003794D3 /* Cliffs.png */; };
@@ -122,6 +123,7 @@
 		1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATMXParser.h; sourceTree = "<group>"; };
 		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
 		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
+		1F5CF03B1C9262F600B00AB7 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		1F8FEA451C8125E7003794D3 /* ProceduralMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralMap.swift; sourceTree = "<group>"; };
 		1F8FEA471C815CB5003794D3 /* Stairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Stairs.png; path = Resources/Stairs.png; sourceTree = "<group>"; };
 		1F8FEA491C815CC6003794D3 /* Cliffs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Cliffs.png; path = Resources/Cliffs.png; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				1F5078371C3C9AEA00EC773E /* Entity.swift */,
 				1F304B2D1C3A33D30069D04D /* Projectile.swift */,
 				1FCE14C11C46080600112188 /* Inventory.swift */,
+				1F5CF03B1C9262F600B00AB7 /* AI.swift */,
 				1F48547B1C4192EF008DDC8F /* Global.swift */,
 				1F4686141C5C50AD004D3F55 /* Level.swift */,
 				1FCE14BD1C45F02100112188 /* Item.swift */,
@@ -509,6 +512,7 @@
 				1F4686151C5C50AD004D3F55 /* Level.swift in Sources */,
 				1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */,
 				1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */,
+				1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
 				1F56B9AA1C4AEC8D0098380D /* SKAMiniMap.m in Sources */,
 				1F56B9AB1C4AEC8D0098380D /* SKATestHud.m in Sources */,

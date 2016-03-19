@@ -27,13 +27,10 @@ class Spawner:MapObject, Updatable {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    func update() {
+    func update(deltaT:Double) {
         
     }
-    func enable() {
-        
-    }
-    func disable() {
+    func setEnabled(toVal:Bool) {
         
     }
 }
@@ -41,6 +38,7 @@ class Spawner:MapObject, Updatable {
 class Portal:MapObject, Interactive {
     var destinationID:String
     var autotrigger:Bool
+    var enabled = true
     //var destinationLoc:CGPoint // if different than the map's defined start loc.
     //var enabledTexture:String
     //var disabledTexture:String
@@ -51,28 +49,33 @@ class Portal:MapObject, Interactive {
       //  disabledTexture = _disabledTexture
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
-        self.physicsBody?.categoryBitMask = PhysicsCategory.Interactive
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.None
-        self.physicsBody?.collisionBitMask = PhysicsCategory.None
-        self.physicsBody?.pinned = true
+        self.physicsBody!.categoryBitMask = PhysicsCategory.Interactive
+        self.physicsBody!.contactTestBitMask = PhysicsCategory.None
+        self.physicsBody!.collisionBitMask = PhysicsCategory.None
+        self.physicsBody!.pinned = true
     }
-    convenience init(fromXMLObject:AEXMLElement) {
+    convenience init(fromXMLObject:AEXMLElement, withTileEdge:CGFloat) {
         let loc = CGPointMake(CGFloat(fromXMLObject["loc"]["x"].doubleValue), CGFloat(fromXMLObject["loc"]["y"].doubleValue))
         let destID = fromXMLObject["dest-id"].stringValue
         let autotrigger = fromXMLObject["autotrigger"].boolValue
-        self.init(loc: tileEdge*loc, _destinationID: destID, _autotrigger: autotrigger)
+        self.init(loc: withTileEdge*loc, _destinationID: destID, _autotrigger: autotrigger)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     func trigger() {
+        if (enabled) {
         GameLogic.usePortal(self)
+        }
     }
-    func enable() {
-        
-    }
-    func disable() {
-        
+    func setEnabledTo(val:Bool) {
+        enabled = val
+        if (val) {
+        //set enabled texture
+        }
+        else {
+        //set disabled texture
+        }
     }
 }
 class ItemBag:MapObject, Interactive {
