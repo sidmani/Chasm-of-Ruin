@@ -8,86 +8,56 @@
 
 import Foundation
 class EnemyAI: Updatable{
-    var parent:Enemy
-    var behaviors:[Behavior] = []
+    private var parent:Enemy
+    private var behaviors:[Behavior] = []
     private var currentBehavior:Behavior?
+    
     init(parent:Enemy, withBehaviors:[AEXMLElement]) {
         self.parent = parent
         for element in withBehaviors {
-            behaviors.append(Behavior(fromElement: element, asChildOf: self))
+            behaviors.append(Behavior(fromElement: element, asChildOf: parent))
         }
         behaviors.sortInPlace({$0.priority > $1.priority})
     }
+    
     func update(deltaT:Double) {
+        currentBehavior?.update(deltaT)
         for behavior in behaviors {
-            if (behavior.evaluateConditional(parent)) {
+            if (behavior.evaluateConditional()) {
                 setBehavior(behavior)
+                return
             }
         }
-        currentBehavior?.update(deltaT)
+        setBehavior(nil)
     }
-    func setBehavior(to:Behavior) {
+    
+    func setBehavior(to:Behavior?) {
         currentBehavior = to
     }
 }
 class Behavior:Updatable {
     var priority:Int
     private var conditional: (e:Enemy, params:[CGFloat]) -> Bool
+    private var executeFunc: (Enemy) -> ()
     private var params:[CGFloat] = []
-    private var parentAI:EnemyAI
+    private var parent:Enemy
     
-    init(fromElement: AEXMLElement, asChildOf:EnemyAI) {
-        parentAI = asChildOf
+    init(fromElement: AEXMLElement, asChildOf:Enemy) {
+        parent = asChildOf
         conditional = BehaviorConditionals.behaviorFromString(fromElement["conditional"].stringValue)
+        executeFunc = BehaviorExecutor.executorFromString(fromElement["execute"].stringValue)
         priority = fromElement["priority"].intValue
-        for param in fromElement["params"].all! {
-            let val = param.attributes["val"]!
-            params.append(CGFloat(NSNumberFormatter().numberFromString(val)!.doubleValue))
+        for param in fromElement["params"]["param"].all! {
+            params.append(CGFloat(param.doubleValue))
         }
     }
     func update(deltaT: Double) {
-        
+        executeFunc(parent)
     }
-    func evaluateConditional(forEnemy:Enemy) -> Bool {
-        return conditional(e: forEnemy, params: params)
+    
+    func evaluateConditional() -> Bool {
+        return conditional(e: parent, params: params)
     }
     
 }
 
-struct BehaviorConditionals {
-    static let HealthIsLessThan = {(e:Enemy, params:[CGFloat]) -> Bool in
-        //PARAMS
-        //0 - fraction of health
-        return (e.currStats.health < e.baseStats.health * params[0])
-    }
-    static let HealthIsMoreThan = {(e:Enemy, params:[CGFloat]) -> Bool in
-        //PARAMS
-        //0 - fraction of health
-        return (e.currStats.health > e.baseStats.health * params[0])
-    }
-    static let PlayerIsCloserThan = {(e:Enemy, params:[CGFloat]) -> Bool in
-        //PARAMS
-        //0 - maximum distance to player
-        return (hypot(e.position.x - thisCharacter.position.x, e.position.y - thisCharacter.position.y) < params[0])
-    }
-    static let PlayerIsFartherThan = {(e:Enemy, params:[CGFloat]) -> Bool in
-        //PARAMS
-        //0 - minimum distance to player
-        return (hypot(e.position.x - thisCharacter.position.x, e.position.y - thisCharacter.position.y) > params[0])
-    }
-    static func behaviorFromString(s:String) -> ((e:Enemy, params:[CGFloat]) -> Bool) {
-        switch (s) {
-        case "HealthIsLessThan":
-            return BehaviorConditionals.HealthIsLessThan
-        case "HealthIsMoreThan":
-            return BehaviorConditionals.HealthIsMoreThan
-        case "PlayerIsCloserThan":
-            return BehaviorConditionals.PlayerIsCloserThan
-        case "PlayerIsFartherThan":
-            return BehaviorConditionals.PlayerIsFartherThan
-        default:
-            return {_,_ in return false}
-        }
-    }
-    
-}

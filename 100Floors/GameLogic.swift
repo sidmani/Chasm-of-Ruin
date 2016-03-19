@@ -53,6 +53,18 @@ let levelXML: AEXMLDocument? = {() -> AEXMLDocument? in
     
 }()
 
+let enemyXML: AEXMLDocument? = {() -> AEXMLDocument? in
+    let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
+    let data = NSData(contentsOfFile: xmlPath)!
+    do {
+        return try AEXMLDocument(xmlData: data)
+    }
+    catch {
+        return nil
+    }
+    
+}()
+
 //let saveXML: AEXMLDocument?
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
@@ -68,7 +80,7 @@ class GameLogic {
         thisCharacter.getInventory().setItem(thisCharacter.getInventory().weaponIndex, toItem: Item(withID: "wep1"))
         thisCharacter.getInventory().setItem(0, toItem: Item(withID: "wep2"))
         thisCharacter.getInventory().setItem(1, toItem: Item(withID: "wep3"))
-
+        gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
     }
     /////////////
     static func getCurrentState() -> GameStates {

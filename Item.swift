@@ -7,8 +7,7 @@
 //
 
 import SpriteKit
-// 6 basic kinds of item: consumable, weapon, skill, shield, enhancer, style
-// consumable: increases stats temporarily or permanently
+// 5 basic kinds of item: weapon, skill, shield, enhancer, style
 // skill: skill move
 // weapon: fires projectiles
 // shield: boosts DEF and potentially decreases SPD
@@ -16,6 +15,22 @@ import SpriteKit
 // style: changes appearance
 enum ItemType {
     case Weapon, Skill, Shield, Enhancer, Style, None
+    static func typeFromString(s:String) -> ItemType {
+        switch (s) {
+        case "Weapon":
+            return ItemType.Weapon
+        case "Skill":
+            return ItemType.Skill
+        case "Shield":
+            return ItemType.Shield
+        case "Enhancer":
+            return ItemType.Enhancer
+        case "Style":
+            return ItemType.Style
+        default:
+            fatalError("Item Type Error")
+        }
+    }
 }
 class Item {
     
@@ -42,20 +57,7 @@ class Item {
         else {
             fatalError("Item Not Found")
         }
-        type = {switch (thisItem["type"].stringValue) {
-            case "Weapon":
-            return ItemType.Weapon
-            case "Skill":
-            return ItemType.Skill
-            case "Shield":
-            return ItemType.Shield
-            case "Enhancer":
-            return ItemType.Enhancer
-            case "Style":
-            return ItemType.Style
-            default:
-            fatalError("Item Type Error")
-            }}()
+        type = ItemType.typeFromString(thisItem["type"].stringValue)
         node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
         description = thisItem["desc"].stringValue
         name = thisItem["name"].stringValue
@@ -63,16 +65,7 @@ class Item {
         if (consumable) {
             permanent = thisItem["permanent"].boolValue
         }
-        statMods = Stats(
-                health: CGFloat(thisItem["Stats"]["health"].doubleValue),
-                defense: CGFloat(thisItem["Stats"]["def"].doubleValue),
-                attack: CGFloat(thisItem["Stats"]["atk"].doubleValue),
-                speed: CGFloat(thisItem["Stats"]["spd"].doubleValue),
-                dexterity: CGFloat(thisItem["Stats"]["dex"].doubleValue),
-                hunger: CGFloat(thisItem["Stats"]["hunger"].doubleValue),
-                level: CGFloat(thisItem["Stats"]["level"].doubleValue),
-                mana: CGFloat(thisItem["Stats"]["mana"].doubleValue),
-                rage: CGFloat(thisItem["Stats"]["rage"].doubleValue))
+        statMods = Stats.statsFrom(thisItem)
         if (type == ItemType.Weapon) {
             projectile = thisItem["projectile-id"].stringValue
             range = CGFloat(thisItem["range"].doubleValue)

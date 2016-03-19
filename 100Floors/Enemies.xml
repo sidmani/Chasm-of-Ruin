@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<enemies>
+		<enemy id="0">
+			<img>gnarled-tree</img>
+			<behaviors>
+				<behavior>
+					<conditional>PlayerIsFartherThan</conditional>
+					<params>
+						<param name="distance">200</param>
+					</params>
+                    <execute>Wander</execute>
+                    <priority>5</priority>
+				</behavior>
+			</behaviors>
+		</enemy>
+	</enemies>
+</root>

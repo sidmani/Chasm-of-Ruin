@@ -18,6 +18,18 @@ struct Stats {
     var level:CGFloat     // Level (Overall boost to all stats)
     var mana:CGFloat      // Mana (used when casting spells)
     var rage:CGFloat      // Builds up over time, released when hunger/health are low (last resort kinda thing)
+    static func statsFrom(Element:AEXMLElement) -> Stats {
+        return Stats(
+            health: CGFloat(Element["Stats"]["health"].doubleValue),
+            defense: CGFloat(Element["Stats"]["def"].doubleValue),
+            attack: CGFloat(Element["Stats"]["atk"].doubleValue),
+            speed: CGFloat(Element["Stats"]["spd"].doubleValue),
+            dexterity: CGFloat(Element["Stats"]["dex"].doubleValue),
+            hunger: CGFloat(Element["Stats"]["hunger"].doubleValue),
+            level: CGFloat(Element["Stats"]["level"].doubleValue),
+            mana: CGFloat(Element["Stats"]["mana"].doubleValue),
+            rage: CGFloat(Element["Stats"]["rage"].doubleValue))
+    }
 }
 
 
@@ -160,33 +172,65 @@ class ThisCharacter: Entity, Updatable {
 
 
 class Enemy:Entity, Updatable{
-    var currStats:Stats = nilStats
-    var baseStats:Stats = nilStats
-
-    enum EnemyStates {
-        case Attack, Defend, Wander
-    }
-    //init() {
-    //    super.init(_ID: "Enemy", texture: )
+    var currStats:Stats
+    var baseStats:Stats
+    private var AI:EnemyAI?
+    //enum EnemyStates {
+    //    case Attack, Defend, Wander
     //}
+    
+    init(withID:String, atPosition:CGPoint) {
+        var thisEnemy:AEXMLElement
+        if let enemies = enemyXML!.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
+            if (enemies.count != 1) {
+                fatalError("Enemy ID error")
+            }
+            else {
+                thisEnemy = enemies[0]
+            }
+        }
+        else {
+            fatalError("Enemy Not Found")
+        }
+        baseStats = Stats.statsFrom(thisEnemy)
+        currStats = baseStats
+        super.init(_ID: withID, texture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
+        AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
+        physicsBody = SKPhysicsBody()
+        physicsBody?.categoryBitMask = PhysicsCategory.Enemy
+        physicsBody?.contactTestBitMask = PhysicsCategory.FriendlyProjectile
+        physicsBody?.collisionBitMask = PhysicsCategory.None
+        position = atPosition
+        zPosition = 4
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func projectileEnteredRadius() {
         
     }
     
     func playerEnteredRadius() {
-    
+        
     }
     
+    func validateMoveTo(point:CGPoint) -> Bool {
+        return false
+    }
     func distanceToPlayer() -> CGFloat {
         return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)
     }
     
     func update(deltaT:Double) {
-        //run AI
+        AI?.update(deltaT)
     }
     
     func die() {
-        
+        //do some kind of animation
+        //drop inventory
+        removeFromParent()
     }
     
 }
