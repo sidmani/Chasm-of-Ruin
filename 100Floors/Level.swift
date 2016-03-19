@@ -71,7 +71,9 @@ class Level:SKNode { //level is just a map with attributes etc
     func indexForPoint(p:CGPoint) -> CGPoint {
         return map.indexForPoint(p)
     }
-   
+    func validateMovement(toLoc:CGPoint) -> Bool {
+        return false
+    }
     func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
     }

@@ -160,6 +160,9 @@ class ThisCharacter: Entity, Updatable {
 
 
 class Enemy:Entity, Updatable{
+    var currStats:Stats = nilStats
+    var baseStats:Stats = nilStats
+
     enum EnemyStates {
         case Attack, Defend, Wander
     }
@@ -172,6 +175,10 @@ class Enemy:Entity, Updatable{
     
     func playerEnteredRadius() {
     
+    }
+    
+    func distanceToPlayer() -> CGFloat {
+        return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)
     }
     
     func update(deltaT:Double) {

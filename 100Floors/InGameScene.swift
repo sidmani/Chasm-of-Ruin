@@ -93,8 +93,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         if (GameLogic.getCurrentState() == GameStates.InGame) {
             camera!.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
+                let newWidth = Int(CGFloat(currentLevel!.mapWidth)*camera!.xScale)+2
+                let newHeight = Int(CGFloat(currentLevel!.mapHeight)*camera!.yScale)+2
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
-                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: currentLevel!.mapWidth+2, height: currentLevel!.mapHeight+2) //Remove tiles that are off-screen
+                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
             GameLogic.update(currentTime)
         }

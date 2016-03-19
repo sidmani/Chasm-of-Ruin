@@ -238,8 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				1F457D421C6D009500E0CB37 /* Items.xml */,
-				1FD105C41C87D67300C9F624 /* Items */,
 				1F457D441C6D647400E0CB37 /* Levels.xml */,
+				1FD105C41C87D67300C9F624 /* Items */,
 				1F45F9B41C4CAEA400334AB5 /* Maps */,
 				1F45F9B31C4CAE9A00334AB5 /* Atlases */,
 			);
