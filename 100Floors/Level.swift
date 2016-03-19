@@ -11,22 +11,21 @@ class Level:SKNode { //level is just a map with attributes etc
     var startLoc:CGPoint
     var objects = SKNode()
     var desc:String = ""
-    var mapTilesWidth:Int
-    var mapTilesHeight:Int
-    var mapCenterLoc:CGPoint
+    var mapWidth:Int
+    var mapHeight:Int
     var tileEdge:CGFloat
+    
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
         startLoc = _startLoc
-        mapTilesWidth = Int(screenSize.width/CGFloat(map.tileWidth))
-        mapTilesHeight = Int(screenSize.height/CGFloat(map.tileHeight))
-        mapCenterLoc = CGPoint(x: mapTilesWidth/2,y: mapTilesHeight/2)
+        mapWidth = Int(screenSize.width/CGFloat(map.tileWidth))
+        mapHeight = Int(screenSize.height/CGFloat(map.tileHeight))
         tileEdge = CGFloat(map.tileWidth)
         super.init()
         name = _name
         self.addChild(map)
         self.addChild(objects)
-        self.zPosition = 0
+        self.zPosition = 0 //TODO: map layers
         self.physicsBody = SKPhysicsBody()
         self.physicsBody?.pinned = true
         objects.physicsBody = SKPhysicsBody()

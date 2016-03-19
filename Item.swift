@@ -56,7 +56,6 @@ class Item {
             default:
             fatalError("Item Type Error")
             }}()
-    //    print(thisItem["img"].stringValue)
         node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
         description = thisItem["desc"].stringValue
         name = thisItem["name"].stringValue

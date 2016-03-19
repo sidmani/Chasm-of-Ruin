@@ -7,13 +7,12 @@
 //
 
 import SpriteKit
-class Projectile:SKSpriteNode, VelocityCorrectable, Updatable{
+class Projectile:SKSpriteNode, Updatable{
     private var distanceTraveled:CGFloat {
             return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
     }
     var friendly: Bool
     var attack:CGFloat
-    var relVelocity: CGVector
     private var range: CGFloat
     private var startLoc: CGPoint
     
@@ -32,7 +31,6 @@ class Projectile:SKSpriteNode, VelocityCorrectable, Updatable{
         }
         let texture = SKTextureAtlas(named: "Projectiles").textureNamed(thisProjectile["img"].value!)
         let size = texture.size()
-        relVelocity = withVelocity
         range = withRange
         startLoc = fromPoint
         friendly = isFriendly
@@ -50,8 +48,8 @@ class Projectile:SKSpriteNode, VelocityCorrectable, Updatable{
         self.physicsBody?.categoryBitMask = PhysicsCategory.EnemyProjectile
         }
         
-        self.physicsBody?.contactTestBitMask = 0x0 << 0
-        self.physicsBody?.collisionBitMask = 0x0 << 0
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.None
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None
         self.position = startLoc
         self.zPosition = 4
     }
@@ -60,18 +58,10 @@ class Projectile:SKSpriteNode, VelocityCorrectable, Updatable{
         fatalError("init(coder:) has not been implemented")
     }
     
-    ///update functions
-   // private func updateVelocity(newVelocity:CGVector) {
-   //     physicsBody?.velocity = relVelocity + newVelocity
-   // }
-    
     func update(deltaT:Double) {
-       if (distanceTraveled > range) {
+        if (distanceTraveled > range) {
             removeFromParent()
         }
-    //    else {
-    //    updateVelocity(newVelocity)
-    //    }
     }
   
 }

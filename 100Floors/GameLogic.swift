@@ -113,54 +113,31 @@ class GameLogic {
     }
     static func interactButtonPressed() {
         if (currentState == .InGame) {
-        currentInteractiveObject?.trigger()
+            currentInteractiveObject?.trigger()
         }
     }
     /////////////////////
     ///////UPDATE////////
     static func update(deltaT:Double) {
         thisCharacter.update(deltaT)
-        let newVelocity = ~thisCharacter.velocity
-        gameScene!.nonCharNodes.physicsBody?.velocity = newVelocity
-        updateProjectiles(newVelocity, projectileArray: gameScene!.projectiles.children, deltaT: deltaT)
-        //updateEnemies(newVelocity, )
+        updateNonCharNodes(deltaT)
         //updateUIElements()
 
     }
-    
+    private static func updateNonCharNodes(deltaT:Double) {
+        for node in gameScene!.nonCharNodes.children {
+            if let nodeToUpdate = node as? Updatable {
+                nodeToUpdate.update(deltaT)
+            }
+        }
+    }
     private static func updateUIElements() {
         
     }
-    private static func updateMapObjects(mapObjectArray: [SKNode], newVelocity:CGVector, deltaT:Double) {
-        for node in mapObjectArray {
-            if let mapObject = node as? Updatable {
-                mapObject.update(deltaT)
-            }
-            if let mapObject = node as? VelocityCorrectable {
-                mapObject.physicsBody?.velocity = mapObject.relVelocity + newVelocity
-            }
-        }
-    }
-    private static func updateProjectiles(newVelocity: CGVector, projectileArray: [SKNode], deltaT:Double) {
-        for node in projectileArray {
-            if let projectile = node as? Projectile {
-                projectile.update(deltaT)
-                projectile.physicsBody?.velocity = projectile.relVelocity + newVelocity
-            }
-        }
-        
-    }
-    private static func updateEnemies(newVelocity: CGVector, enemyArray: [SKNode], deltaT:Double) {
-        for node in enemyArray {
-            if let enemy = node as? Enemy {
-                //enemy.update(newVelocity)
-            }
-        }
-    }
     /////////////////////////
-    static func addProjectile(p:Projectile) {
+    static func addObject(p:SKNode) {
         if (currentState == .InGame) {
-            gameScene?.addProjectile(p)
+            gameScene?.addObject(p)
         }
     }
     static func setLevel(l:Level) {
@@ -168,21 +145,6 @@ class GameLogic {
             gameScene?.setLevel(l)
         }
     }
-    ///character position (link to gameScene)
-    static func setCharPosition(atPoint:CGPoint) {
-        if (currentState == .InGame) {
-            gameScene?.setCharPosition(atPoint)
-        }
-    }
-    static func getPositionOnMap(ofNode:SKNode) -> CGPoint {
-        if (gameScene != nil) {
-            return gameScene!.getPositionOnMap(ofNode)
-        }
-        else {
-            return CGPointZero
-        }
-    }
-    
     ///////
     static func usePortal(p:Portal) {
         setLevel(Level(_id: p.destinationID))

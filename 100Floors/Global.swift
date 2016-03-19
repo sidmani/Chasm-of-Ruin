@@ -17,14 +17,12 @@ let inventory_size = 8 // TODO: fix this (IAP)
 protocol Updatable {
     func update(deltaT:Double)
 }
-protocol VelocityCorrectable {
-    var relVelocity: CGVector { get }
-    var physicsBody:SKPhysicsBody? {get}
-}
+
 protocol Interactive {
     var autotrigger:Bool { get }
     func trigger()
 }
+
 let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0)
 ///////////
 //Physics bitmasks
@@ -55,14 +53,6 @@ func +(left: Stats, right:Stats) -> Stats { // add Stats together
 
 func +(left:CGVector, right:CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
-}
-
-//Shorthand to invert a vector
-prefix operator ~ {}
-
-prefix func ~ (vector:CGVector) -> CGVector
-{
-    return CGVectorMake(-1*vector.dx, -1*vector.dy)
 }
 
 // test overloads

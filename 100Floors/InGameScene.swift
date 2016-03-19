@@ -12,13 +12,17 @@ import SpriteKit
 class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var currentLevel:Level?
     private var oldLoc:CGPoint = CGPointZero
-    var character = SKNode()
+    var mainCamera = SKCameraNode()
     var nonCharNodes = SKNode()
-        var projectiles = SKNode()
-        var enemies = SKNode()
+       // var projectiles = SKNode()
+       // var enemies = SKNode()
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
+        self.camera = mainCamera
+        self.camera!.position = thisCharacter.position
+        self.camera!.xScale = 0.3
+        self.camera!.yScale = 0.3
         GameLogic.setGameState(.InGame)
         GameLogic.setup(self)
         nonCharNodes.physicsBody = SKPhysicsBody()
@@ -26,14 +30,9 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.physicsBody!.friction = 0
         
         //////////////////////////////////////////
-        character.addChild(thisCharacter)
-        character.zPosition = 5
         //////////////////////////////////////////
-        
-        nonCharNodes.addChild(enemies)
-        nonCharNodes.addChild(projectiles)
         addChild(nonCharNodes)
-        addChild(character)
+        addChild(thisCharacter)
     }
 
     func didBeginContact(contact: SKPhysicsContact) {
@@ -45,6 +44,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             GameLogic.withinInteractDistance(contact.bodyB.node as! Interactive)
             return
         }
+        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile)) {
+            thisCharacter.struckByProjectile(contact.bodyB.node! as! Projectile)
+            return
+        }
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile) {
+            thisCharacter.struckByProjectile(contact.bodyA.node! as! Projectile)
+        }
     }
     
     func didEndContact(contact: SKPhysicsContact) {
@@ -53,69 +59,52 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
     }
+    
     override func didFinishUpdate() {
-        oldLoc = nonCharNodes.position
-        nonCharNodes.position = CGPointMake(floor(nonCharNodes.position.x*6)/6, floor(nonCharNodes.position.y*6)/6)
+        oldLoc = camera!.position
+        camera!.position = CGPointMake(floor(thisCharacter.position.x*6)/6, floor(thisCharacter.position.y*6)/6)
     }
     
     func setLevel(newLevel:Level)
     {
-        character.hidden = true
+        thisCharacter.hidden = true
         nonCharNodes.hidden = true
         //TODO: trigger loading screen
         GameLogic.setGameState(.LoadingScreen)
-        for node in enemies.children {
+        for node in nonCharNodes.children {
             node.removeFromParent()
         }
-        for node in projectiles.children {
-            node.removeFromParent()
-        }
-        currentLevel?.removeFromParent()
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
-        setCharPosition(currentLevel!.tileEdge * currentLevel!.startLoc)
+        thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
         //end loading screen
         GameLogic.setGameState(.InGame)
-        character.hidden = false
+        thisCharacter.hidden = false
         nonCharNodes.hidden = false
         
     }
-    func setCharPosition(atPoint:CGPoint) {
-        nonCharNodes.position = screenCenter - atPoint //this really should be fixed
-        oldLoc = nonCharNodes.position
+    
+    func getLevel() -> Level? {
+        return currentLevel
     }
-    func getPositionOnMap(ofNode:SKNode) -> CGPoint {
-        if (currentLevel != nil) {
-        return currentLevel!.convertPoint(currentLevel!.position, fromNode: ofNode)
-        }
-        else {
-        return CGPointZero
-        }
-    }
+    
     ////////
     override func update(currentTime: CFTimeInterval) {
         if (GameLogic.getCurrentState() == GameStates.InGame) {
-            nonCharNodes.position = oldLoc //reset position to floating-point value for SKPhysics
+            camera!.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
-                let mapLoc = currentLevel!.indexForPoint(nonCharNodes.position)
-                let newLoc = currentLevel!.mapCenterLoc-mapLoc
-                currentLevel!.cull(Int(newLoc.x), y: Int(newLoc.y), width: currentLevel!.mapTilesWidth+3, height: currentLevel!.mapTilesHeight+3) //Remove tiles that are off-screen
+                let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
+                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: currentLevel!.mapWidth+2, height: currentLevel!.mapHeight+2) //Remove tiles that are off-screen
             }
             GameLogic.update(currentTime)
         }
+    }
+ 
+   
+    func addObject(node:SKNode) {
+        if (node.parent == nil) {
+            nonCharNodes.addChild(node)
+        }
+    }
 
-    }
-    func getCurrentLevel() -> Level? {
-        return currentLevel
-    }
-    func addProjectile(p:Projectile) {
-        if (p.parent == nil) {
-        projectiles.addChild(p)
-        }
-    }
-    func addEnemy(e:Enemy) {
-        if (e.parent == nil) {
-        enemies.addChild(e)
-        }
-    }
 }
