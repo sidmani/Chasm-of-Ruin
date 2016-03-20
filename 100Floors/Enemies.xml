@@ -6,11 +6,19 @@
 			<behaviors>
 				<behavior>
 					<conditional>PlayerIsFartherThan</conditional>
-					<params>
+					<conditional-params>
 						<param name="distance">200</param>
-					</params>
-                    <execute>Wander</execute>
-                    <priority>5</priority>
+					</conditional-params>
+                    <execute>DoMainAtkAtInterval</execute>
+                    <execute-params>
+                        <param>100</param>
+                        <param>1.0</param>
+                    </execute-params>
+                    <priority>ProportionalToStat</priority>
+                    <priority-params>
+                        <param></param>
+                    </priority-params>
+                    <idtype>0</idtype>
 				</behavior>
 			</behaviors>
 		</enemy>

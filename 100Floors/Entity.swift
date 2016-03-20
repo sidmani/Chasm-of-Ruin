@@ -175,10 +175,6 @@ class Enemy:Entity, Updatable{
     var currStats:Stats
     var baseStats:Stats
     private var AI:EnemyAI?
-    //enum EnemyStates {
-    //    case Attack, Defend, Wander
-    //}
-    
     init(withID:String, atPosition:CGPoint) {
         var thisEnemy:AEXMLElement
         if let enemies = enemyXML!.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
