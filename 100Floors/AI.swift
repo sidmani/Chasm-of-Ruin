@@ -59,7 +59,6 @@ class Behavior: Updatable {
     private var calcPriority: (e:Enemy, params:[CGFloat]) -> Int
     private var priorityParams:[CGFloat] = []
     
-    
     private var parent:Enemy
     private var elapsedSinceUpdate:Double = 0
     

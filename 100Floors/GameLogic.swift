@@ -85,10 +85,11 @@ class GameLogic {
     static func loadSaveState() { //use this instead of setup?
         
     }
+    
     static func setup(withScene: InGameScene) {
         gameScene = withScene
         //TODO: load save state xml
-        setLevel(Level(_id: "0")) //this shouldn't be here
+        setLevel(Level(withID: "0")) //this shouldn't be here
         thisCharacter.getInventory().setItem(thisCharacter.getInventory().weaponIndex, toItem: Item(withID: "wep1"))
         thisCharacter.getInventory().setItem(0, toItem: Item(withID: "wep2"))
         thisCharacter.getInventory().setItem(1, toItem: Item(withID: "wep3"))
@@ -98,6 +99,7 @@ class GameLogic {
     static func getCurrentState() -> GameStates {
         return currentState
     }
+    
     static func setGameState(toState: GameStates) {
         currentState = toState
         switch(currentState) {
@@ -171,7 +173,7 @@ class GameLogic {
     }
     ///////
     static func usePortal(p:Portal) {
-        setLevel(Level(_id: p.destinationID))
+        setLevel(Level(withID: p.destinationID))
         exitedInteractDistance()
     }
     

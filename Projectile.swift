@@ -8,14 +8,14 @@
 
 import SpriteKit
 class Projectile:SKSpriteNode, Updatable{
-    private var distanceTraveled:CGFloat {
-            return hypot(self.position.x - startLoc.x, self.position.y - startLoc.y)
-    }
     var friendly: Bool
     var attack:CGFloat
+   
     private var range: CGFloat
     private var startLoc: CGPoint
-    
+    private var _speed:CGFloat
+    private var distanceTraveled:CGFloat = 0
+
     init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat) {
         var thisProjectile:AEXMLElement
         if let projectiles = itemXML!.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
@@ -35,6 +35,7 @@ class Projectile:SKSpriteNode, Updatable{
         startLoc = fromPoint
         friendly = isFriendly
         attack = withAtk
+        _speed = abs(hypot(withVelocity.dx, withVelocity.dy))
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
@@ -59,6 +60,7 @@ class Projectile:SKSpriteNode, Updatable{
     }
     
     func update(deltaT:Double) {
+        distanceTraveled += CGFloat(deltaT/1000) * _speed
         if (distanceTraveled > range) {
             removeFromParent()
         }

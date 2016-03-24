@@ -44,6 +44,7 @@ class Item {
     var projectile:String = ""
     var range:CGFloat = 0
     var projectileSpeed:CGFloat = 0
+    
     init(thisItem: AEXMLElement) {
         type = ItemType.typeFromString(thisItem["type"].stringValue)
         node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
@@ -60,6 +61,7 @@ class Item {
             projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
         }
     }
+    
     convenience init(withID:String) {
         var thisItem:AEXMLElement
         if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {

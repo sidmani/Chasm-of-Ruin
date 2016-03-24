@@ -36,13 +36,14 @@ struct PhysicsCategory {
     static let EnemyProjectile: UInt32 = 0b10000
 }
 //Operator overloads
-func +(left: CGPoint, right:CGPoint) -> CGPoint {
-    return CGPoint(x: left.x+right.x, y: left.y+right.y)
-}
+//func +(left: CGPoint, right:CGPoint) -> CGPoint {
+//    return CGPoint(x: left.x+right.x, y: left.y+right.y)
+//}
 
-func -(left: CGPoint, right:CGPoint) -> CGPoint {
-    return CGPoint(x: left.x-right.x, y: left.y-right.y)
-}
+//func -(left: CGPoint, right:CGPoint) -> CGPoint {
+//    return CGPoint(x: left.x-right.x, y: left.y-right.y)
+//}
+
 func *(left: CGFloat, right: CGPoint) -> CGPoint {
     return CGPoint(x: left*right.x, y: left*right.y)
 }

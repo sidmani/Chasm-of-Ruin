@@ -32,6 +32,22 @@ struct Stats {
         default: return 0
         }
     }
+    
+    mutating func setIndex(i:Int, toVal:CGFloat) {
+        switch (i) {
+        case 0: health = toVal
+        case 1: defense = toVal
+        case 2: attack = toVal
+        case 3: speed = toVal
+        case 4: dexterity = toVal
+        case 5: hunger = toVal
+        case 6: level = toVal
+        case 7: mana = toVal
+        case 8: rage = toVal
+        default: break
+        }
+    }
+    
     static func statsFrom(Element:AEXMLElement) -> Stats {
         return Stats(
             health: CGFloat(Element["Stats"]["health"].doubleValue),
@@ -51,11 +67,10 @@ struct Stats {
 
 
 class Entity:SKSpriteNode {
-    var ID:String
-    init(_ID:String, texture: SKTexture)
+    init(fromTexture: SKTexture)
     {
-        ID = _ID
-        super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
+        super.init(texture: fromTexture, color: UIColor.clearColor(), size: fromTexture.size())
+        self.physicsBody?.friction = 0
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -66,17 +81,18 @@ class Entity:SKSpriteNode {
 //////////////////////
 
 class ThisCharacter: Entity, Updatable {
-    private var inventory:Inventory
     var currStats:Stats
     var baseStats:Stats
-    private var projectileTimer:NSTimer?
-    private var projectileTimerEnabled = false
     
-    var currentProjectile:String? {
+    private var inventory:Inventory
+  //  private var projectileTimer:NSTimer?
+  //  private var projectileTimerEnabled = false
+    private var timeSinceProjectile:Double = 0
+   /* var currentProjectile:String? {
         get{
             return inventory.getItem(inventory.weaponIndex)?.projectile //set weapon based on item
         }
-    }
+    }*/
 
     //////////////
     //INIT
@@ -84,9 +100,8 @@ class ThisCharacter: Entity, Updatable {
         currStats = nilStats
         baseStats = nilStats
         inventory = Inventory(withEquipment: true, withSize: inventory_size)
-        super.init(_ID: "mainchar", texture: SKTextureAtlas(named: "chars").textureNamed("character"))
+        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
-        self.physicsBody?.friction = 0
         self.physicsBody?.categoryBitMask = PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = PhysicsCategory.None
@@ -137,7 +152,7 @@ class ThisCharacter: Entity, Updatable {
     //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
         if (inventory.getItem(inventory.weaponIndex) != nil) {
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: inventory.getItem(inventory.weaponIndex)!.range, withAtk: 10)
+            let newProjectile = Projectile(withID: inventory.getItem(inventory.weaponIndex)!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: inventory.getItem(inventory.weaponIndex)!.range, withAtk: self.currStats.attack)
             GameLogic.addObject(newProjectile)
         }
     }
@@ -145,40 +160,25 @@ class ThisCharacter: Entity, Updatable {
     @objc private func fireProjectileFromTimer() {
         if (inventory.getItem(inventory.weaponIndex) != nil) {
             let weapon = inventory.getItem(inventory.weaponIndex)!
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: position, withVelocity: CGVector(dx: weapon.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon.projectileSpeed*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:weapon.range, withAtk: self.currStats.attack)
+            let newProjectile = Projectile(withID: weapon.projectile, fromPoint: position, withVelocity: CGVector(dx: weapon.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon.projectileSpeed*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:weapon.range, withAtk: self.currStats.attack)
             //TODO: check if projectiles can be shot etc
             GameLogic.addObject(newProjectile)
         }
     }
-    
-    private func attachProjectileCreator(enable:Bool) {
-        if (enable) {
-            fireProjectileFromTimer()
-            projectileTimerEnabled = true
-            projectileTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "fireProjectileFromTimer", userInfo: nil, repeats: true) //TODO: calculate rate of fire
-        }
-        else {
-            projectileTimerEnabled = false
-            projectileTimer?.invalidate()
-        }
-    }
+
     
     //////////////////
     //Update methods
-    
-    private func updateProjectileState() {
-        if (!projectileTimerEnabled && UIElements.RightJoystick!.currentPoint != CGPointZero)
-        {
-            attachProjectileCreator(true)
-        }
-        else if (projectileTimerEnabled && UIElements.RightJoystick!.currentPoint == CGPointZero)
-        {
-            attachProjectileCreator(false)
-        }
-    }
+
    
     func update(deltaT:Double) {
-        updateProjectileState()
+        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300) {
+            fireProjectileFromTimer()
+            timeSinceProjectile = 0
+        }
+        else {
+            timeSinceProjectile += deltaT
+        }
         self.physicsBody!.velocity = CGVector(dx: 5*UIElements.LeftJoystick!.displacement.dx, dy: 5*UIElements.LeftJoystick!.displacement.dy)
     }
 }
@@ -191,7 +191,7 @@ class Enemy:Entity, Updatable{
     var baseStats:Stats
     private var inventory:Inventory
     private var AI:EnemyAI?
-    init(withID:String, atPosition:CGPoint) {
+    convenience init(withID:String, atPosition:CGPoint) {
         var thisEnemy:AEXMLElement
         if let enemies = enemyXML!.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
             if (enemies.count != 1) {
@@ -204,10 +204,14 @@ class Enemy:Entity, Updatable{
         else {
             fatalError("Enemy Not Found")
         }
+        self.init(thisEnemy: thisEnemy, atPosition: atPosition)
+    }
+    
+    init(thisEnemy:AEXMLElement, atPosition:CGPoint) {
         baseStats = Stats.statsFrom(thisEnemy)
         currStats = baseStats
         inventory = Inventory(fromElement: thisEnemy["inventory"])
-        super.init(_ID: withID, texture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
+        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
         AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
         physicsBody = SKPhysicsBody()
         physicsBody?.categoryBitMask = PhysicsCategory.Enemy

@@ -96,13 +96,14 @@ class JoystickControl:UIControl{
             currentPoint = touch.locationInView(self)
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
+            angle = atan2(currentPoint.y, currentPoint.x)
+
             if (distance < ring_size) {
                 stickView.center = currentPoint
             }
             else
             {
                 distance = ring_size
-                angle = atan2(currentPoint.y, currentPoint.x)
                 stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle))) //this can be optimized further
             }
         }
@@ -115,13 +116,13 @@ class JoystickControl:UIControl{
             
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
+            angle = atan2(currentPoint.y, currentPoint.x)
             if (distance < ring_size) {
                 stickView.center = currentPoint
             }
             else
             {
                 distance = ring_size
-                angle = atan2(currentPoint.y, currentPoint.x)
                 stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle)))
             }
         }

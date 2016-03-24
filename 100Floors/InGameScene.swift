@@ -85,9 +85,9 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func getLevel() -> Level? {
-        return currentLevel
-    }
+   // func getLevel() -> Level? {
+   //     return currentLevel
+   // }
     
     ////////
     override func update(currentTime: CFTimeInterval) {
@@ -99,7 +99,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
-            GameLogic.update((currentTime-oldTime)*1000)
+            GameLogic.update((currentTime-oldTime)*1000) //send update methods time diff in ms
             oldTime = currentTime
         }
     }

@@ -33,10 +33,10 @@ class Level:SKNode { //level is just a map with attributes etc
         objects.zPosition = 1
 
     }
-    convenience init (_id:String) {
+    convenience init (withID:String) {
         ///Load level from XML
         var thisLevel:AEXMLElement
-        if let levels = levelXML!.root["level"].allWithAttributes(["index":_id]) {
+        if let levels = levelXML!.root["level"].allWithAttributes(["index":withID]) {
             if (levels.count != 1) {
                 fatalError("Level ID error")
             }

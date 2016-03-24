@@ -108,7 +108,6 @@ struct BehaviorExecutor {
         //PARAMS
         //0 - interval to attack in milliseconds
         //1 - accuracy of aim
-        print(timeSinceUpdate)
         if (timeSinceUpdate > Double(params[0])) {
             var angle = e.angleToCharacter() //find angle to player
             if (params[1] != 1) {

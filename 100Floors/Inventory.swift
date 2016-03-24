@@ -22,6 +22,7 @@ class Inventory {
     
     private var baseSize:Int
     private var inventory:[Item?]
+    
     //INIT
     init(withEquipment:Bool, withSize: Int)
     {
@@ -34,19 +35,13 @@ class Inventory {
         }
     }
     
-    init(fromElement:AEXMLElement) {
-        baseSize = Int(fromElement.attributes["size"]!)!
-        if ((fromElement.attributes["equip"] == "true")) {
-            inventory = [Item?](count:baseSize+4, repeatedValue: nil)
-        }
-        else {
-            inventory = [Item?](count:baseSize, repeatedValue: nil)
-        }
+    convenience init(fromElement:AEXMLElement) {
+        self.init(withEquipment:(fromElement.attributes["equip"] == "true"), withSize:Int(fromElement.attributes["size"]!)!)
         if (fromElement["item"].all != nil) {
             for item in fromElement["item"].all! {
                 switch (item.attributes["index"]!) {
                 case "weapon":
-                self.setItem(weaponIndex, toItem: Item(withID: item.stringValue))
+                    self.setItem(weaponIndex, toItem: Item(withID: item.stringValue))
                 case "shield":
                     self.setItem(shieldIndex, toItem: Item(withID: item.stringValue))
                 case "skill":
@@ -59,15 +54,6 @@ class Inventory {
             }
         }
     }
-    
-    /*func printInventory() {
-        for (var i = 0; i < inventory.count; i++) {
-            print("Item \(i):")
-            print(inventory[i]?.name)
-            print(inventory[i]?.type)
-            print("\n")
-        }
-    }*/
     
     //////////
     func swapItems(atIndexA: Int, atIndexB: Int) {
