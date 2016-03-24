@@ -19,7 +19,8 @@
             </stats>
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
-            <range>25</range>
+            <projectile-speed>200</projectile-speed>
+            <range>50</range>
         </item>
         <item id="wep2">
             <type>Weapon</type>
@@ -39,6 +40,7 @@
             </stats>
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
+            <projectile-speed>20</projectile-speed>
             <range>25</range>
         </item>
         <item id="wep3">
@@ -59,6 +61,7 @@
             </stats>
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
+            <projectile-speed>20</projectile-speed>
             <range>25</range>
         </item>
     </items>

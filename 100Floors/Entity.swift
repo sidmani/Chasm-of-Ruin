@@ -18,6 +18,20 @@ struct Stats {
     var level:CGFloat     // Level (Overall boost to all stats)
     var mana:CGFloat      // Mana (used when casting spells)
     var rage:CGFloat      // Builds up over time, released when hunger/health are low (last resort kinda thing)
+    func getIndex(i:Int) -> CGFloat{
+        switch (i) {
+        case 0: return health
+        case 1: return defense
+        case 2: return attack
+        case 3: return speed
+        case 4: return dexterity
+        case 5: return hunger
+        case 6: return level
+        case 7: return mana
+        case 8: return rage
+        default: return 0
+        }
+    }
     static func statsFrom(Element:AEXMLElement) -> Stats {
         return Stats(
             health: CGFloat(Element["Stats"]["health"].doubleValue),
@@ -53,8 +67,8 @@ class Entity:SKSpriteNode {
 
 class ThisCharacter: Entity, Updatable {
     private var inventory:Inventory
-    private var currStats:Stats
-    private var baseStats:Stats
+    var currStats:Stats
+    var baseStats:Stats
     private var projectileTimer:NSTimer?
     private var projectileTimerEnabled = false
     
@@ -130,7 +144,8 @@ class ThisCharacter: Entity, Updatable {
     
     @objc private func fireProjectileFromTimer() {
         if (inventory.getItem(inventory.weaponIndex) != nil) {
-            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: position, withVelocity: CGVector(dx: 500*cos(UIElements.RightJoystick!.angle), dy: -500*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:inventory.getItem(inventory.weaponIndex)!.range, withAtk: self.currStats.attack)
+            let weapon = inventory.getItem(inventory.weaponIndex)!
+            let newProjectile = Projectile(withID: currentProjectile!, fromPoint: position, withVelocity: CGVector(dx: weapon.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon.projectileSpeed*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:weapon.range, withAtk: self.currStats.attack)
             //TODO: check if projectiles can be shot etc
             GameLogic.addObject(newProjectile)
         }
@@ -174,6 +189,7 @@ class ThisCharacter: Entity, Updatable {
 class Enemy:Entity, Updatable{
     var currStats:Stats
     var baseStats:Stats
+    private var inventory:Inventory
     private var AI:EnemyAI?
     init(withID:String, atPosition:CGPoint) {
         var thisEnemy:AEXMLElement
@@ -190,6 +206,7 @@ class Enemy:Entity, Updatable{
         }
         baseStats = Stats.statsFrom(thisEnemy)
         currStats = baseStats
+        inventory = Inventory(fromElement: thisEnemy["inventory"])
         super.init(_ID: withID, texture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
         AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
         physicsBody = SKPhysicsBody()
@@ -208,15 +225,26 @@ class Enemy:Entity, Updatable{
         
     }
     
-    func playerEnteredRadius() {
+    func fireProjectile(atAngle:CGFloat) {
+        if (inventory.getItem(inventory.weaponIndex) != nil) {
+            let weapon = inventory.getItem(inventory.weaponIndex)!
+            let newProjectile = Projectile(withID: weapon.projectile, fromPoint: position, withVelocity: CGVector(dx: weapon.projectileSpeed*cos(atAngle), dy: weapon.projectileSpeed*sin(atAngle)), isFriendly: true, withRange:weapon.range, withAtk: self.currStats.attack)
         
+            //TODO: check if projectiles can be shot etc
+            GameLogic.addObject(newProjectile)
+        }
     }
-    
+
     func validateMoveTo(point:CGPoint) -> Bool {
         return false
     }
-    func distanceToPlayer() -> CGFloat {
+    
+    func distanceToCharacter() -> CGFloat {
         return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)
+    }
+    
+    func angleToCharacter() -> CGFloat {
+        return atan2(thisCharacter.position.y - self.position.y, thisCharacter.position.x - self.position.x)
     }
     
     func update(deltaT:Double) {

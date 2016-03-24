@@ -7,32 +7,6 @@
 //
 
 class Inventory {
-    /*struct EquippedItems {
-        static let shieldIndex = -2
-        static let weaponIndex = -1
-        static let enhancerIndex = -4
-        static let skillIndex = -3
-        var shield:Item?
-        var weapon:Item?
-        var enhancer:Item?
-        var skill:Item?
-        func totalStatChanges() -> Stats {
-            var stats1 = nilStats, stats2 = nilStats, stats3 = nilStats, stats4 = nilStats
-            if (shield != nil) {
-                stats1 = shield!.statMods
-            }
-            if (weapon != nil) {
-                stats2 = weapon!.statMods
-            }
-            if (enhancer != nil) {
-                stats3 = enhancer!.statMods
-            }
-            if (skill != nil) {
-                stats4 = skill!.statMods
-            }
-            return stats1 + stats2 + stats3 + stats4
-        }
-    }*/
     var weaponIndex:Int {
         return baseSize
     }
@@ -53,21 +27,48 @@ class Inventory {
     {
         baseSize = withSize
         if (withEquipment) {
-            inventory = [Item?](count:withSize+4, repeatedValue: nil)
+            inventory = [Item?](count:baseSize+4, repeatedValue: nil)
         }
         else {
-            inventory = [Item?](count:withSize, repeatedValue: nil)
+            inventory = [Item?](count:baseSize, repeatedValue: nil)
         }
     }
-
-    func printInventory() {
+    
+    init(fromElement:AEXMLElement) {
+        baseSize = Int(fromElement.attributes["size"]!)!
+        if ((fromElement.attributes["equip"] == "true")) {
+            inventory = [Item?](count:baseSize+4, repeatedValue: nil)
+        }
+        else {
+            inventory = [Item?](count:baseSize, repeatedValue: nil)
+        }
+        if (fromElement["item"].all != nil) {
+            for item in fromElement["item"].all! {
+                switch (item.attributes["index"]!) {
+                case "weapon":
+                self.setItem(weaponIndex, toItem: Item(withID: item.stringValue))
+                case "shield":
+                    self.setItem(shieldIndex, toItem: Item(withID: item.stringValue))
+                case "skill":
+                    self.setItem(skillIndex, toItem: Item(withID: item.stringValue))
+                case "enhancer":
+                    self.setItem(enhancerIndex, toItem: Item(withID: item.stringValue))
+                default:
+                self.setItem(Int(item.attributes["index"]!)!, toItem: Item(withID: item.stringValue))
+                }
+            }
+        }
+    }
+    
+    /*func printInventory() {
         for (var i = 0; i < inventory.count; i++) {
             print("Item \(i):")
             print(inventory[i]?.name)
             print(inventory[i]?.type)
             print("\n")
         }
-    }
+    }*/
+    
     //////////
     func swapItems(atIndexA: Int, atIndexB: Int) {
         if (atIndexA >= inventory.count || atIndexB >= inventory.count || atIndexA < 0 || atIndexB < 0) {

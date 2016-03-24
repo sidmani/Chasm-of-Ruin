@@ -43,20 +43,8 @@ class Item {
     var permanent:Bool = false
     var projectile:String = ""
     var range:CGFloat = 0
-    
-    init(withID:String) {
-        var thisItem:AEXMLElement
-        if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
-            if (items.count != 1) {
-                fatalError("Item ID error")
-            }
-            else {
-            thisItem = items[0]
-            }
-        }
-        else {
-            fatalError("Item Not Found")
-        }
+    var projectileSpeed:CGFloat = 0
+    init(thisItem: AEXMLElement) {
         type = ItemType.typeFromString(thisItem["type"].stringValue)
         node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
         description = thisItem["desc"].stringValue
@@ -69,9 +57,25 @@ class Item {
         if (type == ItemType.Weapon) {
             projectile = thisItem["projectile-id"].stringValue
             range = CGFloat(thisItem["range"].doubleValue)
+            projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
         }
-        
     }
+    convenience init(withID:String) {
+        var thisItem:AEXMLElement
+        if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
+            if (items.count != 1) {
+                fatalError("Item ID error")
+            }
+            else {
+            thisItem = items[0]
+            }
+        }
+        else {
+            fatalError("Item Not Found")
+        }
+        self.init(thisItem:thisItem)
+    }
+
 }
 
 

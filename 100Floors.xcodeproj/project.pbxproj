@@ -53,6 +53,7 @@
 		1F9669FE1C6E6C88009B3971 /* Berry Garden@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */; };
 		1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D9381C67C0E100ECA534 /* AEXML.swift */; };
 		1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FB3EB951C4B58B60056AAE1 /* chars.atlas */; };
+		1FC7D7211CA3325900B8CD2B /* Behaviors.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1FC7D7201CA3325900B8CD2B /* Behaviors.xml */; };
 		1FC9AC571C9E08CB00E80D30 /* Enemies.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9AC561C9E08CB00E80D30 /* Enemies.xml */; };
 		1FC9AC591C9E10C100E80D30 /* gnarled-tree.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9AC581C9E10C100E80D30 /* gnarled-tree.png */; };
 		1FC9AC5B1C9E161B00E80D30 /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC9AC5A1C9E161B00E80D30 /* Behavior.swift */; };
@@ -133,6 +134,7 @@
 		1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Berry Garden@2x.png"; sourceTree = "<group>"; };
 		1FA7D9381C67C0E100ECA534 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
 		1FB3EB951C4B58B60056AAE1 /* chars.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = chars.atlas; sourceTree = "<group>"; };
+		1FC7D7201CA3325900B8CD2B /* Behaviors.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Behaviors.xml; sourceTree = "<group>"; };
 		1FC9AC561C9E08CB00E80D30 /* Enemies.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Enemies.xml; sourceTree = "<group>"; };
 		1FC9AC581C9E10C100E80D30 /* gnarled-tree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gnarled-tree.png"; sourceTree = "<group>"; };
 		1FC9AC5A1C9E161B00E80D30 /* Behavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Behavior.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				1FC9AC561C9E08CB00E80D30 /* Enemies.xml */,
+				1FC7D7201CA3325900B8CD2B /* Behaviors.xml */,
 				1F457D421C6D009500E0CB37 /* Items.xml */,
 				1F457D441C6D647400E0CB37 /* Levels.xml */,
 				1FD105C41C87D67300C9F624 /* Items */,
@@ -459,6 +462,7 @@
 				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
 				1F9669FE1C6E6C88009B3971 /* Berry Garden@2x.png in Resources */,
 				1F457D471C6D8B4E00E0CB37 /* Berry Garden.png in Resources */,
+				1FC7D7211CA3325900B8CD2B /* Behaviors.xml in Resources */,
 				1F457D491C6D8FB700E0CB37 /* Hub.tmx in Resources */,
 				1FC9AC571C9E08CB00E80D30 /* Enemies.xml in Resources */,
 				1FC9AC591C9E10C100E80D30 /* gnarled-tree.png in Resources */,

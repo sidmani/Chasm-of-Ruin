@@ -65,6 +65,18 @@ let enemyXML: AEXMLDocument? = {() -> AEXMLDocument? in
     
 }()
 
+let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
+    let xmlPath = NSBundle.mainBundle().pathForResource("Behaviors", ofType: "xml")!
+    let data = NSData(contentsOfFile: xmlPath)!
+    do {
+        return try AEXMLDocument(xmlData: data)
+    }
+    catch {
+        return nil
+    }
+    
+}()
+
 //let saveXML: AEXMLDocument?
 class GameLogic {
     private static var currentState:GameStates = .MainMenu

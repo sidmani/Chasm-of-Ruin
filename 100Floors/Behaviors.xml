@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<behaviors>
+		<behavior id="01">
+            <conditional>CharacterIsCloserThan</conditional>
+            <conditional-params>
+                <param name="distance">100</param>
+            </conditional-params>
+            <execute>DoMainAtkAtInterval</execute>
+            <execute-params>
+                <param>100</param>
+                <param>0.5</param>
+            </execute-params>
+            <priority>FixedValue</priority>
+            <priority-params>
+                <param>1</param>
+            </priority-params>
+            <idtype>0</idtype>
+		</behavior>
+	</behaviors>
+</root>

@@ -12,6 +12,7 @@ import SpriteKit
 class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var currentLevel:Level?
     private var oldLoc:CGPoint = CGPointZero
+    private var oldTime:CFTimeInterval = 0
     var mainCamera = SKCameraNode()
     var nonCharNodes = SKNode()
        // var projectiles = SKNode()
@@ -98,7 +99,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
-            GameLogic.update(currentTime)
+            GameLogic.update((currentTime-oldTime)*1000)
+            oldTime = currentTime
         }
     }
  
