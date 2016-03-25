@@ -5,6 +5,7 @@
 			<img>gnarled-tree</img>
 			<behaviors>
 				<behavior>01</behavior>
+                <behavior>02</behavior>
 			</behaviors>
             <inventory size="4" equip="true">
                 <item index="weapon">wep1</item>

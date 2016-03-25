@@ -18,15 +18,15 @@ struct UIElements {
     static var InteractButton:UIButton?
     static var InventoryButton:UIButton?
     static var MenuButton:UIButton?
-    static func setVisible(var toState:Bool) {
-        toState = !toState
-        UIElements.LeftJoystick?.hidden = toState
-        UIElements.RightJoystick?.hidden = toState
-        UIElements.HPBar?.hidden = toState
-        UIElements.HungerBar?.hidden = toState
-        UIElements.InteractButton?.hidden = toState
-        UIElements.InventoryButton?.hidden = toState
-        UIElements.MenuButton?.hidden = toState
+    static func setVisible(toState:Bool) {
+        let _toState = !toState
+        UIElements.LeftJoystick?.hidden = _toState
+        UIElements.RightJoystick?.hidden = _toState
+        UIElements.HPBar?.hidden = _toState
+        UIElements.HungerBar?.hidden = _toState
+        UIElements.InteractButton?.hidden = _toState
+        UIElements.InventoryButton?.hidden = _toState
+        UIElements.MenuButton?.hidden = _toState
     }
 }
 let thisCharacter = ThisCharacter()
@@ -90,9 +90,9 @@ class GameLogic {
         gameScene = withScene
         //TODO: load save state xml
         setLevel(Level(withID: "0")) //this shouldn't be here
-        thisCharacter.getInventory().setItem(thisCharacter.getInventory().weaponIndex, toItem: Item(withID: "wep1"))
-        thisCharacter.getInventory().setItem(0, toItem: Item(withID: "wep2"))
-        thisCharacter.getInventory().setItem(1, toItem: Item(withID: "wep3"))
+        thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Item(withID: "wep1"))
+        thisCharacter.inventory.setItem(0, toItem: Item(withID: "wep2"))
+        thisCharacter.inventory.setItem(1, toItem: Item(withID: "wep3"))
         gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
     }
     /////////////

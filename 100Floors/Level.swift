@@ -6,20 +6,20 @@
 //
 //
 
-class Level:SKNode { //level is just a map with attributes etc
+class Level:SKNode, Updatable { //level is just a map with attributes etc
     private var map:SKATiledMap
     var startLoc:CGPoint
     var objects = SKNode()
     var desc:String = ""
-    var mapWidth:Int
-    var mapHeight:Int
+    var mapWidthOnScreen:Int
+    var mapHeightOnScreen:Int
     var tileEdge:CGFloat
-    
+    var collisionBodies = SKNode()
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
         startLoc = _startLoc
-        mapWidth = Int(screenSize.width/CGFloat(map.tileWidth))
-        mapHeight = Int(screenSize.height/CGFloat(map.tileHeight))
+        mapWidthOnScreen = Int(screenSize.width/CGFloat(map.tileWidth))
+        mapHeightOnScreen = Int(screenSize.height/CGFloat(map.tileHeight))
         tileEdge = CGFloat(map.tileWidth)
         super.init()
         name = _name
@@ -31,6 +31,43 @@ class Level:SKNode { //level is just a map with attributes etc
         objects.physicsBody = SKPhysicsBody()
         objects.physicsBody?.pinned = true
         objects.zPosition = 1
+        for l in 0..<map.spriteLayers.count {
+            for x in 0..<map.mapWidth {
+                for y in 0..<map.mapHeight {
+                    let sprite:SKASprite = map.spriteOnLayer(l, indexX: x, indexY: y)
+                    if (sprite.properties != nil) {
+                        if (sprite.properties["CollisionRects"]!.boolValue! == true) {
+                            print("collision rects")
+                        var bodies:[SKPhysicsBody] = []
+                        if (sprite.properties["NorthImpassable"]!.boolValue! == true) {
+                            print("north blocked")
+                            bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, sprite.size.height/2)))
+                        }
+                        if (sprite.properties["WestImpassable"]?.stringValue == "true") {
+                            
+                        }
+                        if (sprite.properties["EastImpassable"]?.stringValue == "true") {
+                            
+                        }
+                        if (sprite.properties["SouthImpassable"]?.stringValue == "true") {
+                            
+                        }
+                        let newCollisionSprite = SKSpriteNode(color: UIColor.redColor(), size: sprite.size)
+                        newCollisionSprite.zPosition = CGFloat(l)
+                        newCollisionSprite.position = sprite.position
+                        newCollisionSprite.physicsBody = SKPhysicsBody(bodies: bodies)
+                        newCollisionSprite.physicsBody?.dynamic = false
+                        newCollisionSprite.physicsBody?.pinned = true
+                        newCollisionSprite.physicsBody?.categoryBitMask = PhysicsCategory.MapBoundary
+                        newCollisionSprite.physicsBody?.collisionBitMask = PhysicsCategory.None
+                        newCollisionSprite.physicsBody?.contactTestBitMask = PhysicsCategory.None
+                        collisionBodies.addChild(newCollisionSprite)
+                        }
+                    }
+                }
+            }
+        }
+        self.addChild(collisionBodies)
 
     }
     convenience init (withID:String) {
@@ -56,29 +93,35 @@ class Level:SKNode { //level is just a map with attributes etc
             switch (obj["type"].stringValue) { //handle different types of map objects
             case "Portal":
                 newObj = Portal(fromXMLObject: obj, withTileEdge: CGFloat(map.tileWidth))
+                objects.addChild(newObj)
             default:
-                fatalError("unsupported map object type")
+                print("unsupported map object type")
             }
-            objects.addChild(newObj)
         }
-        ////////
+
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    /////////////
+
     func indexForPoint(p:CGPoint) -> CGPoint {
         return map.indexForPoint(p)
     }
+    
     func validateMovement(toLoc:CGPoint) -> Bool {
         return false
     }
+    
     func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
     }
-}
-
-class DungeonLevel:Level { //this is procedurally generated
     
+    func update(deltaT: Double) {
+        for object in objects.children {
+            if let obj = object as? Updatable {
+                obj.update(deltaT)
+            }
+        }
+    }
 }

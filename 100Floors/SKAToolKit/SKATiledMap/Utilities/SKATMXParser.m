@@ -216,10 +216,11 @@ typedef NS_ENUM(NSUInteger, ParseMode)
             }
         }
     }
-    else if([elementName isEqualToString:kProperty])
+ /*   else if([elementName isEqualToString:kProperty])
     {
         if(self.parseMode == ParseModeTileProperties)
         {
+           
             self.currentProperties[self.currentTileID] =
                 @{ attributeDict[kName] : attributeDict[kValue] };
         }
@@ -227,6 +228,27 @@ typedef NS_ENUM(NSUInteger, ParseMode)
         {
             self.currentProperties[attributeDict[kName]] = attributeDict[kValue];
         }
+    }*/
+    else if([elementName isEqualToString:kProperty])
+    {
+        if(self.parseMode == ParseModeTileProperties)
+        {
+            if (self.currentProperties[self.currentTileID]) {
+                NSMutableDictionary *newDict = [[NSMutableDictionary alloc] initWithDictionary:self.currentProperties[self.currentTileID]];
+                [newDict setValue:attributeDict[kValue] forKey:attributeDict[kName]];
+                self.currentProperties[self.currentTileID] = newDict;
+            }
+            else {
+                self.currentProperties[self.currentTileID] =
+                @{ attributeDict[kName] : attributeDict[kValue] };
+            }
+        }
+        else if (self.parseMode == ParseModeObjectProperties)
+            
+        {
+            self.currentProperties[attributeDict[kName]] = attributeDict[kValue];
+        }
+
     }
     else if([elementName isEqualToString:kLayer])
     {

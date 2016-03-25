@@ -17,5 +17,20 @@
             </priority-params>
             <idtype>0</idtype>
 		</behavior>
+        <behavior id="02">
+            <conditional>CharacterIsCloserThan</conditional>
+            <conditional-params>
+                <param name="distance">60</param>
+            </conditional-params>
+            <execute>Orbit</execute>
+            <execute-params>
+                <param>50</param>
+            </execute-params>
+            <priority>FixedValue</priority>
+            <priority-params>
+                <param>1</param>
+            </priority-params>
+            <idtype>1</idtype>
+        </behavior>
 	</behaviors>
 </root>

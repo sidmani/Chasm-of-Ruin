@@ -12,7 +12,8 @@ class EnemyAI: Updatable{
     private var parent:Enemy
     private var behaviors:[Behavior] = []
     private var behaviorsToRun:[Behavior] = []
-    private var elapsedSinceUpdate:Double = 0
+    private var elapsedSinceUpdate:Double = 501
+    
     init(parent:Enemy, withBehaviors:[AEXMLElement]) {
         self.parent = parent
         for element in withBehaviors {
@@ -30,7 +31,7 @@ class EnemyAI: Updatable{
             behaviors.sortInPlace({$0.priority > $1.priority})
             var selectedIDs: [Int] = []
             for behavior in behaviors {
-                if (!selectedIDs.contains(behavior.idType)) {
+                if (behavior.getConditional() && !selectedIDs.contains(behavior.idType)) {
                     behaviorsToRun.append(behavior)
                     selectedIDs.append(behavior.idType)
                 }
@@ -62,7 +63,7 @@ class Behavior: Updatable {
     private var parent:Enemy
     private var elapsedSinceUpdate:Double = 0
     
-    init(fromElement: AEXMLElement, asChildOf:Enemy) {
+    init(fromElement: AEXMLElement, asChildOf: Enemy) {
         parent = asChildOf
         conditional = BehaviorConditionals.behaviorFromString(fromElement["conditional"].stringValue)
         executeFunc = BehaviorExecutor.behaviorFromString(fromElement["execute"].stringValue)
@@ -79,7 +80,8 @@ class Behavior: Updatable {
             priorityParams.append(CGFloat(param.doubleValue))
         }
     }
-    convenience init (withID: String, asChildOf:Enemy) {
+    
+    convenience init (withID: String, asChildOf: Enemy) {
         if let behaviors = behaviorXML?.root["behaviors"]["behavior"].allWithAttributes(["id":withID]) {
             if (behaviors.count != 1) {
                 fatalError("Behavior ID error")
@@ -92,17 +94,13 @@ class Behavior: Updatable {
             fatalError("Behavior Not Found")
         }
     }
+    
     func update(deltaT: Double) {
-        if (conditional(e: parent, params: conditionalParams)) {
-            if (executeFunc(e: parent, params: executeParams, timeSinceUpdate: elapsedSinceUpdate)) {
-                elapsedSinceUpdate = 0
-            }
-            else {
-                elapsedSinceUpdate += deltaT
-            }
+        if (executeFunc(e: parent, params: executeParams, timeSinceUpdate: elapsedSinceUpdate)) {
+            elapsedSinceUpdate = 0
         }
         else {
-            elapsedSinceUpdate = 0
+            elapsedSinceUpdate += deltaT
         }
     }
 
@@ -111,5 +109,8 @@ class Behavior: Updatable {
         priority = calcPriority(e: parent, params: priorityParams)
     }
     
+    func getConditional() -> Bool {
+        return conditional(e: parent, params: conditionalParams)
+    }
 }
 

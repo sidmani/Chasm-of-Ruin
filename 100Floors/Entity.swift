@@ -83,16 +83,9 @@ class Entity:SKSpriteNode {
 class ThisCharacter: Entity, Updatable {
     var currStats:Stats
     var baseStats:Stats
+    var inventory:Inventory
     
-    private var inventory:Inventory
-  //  private var projectileTimer:NSTimer?
-  //  private var projectileTimerEnabled = false
     private var timeSinceProjectile:Double = 0
-   /* var currentProjectile:String? {
-        get{
-            return inventory.getItem(inventory.weaponIndex)?.projectile //set weapon based on item
-        }
-    }*/
 
     //////////////
     //INIT
@@ -102,9 +95,10 @@ class ThisCharacter: Entity, Updatable {
         inventory = Inventory(withEquipment: true, withSize: inventory_size)
         super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"))
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
+        self.physicsBody?.allowsRotation = false
         self.physicsBody?.categoryBitMask = PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.Interactive
-        self.physicsBody?.collisionBitMask = PhysicsCategory.None
+        self.physicsBody?.collisionBitMask = PhysicsCategory.MapBoundary
         self.position = screenCenter
         self.zPosition = 5
     }
@@ -145,9 +139,7 @@ class ThisCharacter: Entity, Updatable {
             }
         }
     }
-    func getInventory() -> Inventory {
-        return inventory
-    }
+
     ///////////////////
     //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
@@ -156,29 +148,22 @@ class ThisCharacter: Entity, Updatable {
             GameLogic.addObject(newProjectile)
         }
     }
-    
-    @objc private func fireProjectileFromTimer() {
-        if (inventory.getItem(inventory.weaponIndex) != nil) {
-            let weapon = inventory.getItem(inventory.weaponIndex)!
-            let newProjectile = Projectile(withID: weapon.projectile, fromPoint: position, withVelocity: CGVector(dx: weapon.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon.projectileSpeed*sin(UIElements.RightJoystick!.angle)), isFriendly: true, withRange:weapon.range, withAtk: self.currStats.attack)
-            //TODO: check if projectiles can be shot etc
-            GameLogic.addObject(newProjectile)
-        }
-    }
 
     
     //////////////////
-    //Update methods
+    //Update
 
    
     func update(deltaT:Double) {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300) {
-            fireProjectileFromTimer()
+            let weapon = inventory.getItem(inventory.weaponIndex)!
+            fireProjectile(CGVector(dx: weapon.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon.projectileSpeed*sin(UIElements.RightJoystick!.angle)))
             timeSinceProjectile = 0
         }
         else {
             timeSinceProjectile += deltaT
         }
+        
         self.physicsBody!.velocity = CGVector(dx: 5*UIElements.LeftJoystick!.displacement.dx, dy: 5*UIElements.LeftJoystick!.displacement.dy)
     }
 }
@@ -189,8 +174,25 @@ class ThisCharacter: Entity, Updatable {
 class Enemy:Entity, Updatable{
     var currStats:Stats
     var baseStats:Stats
+    
     private var inventory:Inventory
     private var AI:EnemyAI?
+    
+    init(thisEnemy:AEXMLElement, atPosition:CGPoint) {
+        baseStats = Stats.statsFrom(thisEnemy)
+        currStats = baseStats
+        inventory = Inventory(fromElement: thisEnemy["inventory"])
+        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
+        AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
+        physicsBody = SKPhysicsBody()
+        physicsBody?.categoryBitMask = PhysicsCategory.Enemy
+        physicsBody?.contactTestBitMask = PhysicsCategory.FriendlyProjectile
+        physicsBody?.collisionBitMask = PhysicsCategory.None
+        position = atPosition
+        zPosition = 4
+    }
+    
+
     convenience init(withID:String, atPosition:CGPoint) {
         var thisEnemy:AEXMLElement
         if let enemies = enemyXML!.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
@@ -207,20 +209,6 @@ class Enemy:Entity, Updatable{
         self.init(thisEnemy: thisEnemy, atPosition: atPosition)
     }
     
-    init(thisEnemy:AEXMLElement, atPosition:CGPoint) {
-        baseStats = Stats.statsFrom(thisEnemy)
-        currStats = baseStats
-        inventory = Inventory(fromElement: thisEnemy["inventory"])
-        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
-        AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
-        physicsBody = SKPhysicsBody()
-        physicsBody?.categoryBitMask = PhysicsCategory.Enemy
-        physicsBody?.contactTestBitMask = PhysicsCategory.FriendlyProjectile
-        physicsBody?.collisionBitMask = PhysicsCategory.None
-        position = atPosition
-        zPosition = 4
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -248,7 +236,12 @@ class Enemy:Entity, Updatable{
     }
     
     func angleToCharacter() -> CGFloat {
-        return atan2(thisCharacter.position.y - self.position.y, thisCharacter.position.x - self.position.x)
+        if (self.position != thisCharacter.position) {
+            return atan2(thisCharacter.position.y - self.position.y, thisCharacter.position.x - self.position.x)
+        }
+        else {
+            return 0
+        }
     }
     
     func update(deltaT:Double) {

@@ -31,14 +31,15 @@ class InventoryViewController: UIViewController {
         containers.append(EnhancerContainer)
         super.viewDidLoad()
         var selected = false
-        for (var i = 0; i < containers.count; i++) {
-            containers[i].setItem(thisCharacter.getInventory().getItem(i))
+       // for (var i = 0; i < containers.count; i += 1) {
+        for i in 0..<containers.count {
+            containers[i].setItem(thisCharacter.inventory.getItem(i))
             if (!selected && containers[i].item != nil) {
                 containerSelected(containers[i])
                 selected = true
             }
-            containers[i].addTarget(self, action: "itemDropped:", forControlEvents: .ApplicationReserved)
-            containers[i].addTarget(self, action: "containerSelected:", forControlEvents: .TouchUpInside)
+            containers[i].addTarget(self, action: #selector(InventoryViewController.itemDropped(_:)), forControlEvents: .ApplicationReserved)
+            containers[i].addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
             containers[i].correspondsToInventoryIndex = i
         }
         WeaponContainer.itemTypeRestriction = .Weapon
@@ -51,7 +52,7 @@ class InventoryViewController: UIViewController {
         for containerB in self.containers {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
-                    thisCharacter.getInventory().swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
+                    thisCharacter.inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
                     containerA.swapItemWith(containerB)
                     containerSelected(containerB)
                 }

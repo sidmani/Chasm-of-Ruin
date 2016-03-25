@@ -47,10 +47,10 @@ class JoystickControl:UIControl{
         progressLayer.path = progressPath.CGPath
         progressLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
         //set up double tap gesture
-        let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(JoystickControl.doubleTapped))
         tap.numberOfTapsRequired = 2
         self.addGestureRecognizer(tap)
-        let tap_single = UITapGestureRecognizer(target: self, action: "singleTapReset")
+        let tap_single = UITapGestureRecognizer(target: self, action: #selector(JoystickControl.singleTapReset))
         tap_single.numberOfTapsRequired = 1
         self.addGestureRecognizer(tap_single)
         //add layer to views

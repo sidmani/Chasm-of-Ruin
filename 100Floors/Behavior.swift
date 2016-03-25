@@ -104,6 +104,16 @@ struct BehaviorExecutor {
         print("Wandering")
         return true
     }
+    static let Orbit = {(e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool in
+        //PARAMS
+        //0 - radius at which to orbit
+        
+        return true
+    }
+    
+    ///////////////////////
+    //////////ATK//////////
+    ///////////////////////
     static let DoMainAtkAtInterval = {(e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool in
         //PARAMS
         //0 - interval to attack in milliseconds
@@ -126,8 +136,10 @@ struct BehaviorExecutor {
             return BehaviorExecutor.Wander
         case "DoMainAtkAtInterval":
             return BehaviorExecutor.DoMainAtkAtInterval
+        case "Orbit":
+            return BehaviorExecutor.Orbit
         default:
-            return {_ in return false}
+            return {_ in return true}
         }
     }
 }

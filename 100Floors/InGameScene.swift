@@ -15,8 +15,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var oldTime:CFTimeInterval = 0
     var mainCamera = SKCameraNode()
     var nonCharNodes = SKNode()
-       // var projectiles = SKNode()
-       // var enemies = SKNode()
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
@@ -46,11 +44,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         else if ((contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile)) {
-            thisCharacter.struckByProjectile(contact.bodyB.node! as! Projectile)
+            thisCharacter.struckByProjectile(contact.bodyB.node as! Projectile)
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile) {
-            thisCharacter.struckByProjectile(contact.bodyA.node! as! Projectile)
+            thisCharacter.struckByProjectile(contact.bodyA.node as! Projectile)
         }
     }
     
@@ -85,17 +83,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-   // func getLevel() -> Level? {
-   //     return currentLevel
-   // }
-    
     ////////
     override func update(currentTime: CFTimeInterval) {
         if (GameLogic.getCurrentState() == GameStates.InGame) {
             camera!.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
-                let newWidth = Int(CGFloat(currentLevel!.mapWidth)*camera!.xScale)+2
-                let newHeight = Int(CGFloat(currentLevel!.mapHeight)*camera!.yScale)+2
+                let newWidth = Int(CGFloat(currentLevel!.mapWidthOnScreen)*camera!.xScale)+2
+                let newHeight = Int(CGFloat(currentLevel!.mapHeightOnScreen)*camera!.yScale)+2
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
