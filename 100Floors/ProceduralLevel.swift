@@ -8,6 +8,8 @@
 enum MapThemes {
     case Grass, Rock, Lava
 }
+
+
 class ProceduralLevel:BaseLevel, Updatable {
     
     private var objects = SKNode()
@@ -15,9 +17,9 @@ class ProceduralLevel:BaseLevel, Updatable {
     
     var collisionBodies = SKNode()
     
-    //init() {
+   // init() {
         
-    //}
+   // }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -26,5 +28,7 @@ class ProceduralLevel:BaseLevel, Updatable {
     func update(deltaT: Double) {
         
     }
+    
+    
     
 }

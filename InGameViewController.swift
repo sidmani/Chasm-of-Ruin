@@ -16,7 +16,6 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var RightJoystickControl: JoystickControl!
     
     @IBOutlet weak var HPDisplayBar: ReallyBigDisplayBar!
-    @IBOutlet weak var HungerDisplayBar: DisplayBar!
     
     @IBOutlet weak var MenuButton: UIButton!
     @IBOutlet weak var InventoryButton: UIButton!
@@ -28,7 +27,6 @@ class InGameViewController: UIViewController {
         UIElements.LeftJoystick = LeftJoystickControl
         UIElements.RightJoystick = RightJoystickControl
         UIElements.HPBar = HPDisplayBar
-        UIElements.HungerBar = HungerDisplayBar
         UIElements.MenuButton = MenuButton
         UIElements.InventoryButton = InventoryButton
         UIElements.InteractButton = InteractButton
@@ -45,7 +43,14 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func interactButtonPressed(sender: UIButton) {
-        GameLogic.interactButtonPressed()
+        if (GameLogic.currentInteractiveObject is ItemBag) {
+            GameLogic.setGameState(.InventoryMenu)
+            blurView()
+            performSegueWithIdentifier("InGameToInventory", sender: self)
+        }
+        else {
+            GameLogic.interactButtonPressed()
+        }
     }
     @IBAction func menuButtonPressed(sender: UIButton) {
         blurView()
@@ -87,11 +92,10 @@ class InGameViewController: UIViewController {
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
+        //if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            return .Landscape
+        //} else {
+        //}
     }
    
     override func didReceiveMemoryWarning() {

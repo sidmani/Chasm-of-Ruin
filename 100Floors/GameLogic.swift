@@ -27,7 +27,6 @@ struct UIElements {
     static var LeftJoystick:JoystickControl?
     static var RightJoystick:JoystickControl?
     static var HPBar:ReallyBigDisplayBar?
-    static var HungerBar:DisplayBar?
     static var InteractButton:UIButton?
     static var InventoryButton:UIButton?
     static var MenuButton:UIButton?
@@ -36,7 +35,6 @@ struct UIElements {
         UIElements.LeftJoystick?.hidden = _toState
         UIElements.RightJoystick?.hidden = _toState
         UIElements.HPBar?.hidden = _toState
-        UIElements.HungerBar?.hidden = _toState
         UIElements.InteractButton?.hidden = _toState
         UIElements.InventoryButton?.hidden = _toState
         UIElements.MenuButton?.hidden = _toState
@@ -46,6 +44,7 @@ struct UIElements {
 
 
 let thisCharacter = ThisCharacter()
+
 let itemXML: AEXMLDocument? = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
     let data = NSData(contentsOfFile: xmlPath!)!
@@ -97,7 +96,7 @@ let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene?
-    private static var currentInteractiveObject: Interactive?
+    static var currentInteractiveObject: Interactive?
     static func loadSaveState() { //use this instead of setup?
         
     }
@@ -138,7 +137,7 @@ class GameLogic {
             UIElements.setVisible(false)
             gameScene?.paused = true
         default:
-            break;
+            break
         }
     }
     /////////////
@@ -178,9 +177,14 @@ class GameLogic {
     }
     /////////////////////////
     static func addObject(p:SKNode) {
-        if (currentState == .InGame) {
-            gameScene?.addObject(p)
-        }
+       // if (currentState == .InGame) {
+            if let obj = p as? MapObject {
+                gameScene?.addMapObject(obj)
+            }
+            else {
+                gameScene?.addObject(p)
+            }
+      //  }
     }
     static func setLevel(l:BaseLevel) {
         if (currentState == .InGame) {
@@ -201,6 +205,7 @@ class GameLogic {
     ////called by didBeginContact() and didEndContact() in gameScene
     static func withinInteractDistance(ofObject: Interactive) {
         currentInteractiveObject = ofObject
+       // ofObject.display()
         if (ofObject.autotrigger) {
             ofObject.trigger()
         }
@@ -220,10 +225,6 @@ class GameLogic {
 func *(left: CGFloat, right: CGPoint) -> CGPoint {
     return CGPoint(x: left*right.x, y: left*right.y)
 }
-
-//func +(left:CGVector, right:CGVector) -> CGVector {
-//    return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
-//}
 
 func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
     return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)

@@ -131,5 +131,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             nonCharNodes.addChild(node)
         }
     }
+    func addMapObject(obj:MapObject) {
+        if (obj.parent == nil) {
+            currentLevel?.addObject(obj)
+        }
+    }
 
 }

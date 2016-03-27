@@ -21,6 +21,8 @@ class InventoryViewController: UIViewController {
     @IBOutlet weak var ShieldContainer: ItemContainer!
     @IBOutlet weak var SkillContainer: ItemContainer!
     @IBOutlet weak var EnhancerContainer: ItemContainer!
+    @IBOutlet weak var GroundContainer: ItemContainer!
+    
     var containers:[ItemContainer] = []
 
     override func viewDidLoad() {
@@ -29,6 +31,8 @@ class InventoryViewController: UIViewController {
         containers.append(ShieldContainer)
         containers.append(SkillContainer)
         containers.append(EnhancerContainer)
+        
+       
         super.viewDidLoad()
         var selected = false
        // for (var i = 0; i < containers.count; i += 1) {
@@ -42,6 +46,15 @@ class InventoryViewController: UIViewController {
             containers[i].addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
             containers[i].correspondsToInventoryIndex = i
         }
+        //if (!(GameLogic.currentInteractiveObject is ItemBag)) {
+            //GroundContainer.hidden = true
+        //}
+        //else {
+            GroundContainer.setItem((GameLogic.currentInteractiveObject as? ItemBag)?.item)
+            GroundContainer.addTarget(self, action: #selector(InventoryViewController.itemDropped(_:)), forControlEvents: .ApplicationReserved)
+            GroundContainer.addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
+            containers.append(GroundContainer)
+        //}
         WeaponContainer.itemTypeRestriction = .Weapon
         ShieldContainer.itemTypeRestriction = .Shield
         SkillContainer.itemTypeRestriction = .Skill
@@ -52,9 +65,47 @@ class InventoryViewController: UIViewController {
         for containerB in self.containers {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
-                    thisCharacter.inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
-                    containerA.swapItemWith(containerB)
+                    if (containerA == GroundContainer) {
+                        let temp = (GameLogic.currentInteractiveObject as! ItemBag).item
+                 
+                        (GameLogic.currentInteractiveObject as! ItemBag).setItem(thisCharacter.inventory.getItem(containerB.correspondsToInventoryIndex))
+                        containerA.setItem(thisCharacter.inventory.getItem(containerB.correspondsToInventoryIndex))
+
+                        thisCharacter.inventory.setItem(containerB.correspondsToInventoryIndex, toItem: temp)
+                        containerB.setItem(temp)
+                        
+                        
+                    }
+                    else if (containerB == GroundContainer) {
+                        if (!(GameLogic.currentInteractiveObject is ItemBag)) {
+                            let newBag = ItemBag(withItem: containerA.item!, loc: thisCharacter.position)
+                            GroundContainer.setItem(containerA.item)
+                            
+                            containerSelected(GroundContainer)
+                            
+                            containerA.setItem(nil)
+                            thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: nil)
+                            
+                            GameLogic.withinInteractDistance(newBag)
+                            GameLogic.addObject(newBag)
+                        }
+                        else {
+                        let temp = (GameLogic.currentInteractiveObject as! ItemBag).item
+                        
+                        (GameLogic.currentInteractiveObject as! ItemBag).setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
+                        containerB.setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
+                        
+                        thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: temp)
+                        containerA.setItem(temp)
+                        }
+                        
+                    }
+                    else {
+                        thisCharacter.inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
+                        containerA.swapItemWith(containerB)
+                    }
                     containerSelected(containerB)
+
                 }
                 return
             }

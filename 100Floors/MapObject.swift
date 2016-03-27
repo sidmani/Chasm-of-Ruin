@@ -66,11 +66,13 @@ class Portal:MapObject, Interactive {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     func trigger() {
         if (enabled) {
-        GameLogic.usePortal(self)
+            GameLogic.usePortal(self)
         }
     }
+    
     func setEnabledTo(val:Bool) {
         enabled = val
         if (val) {
@@ -83,18 +85,36 @@ class Portal:MapObject, Interactive {
 }
 class ItemBag:MapObject, Interactive {
     var autotrigger:Bool = false
-    var item:Item
+    var item:Item?
     init(withItem: Item, loc:CGPoint) {
         item = withItem
         super.init(loc: loc)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
+        self.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Interactive
+        self.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
+        self.physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+        self.physicsBody!.pinned = true
     }
-
+    convenience init (fromElement:AEXMLElement, withTileEdge:CGFloat) {
+        let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
+        self.init(withItem: Item(withID: fromElement["itemID"].stringValue), loc:withTileEdge*loc)
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func trigger() {
+        
+    }
     
+    func setItem(toItem:Item?) {
+        if (toItem == nil) {
+            removeFromParent()
+            GameLogic.exitedInteractDistance()
+        }
+        else {
+            item = toItem
+        }
     }
 }
 

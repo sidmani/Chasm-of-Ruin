@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -55,9 +55,6 @@
                                     <constraint firstAttribute="height" constant="100" id="6wg-ua-AYI"/>
                                 </constraints>
                             </view>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xcK-G6-wYk" customClass="DisplayBar" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="45" y="37" width="150" height="2"/>
-                            </progressView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vbj-Kt-bRo" userLabel="HP Display Bar" customClass="ReallyBigDisplayBar" customModule="_00Floors" customModuleProvider="target">
                                 <rect key="frame" x="240" y="37" width="150" height="2"/>
                             </progressView>
@@ -74,7 +71,7 @@
                                 <state key="normal" title="Inventory"/>
                                 <connections>
                                     <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
-                                    <segue destination="CGb-Sh-tvY" kind="presentation" id="rS0-84-0BE"/>
+                                    <segue destination="CGb-Sh-tvY" kind="presentation" identifier="InGameToInventory" id="rS0-84-0BE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dvb-ey-rYt">
@@ -116,7 +113,6 @@
                     </view>
                     <connections>
                         <outlet property="HPDisplayBar" destination="vbj-Kt-bRo" id="vDn-hJ-WM1"/>
-                        <outlet property="HungerDisplayBar" destination="xcK-G6-wYk" id="6xV-K1-d6P"/>
                         <outlet property="InteractButton" destination="Dvb-ey-rYt" id="PZr-lZ-I8d"/>
                         <outlet property="InventoryButton" destination="ZZN-eM-M4h" id="u2l-8i-1mS"/>
                         <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
@@ -148,110 +144,119 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEx-UK-b1H">
-                                <rect key="frame" x="467" y="105" width="88" height="21"/>
+                                <rect key="frame" x="510" y="105" width="45" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDg-aE-dq9">
-                                <rect key="frame" x="467" y="156" width="88" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stats" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDg-aE-dq9">
+                                <rect key="frame" x="510" y="156" width="45" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kra-YF-ujF" userLabel="#1" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="40" width="62" height="62"/>
+                                <rect key="frame" x="20" y="40" width="73" height="73"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="height" multiplier="1:1" id="ZDu-CL-aSx"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpT-80-UGS" userLabel="#2" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="102" y="40" width="62" height="62"/>
+                                <rect key="frame" x="113" y="40" width="72" height="73"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="KpT-80-UGS" secondAttribute="height" multiplier="1:1" id="a8R-w2-p8Y"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDO-d3-vkd" userLabel="#3" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="184" y="40" width="61" height="62"/>
+                                <rect key="frame" x="205" y="40" width="73" height="73"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="NDO-d3-vkd" secondAttribute="height" multiplier="1:1" id="yKu-hv-bTb"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76i-vO-7fy" userLabel="#4" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="265" y="40" width="62" height="62"/>
+                                <rect key="frame" x="298" y="40" width="72" height="73"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="76i-vO-7fy" secondAttribute="height" multiplier="1:1" id="J6L-Hf-JiA"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vny-ML-aYa" userLabel="#5" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="122" width="62" height="62"/>
+                                <rect key="frame" x="20" y="133" width="73" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Vny-ML-aYa" secondAttribute="height" multiplier="1:1" id="VKS-Sd-9d5"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJo-PS-vbI" userLabel="#6" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="102" y="122" width="62" height="62"/>
+                                <rect key="frame" x="113" y="133" width="72" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="EJo-PS-vbI" secondAttribute="height" multiplier="1:1" id="e5B-J1-jks"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsv-u5-0kg" userLabel="#7" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="184" y="122" width="61" height="62"/>
+                                <rect key="frame" x="205" y="133" width="73" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nsv-u5-0kg" secondAttribute="height" multiplier="1:1" id="099-G4-LuA"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nw5-gl-VzE" userLabel="#8" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="265" y="122" width="62" height="62"/>
+                                <rect key="frame" x="298" y="133" width="72" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Nw5-gl-VzE" secondAttribute="height" multiplier="1:1" id="OY3-Xh-UDT"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Emf-hc-WII" userLabel="Weapon" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="488" width="62" height="62"/>
+                                <rect key="frame" x="20" y="478" width="73" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Emf-hc-WII" secondAttribute="height" multiplier="1:1" id="uGE-q0-UFe"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="skR-eN-Prc" userLabel="Shield" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="102" y="488" width="62" height="62"/>
+                                <rect key="frame" x="113" y="478" width="72" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="skR-eN-Prc" secondAttribute="height" multiplier="1:1" id="9IE-UE-QmD"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x0S-9K-E7q" userLabel="Skill" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="184" y="488" width="61" height="62"/>
+                                <rect key="frame" x="205" y="478" width="73" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="x0S-9K-E7q" secondAttribute="height" multiplier="1:1" id="Hok-Wt-AMU"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XN9-6p-wk6" userLabel="Enhancer" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="265" y="488" width="62" height="62"/>
+                                <rect key="frame" x="298" y="478" width="72" height="72"/>
                                 <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XN9-6p-wk6" secondAttribute="height" multiplier="1:1" id="VBH-0Q-cRd"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MXs-2b-BS8" userLabel="#4" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="402" y="479" width="72" height="72"/>
+                                <color key="backgroundColor" red="0.32082692130000001" green="1" blue="0.52299442370000004" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="MXs-2b-BS8" secondAttribute="height" multiplier="1:1" id="EFj-BR-5AX"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="MXs-2b-BS8" firstAttribute="width" secondItem="MXs-2b-BS8" secondAttribute="height" multiplier="1:1" id="09K-GO-JZX"/>
                             <constraint firstItem="KpT-80-UGS" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="2SY-zJ-Slz"/>
                             <constraint firstItem="Nw5-gl-VzE" firstAttribute="top" secondItem="76i-vO-7fy" secondAttribute="bottom" constant="20" id="2hz-a5-GWP"/>
                             <constraint firstItem="gEx-UK-b1H" firstAttribute="leading" secondItem="76i-vO-7fy" secondAttribute="trailing" constant="140" id="2iW-qU-HYb"/>
                             <constraint firstItem="Nw5-gl-VzE" firstAttribute="leading" secondItem="nsv-u5-0kg" secondAttribute="trailing" constant="20" id="3Jp-mH-q1E"/>
                             <constraint firstItem="XN9-6p-wk6" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="4e8-sO-j3Y"/>
                             <constraint firstItem="dDg-aE-dq9" firstAttribute="trailing" secondItem="gEx-UK-b1H" secondAttribute="trailing" id="5iL-6A-5GZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MXs-2b-BS8" secondAttribute="trailing" constant="106" id="5wu-fe-RUU"/>
                             <constraint firstItem="kra-YF-ujF" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leading" constant="20" id="7QN-27-EBb"/>
                             <constraint firstItem="dDg-aE-dq9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Nw5-gl-VzE" secondAttribute="trailing" constant="100" id="9Kj-Al-UE5"/>
                             <constraint firstItem="NDO-d3-vkd" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="AUT-KV-eWy"/>
@@ -262,6 +267,7 @@
                             <constraint firstItem="skR-eN-Prc" firstAttribute="leading" secondItem="Emf-hc-WII" secondAttribute="trailing" constant="20" id="OOB-rG-aY2"/>
                             <constraint firstItem="x0S-9K-E7q" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="P1u-a9-y89"/>
                             <constraint firstItem="EJo-PS-vbI" firstAttribute="leading" secondItem="Vny-ML-aYa" secondAttribute="trailing" constant="20" id="PxO-FA-BLf"/>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="MXs-2b-BS8" secondAttribute="bottom" constant="49" id="QYX-S6-ytV"/>
                             <constraint firstItem="nsv-u5-0kg" firstAttribute="leading" secondItem="EJo-PS-vbI" secondAttribute="trailing" constant="20" id="TcS-po-zwH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gEx-UK-b1H" secondAttribute="trailing" constant="25" id="UgJ-yD-vLB"/>
                             <constraint firstItem="Emf-hc-WII" firstAttribute="leading" secondItem="Vny-ML-aYa" secondAttribute="leading" id="VWF-XG-t6o"/>
@@ -281,6 +287,7 @@
                             <constraint firstItem="nsv-u5-0kg" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="kRc-c0-6WS"/>
                             <constraint firstItem="nsv-u5-0kg" firstAttribute="top" secondItem="NDO-d3-vkd" secondAttribute="bottom" constant="20" id="kzG-YL-S5d"/>
                             <constraint firstItem="76i-vO-7fy" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="l8o-TX-lRe"/>
+                            <constraint firstItem="MXs-2b-BS8" firstAttribute="width" secondItem="XN9-6p-wk6" secondAttribute="height" multiplier="1:1" id="lmO-cQ-TJu"/>
                             <constraint firstItem="76i-vO-7fy" firstAttribute="leading" secondItem="NDO-d3-vkd" secondAttribute="trailing" constant="20" id="lvn-V3-Gkx"/>
                             <constraint firstItem="dDg-aE-dq9" firstAttribute="top" secondItem="gEx-UK-b1H" secondAttribute="bottom" constant="30" id="mbh-9J-JWF"/>
                             <constraint firstItem="Emf-hc-WII" firstAttribute="width" secondItem="kra-YF-ujF" secondAttribute="width" id="mdy-tE-k6B"/>
@@ -304,6 +311,7 @@
                         <outlet property="Container8" destination="Nw5-gl-VzE" id="pTE-H3-cAs"/>
                         <outlet property="DescriptionLabel" destination="dDg-aE-dq9" id="xpW-cU-LL3"/>
                         <outlet property="EnhancerContainer" destination="XN9-6p-wk6" id="L0L-ay-jsJ"/>
+                        <outlet property="GroundContainer" destination="MXs-2b-BS8" id="ZGg-XD-Mp0"/>
                         <outlet property="NameLabel" destination="gEx-UK-b1H" id="ZqS-xK-bkn"/>
                         <outlet property="ShieldContainer" destination="skR-eN-Prc" id="zrU-Ge-ZQy"/>
                         <outlet property="SkillContainer" destination="x0S-9K-E7q" id="Jie-2z-vuv"/>

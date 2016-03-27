@@ -35,7 +35,9 @@ class BaseLevel:SKNode {
     func cull(x:Int, y:Int, width:Int, height:Int) {
         fatalError("must be overriden")
     }
-    
+    func addObject(obj:MapObject) {
+        
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -62,14 +64,7 @@ class MapLevel:BaseLevel, Updatable {
         else {
             map.zPosition = LayerDef.MapTop
         }
-        self.physicsBody = SKPhysicsBody()
-        self.physicsBody?.dynamic = false
-        self.zPosition = 0
 
-        objects.physicsBody = SKPhysicsBody()
-        objects.physicsBody?.dynamic = false
-        objects.zPosition = LayerDef.MapObjects
-        
         for l in 0..<map.spriteLayers.count { //should be able to delete this if Tiled collisions are fixed
             for x in 0..<map.mapWidth {
                 for y in 0..<map.mapHeight {
@@ -137,6 +132,9 @@ class MapLevel:BaseLevel, Updatable {
             case "Portal":
                 newObj = Portal(fromXMLObject: obj, withTileEdge: CGFloat(map.tileWidth))
                 objects.addChild(newObj)
+            case "ItemBag":
+                newObj = ItemBag(fromElement: obj, withTileEdge: CGFloat(map.tileWidth))
+                objects.addChild(newObj)
             default:
                 print("unsupported map object type")
             }
@@ -159,8 +157,9 @@ class MapLevel:BaseLevel, Updatable {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
     }
     
-    func addObject(o:MapObject) {
+    override func addObject(o:MapObject) {
         objects.addChild(o)
+        print("addobject called")
     }
     
     func update(deltaT: Double) {

@@ -13,10 +13,9 @@ struct Stats {
     var attack:CGFloat    // Attack (% own projectile is strengthened by)
     var speed:CGFloat     // Speed
     var dexterity:CGFloat // Dexterity (rate of projectile release)
-    var hunger:CGFloat    // Hunger (decrease with time)
-    var level:CGFloat     // Level (Overall boost to all stats)
     var mana:CGFloat      // Mana (used when casting spells)
-    var rage:CGFloat      // Builds up over time, released when hunger/health are low (last resort kinda thing)
+    var rage:CGFloat      // Boosts with combos
+    
     func getIndex(i:Int) -> CGFloat{
         switch (i) {
         case 0: return health
@@ -24,8 +23,6 @@ struct Stats {
         case 2: return attack
         case 3: return speed
         case 4: return dexterity
-        case 5: return hunger
-        case 6: return level
         case 7: return mana
         case 8: return rage
         default: return 0
@@ -39,8 +36,6 @@ struct Stats {
         case 2: attack = toVal
         case 3: speed = toVal
         case 4: dexterity = toVal
-        case 5: hunger = toVal
-        case 6: level = toVal
         case 7: mana = toVal
         case 8: rage = toVal
         default: break
@@ -54,16 +49,17 @@ struct Stats {
             attack: CGFloat(Element["Stats"]["atk"].doubleValue),
             speed: CGFloat(Element["Stats"]["spd"].doubleValue),
             dexterity: CGFloat(Element["Stats"]["dex"].doubleValue),
-            hunger: CGFloat(Element["Stats"]["hunger"].doubleValue),
-            level: CGFloat(Element["Stats"]["level"].doubleValue),
             mana: CGFloat(Element["Stats"]["mana"].doubleValue),
             rage: CGFloat(Element["Stats"]["rage"].doubleValue))
     }
-    static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0)
+    func capAt(maxVal:CGFloat) {
+        
+    }
+    static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
 }
 
 func +(left: Stats, right: Stats) -> Stats { // add Stats together
-    return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, hunger: left.hunger + right.hunger, level: left.level+right.level, mana: left.mana+right.mana, rage: left.rage + right.rage)
+    return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, mana: left.mana+right.mana, rage: left.rage + right.rage)
 }
 
 //////////////////////
@@ -151,7 +147,9 @@ class ThisCharacter: Entity, Updatable {
             die()
         }
     }
-       
+    override func die() {
+        
+    }
     
     //ITEM HANDLER METHODS
     func consumeItem(c:Item)
@@ -176,7 +174,7 @@ class ThisCharacter: Entity, Updatable {
 
     
     func update(deltaT:Double) {
-        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300) {
+        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300 && weapon != nil) {
             fireProjectile(CGVector(dx: weapon!.projectileSpeed!*cos(UIElements.RightJoystick!.angle), dy: -weapon!.projectileSpeed!*sin(UIElements.RightJoystick!.angle)))
             timeSinceProjectile = 0
         }
@@ -237,9 +235,9 @@ class Enemy:Entity, Updatable{
         }
     }
 
-    func validateMoveTo(point:CGPoint) -> Bool {
-        return false
-    }
+//    func validateMoveTo(point:CGPoint) -> Bool {
+//        return false
+//    }
     
     func distanceToCharacter() -> CGFloat {
         return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)
