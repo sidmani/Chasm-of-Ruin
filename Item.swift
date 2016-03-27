@@ -39,11 +39,14 @@ class Item {
     var description:String
     var node:SKSpriteNode
     var type:ItemType
+    
     var consumable:Bool
-    var permanent:Bool = false
-    var projectile:String = ""
-    var range:CGFloat = 0
-    var projectileSpeed:CGFloat = 0
+    var permanent:Bool?
+    
+    var projectile:String?
+    var range:CGFloat?
+    var projectileSpeed:CGFloat?
+    var projectileReflects:Bool?
     
     init(thisItem: AEXMLElement) {
         type = ItemType.typeFromString(thisItem["type"].stringValue)
@@ -59,6 +62,7 @@ class Item {
             projectile = thisItem["projectile-id"].stringValue
             range = CGFloat(thisItem["range"].doubleValue)
             projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
+            projectileReflects = thisItem["projectile-reflects"].boolValue
         }
     }
     

@@ -20,6 +20,7 @@
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
             <projectile-speed>200</projectile-speed>
+            <projectile-reflects>true</projectile-reflects>
             <range>50</range>
         </item>
         <item id="wep2">
@@ -41,6 +42,7 @@
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
             <projectile-speed>20</projectile-speed>
+            <projectile-reflects>false</projectile-reflects>
             <range>25</range>
         </item>
         <item id="wep3">
@@ -62,6 +64,7 @@
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
             <projectile-speed>20</projectile-speed>
+            <projectile-reflects>false</projectile-reflects>
             <range>25</range>
         </item>
     </items>

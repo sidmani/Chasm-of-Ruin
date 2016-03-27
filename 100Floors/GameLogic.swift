@@ -7,9 +7,22 @@
 //
 
 import SpriteKit
+
 enum GameStates {
     case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene
 }
+protocol Updatable {
+    func update(deltaT:Double)
+}
+
+protocol Interactive {
+    var autotrigger:Bool { get }
+    func trigger()
+}
+
+let screenSize = UIScreen.mainScreen().bounds
+let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
+
 struct UIElements {
     static var LeftJoystick:JoystickControl?
     static var RightJoystick:JoystickControl?
@@ -29,6 +42,9 @@ struct UIElements {
         UIElements.MenuButton?.hidden = _toState
     }
 }
+
+
+
 let thisCharacter = ThisCharacter()
 let itemXML: AEXMLDocument? = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
@@ -89,7 +105,7 @@ class GameLogic {
     static func setup(withScene: InGameScene) {
         gameScene = withScene
         //TODO: load save state xml
-        setLevel(Level(withID: "0")) //this shouldn't be here
+        setLevel(MapLevel(withID: "0")) //this shouldn't be here
         thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Item(withID: "wep1"))
         thisCharacter.inventory.setItem(0, toItem: Item(withID: "wep2"))
         thisCharacter.inventory.setItem(1, toItem: Item(withID: "wep3"))
@@ -166,15 +182,20 @@ class GameLogic {
             gameScene?.addObject(p)
         }
     }
-    static func setLevel(l:Level) {
+    static func setLevel(l:BaseLevel) {
         if (currentState == .InGame) {
             gameScene?.setLevel(l)
         }
     }
     ///////
     static func usePortal(p:Portal) {
-        setLevel(Level(withID: p.destinationID))
-        exitedInteractDistance()
+        if (p.levelType == 0) {
+            exitedInteractDistance()
+            setLevel(MapLevel(withID: p.destinationID))
+        }
+        else if (p.levelType == 1) {
+            //init procedural level
+        }
     }
     
     ////called by didBeginContact() and didEndContact() in gameScene
@@ -191,4 +212,24 @@ class GameLogic {
         currentInteractiveObject = nil
         UIElements.InteractButton?.setTitle("Interact", forState: UIControlState.Normal)
     }
+}
+
+//////////////////
+//Global functions
+//////////////////
+func *(left: CGFloat, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left*right.x, y: left*right.y)
+}
+
+//func +(left:CGVector, right:CGVector) -> CGVector {
+//    return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
+//}
+
+func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
+    return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)
+}
+// test overloads
+func print(point:CGPoint)
+{
+    print("(\(point.x),\(point.y))")
 }

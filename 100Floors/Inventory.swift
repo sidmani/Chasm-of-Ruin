@@ -5,6 +5,7 @@
 //  Created by Sid Mani on 1/12/16.
 //
 //
+let inventory_size = 8 // TODO: fix this (IAP)
 
 class Inventory {
     var weaponIndex:Int {

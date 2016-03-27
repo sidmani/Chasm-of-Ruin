@@ -9,7 +9,7 @@
             <execute>DoMainAtkAtInterval</execute>
             <execute-params>
                 <param>100</param>
-                <param>0.5</param>
+                <param>0.9</param>
             </execute-params>
             <priority>FixedValue</priority>
             <priority-params>

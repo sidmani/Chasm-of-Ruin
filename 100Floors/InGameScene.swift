@@ -10,11 +10,24 @@
 import SpriteKit
 
 class InGameScene: SKScene, SKPhysicsContactDelegate {
-    private var currentLevel:Level?
+    struct PhysicsCategory {
+        static let None: UInt32 = 0
+        static let All: UInt32 = UINT32_MAX
+        static let FriendlyProjectile: UInt32 = 0b00001
+        static let ThisPlayer: UInt32 = 0b00010
+        static let Enemy: UInt32 = 0b00100
+        static let Interactive: UInt32 = 0b01000
+        static let EnemyProjectile: UInt32 = 0b10000
+        static let MapBoundary:UInt32 = 0b100000
+    }
+    
+    private var currentLevel:BaseLevel?
     private var oldLoc:CGPoint = CGPointZero
     private var oldTime:CFTimeInterval = 0
-    var mainCamera = SKCameraNode()
+    private var mainCamera = SKCameraNode()
+    
     var nonCharNodes = SKNode()
+    
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
@@ -35,6 +48,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func didBeginContact(contact: SKPhysicsContact) {
+        /////// player contacts interactive object
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
             GameLogic.withinInteractDistance(contact.bodyA.node as! Interactive)
             return
@@ -43,13 +57,25 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             GameLogic.withinInteractDistance(contact.bodyB.node as! Interactive)
             return
         }
-        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile)) {
+        ////// player is hit by projectile
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile) {
             thisCharacter.struckByProjectile(contact.bodyB.node as! Projectile)
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile) {
             thisCharacter.struckByProjectile(contact.bodyA.node as! Projectile)
+            return
         }
+        ////// projectile hits map boundary
+        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
+            (contact.bodyA.node as! Projectile).struckMapBoundary()
+            return
+        }
+        else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
+            (contact.bodyB.node as! Projectile).struckMapBoundary()
+            return
+        }
+        
     }
     
     func didEndContact(contact: SKPhysicsContact) {
@@ -64,7 +90,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         camera!.position = CGPointMake(floor(thisCharacter.position.x*6)/6, floor(thisCharacter.position.y*6)/6)
     }
     
-    func setLevel(newLevel:Level)
+    func setLevel(newLevel:BaseLevel)
     {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
@@ -85,16 +111,17 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     ////////
     override func update(currentTime: CFTimeInterval) {
-        if (GameLogic.getCurrentState() == GameStates.InGame) {
+        let deltaT = (currentTime-oldTime)*1000
+        oldTime = currentTime
+        if (GameLogic.getCurrentState() == GameStates.InGame && deltaT < 100) {
             camera!.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
-                let newWidth = Int(CGFloat(currentLevel!.mapWidthOnScreen)*camera!.xScale)+2
-                let newHeight = Int(CGFloat(currentLevel!.mapHeightOnScreen)*camera!.yScale)+2
+                let newWidth = Int(CGFloat(currentLevel!.mapSizeOnScreen.width)*camera!.xScale)+2
+                let newHeight = Int(CGFloat(currentLevel!.mapSizeOnScreen.height)*camera!.yScale)+2
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
-            GameLogic.update((currentTime-oldTime)*1000) //send update methods time diff in ms
-            oldTime = currentTime
+            GameLogic.update(deltaT) //send update methods time diff in ms
         }
     }
  

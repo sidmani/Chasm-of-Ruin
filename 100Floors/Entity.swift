@@ -7,7 +7,6 @@
 //
 import SpriteKit
 
-//// data structs ////
 struct Stats {
     var health:CGFloat    // Health
     var defense:CGFloat   // Defense (% projectile is weakened by)
@@ -60,54 +59,88 @@ struct Stats {
             mana: CGFloat(Element["Stats"]["mana"].doubleValue),
             rage: CGFloat(Element["Stats"]["rage"].doubleValue))
     }
+    static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, hunger: 0, level: 0, mana: 0, rage: 0)
 }
 
+func +(left: Stats, right: Stats) -> Stats { // add Stats together
+    return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, hunger: left.hunger + right.hunger, level: left.level+right.level, mana: left.mana+right.mana, rage: left.rage + right.rage)
+}
 
 //////////////////////
 
 
 class Entity:SKSpriteNode {
-    init(fromTexture: SKTexture)
+    var currStats:Stats
+    var baseStats:Stats
+    var inventory:Inventory
+    
+    private var weapon:Item? {
+        return inventory.getItem(inventory.weaponIndex)
+    }
+    private var skill:Item? {
+        return inventory.getItem(inventory.skillIndex)
+    }
+    private var shield:Item? {
+        return inventory.getItem(inventory.shieldIndex)
+    }
+    private var enhancer:Item? {
+        return inventory.getItem(inventory.enhancerIndex)
+    }
+    
+    init(fromTexture: SKTexture, withCurrStats:Stats, withBaseStats:Stats, withInventory:Inventory)
     {
+        currStats = withCurrStats
+        baseStats = withBaseStats
+        inventory = withInventory
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: fromTexture.size())
-        self.physicsBody?.friction = 0
+        self.zPosition = BaseLevel.LayerDef.Entity
+
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func struckByProjectile(p:Projectile) {
+    
+    }
+    
+    private func setImageOrientation() {
+        // change image direction
+    }
+    
+    func die() {
+        
+    }
+    
 }
+
 //////////////////////
 
 class ThisCharacter: Entity, Updatable {
-    var currStats:Stats
-    var baseStats:Stats
-    var inventory:Inventory
     
     private var timeSinceProjectile:Double = 0
-
+    
     //////////////
     //INIT
     init() {
-        currStats = nilStats
-        baseStats = nilStats
-        inventory = Inventory(withEquipment: true, withSize: inventory_size)
-        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"))
+        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withCurrStats: Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withEquipment: true, withSize: inventory_size))
+
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody?.allowsRotation = false
-        self.physicsBody?.categoryBitMask = PhysicsCategory.ThisPlayer
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.EnemyProjectile | PhysicsCategory.Interactive
-        self.physicsBody?.collisionBitMask = PhysicsCategory.MapBoundary
+        self.physicsBody?.friction = 0
+        self.physicsBody?.restitution = 0
+        self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
+        self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
+        self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         self.position = screenCenter
-        self.zPosition = 5
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     ///collision handling
-    func struckByProjectile(p:Projectile) {
+    override func struckByProjectile(p:Projectile) {
         takeDamage(p.attack - currStats.defense)
     }
     //health/stats handling
@@ -118,20 +151,14 @@ class ThisCharacter: Entity, Updatable {
             die()
         }
     }
-    private func die() {
-        
-    }
-    ///GRAPHICAL METHODS
-    private func setImageOrientation() {
-        // change image direction
-    }
+       
     
     //ITEM HANDLER METHODS
     func consumeItem(c:Item)
     {
         if (c.consumable)
         {
-            if (c.permanent) {
+            if (c.permanent!) {
                 baseStats = baseStats + c.statMods
             }
             else {
@@ -140,56 +167,41 @@ class ThisCharacter: Entity, Updatable {
         }
     }
 
-    ///////////////////
-    //Projectile Methods
     func fireProjectile(withVelocity:CGVector) {
-        if (inventory.getItem(inventory.weaponIndex) != nil) {
-            let newProjectile = Projectile(withID: inventory.getItem(inventory.weaponIndex)!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: inventory.getItem(inventory.weaponIndex)!.range, withAtk: self.currStats.attack)
+        if (weapon != nil) {
+            let newProjectile = Projectile(withID: weapon!.projectile!, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range!, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects!)
             GameLogic.addObject(newProjectile)
         }
     }
 
     
-    //////////////////
-    //Update
-
-   
     func update(deltaT:Double) {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300) {
-            let weapon = inventory.getItem(inventory.weaponIndex)!
-            fireProjectile(CGVector(dx: weapon.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon.projectileSpeed*sin(UIElements.RightJoystick!.angle)))
+            fireProjectile(CGVector(dx: weapon!.projectileSpeed!*cos(UIElements.RightJoystick!.angle), dy: -weapon!.projectileSpeed!*sin(UIElements.RightJoystick!.angle)))
             timeSinceProjectile = 0
         }
         else {
             timeSinceProjectile += deltaT
         }
-        
-        self.physicsBody!.velocity = CGVector(dx: 5*UIElements.LeftJoystick!.displacement.dx, dy: 5*UIElements.LeftJoystick!.displacement.dy)
+
+        self.physicsBody?.velocity = CGVector(dx: 5*UIElements.LeftJoystick!.displacement.dx, dy: 5*UIElements.LeftJoystick!.displacement.dy)
     }
 }
 
 
-
-
 class Enemy:Entity, Updatable{
-    var currStats:Stats
-    var baseStats:Stats
-    
-    private var inventory:Inventory
+
     private var AI:EnemyAI?
     
     init(thisEnemy:AEXMLElement, atPosition:CGPoint) {
-        baseStats = Stats.statsFrom(thisEnemy)
-        currStats = baseStats
-        inventory = Inventory(fromElement: thisEnemy["inventory"])
-        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue))
+        let _baseStats = Stats.statsFrom(thisEnemy)
+        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withCurrStats: _baseStats, withBaseStats: _baseStats, withInventory: Inventory(fromElement: thisEnemy["inventory"]))
         AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
-        physicsBody = SKPhysicsBody()
-        physicsBody?.categoryBitMask = PhysicsCategory.Enemy
-        physicsBody?.contactTestBitMask = PhysicsCategory.FriendlyProjectile
-        physicsBody?.collisionBitMask = PhysicsCategory.None
+        physicsBody = SKPhysicsBody(circleOfRadius: 10)
+        physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
+        physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
+        physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         position = atPosition
-        zPosition = 4
     }
     
 
@@ -213,15 +225,13 @@ class Enemy:Entity, Updatable{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func projectileEnteredRadius() {
+    override func struckByProjectile(p:Projectile) {
         
     }
     
     func fireProjectile(atAngle:CGFloat) {
-        if (inventory.getItem(inventory.weaponIndex) != nil) {
-            let weapon = inventory.getItem(inventory.weaponIndex)!
-            let newProjectile = Projectile(withID: weapon.projectile, fromPoint: position, withVelocity: CGVector(dx: weapon.projectileSpeed*cos(atAngle), dy: weapon.projectileSpeed*sin(atAngle)), isFriendly: true, withRange:weapon.range, withAtk: self.currStats.attack)
-        
+        if (weapon != nil) {
+            let newProjectile = Projectile(withID: weapon!.projectile!, fromPoint: position, withVelocity: CGVector(dx: weapon!.projectileSpeed!*cos(atAngle), dy: weapon!.projectileSpeed!*sin(atAngle)), isFriendly: false, withRange:weapon!.range!, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects!)
             //TODO: check if projectiles can be shot etc
             GameLogic.addObject(newProjectile)
         }
@@ -248,7 +258,7 @@ class Enemy:Entity, Updatable{
         AI?.update(deltaT)
     }
     
-    func die() {
+    override func die() {
         //do some kind of animation
         //drop inventory
         removeFromParent()

@@ -5,64 +5,106 @@
 //  Created by Sid Mani on 1/29/16.
 //
 //
-
-class Level:SKNode, Updatable { //level is just a map with attributes etc
-    private var map:SKATiledMap
+class BaseLevel:SKNode {
+    struct LayerDef {
+        static let Lighting:CGFloat = 8
+        static let Effects:CGFloat = 7
+        static let MapAbovePlayer:CGFloat = 6
+        static let Projectiles:CGFloat = 5
+        static let Entity:CGFloat = 4
+        static let MapObjects:CGFloat = 3.5
+        static let MapTop:CGFloat = 3
+    }
     var startLoc:CGPoint
-    var objects = SKNode()
-    var desc:String = ""
-    var mapWidthOnScreen:Int
-    var mapHeightOnScreen:Int
     var tileEdge:CGFloat
+    var levelName:String
+    var desc:String
+    var mapSizeOnScreen: CGSize
+    
+    init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSize:CGSize) {
+        startLoc = _startLoc
+        tileEdge = _tileEdge
+        desc = description
+        levelName = _name
+        mapSizeOnScreen = mapSize
+        super.init()
+    }
+    func indexForPoint(p:CGPoint) -> CGPoint {
+        fatalError("must be overriden")
+    }
+    func cull(x:Int, y:Int, width:Int, height:Int) {
+        fatalError("must be overriden")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class MapLevel:BaseLevel, Updatable {
+    private var map:SKATiledMap
+    private var objects = SKNode()
     var collisionBodies = SKNode()
+    
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
-        startLoc = _startLoc
-        mapWidthOnScreen = Int(screenSize.width/CGFloat(map.tileWidth))
-        mapHeightOnScreen = Int(screenSize.height/CGFloat(map.tileHeight))
-        tileEdge = CGFloat(map.tileWidth)
-        super.init()
-        name = _name
+        let mapSize = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
+        super.init(_startLoc: _startLoc, _name: _name, description:"", _tileEdge: CGFloat(map.tileWidth), mapSize: mapSize)
+        
         self.addChild(map)
         self.addChild(objects)
-        self.zPosition = 0 //TODO: map layers
+        if (map.spriteLayers.count > 1) {
+            for i in 0..<map.spriteLayers.count-1 {
+                (map.spriteLayers[i] as! SKNode).zPosition = LayerDef.MapTop - CGFloat(map.spriteLayers.count) + CGFloat(i)
+            }
+            (map.spriteLayers[map.spriteLayers.count-1] as! SKNode).zPosition = LayerDef.MapAbovePlayer
+        }
+        else {
+            map.zPosition = LayerDef.MapTop
+        }
         self.physicsBody = SKPhysicsBody()
-        self.physicsBody?.pinned = true
+        self.physicsBody?.dynamic = false
+        self.zPosition = 0
+
         objects.physicsBody = SKPhysicsBody()
-        objects.physicsBody?.pinned = true
-        objects.zPosition = 1
-        for l in 0..<map.spriteLayers.count {
+        objects.physicsBody?.dynamic = false
+        objects.zPosition = LayerDef.MapObjects
+        
+        for l in 0..<map.spriteLayers.count { //should be able to delete this if Tiled collisions are fixed
             for x in 0..<map.mapWidth {
                 for y in 0..<map.mapHeight {
-                    let sprite:SKASprite = map.spriteOnLayer(l, indexX: x, indexY: y)
-                    if (sprite.properties != nil) {
-                        if (sprite.properties["CollisionRects"]!.boolValue! == true) {
-                            print("collision rects")
-                        var bodies:[SKPhysicsBody] = []
-                        if (sprite.properties["NorthImpassable"]!.boolValue! == true) {
-                            print("north blocked")
-                            bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, sprite.size.height/2)))
-                        }
-                        if (sprite.properties["WestImpassable"]?.stringValue == "true") {
+                    let _sprite:SKASprite? = map.spriteOnLayer(l, indexX: x, indexY: y)
+                    if (_sprite != nil && _sprite!.properties != nil) {
+                        let sprite:SKASprite = _sprite!
+                            var bodies:[SKPhysicsBody] = []
+                            if (sprite.properties["NorthImpassable"] != nil && sprite.properties["NorthImpassable"]!.boolValue! == true) {
+
+                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, sprite.size.height/2)))
+                            }
+                            if (sprite.properties["WestImpassable"] != nil && sprite.properties["WestImpassable"]!.boolValue! == true) {
+                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: 0.1, height: sprite.size.height), center: CGPointMake(-sprite.size.width/2, 0)))
+
+                            }
+                            if (sprite.properties["EastImpassable"] != nil && sprite.properties["EastImpassable"]!.boolValue! == true) {
+                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: 0.1, height: sprite.size.height), center: CGPointMake(sprite.size.width/2, 0)))
+
+                            }
+                            if (sprite.properties["SouthImpassable"] != nil && sprite.properties["SouthImpassable"]!.boolValue! == true) {
+                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, -sprite.size.height/2)))
+
+                            }
                             
-                        }
-                        if (sprite.properties["EastImpassable"]?.stringValue == "true") {
-                            
-                        }
-                        if (sprite.properties["SouthImpassable"]?.stringValue == "true") {
-                            
-                        }
-                        let newCollisionSprite = SKSpriteNode(color: UIColor.redColor(), size: sprite.size)
-                        newCollisionSprite.zPosition = CGFloat(l)
-                        newCollisionSprite.position = sprite.position
-                        newCollisionSprite.physicsBody = SKPhysicsBody(bodies: bodies)
-                        newCollisionSprite.physicsBody?.dynamic = false
-                        newCollisionSprite.physicsBody?.pinned = true
-                        newCollisionSprite.physicsBody?.categoryBitMask = PhysicsCategory.MapBoundary
-                        newCollisionSprite.physicsBody?.collisionBitMask = PhysicsCategory.None
-                        newCollisionSprite.physicsBody?.contactTestBitMask = PhysicsCategory.None
-                        collisionBodies.addChild(newCollisionSprite)
-                        }
+                            let newCollisionSprite = SKSpriteNode(color: UIColor.clearColor(), size: sprite.size)
+                            newCollisionSprite.zPosition = CGFloat(l)
+                            newCollisionSprite.position = sprite.position
+                            newCollisionSprite.physicsBody = SKPhysicsBody(bodies: bodies)
+                            newCollisionSprite.physicsBody?.dynamic = false
+                            newCollisionSprite.physicsBody?.restitution = 0
+                            newCollisionSprite.physicsBody?.pinned = true
+                            newCollisionSprite.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
+                            newCollisionSprite.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
+                            newCollisionSprite.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
+                            collisionBodies.addChild(newCollisionSprite)
                     }
                 }
             }
@@ -70,6 +112,7 @@ class Level:SKNode, Updatable { //level is just a map with attributes etc
         self.addChild(collisionBodies)
 
     }
+    
     convenience init (withID:String) {
         ///Load level from XML
         var thisLevel:AEXMLElement
@@ -98,14 +141,13 @@ class Level:SKNode, Updatable { //level is just a map with attributes etc
                 print("unsupported map object type")
             }
         }
-
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func indexForPoint(p:CGPoint) -> CGPoint {
+    override func indexForPoint(p:CGPoint) -> CGPoint {
         return map.indexForPoint(p)
     }
     
@@ -113,8 +155,12 @@ class Level:SKNode, Updatable { //level is just a map with attributes etc
         return false
     }
     
-    func cull(x:Int, y:Int, width:Int, height:Int) {
+    override func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
+    }
+    
+    func addObject(o:MapObject) {
+        objects.addChild(o)
     }
     
     func update(deltaT: Double) {
@@ -124,4 +170,5 @@ class Level:SKNode, Updatable { //level is just a map with attributes etc
             }
         }
     }
+    
 }
