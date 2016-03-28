@@ -46,6 +46,7 @@
 		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
 		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
 		1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CF03B1C9262F600B00AB7 /* AI.swift */; };
+		1F689EF51CA9990C00F6C3FE /* ModeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F689EF41CA9990C00F6C3FE /* ModeMenuViewController.swift */; };
 		1F8FEA461C8125E8003794D3 /* ProceduralLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8FEA451C8125E7003794D3 /* ProceduralLevel.swift */; };
 		1F8FEA481C815CB5003794D3 /* Stairs.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FEA471C815CB5003794D3 /* Stairs.png */; };
 		1F8FEA4A1C815CC6003794D3 /* Cliffs.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FEA491C815CC6003794D3 /* Cliffs.png */; };
@@ -126,6 +127,7 @@
 		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
 		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
 		1F5CF03B1C9262F600B00AB7 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
+		1F689EF41CA9990C00F6C3FE /* ModeMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModeMenuViewController.swift; sourceTree = "<group>"; };
 		1F8FEA451C8125E7003794D3 /* ProceduralLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralLevel.swift; sourceTree = "<group>"; };
 		1F8FEA471C815CB5003794D3 /* Stairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Stairs.png; path = Resources/Stairs.png; sourceTree = "<group>"; };
 		1F8FEA491C815CC6003794D3 /* Cliffs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Cliffs.png; path = Resources/Cliffs.png; sourceTree = "<group>"; };
@@ -257,12 +259,9 @@
 		1F4DB7C21C44A54600887FBC /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				1F689EF31CA998F200F6C3FE /* ViewControllers */,
 				1F2CEE151C387B1F00E4FB2E /* LaunchScreen.storyboard */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
-				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
-				1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */,
-				1F0428961C8367B400FB4516 /* InventoryViewController.swift */,
-				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
 				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
@@ -374,6 +373,18 @@
 				1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1F689EF31CA998F200F6C3FE /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
+				1F689EF41CA9990C00F6C3FE /* ModeMenuViewController.swift */,
+				1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */,
+				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
+				1F0428961C8367B400FB4516 /* InventoryViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		1FD105C41C87D67300C9F624 /* Items */ = {
@@ -529,6 +540,7 @@
 				1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */,
 				1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */,
 				1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */,
+				1F689EF51CA9990C00F6C3FE /* ModeMenuViewController.swift in Sources */,
 				1F4686151C5C50AD004D3F55 /* Level.swift in Sources */,
 				1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */,
 				1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */,

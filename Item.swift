@@ -95,21 +95,25 @@ class Weapon: Item {
     }
 
 }
+
 class Skill: Item {
     override init(thisItem: AEXMLElement) {
         super.init(thisItem: thisItem)
     }
 }
+
 class Shield: Item {
     override init(thisItem: AEXMLElement) {
         super.init(thisItem: thisItem)
     }
 }
+
 class Enhancer: Item {
     override init(thisItem: AEXMLElement) {
         super.init(thisItem: thisItem)
     }
 }
+
 class Consumable: Item {
     var permanent:Bool
     override init(thisItem:AEXMLElement) {

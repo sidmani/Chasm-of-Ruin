@@ -19,12 +19,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YR-dd-PT4">
+                                <rect key="frame" x="275" y="285" width="50" height="30"/>
+                                <state key="normal" title="Credits"/>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY">
-                                <rect key="frame" x="264" y="241" width="73" height="30"/>
-                                <state key="normal" title="Join Game"/>
+                                <rect key="frame" x="284" y="247" width="33" height="30"/>
+                                <state key="normal" title="Play!"/>
                                 <connections>
                                     <action selector="joinButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="hsn-Oe-aZb"/>
-                                    <segue destination="MLO-tX-9Zl" kind="presentation" modalTransitionStyle="crossDissolve" id="qI1-Lu-2ay"/>
+                                    <segue destination="5vf-gr-VTe" kind="show" id="9tP-PL-Rz5"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -33,7 +37,59 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="401" y="567"/>
+            <point key="canvasLocation" x="-252" y="496"/>
+        </scene>
+        <!--Mode Menu View Controller-->
+        <scene sceneID="4uA-Df-Fyq">
+            <objects>
+                <viewController id="5vf-gr-VTe" customClass="ModeMenuViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Sgr-ri-3Sm"/>
+                        <viewControllerLayoutGuide type="bottom" id="3gh-5t-apB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="02C-vQ-PEm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oSl-oc-6OV">
+                                <rect key="frame" x="274" y="425" width="52" height="30"/>
+                                <state key="normal" title="Tutorial"/>
+                                <connections>
+                                    <action selector="TutorialModeSelected" destination="5vf-gr-VTe" eventType="touchUpInside" id="KUl-ZF-tK5"/>
+                                    <segue destination="MLO-tX-9Zl" kind="show" id="EOK-tb-OL9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jor-im-Hcc">
+                                <rect key="frame" x="128" y="212" width="52" height="30"/>
+                                <state key="normal" title="Explore"/>
+                                <connections>
+                                    <action selector="ExploreModeSelected" destination="5vf-gr-VTe" eventType="touchUpInside" id="wuH-LC-fGo"/>
+                                    <segue destination="MLO-tX-9Zl" kind="show" id="suQ-xz-A39"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7D-PR-EYt">
+                                <rect key="frame" x="418" y="212" width="51" height="30"/>
+                                <state key="normal" title="Survive"/>
+                                <connections>
+                                    <action selector="SurviveModeSelected" destination="5vf-gr-VTe" eventType="touchUpInside" id="kbL-lU-V4b"/>
+                                    <segue destination="MLO-tX-9Zl" kind="show" id="rSU-Rl-4n8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gke-cy-NRg">
+                                <rect key="frame" x="527" y="20" width="46" height="30"/>
+                                <state key="normal" title="Return"/>
+                                <connections>
+                                    <segue destination="yr2-XR-Rlj" kind="unwind" unwindAction="exitModeMenu:" id="UtK-Hi-IwE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z1T-KY-960" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="yr2-XR-Rlj" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="403" y="496"/>
         </scene>
         <!--InGame-->
         <scene sceneID="GMw-B6-Bhm">
@@ -66,14 +122,6 @@
                                     <segue destination="vb3-7V-c1Z" kind="presentation" id="JJd-2I-DG8"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h">
-                                <rect key="frame" x="60" y="440" width="64" height="30"/>
-                                <state key="normal" title="Inventory"/>
-                                <connections>
-                                    <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
-                                    <segue destination="CGb-Sh-tvY" kind="presentation" identifier="InGameToInventory" id="rS0-84-0BE"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dvb-ey-rYt">
                                 <rect key="frame" x="487" y="440" width="53" height="30"/>
                                 <state key="normal" title="Interact"/>
@@ -90,6 +138,14 @@
                                     <constraint firstAttribute="height" constant="100" id="NRS-Ss-T4B"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h">
+                                <rect key="frame" x="60" y="440" width="64" height="30"/>
+                                <state key="normal" title="Inventory"/>
+                                <connections>
+                                    <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
+                                    <segue destination="CGb-Sh-tvY" kind="presentation" identifier="InGameToInventory" id="rS0-84-0BE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -122,7 +178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbL-Y6-bd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1102" y="566"/>
+            <point key="canvasLocation" x="1158" y="496"/>
         </scene>
         <!--Inventory View Controller-->
         <scene sceneID="X8T-87-8dq">
@@ -356,5 +412,8 @@
             <point key="canvasLocation" x="1914" y="567"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="EOK-tb-OL9"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>
 </document>

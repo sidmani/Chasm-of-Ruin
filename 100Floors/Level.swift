@@ -29,6 +29,10 @@ class BaseLevel:SKNode {
         mapSizeOnScreen = mapSize
         super.init()
     }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func indexForPoint(p:CGPoint) -> CGPoint {
         fatalError("must be overriden")
     }
@@ -36,11 +40,9 @@ class BaseLevel:SKNode {
         fatalError("must be overriden")
     }
     func addObject(obj:MapObject) {
-        
+        fatalError("must be overriden")
     }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+  
 }
 
 class MapLevel:BaseLevel, Updatable {
@@ -149,17 +151,12 @@ class MapLevel:BaseLevel, Updatable {
         return map.indexForPoint(p)
     }
     
-    func validateMovement(toLoc:CGPoint) -> Bool {
-        return false
-    }
-    
     override func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
     }
     
     override func addObject(o:MapObject) {
         objects.addChild(o)
-        print("addobject called")
     }
     
     func update(deltaT: Double) {

@@ -1,31 +1,26 @@
 //
-//  MenuViewController
+//  ModeMenuViewController.swift
 //  100Floors
 //
-//  Created by Sid Mani on 1/2/16.
-//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//  Created by Sid Mani on 3/28/16.
+//
 //
 
+import Foundation
 import UIKit
 import SpriteKit
 
-class MenuViewController: UIViewController {
+class ModeMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        GameLogic.setGameState(.MainMenu)
     }
-  
     
     override func shouldAutorotate() -> Bool {
         return true
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
+       return .Landscape
     }
     
     override func didReceiveMemoryWarning() {
@@ -37,12 +32,15 @@ class MenuViewController: UIViewController {
         return true
     }
     
-    @IBAction func joinButton(sender: UIButton) {
-        
+    @IBAction func ExploreModeSelected() {
+        GameLogic.setMode(.Explore)
     }
     
-    @IBAction func exitModeMenu(segue:UIStoryboardSegue) {
-        
+    @IBAction func SurviveModeSelected() {
+        GameLogic.setMode(.Survive)
     }
-   
+    
+    @IBAction func TutorialModeSelected() {
+        GameLogic.setMode(.Tutorial)
+    }
 }

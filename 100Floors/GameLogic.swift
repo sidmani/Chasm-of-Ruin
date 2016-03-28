@@ -8,7 +8,7 @@
 
 import SpriteKit
 enum GameModes {
-    case Explore, Survive
+    case Explore, Survive, Tutorial
 }
 enum GameStates {
     case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene
@@ -95,20 +95,67 @@ let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
 
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
+    private static var currentGameMode:GameModes = .Survive
     private static var gameScene: InGameScene?
     static var currentInteractiveObject: Interactive?
    // static func loadSaveState() { //use this instead of setup?
         
    // }
     
-    static func setup(withScene: InGameScene) {
+    /*static func setup(withScene: InGameScene) {
         gameScene = withScene
         setLevel(MapLevel(withID: "0")) //this shouldn't be here
         thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Weapon(withID: "wep1"))
         thisCharacter.inventory.setItem(0, toItem: Weapon(withID: "wep2"))
         thisCharacter.inventory.setItem(1, toItem: Weapon(withID: "wep3"))
         gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
+    }*/
+    static func setMode(mode:GameModes) {
+        currentGameMode = mode
     }
+    static func setupGameMode(scene: InGameScene) {
+        gameScene = scene
+//        currentGameMode = mode
+        currentState = .InGame
+        if (currentGameMode == .Explore) {
+            //load save
+            //load last level
+            //display countdown
+        }
+        else if (currentGameMode == .Survive) {
+            //generate level
+            //set level to ^
+            //give character base equipment
+            //load stats from save
+            //display countdown
+        }
+        else if (currentGameMode == .Tutorial) {
+            
+        }
+        print(currentGameMode)
+    }
+    
+    static func runGameMode(previousLevel:BaseLevel?) {
+        if (currentGameMode == .Explore) {
+            if (previousLevel == nil) {
+                //start from level 1
+            }
+            else {
+                //start from previous level id +1
+            }
+            //no need to set new level, portal handles that
+            //save game
+            //award gold as necessary
+        }
+        else {
+            //generate new level
+            //set level
+            //display countdown timer
+            //award gold as necessary
+        }
+    }
+   
+    
     /////////////
     static func getCurrentState() -> GameStates {
         return currentState

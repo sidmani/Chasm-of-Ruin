@@ -36,7 +36,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera!.xScale = 0.3
         self.camera!.yScale = 0.3
         GameLogic.setGameState(.InGame)
-        GameLogic.setup(self)
+        GameLogic.setupGameMode(self)
         nonCharNodes.physicsBody = SKPhysicsBody()
         nonCharNodes.physicsBody!.affectedByGravity = false
         nonCharNodes.physicsBody!.friction = 0
