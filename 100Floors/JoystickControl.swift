@@ -12,18 +12,23 @@ import SpriteKit
 class JoystickControl:UIControl{
     let ring_size: CGFloat = 25
     let center_offset:CGFloat = 50
+    
     let ringView = UIView()
     let stickView = UIView()
-    let progressView = UIView()
+
     let ringLayer = CAShapeLayer()
     let stickLayer = CAShapeLayer()
-    let progressLayer = CAShapeLayer()
 
     var currentPoint = CGPoint(x:0, y:0)
-    var angle: CGFloat = 0
+   /* var angle: CGFloat {
+        return atan2(currentPoint.y, currentPoint.x)
+    }*/
     var distance: CGFloat = 0
     var displacement:CGVector {
-        return CGVectorMake(stickView.center.x, -1*stickView.center.y)
+        if (distance == 0) {
+            return CGVector(dx: 0, dy: 0)
+        }
+        return CGVectorMake(stickView.center.x/distance, -stickView.center.y/distance)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -42,51 +47,13 @@ class JoystickControl:UIControl{
         stickLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         stickLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         stickLayer.lineWidth = 2.0
-        //setup progress view
-        let progressPath = UIBezierPath(arcCenter: CGPoint(x:center_offset, y: center_offset), radius: ring_size+14, startAngle: CGFloat(0), endAngle: CGFloat(M_PI) * 2, clockwise: true)
-        progressLayer.path = progressPath.CGPath
-        progressLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0, blue: 0, alpha: 0.7).CGColor
-        //set up double tap gesture
-        let tap = UITapGestureRecognizer(target: self, action: #selector(JoystickControl.doubleTapped))
-        tap.numberOfTapsRequired = 2
-        self.addGestureRecognizer(tap)
-        let tap_single = UITapGestureRecognizer(target: self, action: #selector(JoystickControl.singleTapReset))
-        tap_single.numberOfTapsRequired = 1
-        self.addGestureRecognizer(tap_single)
         //add layer to views
         ringView.layer.addSublayer(ringLayer)
         stickView.layer.addSublayer(stickLayer)
-        progressView.layer.addSublayer(progressLayer)
-        
         //add views to main view
-        self.addSubview(progressView)
         self.addSubview(ringView)
         self.addSubview(stickView)
     }
-    ///////////////
-    ///////////////
-    ///////////////
-    func singleTapReset() {
-        stickView.center = CGPointMake(0, 0)
-        currentPoint = CGPoint(x:0, y:0)
-        distance = 0
-    }
-    
-    func doubleTapped() {
-        stickView.center = CGPointMake(0, 0)
-        currentPoint = CGPoint(x:0, y:0)
-        distance = 0
-        GameLogic.doubleTapTrigger(self)
-
-    }
-    ///////////////
-    ///////////////
-    ///////////////
-    func setProgress(toValue:CGFloat, withColorAdjust:CGFloat->CGColor) {
-        progressLayer.strokeEnd = toValue * CGFloat(M_PI) * 2
-        progressLayer.strokeColor = withColorAdjust(toValue)
-    }
-    ///////////////
     ///////////////
     ///////////////
 
@@ -96,15 +63,13 @@ class JoystickControl:UIControl{
             currentPoint = touch.locationInView(self)
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
-            angle = atan2(currentPoint.y, currentPoint.x)
-
             if (distance < ring_size) {
                 stickView.center = currentPoint
             }
             else
             {
+                stickView.center = ring_size*CGPointMake(currentPoint.x/distance, currentPoint.y/distance)
                 distance = ring_size
-                stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle))) //this can be optimized further
             }
         }
         super.touchesBegan(touches, withEvent: event)
@@ -116,14 +81,13 @@ class JoystickControl:UIControl{
             
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
-            angle = atan2(currentPoint.y, currentPoint.x)
             if (distance < ring_size) {
                 stickView.center = currentPoint
             }
             else
             {
+                stickView.center = ring_size*CGPointMake(currentPoint.x/distance, currentPoint.y/distance)
                 distance = ring_size
-                stickView.center = CGPoint(x: (ring_size * cos(angle)), y:  (ring_size * sin(angle)))
             }
         }
         super.touchesMoved(touches, withEvent: event)
@@ -133,9 +97,6 @@ class JoystickControl:UIControl{
             stickView.center = CGPoint(x: 0, y: 0)
             currentPoint = CGPoint(x:0, y:0)
             distance = 0
-            angle = 0
         super.touchesEnded(touches, withEvent: event)
     }
-    
-    
 }

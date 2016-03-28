@@ -176,14 +176,15 @@ class ThisCharacter: Entity, Updatable {
     
     func update(deltaT:Double) {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300 && weapon != nil) {
-            fireProjectile(CGVector(dx: weapon!.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon!.projectileSpeed*sin(UIElements.RightJoystick!.angle)))
+            //fireProjectile(CGVector(dx: weapon!.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: weapon!.projectileSpeed*sin(UIElements.RightJoystick!.angle)))
+            fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.displacement)
             timeSinceProjectile = 0
         }
         else {
             timeSinceProjectile += deltaT
         }
 
-        self.physicsBody?.velocity = CGVector(dx: 5*UIElements.LeftJoystick!.displacement.dx, dy: 5*UIElements.LeftJoystick!.displacement.dy)
+        self.physicsBody?.velocity = 50*UIElements.LeftJoystick!.displacement
     }
 }
 
@@ -228,9 +229,9 @@ class Enemy:Entity, Updatable{
         
     }
     
-    func fireProjectile(atAngle:CGFloat) {
+    func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: CGVector(dx: weapon!.projectileSpeed*cos(atAngle), dy: weapon!.projectileSpeed*sin(atAngle)), isFriendly: false, withRange:weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
+            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: weapon!.projectileSpeed*withVelocity, isFriendly: false, withRange:weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
             //TODO: check if projectiles can be shot etc
             GameLogic.addObject(newProjectile)
         }
@@ -248,6 +249,9 @@ class Enemy:Entity, Updatable{
             return 0
         }
     }
+   // func normalVectorToCharacter() -> CGVector {
+       
+   // }
     
     func update(deltaT:Double) {
         AI?.update(deltaT)

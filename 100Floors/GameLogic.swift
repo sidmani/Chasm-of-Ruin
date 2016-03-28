@@ -115,12 +115,17 @@ class GameLogic {
     }
     static func setupGameMode(scene: InGameScene) {
         gameScene = scene
-//        currentGameMode = mode
         currentState = .InGame
         if (currentGameMode == .Explore) {
             //load save
             //load last level
             //display countdown
+            setLevel(MapLevel(withID: "0")) //this shouldn't be here
+            thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Weapon(withID: "wep1"))
+            thisCharacter.inventory.setItem(0, toItem: Weapon(withID: "wep2"))
+            thisCharacter.inventory.setItem(1, toItem: Weapon(withID: "wep3"))
+            gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
+
         }
         else if (currentGameMode == .Survive) {
             //generate level
@@ -190,16 +195,6 @@ class GameLogic {
     }
     /////////////
     //UI Triggers
-    static func doubleTapTrigger(sender:JoystickControl) {
-        if (currentState == .InGame) {
-            if (sender == UIElements.LeftJoystick!) {
-            //rage attack
-            }
-            else {
-            //skill attack
-            }
-        }
-    }
     static func interactButtonPressed() {
         if (currentState == .InGame) {
             currentInteractiveObject?.trigger()
@@ -211,7 +206,6 @@ class GameLogic {
         thisCharacter.update(deltaT)
         updateNonCharNodes(deltaT)
         //updateUIElements()
-
     }
     private static func updateNonCharNodes(deltaT:Double) {
         for node in gameScene!.nonCharNodes.children {
@@ -265,7 +259,9 @@ class GameLogic {
 func *(left: CGFloat, right: CGPoint) -> CGPoint {
     return CGPoint(x: left*right.x, y: left*right.y)
 }
-
+func *(left: CGFloat, right: CGVector) -> CGVector {
+    return CGVector(dx: left*right.dx, dy: left*right.dy)
+}
 func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
     return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)
 }
