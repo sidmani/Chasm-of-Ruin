@@ -7,65 +7,28 @@
 //
 
 import SpriteKit
-// 5 basic kinds of item: weapon, skill, shield, enhancer, style
+// 6 basic kinds of item: weapon, skill, shield, enhancer, style
 // skill: skill move
 // weapon: fires projectiles
 // shield: boosts DEF and potentially decreases SPD
 // enhancer: boosts a stat while equipped
 // style: changes appearance
-enum ItemType {
-    case Weapon, Skill, Shield, Enhancer, Style, None
-    static func typeFromString(s:String) -> ItemType {
-        switch (s) {
-        case "Weapon":
-            return ItemType.Weapon
-        case "Skill":
-            return ItemType.Skill
-        case "Shield":
-            return ItemType.Shield
-        case "Enhancer":
-            return ItemType.Enhancer
-        case "Style":
-            return ItemType.Style
-        default:
-            fatalError("Item Type Error")
-        }
-    }
-}
+// consumable: gives temporary or permanent stat changes
+
 class Item {
     
     var statMods:Stats
     var name:String
     var description:String
     var node:SKSpriteNode
-    var type:ItemType
-    
-    var consumable:Bool
-    var permanent:Bool?
-    
-    var projectile:String?
-    var range:CGFloat?
-    var projectileSpeed:CGFloat?
-    var projectileReflects:Bool?
     
     init(thisItem: AEXMLElement) {
-        type = ItemType.typeFromString(thisItem["type"].stringValue)
         node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
         description = thisItem["desc"].stringValue
         name = thisItem["name"].stringValue
-        consumable = thisItem["consumable"].boolValue
-        if (consumable) {
-            permanent = thisItem["permanent"].boolValue
-        }
         statMods = Stats.statsFrom(thisItem)
-        if (type == ItemType.Weapon) {
-            projectile = thisItem["projectile-id"].stringValue
-            range = CGFloat(thisItem["range"].doubleValue)
-            projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
-            projectileReflects = thisItem["projectile-reflects"].boolValue
-        }
     }
-    
+
     convenience init(withID:String) {
         var thisItem:AEXMLElement
         if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
@@ -81,7 +44,79 @@ class Item {
         }
         self.init(thisItem:thisItem)
     }
+    
+    static func initHandler(fromElement:AEXMLElement) -> Item? {
+        switch (fromElement["type"].stringValue) {
+        case "Weapon":
+            return Weapon(thisItem: fromElement)
+        case "Consumable":
+            return Consumable(thisItem: fromElement)
+        case "Skill":
+            return Skill(thisItem: fromElement)
+        case "Shield":
+            return Shield(thisItem: fromElement)
+        case "Enhancer":
+            return Enhancer(thisItem: fromElement)
+        case "Style":
+            return nil
+        default:
+            return nil
+        }
+    }
+    static func initHandler(withID:String) -> Item? {
+        var thisItem:AEXMLElement
+        if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
+            if (items.count != 1) {
+                fatalError("Item ID error")
+            }
+            else {
+                thisItem = items[0]
+            }
+        }
+        else {
+            fatalError("Item Not Found")
+        }
+        return initHandler(thisItem)
+    }
 
 }
 
+class Weapon: Item {
+    var projectile:String
+    var range:CGFloat
+    var projectileSpeed:CGFloat
+    var projectileReflects:Bool
+    override init(thisItem:AEXMLElement) {
+        projectile = thisItem["projectile-id"].stringValue
+        range = CGFloat(thisItem["range"].doubleValue)
+        projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
+        projectileReflects = thisItem["projectile-reflects"].boolValue
+        super.init(thisItem: thisItem)
+    }
+
+}
+class Skill: Item {
+    override init(thisItem: AEXMLElement) {
+        super.init(thisItem: thisItem)
+    }
+}
+class Shield: Item {
+    override init(thisItem: AEXMLElement) {
+        super.init(thisItem: thisItem)
+    }
+}
+class Enhancer: Item {
+    override init(thisItem: AEXMLElement) {
+        super.init(thisItem: thisItem)
+    }
+}
+class Consumable: Item {
+    var permanent:Bool
+    override init(thisItem:AEXMLElement) {
+        permanent = thisItem["permanent"].boolValue
+        super.init(thisItem: thisItem)
+
+    }
+    
+}
 

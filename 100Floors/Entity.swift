@@ -70,17 +70,17 @@ class Entity:SKSpriteNode {
     var baseStats:Stats
     var inventory:Inventory
     
-    private var weapon:Item? {
-        return inventory.getItem(inventory.weaponIndex)
+    private var weapon:Weapon? {
+        return inventory.getItem(inventory.weaponIndex) as? Weapon
     }
     private var skill:Item? {
-        return inventory.getItem(inventory.skillIndex)
+        return inventory.getItem(inventory.skillIndex) as? Skill
     }
     private var shield:Item? {
-        return inventory.getItem(inventory.shieldIndex)
+        return inventory.getItem(inventory.shieldIndex) as? Shield
     }
     private var enhancer:Item? {
-        return inventory.getItem(inventory.enhancerIndex)
+        return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
     
     init(fromTexture: SKTexture, withCurrStats:Stats, withBaseStats:Stats, withInventory:Inventory)
@@ -129,7 +129,8 @@ class ThisCharacter: Entity, Updatable {
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
-        self.position = screenCenter
+        self.position = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
+
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -154,9 +155,9 @@ class ThisCharacter: Entity, Updatable {
     //ITEM HANDLER METHODS
     func consumeItem(c:Item)
     {
-        if (c.consumable)
+        if let consumable = c as? Consumable
         {
-            if (c.permanent!) {
+            if (consumable.permanent) {
                 baseStats = baseStats + c.statMods
             }
             else {
@@ -167,7 +168,7 @@ class ThisCharacter: Entity, Updatable {
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(withID: weapon!.projectile!, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range!, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects!)
+            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
             GameLogic.addObject(newProjectile)
         }
     }
@@ -175,7 +176,7 @@ class ThisCharacter: Entity, Updatable {
     
     func update(deltaT:Double) {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300 && weapon != nil) {
-            fireProjectile(CGVector(dx: weapon!.projectileSpeed!*cos(UIElements.RightJoystick!.angle), dy: -weapon!.projectileSpeed!*sin(UIElements.RightJoystick!.angle)))
+            fireProjectile(CGVector(dx: weapon!.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: -weapon!.projectileSpeed*sin(UIElements.RightJoystick!.angle)))
             timeSinceProjectile = 0
         }
         else {
@@ -229,15 +230,11 @@ class Enemy:Entity, Updatable{
     
     func fireProjectile(atAngle:CGFloat) {
         if (weapon != nil) {
-            let newProjectile = Projectile(withID: weapon!.projectile!, fromPoint: position, withVelocity: CGVector(dx: weapon!.projectileSpeed!*cos(atAngle), dy: weapon!.projectileSpeed!*sin(atAngle)), isFriendly: false, withRange:weapon!.range!, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects!)
+            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: CGVector(dx: weapon!.projectileSpeed*cos(atAngle), dy: weapon!.projectileSpeed*sin(atAngle)), isFriendly: false, withRange:weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
             //TODO: check if projectiles can be shot etc
             GameLogic.addObject(newProjectile)
         }
     }
-
-//    func validateMoveTo(point:CGPoint) -> Bool {
-//        return false
-//    }
     
     func distanceToCharacter() -> CGFloat {
         return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)

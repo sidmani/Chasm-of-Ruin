@@ -42,15 +42,15 @@ class Inventory {
             for item in fromElement["item"].all! {
                 switch (item.attributes["index"]!) {
                 case "weapon":
-                    self.setItem(weaponIndex, toItem: Item(withID: item.stringValue))
+                    self.setItem(weaponIndex, toItem: Weapon(withID: item.stringValue))
                 case "shield":
-                    self.setItem(shieldIndex, toItem: Item(withID: item.stringValue))
+                    self.setItem(shieldIndex, toItem: Shield(withID: item.stringValue))
                 case "skill":
-                    self.setItem(skillIndex, toItem: Item(withID: item.stringValue))
+                    self.setItem(skillIndex, toItem: Skill(withID: item.stringValue))
                 case "enhancer":
-                    self.setItem(enhancerIndex, toItem: Item(withID: item.stringValue))
+                    self.setItem(enhancerIndex, toItem: Enhancer(withID: item.stringValue))
                 default:
-                self.setItem(Int(item.attributes["index"]!)!, toItem: Item(withID: item.stringValue))
+                    self.setItem(Int(item.attributes["index"]!)!, toItem: Item.initHandler(item.stringValue))
                 }
             }
         }
@@ -79,22 +79,22 @@ class Inventory {
         }
         switch(atIndex) {
         case enhancerIndex:
-            if (toItem != nil && toItem!.type != .Enhancer) {
+            if (toItem != nil && !(toItem! is Enhancer)) {
                 return toItem
             }
             break
         case weaponIndex:
-            if (toItem != nil && toItem!.type != .Weapon) {
+            if (toItem != nil && !(toItem! is Weapon)) {
                 return toItem
             }
             break
         case shieldIndex:
-            if (toItem != nil && toItem!.type != .Shield) {
+            if (toItem != nil && !(toItem! is Shield)) {
                 return toItem
             }
             break
         case skillIndex:
-            if (toItem != nil && toItem!.type != .Skill) {
+            if (toItem != nil && !(toItem! is Skill)) {
                 return toItem
             }
             break

@@ -14,14 +14,15 @@ class ItemContainer:UIControl {
     var item:Item?
     var correspondsToInventoryIndex:Int = -1
     var droppedAt:CGPoint = CGPointZero
-    var itemTypeRestriction:ItemType = .None
-    var itemType:ItemType {
+    var itemTypeRestriction:Any.Type = Any.self
+    
+    var itemType:Any.Type {
         get {
             if (item == nil) {
-                return .None
+                return Any.self
             }
             else {
-                return item!.type
+                return item!.dynamicType
             }
         }
     }
@@ -54,7 +55,7 @@ class ItemContainer:UIControl {
         }
     }
     func swappableWith(container:ItemContainer) -> Bool {
-        return (self.itemTypeRestriction == .None || self.itemTypeRestriction == container.itemType || container.itemType == .None) && (container.itemTypeRestriction == .None || container.itemTypeRestriction == self.itemType || self.itemType == .None)
+        return (self.itemTypeRestriction == Any.self || self.itemTypeRestriction == container.itemType || container.itemType == Any.self) && (container.itemTypeRestriction == Any.self || container.itemTypeRestriction == self.itemType || self.itemType == Any.self)
     }
     
     func setItem(newItem:Item?) -> Item?
@@ -76,7 +77,7 @@ class ItemContainer:UIControl {
         return oldItem
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        superview!.bringSubviewToFront(self)
+        superview?.bringSubviewToFront(self)
         super.touchesBegan(touches, withEvent: event)
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {

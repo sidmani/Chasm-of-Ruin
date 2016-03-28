@@ -9,6 +9,7 @@ class InventoryViewController: UIViewController {
 
     @IBOutlet weak var NameLabel: UILabel!
     @IBOutlet weak var DescriptionLabel: UILabel!
+    
     @IBOutlet weak var Container1: ItemContainer!
     @IBOutlet weak var Container2: ItemContainer!
     @IBOutlet weak var Container3: ItemContainer!
@@ -17,10 +18,12 @@ class InventoryViewController: UIViewController {
     @IBOutlet weak var Container6: ItemContainer!
     @IBOutlet weak var Container7: ItemContainer!
     @IBOutlet weak var Container8: ItemContainer!
+    
     @IBOutlet weak var WeaponContainer: ItemContainer!
     @IBOutlet weak var ShieldContainer: ItemContainer!
     @IBOutlet weak var SkillContainer: ItemContainer!
     @IBOutlet weak var EnhancerContainer: ItemContainer!
+    
     @IBOutlet weak var GroundContainer: ItemContainer!
     
     var containers:[ItemContainer] = []
@@ -55,10 +58,10 @@ class InventoryViewController: UIViewController {
             GroundContainer.addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
             containers.append(GroundContainer)
         //}
-        WeaponContainer.itemTypeRestriction = .Weapon
-        ShieldContainer.itemTypeRestriction = .Shield
-        SkillContainer.itemTypeRestriction = .Skill
-        EnhancerContainer.itemTypeRestriction = .Enhancer
+        WeaponContainer.itemTypeRestriction = Weapon.self
+        ShieldContainer.itemTypeRestriction = Shield.self
+        SkillContainer.itemTypeRestriction = Skill.self
+        EnhancerContainer.itemTypeRestriction = Enhancer.self
     }
     
     @IBAction func itemDropped(containerA:ItemContainer) {
@@ -86,7 +89,7 @@ class InventoryViewController: UIViewController {
                             containerA.setItem(nil)
                             thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: nil)
                             
-                            GameLogic.withinInteractDistance(newBag)
+                            GameLogic.isWithinDistanceOf(newBag)
                             GameLogic.addObject(newBag)
                         }
                         else {

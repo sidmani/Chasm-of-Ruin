@@ -85,7 +85,7 @@ class Portal:MapObject, Interactive {
 }
 class ItemBag:MapObject, Interactive {
     var autotrigger:Bool = false
-    var item:Item?
+    var item:Item
     init(withItem: Item, loc:CGPoint) {
         item = withItem
         super.init(loc: loc)
@@ -97,7 +97,7 @@ class ItemBag:MapObject, Interactive {
     }
     convenience init (fromElement:AEXMLElement, withTileEdge:CGFloat) {
         let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
-        self.init(withItem: Item(withID: fromElement["itemID"].stringValue), loc:withTileEdge*loc)
+        self.init(withItem: Item.initHandler(fromElement["itemID"].stringValue)!, loc:withTileEdge*loc)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -110,10 +110,10 @@ class ItemBag:MapObject, Interactive {
     func setItem(toItem:Item?) {
         if (toItem == nil) {
             removeFromParent()
-            GameLogic.exitedInteractDistance()
+            GameLogic.isWithinDistanceOf(nil)
         }
         else {
-            item = toItem
+            item = toItem!
         }
     }
 }

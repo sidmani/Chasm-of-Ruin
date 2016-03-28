@@ -7,7 +7,9 @@
 //
 
 import SpriteKit
-
+enum GameModes {
+    case Explore, Survive
+}
 enum GameStates {
     case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene
 }
@@ -21,7 +23,6 @@ protocol Interactive {
 }
 
 let screenSize = UIScreen.mainScreen().bounds
-let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
 
 struct UIElements {
     static var LeftJoystick:JoystickControl?
@@ -92,22 +93,20 @@ let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
     
 }()
 
-//let saveXML: AEXMLDocument?
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene?
     static var currentInteractiveObject: Interactive?
-    static func loadSaveState() { //use this instead of setup?
+   // static func loadSaveState() { //use this instead of setup?
         
-    }
+   // }
     
     static func setup(withScene: InGameScene) {
         gameScene = withScene
-        //TODO: load save state xml
         setLevel(MapLevel(withID: "0")) //this shouldn't be here
-        thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Item(withID: "wep1"))
-        thisCharacter.inventory.setItem(0, toItem: Item(withID: "wep2"))
-        thisCharacter.inventory.setItem(1, toItem: Item(withID: "wep3"))
+        thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Weapon(withID: "wep1"))
+        thisCharacter.inventory.setItem(0, toItem: Weapon(withID: "wep2"))
+        thisCharacter.inventory.setItem(1, toItem: Weapon(withID: "wep3"))
         gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
     }
     /////////////
@@ -134,8 +133,10 @@ class GameLogic {
             UIElements.setVisible(false)
             gameScene?.paused = true
         case .MainMenu:
-            UIElements.setVisible(false)
-            gameScene?.paused = true
+            //UIElements.setVisible(false)
+            //gameScene?.paused = true
+            gameScene = nil
+            break
         default:
             break
         }
@@ -177,15 +178,9 @@ class GameLogic {
     }
     /////////////////////////
     static func addObject(p:SKNode) {
-       // if (currentState == .InGame) {
-            if let obj = p as? MapObject {
-                gameScene?.addMapObject(obj)
-            }
-            else {
-                gameScene?.addObject(p)
-            }
-      //  }
+        gameScene?.addObject(p)
     }
+    
     static func setLevel(l:BaseLevel) {
         if (currentState == .InGame) {
             gameScene?.setLevel(l)
@@ -194,7 +189,7 @@ class GameLogic {
     ///////
     static func usePortal(p:Portal) {
         if (p.levelType == 0) {
-            exitedInteractDistance()
+            isWithinDistanceOf(nil)
             setLevel(MapLevel(withID: p.destinationID))
         }
         else if (p.levelType == 1) {
@@ -203,19 +198,17 @@ class GameLogic {
     }
     
     ////called by didBeginContact() and didEndContact() in gameScene
-    static func withinInteractDistance(ofObject: Interactive) {
-        currentInteractiveObject = ofObject
-       // ofObject.display()
-        if (ofObject.autotrigger) {
-            ofObject.trigger()
+    static func isWithinDistanceOf(object:Interactive?) {
+        currentInteractiveObject = object
+        if (object == nil) {
+            UIElements.InteractButton?.setTitle("Interact", forState: UIControlState.Normal)
         }
         else {
             UIElements.InteractButton?.setTitle("Enter", forState: UIControlState.Normal) //TODO: use icons
+            if (object!.autotrigger) {
+                object!.trigger()
+            }
         }
-    }
-    static func exitedInteractDistance() {
-        currentInteractiveObject = nil
-        UIElements.InteractButton?.setTitle("Interact", forState: UIControlState.Normal)
     }
 }
 

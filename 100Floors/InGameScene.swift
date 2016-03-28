@@ -50,11 +50,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         /////// player contacts interactive object
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.withinInteractDistance(contact.bodyA.node as! Interactive)
+            GameLogic.isWithinDistanceOf(contact.bodyA.node as? Interactive)
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.withinInteractDistance(contact.bodyB.node as! Interactive)
+            GameLogic.isWithinDistanceOf(contact.bodyB.node as? Interactive)
             return
         }
         ////// player is hit by projectile
@@ -80,7 +80,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     func didEndContact(contact: SKPhysicsContact) {
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer || contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.exitedInteractDistance()
+            GameLogic.isWithinDistanceOf(nil)
             return
         }
     }
@@ -128,13 +128,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
    
     func addObject(node:SKNode) {
         if (node.parent == nil) {
-            nonCharNodes.addChild(node)
+            if let obj = node as? MapObject {
+                currentLevel?.addObject(obj)
+            }
+            else {
+                nonCharNodes.addChild(node)
+            }
         }
     }
-    func addMapObject(obj:MapObject) {
-        if (obj.parent == nil) {
-            currentLevel?.addObject(obj)
-        }
-    }
-
+    
 }
