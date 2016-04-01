@@ -21,12 +21,12 @@ class BaseLevel:SKNode {
     var desc:String
     var mapSizeOnScreen: CGSize
     
-    init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSize:CGSize) {
+    init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSizeOnScreen:CGSize) {
         startLoc = _startLoc
         tileEdge = _tileEdge
         desc = description
         levelName = _name
-        mapSizeOnScreen = mapSize
+        self.mapSizeOnScreen = mapSizeOnScreen
         super.init()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -53,7 +53,7 @@ class MapLevel:BaseLevel, Updatable {
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
         let mapSize = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
-        super.init(_startLoc: _startLoc, _name: _name, description:"", _tileEdge: CGFloat(map.tileWidth), mapSize: mapSize)
+        super.init(_startLoc: _startLoc, _name: _name, description:"", _tileEdge: CGFloat(map.tileWidth), mapSizeOnScreen: mapSize)
         
         self.addChild(map)
         self.addChild(objects)

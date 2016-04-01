@@ -36,15 +36,16 @@ class Spawner:MapObject, Updatable {
 }
 
 class Portal:MapObject, Interactive {
+    static let hubID = "Hub"
     var destinationID:String
     var autotrigger:Bool
     var enabled = true
-    var levelType:Int //0 - Map-based, 1 - Procedural
+    //var levelType:Int //0 - Map-based, 1 - Procedural
     //var destinationLoc:CGPoint // if different than the map's defined start loc.
     //var enabledTexture:String
     //var disabledTexture:String
-    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, type:Int) {
-        levelType = type
+    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool) {
+     //   levelType = type
         destinationID = _destinationID
         autotrigger = _autotrigger
       //  enabledTexture = _enabledTexture
@@ -60,8 +61,7 @@ class Portal:MapObject, Interactive {
         let loc = CGPointMake(CGFloat(fromXMLObject["loc"]["x"].doubleValue), CGFloat(fromXMLObject["loc"]["y"].doubleValue))
         let destID = fromXMLObject["dest-id"].stringValue
         let autotrigger = fromXMLObject["autotrigger"].boolValue
-        let type = fromXMLObject["level-type"].intValue
-        self.init(loc: withTileEdge*loc, _destinationID: destID, _autotrigger: autotrigger, type: type)
+        self.init(loc: withTileEdge*loc, _destinationID: destID, _autotrigger: autotrigger)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -7,7 +7,7 @@
 //
 
 import SpriteKit
-// 6 basic kinds of item: weapon, skill, shield, enhancer, style
+// 6 basic kinds of item: weapon, skill, shield, enhancer, style, consumable
 // skill: skill move
 // weapon: fires projectiles
 // shield: boosts DEF and potentially decreases SPD
@@ -119,7 +119,6 @@ class Consumable: Item {
     override init(thisItem:AEXMLElement) {
         permanent = thisItem["permanent"].boolValue
         super.init(thisItem: thisItem)
-
     }
     
 }

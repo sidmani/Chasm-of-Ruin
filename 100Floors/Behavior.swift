@@ -124,7 +124,7 @@ struct BehaviorExecutor {
                 let error = randomBetweenNumbers(-(1-params[1])*3.14, secondNum: (1-params[1])*3.14) //add or subtract random error
                 angle += error
             }
-            e.fireProjectile(angle) //fire projectile
+            e.fireProjectileAngle(angle) //fire projectile
             return true
         }
         return false

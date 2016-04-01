@@ -105,4 +105,10 @@ class Inventory {
         inventory[atIndex] = toItem
         return out
     }
+    func dropAllItems() -> [Item?] {
+        let size = inventory.count
+        let allItems = inventory
+        inventory = [Item?](count:size, repeatedValue: nil)
+        return allItems
+    }
 }

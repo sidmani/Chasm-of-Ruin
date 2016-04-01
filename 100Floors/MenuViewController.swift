@@ -3,7 +3,7 @@
 //  100Floors
 //
 //  Created by Sid Mani on 1/2/16.
-//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
 //
 
 import UIKit
@@ -36,13 +36,4 @@ class MenuViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-    @IBAction func joinButton(sender: UIButton) {
-        
-    }
-    
-    @IBAction func exitModeMenu(segue:UIStoryboardSegue) {
-        
-    }
-   
 }

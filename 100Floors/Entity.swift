@@ -8,6 +8,8 @@
 import SpriteKit
 
 struct Stats {
+    let numStats = 7
+    
     var health:CGFloat    // Health
     var defense:CGFloat   // Defense (% projectile is weakened by)
     var attack:CGFloat    // Attack (% own projectile is strengthened by)
@@ -16,28 +18,28 @@ struct Stats {
     var mana:CGFloat      // Mana (used when casting spells)
     var rage:CGFloat      // Boosts with combos
     
-    func getIndex(i:Int) -> CGFloat{
-        switch (i) {
+    func getIndex(index:Int) -> CGFloat{
+        switch (index) {
         case 0: return health
         case 1: return defense
         case 2: return attack
         case 3: return speed
         case 4: return dexterity
-        case 7: return mana
-        case 8: return rage
+        case 5: return mana
+        case 6: return rage
         default: return 0
         }
     }
     
-    mutating func setIndex(i:Int, toVal:CGFloat) {
-        switch (i) {
+    mutating func setIndex(index:Int, toVal:CGFloat) {
+        switch (index) {
         case 0: health = toVal
         case 1: defense = toVal
         case 2: attack = toVal
         case 3: speed = toVal
         case 4: dexterity = toVal
-        case 7: mana = toVal
-        case 8: rage = toVal
+        case 5: mana = toVal
+        case 6: rage = toVal
         default: break
         }
     }
@@ -52,9 +54,13 @@ struct Stats {
             mana: CGFloat(Element["Stats"]["mana"].doubleValue),
             rage: CGFloat(Element["Stats"]["rage"].doubleValue))
     }
-    func capAt(maxVal:CGFloat) {
-        
+    
+    mutating func capAt(maxVal:CGFloat) {
+        for i in 0..<numStats {
+            setIndex(i, toVal: max(getIndex(i), maxVal))
+        }
     }
+    
     static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
 }
 
@@ -69,7 +75,7 @@ class Entity:SKSpriteNode {
     var currStats:Stats
     var baseStats:Stats
     var inventory:Inventory
-    
+    private var textures:[SKTexture?] = [SKTexture?](count:4, repeatedValue:nil) //0 - north, 1 - east, 2 - south, 3 - west
     private var weapon:Weapon? {
         return inventory.getItem(inventory.weaponIndex) as? Weapon
     }
@@ -101,8 +107,18 @@ class Entity:SKSpriteNode {
     
     }
     
-    private func setImageOrientation() {
+    private func setImageOrientation(toAngle:CGFloat) {
+        let direction = Int((4 / 6.28) * toAngle)
+        
         // change image direction
+    }
+    
+    private func takeDamage(d:CGFloat) {
+        currStats.health -= d
+        if (currStats.health <= 0) {
+            currStats.health = 0
+            die()
+        }
     }
     
     func die() {
@@ -141,15 +157,17 @@ class ThisCharacter: Entity, Updatable {
         takeDamage(p.attack - currStats.defense)
     }
     //health/stats handling
-    private func takeDamage(d:CGFloat) {
+   /* private override func takeDamage(d:CGFloat) {
         currStats.health -= d
         if (currStats.health <= 0) {
             currStats.health = 0
             die()
         }
-    }
+    }*/
     override func die() {
-        
+        //lose all inventory and 1 random equipment
+        //save game
+        //display death screen
     }
     
     //ITEM HANDLER METHODS
@@ -176,7 +194,6 @@ class ThisCharacter: Entity, Updatable {
     
     func update(deltaT:Double) {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300 && weapon != nil) {
-            //fireProjectile(CGVector(dx: weapon!.projectileSpeed*cos(UIElements.RightJoystick!.angle), dy: weapon!.projectileSpeed*sin(UIElements.RightJoystick!.angle)))
             fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.displacement)
             timeSinceProjectile = 0
         }
@@ -185,8 +202,8 @@ class ThisCharacter: Entity, Updatable {
         }
 
         self.physicsBody?.velocity = 50*UIElements.LeftJoystick!.displacement
+        }
     }
-}
 
 
 class Enemy:Entity, Updatable{
@@ -237,6 +254,10 @@ class Enemy:Entity, Updatable{
         }
     }
     
+    func fireProjectileAngle(atAngle:CGFloat) {
+        fireProjectile(CGVectorMake(cos(atAngle), sin(atAngle)))
+    }
+    
     func distanceToCharacter() -> CGFloat {
         return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)
     }
@@ -249,9 +270,10 @@ class Enemy:Entity, Updatable{
             return 0
         }
     }
-   // func normalVectorToCharacter() -> CGVector {
-       
-   // }
+    func normalVectorToCharacter() -> CGVector {
+        let dist = distanceToCharacter()
+        return CGVectorMake((self.position.x - thisCharacter.position.x)/dist, (self.position.y - thisCharacter.position.y)/dist)
+    }
     
     func update(deltaT:Double) {
         AI?.update(deltaT)
@@ -259,7 +281,12 @@ class Enemy:Entity, Updatable{
     
     override func die() {
         //do some kind of animation
-        //drop inventory
+        for item in inventory.dropAllItems() {
+            if (item != nil) {
+                let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-20, secondNum: self.position.x+20), randomBetweenNumbers(self.position.y-20, secondNum: self.position.y+20))
+                GameLogic.addObject(ItemBag(withItem: item!, loc: newPoint))
+            }
+        } //drop inventory
         removeFromParent()
     }
     
