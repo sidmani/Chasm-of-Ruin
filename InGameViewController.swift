@@ -19,7 +19,6 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var MenuButton: UIButton!
     @IBOutlet weak var InventoryButton: UIButton!
-    @IBOutlet weak var InteractButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +28,8 @@ class InGameViewController: UIViewController {
         UIElements.HPBar = HPDisplayBar
         UIElements.MenuButton = MenuButton
         UIElements.InventoryButton = InventoryButton
-        UIElements.InteractButton = InteractButton
         //////////
+        GameLogic.setViewController(self)
         self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
         skView.showsFPS = true
@@ -39,30 +38,22 @@ class InGameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         let gameScene = InGameScene(size:skView.bounds.size)
         gameScene.scaleMode = .AspectFill
+        gameScene.view?.window?.rootViewController = self
         skView.presentScene(gameScene)
     }
     
-    @IBAction func interactButtonPressed(sender: UIButton) {
-        if (GameLogic.currentInteractiveObject is ItemBag) {
-            GameLogic.setGameState(.InventoryMenu)
-            blurView()
-            performSegueWithIdentifier("InGameToInventory", sender: self)
-        }
-        else {
-            GameLogic.interactButtonPressed()
-        }
-    }
     @IBAction func menuButtonPressed(sender: UIButton) {
         blurView()
         GameLogic.setGameState(.InGameMenu)
     }
  
-    @IBAction func inventoryButtonPressed(sender: UIButton) {
+    @IBAction func inventoryButtonPressed(sender: UIButton?) {
         blurView()
         GameLogic.setGameState(.InventoryMenu)
     }
+    
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
-        
+        GameLogic.setGameState(.InGame)
         for view:UIView in self.view.subviews {
             if let effectView = view as? UIVisualEffectView {
                 UIView.animateWithDuration(0.5, animations: {
@@ -71,10 +62,9 @@ class InGameViewController: UIViewController {
                     completion: {(finished:Bool) in
                         effectView.removeFromSuperview()
                 })
-                break
+                return
             }
         }
-        GameLogic.setGameState(.InGame)
     }
     
     private func blurView() {
@@ -92,10 +82,7 @@ class InGameViewController: UIViewController {
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        //if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             return .Landscape
-        //} else {
-        //}
     }
    
     override func didReceiveMemoryWarning() {

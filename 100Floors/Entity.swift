@@ -57,23 +57,39 @@ struct Stats {
     
     mutating func capAt(maxVal:CGFloat) {
         for i in 0..<numStats {
-            setIndex(i, toVal: max(getIndex(i), maxVal))
+            setIndex(i, toVal: min(getIndex(i), maxVal))
         }
     }
     
     static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
 }
 
-func +(left: Stats, right: Stats) -> Stats { // add Stats together
+/*func +(left: Stats, right: Stats) -> Stats { // add Stats together
     return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, mana: left.mana+right.mana, rage: left.rage + right.rage)
+}*/
+func +(left:Stats?, right:Stats?) -> Stats{
+    if (left != nil && right != nil) {
+        return Stats(health: left!.health + right!.health,  defense: left!.defense + right!.defense, attack: left!.attack + right!.attack, speed: left!.speed+right!.speed, dexterity: left!.dexterity + right!.dexterity, mana: left!.mana+right!.mana, rage: left!.rage + right!.rage)
+    }
+    else if (left != nil) {
+        return left!
+    }
+    else if (right != nil) {
+        return right!
+    }
+    else {
+        return Stats.nilStats
+    }
 }
-
 //////////////////////
 
 
 class Entity:SKSpriteNode {
     var currStats:Stats
     var baseStats:Stats
+    
+    var equipStats:Stats = Stats.nilStats
+    
     var inventory:Inventory
     private var textures:[SKTexture?] = [SKTexture?](count:4, repeatedValue:nil) //0 - north, 1 - east, 2 - south, 3 - west
     private var weapon:Weapon? {
@@ -95,6 +111,7 @@ class Entity:SKSpriteNode {
         baseStats = withBaseStats
         inventory = withInventory
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: fromTexture.size())
+        inventory.setParent(self)
         self.zPosition = BaseLevel.LayerDef.Entity
 
     }
@@ -125,6 +142,10 @@ class Entity:SKSpriteNode {
         
     }
     
+    func updateEquipStats() {
+        equipStats = weapon?.statMods + shield?.statMods + skill?.statMods + enhancer?.statMods
+    }
+    
 }
 
 //////////////////////
@@ -145,7 +166,7 @@ class ThisCharacter: Entity, Updatable {
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
-        self.position = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
+        self.position = screenCenter
 
     }
 
@@ -156,14 +177,7 @@ class ThisCharacter: Entity, Updatable {
     override func struckByProjectile(p:Projectile) {
         takeDamage(p.attack - currStats.defense)
     }
-    //health/stats handling
-   /* private override func takeDamage(d:CGFloat) {
-        currStats.health -= d
-        if (currStats.health <= 0) {
-            currStats.health = 0
-            die()
-        }
-    }*/
+
     override func die() {
         //lose all inventory and 1 random equipment
         //save game
@@ -263,15 +277,12 @@ class Enemy:Entity, Updatable{
     }
     
     func angleToCharacter() -> CGFloat {
-        if (self.position != thisCharacter.position) {
-            return atan2(thisCharacter.position.y - self.position.y, thisCharacter.position.x - self.position.x)
-        }
-        else {
-            return 0
-        }
+        return atan2(thisCharacter.position.y - self.position.y, thisCharacter.position.x - self.position.x)
     }
+    
     func normalVectorToCharacter() -> CGVector {
         let dist = distanceToCharacter()
+        if (dist == 0) { return CGVector.zero }
         return CGVectorMake((self.position.x - thisCharacter.position.x)/dist, (self.position.y - thisCharacter.position.y)/dist)
     }
     

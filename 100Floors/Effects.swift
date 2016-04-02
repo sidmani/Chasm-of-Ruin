@@ -22,7 +22,8 @@ class CountdownTimer:SKLabelNode {
         fontName = "Optima"
         fontSize = 72
         fontColor = UIColor.redColor()
-        self.text  = "\(currTime)"
+        text  = "\(currTime)"
+        zPosition = 100
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,19 +33,19 @@ class CountdownTimer:SKLabelNode {
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
     }
     func runTimer() {
-            currTime -= 1
-            if (currTime > 0) {
-                self.text = "\(currTime)"
-            }
-            else if (currTime == 0) {
-                self.text = finalText
-            }
-            else {
-                //do some animation
-                //callback
-                GameLogic.timerCallback()
-                timer?.invalidate()
-                self.removeFromParent()
-            }
+        if (currTime > 0) {
+            self.text = "\(currTime)"
+        }
+        else if (currTime == 0) {
+            self.text = finalText
+        }
+        else {
+            //do some animation
+            //callback
+            GameLogic.timerCallback()
+            timer?.invalidate()
+            self.removeFromParent()
+        }
+        currTime -= 1
     }
 }

@@ -46,6 +46,7 @@
 		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
 		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
 		1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CF03B1C9262F600B00AB7 /* AI.swift */; };
+		1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7415151CB03DA8000A2D48 /* Popup.swift */; };
 		1F8FEA481C815CB5003794D3 /* Stairs.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FEA471C815CB5003794D3 /* Stairs.png */; };
 		1F8FEA4A1C815CC6003794D3 /* Cliffs.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FEA491C815CC6003794D3 /* Cliffs.png */; };
 		1F9669FE1C6E6C88009B3971 /* Berry Garden@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */; };
@@ -127,6 +128,7 @@
 		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
 		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
 		1F5CF03B1C9262F600B00AB7 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
+		1F7415151CB03DA8000A2D48 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		1F8FEA471C815CB5003794D3 /* Stairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Stairs.png; path = Resources/Stairs.png; sourceTree = "<group>"; };
 		1F8FEA491C815CC6003794D3 /* Cliffs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Cliffs.png; path = Resources/Cliffs.png; sourceTree = "<group>"; };
 		1F9669FD1C6E6C88009B3971 /* Berry Garden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Berry Garden@2x.png"; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 		1F3D79C31C4B1C4B0036C680 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				1F7415151CB03DA8000A2D48 /* Popup.swift */,
 				1F56B97C1C4AEC8D0098380D /* SKAToolKit */,
 				1F4DB7C21C44A54600887FBC /* Interface */,
 				1F3D79C21C4B1C3C0036C680 /* Scenes */,
@@ -213,9 +216,9 @@
 				1FE667651CAE1AA3003BCE30 /* Effects.swift */,
 				1F4686141C5C50AD004D3F55 /* Level.swift */,
 				1FCE14BD1C45F02100112188 /* Item.swift */,
-				1FDA717B1CA754BB0064AA8B /* Enemy AI */,
 				1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */,
 				1F4854791C41853B008DDC8F /* GameLogic.swift */,
+				1FDA717B1CA754BB0064AA8B /* Enemy AI */,
 			);
 			name = "Game Logic";
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */,
 				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
 				1FE667661CAE1AA3003BCE30 /* Effects.swift in Sources */,
+				1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */,
 				1FCE14C21C46080600112188 /* Inventory.swift in Sources */,
 				1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */,
 				1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */,

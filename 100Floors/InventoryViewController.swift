@@ -29,35 +29,38 @@ class InventoryViewController: UIViewController {
     var containers:[ItemContainer] = []
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         containers = [Container1, Container2, Container3, Container4, Container5, Container6, Container7, Container8]
         containers.append(WeaponContainer)
         containers.append(ShieldContainer)
         containers.append(SkillContainer)
         containers.append(EnhancerContainer)
-        
-       
-        super.viewDidLoad()
-        var selected = false
-       // for (var i = 0; i < containers.count; i += 1) {
+        containers.append(GroundContainer)
+
+        var selected = 0
         for i in 0..<containers.count {
-            containers[i].setItem(thisCharacter.inventory.getItem(i))
-            if (!selected && containers[i].item != nil) {
-                containerSelected(containers[i])
-                selected = true
+            if (i == containers.count - 1) {
+                containers[i].setItem((GameLogic.currentInteractiveObject as? ItemBag)?.item)
+            }
+            else {
+                containers[i].setItem(thisCharacter.inventory.getItem(i))
+                containers[i].correspondsToInventoryIndex = i
+            }
+            if (containers[containers.count-i-1].item != nil) {
+                selected = containers.count-i-1
             }
             containers[i].addTarget(self, action: #selector(InventoryViewController.itemDropped(_:)), forControlEvents: .ApplicationReserved)
             containers[i].addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
-            containers[i].correspondsToInventoryIndex = i
         }
-        //if (!(GameLogic.currentInteractiveObject is ItemBag)) {
-            //GroundContainer.hidden = true
-        //}
-        //else {
-            GroundContainer.setItem((GameLogic.currentInteractiveObject as? ItemBag)?.item)
-            GroundContainer.addTarget(self, action: #selector(InventoryViewController.itemDropped(_:)), forControlEvents: .ApplicationReserved)
-            GroundContainer.addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
-            containers.append(GroundContainer)
-        //}
+     
+        if (GroundContainer.item != nil) {
+            containerSelected(GroundContainer)
+        }
+        else {
+            containerSelected(containers[selected])
+        }
+
         WeaponContainer.itemTypeRestriction = Weapon.self
         ShieldContainer.itemTypeRestriction = Shield.self
         SkillContainer.itemTypeRestriction = Skill.self
@@ -89,17 +92,17 @@ class InventoryViewController: UIViewController {
                             containerA.setItem(nil)
                             thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: nil)
                             
-                            GameLogic.isWithinDistanceOf(newBag)
+                            GameLogic.enteredDistanceOf(newBag as Interactive)
                             GameLogic.addObject(newBag)
                         }
                         else {
-                        let temp = (GameLogic.currentInteractiveObject as! ItemBag).item
-                        
-                        (GameLogic.currentInteractiveObject as! ItemBag).setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
-                        containerB.setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
-                        
-                        thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: temp)
-                        containerA.setItem(temp)
+                            let temp = (GameLogic.currentInteractiveObject as! ItemBag).item
+                            
+                            (GameLogic.currentInteractiveObject as! ItemBag).setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
+                            containerB.setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
+                            
+                            thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: temp)
+                            containerA.setItem(temp)
                         }
                         
                     }

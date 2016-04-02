@@ -69,13 +69,6 @@
                                     <segue destination="vb3-7V-c1Z" kind="presentation" id="JJd-2I-DG8"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dvb-ey-rYt">
-                                <rect key="frame" x="487" y="440" width="53" height="30"/>
-                                <state key="normal" title="Interact"/>
-                                <connections>
-                                    <action selector="interactButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="cj5-yR-ogY"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
                                 <rect key="frame" x="465" y="485" width="100" height="100"/>
                                 <color key="backgroundColor" red="0.83529411764705885" green="1" blue="0.81960784313725488" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -98,7 +91,6 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="CwZ-pI-Qun" secondAttribute="trailing" constant="25" id="2Gq-dk-xwA"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="9d2-oo-m9X" secondAttribute="bottom" constant="15" id="64R-gg-7lU"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Dvb-ey-rYt" secondAttribute="trailing" constant="40" id="IUe-Gz-UBT"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="leading" secondItem="8xQ-dL-goi" secondAttribute="leadingMargin" constant="15" id="MsG-SJ-iba"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CwZ-pI-Qun" secondAttribute="trailing" constant="15" id="OHF-eX-Rs6"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="CwZ-pI-Qun" secondAttribute="bottom" constant="15" id="ZCJ-Yh-Hov"/>
@@ -106,7 +98,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="7cs-Y9-J62" secondAttribute="trailing" constant="10" id="cbm-Ix-0Fm"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="bottom" constant="15" id="iJF-Tb-fsM"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="leading" secondItem="8xQ-dL-goi" secondAttribute="leadingMargin" constant="40" id="siR-x7-fTr"/>
-                            <constraint firstItem="CwZ-pI-Qun" firstAttribute="top" secondItem="Dvb-ey-rYt" secondAttribute="bottom" constant="15" id="y6c-gu-FVd"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -116,7 +107,6 @@
                     </view>
                     <connections>
                         <outlet property="HPDisplayBar" destination="vbj-Kt-bRo" id="vDn-hJ-WM1"/>
-                        <outlet property="InteractButton" destination="Dvb-ey-rYt" id="PZr-lZ-I8d"/>
                         <outlet property="InventoryButton" destination="ZZN-eM-M4h" id="u2l-8i-1mS"/>
                         <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
                         <outlet property="MenuButton" destination="7cs-Y9-J62" id="pic-p6-seH"/>

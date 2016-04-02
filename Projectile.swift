@@ -10,7 +10,7 @@ import SpriteKit
 class Projectile:SKSpriteNode, Updatable{
     var friendly: Bool
     var attack:CGFloat
-   
+    
     private var range: CGFloat
     private var startLoc: CGPoint
     private var _speed:CGFloat
@@ -45,26 +45,26 @@ class Projectile:SKSpriteNode, Updatable{
         self.physicsBody?.velocity = withVelocity
         
         if (isFriendly) {
-        self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
+            self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         }
         else {
-        self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.EnemyProjectile
+            self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.EnemyProjectile
         }
         
         if (self.reflects) {
-        self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
-        self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
-        self.physicsBody?.restitution = 1.0
+            self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
+            self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
+            self.physicsBody?.restitution = 1.0
         }
         else {
-        self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.MapBoundary
-        self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
-        self.physicsBody?.restitution = 0
+            self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.MapBoundary
+            self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
+            self.physicsBody?.restitution = 0
         }
         self.position = startLoc
         self.zPosition = BaseLevel.LayerDef.Projectiles
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -80,5 +80,5 @@ class Projectile:SKSpriteNode, Updatable{
             removeFromParent()
         }
     }
-  
+    
 }

@@ -66,7 +66,7 @@ class ItemContainer:UIControl {
             view.removeFromSuperview()
         }
         if (item != nil) {
-            let imageView = UIImageView(image: UIImage(CGImage:item!.node.texture!.CGImage()))
+            let imageView = UIImageView(image: UIImage(named: item!.img))
             imageView.contentMode = .ScaleAspectFit
             imageView.layer.magnificationFilter = kCAFilterNearest
             imageView.bounds = itemView.bounds
@@ -76,16 +76,19 @@ class ItemContainer:UIControl {
         }
         return oldItem
     }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         superview?.bringSubviewToFront(self)
         super.touchesBegan(touches, withEvent: event)
     }
+    
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             itemView.center = touch.locationInView(self)
         }
         super.touchesMoved(touches, withEvent: event)
     }
+    
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if item != nil {
             if let touch = touches.first {

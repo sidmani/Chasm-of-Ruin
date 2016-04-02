@@ -13,7 +13,10 @@
             <map-object>
                 <type>Portal</type>
                 <dest-id>0</dest-id>
+                <load-screen>true</load-screen>
+                <countdown>true</countdown>
                 <autotrigger>false</autotrigger>
+                <thumbnail></thumbnail>
                 <loc>
                     <x>5</x>
                     <y>5</y>

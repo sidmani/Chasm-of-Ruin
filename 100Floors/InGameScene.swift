@@ -50,11 +50,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         /////// player contacts interactive object
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.isWithinDistanceOf(contact.bodyA.node as? Interactive)
+            GameLogic.enteredDistanceOf(contact.bodyA.node as! Interactive)
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.isWithinDistanceOf(contact.bodyB.node as? Interactive)
+            GameLogic.enteredDistanceOf(contact.bodyB.node as! Interactive)
             return
         }
         ////// player is hit by projectile
@@ -79,9 +79,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didEndContact(contact: SKPhysicsContact) {
-        if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer || contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.isWithinDistanceOf(nil)
+        if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            //GameLogic.isWithinDistanceOf(nil)
+            GameLogic.exitedDistanceOf(contact.bodyA.node as? Interactive)
             return
+        }
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            GameLogic.exitedDistanceOf(contact.bodyB.node as? Interactive)
         }
     }
     
@@ -96,9 +100,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.hidden = true
         //TODO: trigger loading screen
         GameLogic.setGameState(.LoadingScreen)
-        for node in nonCharNodes.children {
-            node.removeFromParent()
-        }
+        nonCharNodes.removeAllChildren()
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc

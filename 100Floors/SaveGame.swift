@@ -7,3 +7,9 @@
 //
 
 import Foundation
+//autosave
+//things to save:
+// equipment + inventory
+// base stats
+// char customization, if that's implemented
+// 

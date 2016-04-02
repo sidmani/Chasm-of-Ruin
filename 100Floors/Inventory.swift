@@ -23,7 +23,11 @@ class Inventory {
     
     private var baseSize:Int
     private var inventory:[Item?]
+    private var parent:Entity?
     
+    func setParent(to:Entity?) {
+        parent = to
+    }
     //INIT
     init(withEquipment:Bool, withSize: Int)
     {
@@ -64,6 +68,7 @@ class Inventory {
         let temp = getItem(atIndexA)
         setItem(atIndexA, toItem: getItem(atIndexB))
         setItem(atIndexB, toItem: temp)
+        parent?.updateEquipStats()
     }
 
     func getItem(atIndex:Int) -> Item? {
@@ -82,21 +87,25 @@ class Inventory {
             if (toItem != nil && !(toItem! is Enhancer)) {
                 return toItem
             }
+            parent?.updateEquipStats()
             break
         case weaponIndex:
             if (toItem != nil && !(toItem! is Weapon)) {
                 return toItem
             }
+            parent?.updateEquipStats()
             break
         case shieldIndex:
             if (toItem != nil && !(toItem! is Shield)) {
                 return toItem
             }
+            parent?.updateEquipStats()
             break
         case skillIndex:
             if (toItem != nil && !(toItem! is Skill)) {
                 return toItem
             }
+            parent?.updateEquipStats()
             break
         default:
             break
@@ -105,6 +114,7 @@ class Inventory {
         inventory[atIndex] = toItem
         return out
     }
+    
     func dropAllItems() -> [Item?] {
         let size = inventory.count
         let allItems = inventory

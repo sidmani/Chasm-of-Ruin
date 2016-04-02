@@ -20,10 +20,10 @@ class Item {
     var statMods:Stats
     var name:String
     var description:String
-    var node:SKSpriteNode
+    var img: String
     
     init(thisItem: AEXMLElement) {
-        node = SKSpriteNode(imageNamed: thisItem["img"].stringValue)
+        img = thisItem["img"].stringValue
         description = thisItem["desc"].stringValue
         name = thisItem["name"].stringValue
         statMods = Stats.statsFrom(thisItem)

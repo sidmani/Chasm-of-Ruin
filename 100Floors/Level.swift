@@ -7,6 +7,7 @@
 //
 class BaseLevel:SKNode {
     struct LayerDef {
+        static let PopUps:CGFloat = 20
         static let Lighting:CGFloat = 8
         static let Effects:CGFloat = 7
         static let MapAbovePlayer:CGFloat = 6

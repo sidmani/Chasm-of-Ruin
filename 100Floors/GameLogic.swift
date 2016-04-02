@@ -16,17 +16,20 @@ protocol Updatable {
 }
 
 protocol Interactive {
+    var thumbnailImg:String { get }
+    var interactText:String { get }
     var autotrigger:Bool { get }
     func trigger()
+    func displayPopup(state:Bool)
 }
 
 let screenSize = UIScreen.mainScreen().bounds
-
+let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
 struct UIElements {
     static var LeftJoystick:JoystickControl?
     static var RightJoystick:JoystickControl?
     static var HPBar:ReallyBigDisplayBar?
-    static var InteractButton:UIButton?
+ //   static var InteractButton:UIButton?
     static var InventoryButton:UIButton?
     static var MenuButton:UIButton?
     static func setVisible(toState:Bool) {
@@ -34,7 +37,7 @@ struct UIElements {
         UIElements.LeftJoystick?.hidden = _toState
         UIElements.RightJoystick?.hidden = _toState
         UIElements.HPBar?.hidden = _toState
-        UIElements.InteractButton?.hidden = _toState
+ //       UIElements.InteractButton?.hidden = _toState
         UIElements.InventoryButton?.hidden = _toState
         UIElements.MenuButton?.hidden = _toState
     }
@@ -94,41 +97,25 @@ let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene?
+    private static var currentViewController:InGameViewController?
+    
     static var currentInteractiveObject: Interactive?
-   
+    
     static func setupGame(scene: InGameScene) {
         gameScene = scene
         currentState = .InGame
         //load save
         //set level to Hub
-        setLevel(MapLevel(withID: "0")) //this shouldn't be here
+        setLevel(MapLevel(withID: "0"), loadScreen: false)
         thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Weapon(withID: "wep1"))
         thisCharacter.inventory.setItem(0, toItem: Weapon(withID: "wep2"))
         thisCharacter.inventory.setItem(1, toItem: Weapon(withID: "wep3"))
         gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
     }
     
-    /*static func runGameMode(previousLevel:BaseLevel?) {
-        if (currentGameMode == .Explore) {
-            if (previousLevel == nil) {
-                //start from level 1
-            }
-            else {
-                //start from previous level id +1
-            }
-            //no need to set new level, portal handles that
-            //save game
-            //award gold as necessary
-        }
-        else if (currentGameMode == .Survive) {
-            //switch level theme if level % 10 == 0
-            //award gold as necessary
-            //calculate list of enemies to create
-            //display countdown timer
-            //create enemies
-        }
-    }*/
-   
+    static func setViewController(to:InGameViewController) {
+        currentViewController = to
+    }
     
     /////////////
     static func getCurrentState() -> GameStates {
@@ -162,13 +149,6 @@ class GameLogic {
             break
         }
     }
-    /////////////
-    //UI Triggers
-    static func interactButtonPressed() {
-        if (currentState == .InGame) {
-            currentInteractiveObject?.trigger()
-        }
-    }
     /////////////////////
     ///////UPDATE////////
     static func update(deltaT:Double) {
@@ -191,38 +171,48 @@ class GameLogic {
         gameScene?.addObject(p)
     }
     
-    static func setLevel(l:BaseLevel) {
+    static func setLevel(l:BaseLevel, loadScreen:Bool) {
         if (currentState == .InGame) {
             gameScene?.setLevel(l)
         }
     }
     ///////
     static func timerCallback() {
-        gameScene?.paused = false
+      //  gameScene?.paused = false
     }
     ///////
     static func usePortal(p:Portal) {
-        isWithinDistanceOf(nil)
-        setLevel(MapLevel(withID: p.destinationID))
+        exitedDistanceOf(currentInteractiveObject)
+        setLevel(MapLevel(withID: p.destinationID), loadScreen: p.showLoadScreen)
       //  gameScene?.paused = true
-      //  gameScene?.nonCharNodes.addChild(CountdownTimer(time: 3, endText: "Play!"))
-        if (p.destinationID == Portal.hubID) {
-             //do something special
+        if (p.showCountdown) {
+           // let timer = CountdownTimer(time: 3, endText: "Go!")
+            let node = SKLabelNode(text: "test")
+            node.zPosition = 20
+            node.fontSize = 40
+            node.position = screenCenter
+            gameScene?.camera?.addChild(node)
+         //   timer.startTimer()
         }
     }
     
     ////called by didBeginContact() and didEndContact() in gameScene
-    static func isWithinDistanceOf(object:Interactive?) {
+    static func enteredDistanceOf(object:Interactive) {
+        currentInteractiveObject?.displayPopup(false)
+        object.displayPopup(true)
         currentInteractiveObject = object
-        if (object == nil) {
-            UIElements.InteractButton?.setTitle("Interact", forState: UIControlState.Normal)
+    }
+    
+    static func exitedDistanceOf(object:Interactive?) {
+        if (currentInteractiveObject != nil && (currentInteractiveObject! as? MapObject) == (object as? MapObject)) {
+            currentInteractiveObject?.displayPopup(false)
+            currentInteractiveObject = nil
         }
-        else {
-            UIElements.InteractButton?.setTitle("Enter", forState: UIControlState.Normal) //TODO: use icons
-            if (object!.autotrigger) {
-                object!.trigger()
-            }
-        }
+    }
+    
+    static func openInventory() {
+        currentViewController?.inventoryButtonPressed(nil)
+        currentViewController?.performSegueWithIdentifier("InGameToInventory", sender: nil)
     }
 }
 
