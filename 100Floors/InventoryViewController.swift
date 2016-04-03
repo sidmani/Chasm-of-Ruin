@@ -26,8 +26,8 @@ class InventoryViewController: UIViewController {
     
     @IBOutlet weak var GroundContainer: ItemContainer!
     
-    var containers:[ItemContainer] = []
-
+    private var containers:[ItemContainer] = []
+    private var previousSelectedContainer:ItemContainer? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,44 +72,27 @@ class InventoryViewController: UIViewController {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
                     if (containerA == GroundContainer) {
-                        let temp = (GameLogic.currentInteractiveObject as! ItemBag).item
-                 
-                        (GameLogic.currentInteractiveObject as! ItemBag).setItem(thisCharacter.inventory.getItem(containerB.correspondsToInventoryIndex))
-                        containerA.setItem(thisCharacter.inventory.getItem(containerB.correspondsToInventoryIndex))
-
-                        thisCharacter.inventory.setItem(containerB.correspondsToInventoryIndex, toItem: temp)
-                        containerB.setItem(temp)
-                        
-                        
-                    }
-                    else if (containerB == GroundContainer) {
-                        if (!(GameLogic.currentInteractiveObject is ItemBag)) {
-                            let newBag = ItemBag(withItem: containerA.item!, loc: thisCharacter.position)
-                            GroundContainer.setItem(containerA.item)
-                            
-                            containerSelected(GroundContainer)
-                            
-                            containerA.setItem(nil)
-                            thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: nil)
-                            
+                        thisCharacter.inventory.setItem(containerB.correspondsToInventoryIndex, toItem: (GameLogic.currentInteractiveObject as? ItemBag)?.item)
+                        (GameLogic.currentInteractiveObject as? ItemBag)?.setItem(nil)
+                        if (containerB.item != nil) {
+                            let newBag = ItemBag(withItem: containerB.item!, loc: thisCharacter.position)
                             GameLogic.enteredDistanceOf(newBag as Interactive)
                             GameLogic.addObject(newBag)
                         }
-                        else {
-                            let temp = (GameLogic.currentInteractiveObject as! ItemBag).item
-                            
-                            (GameLogic.currentInteractiveObject as! ItemBag).setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
-                            containerB.setItem(thisCharacter.inventory.getItem(containerA.correspondsToInventoryIndex))
-                            
-                            thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: temp)
-                            containerA.setItem(temp)
+                    }
+                    else if (containerB == GroundContainer) {
+                        thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: (GameLogic.currentInteractiveObject as? ItemBag)?.item)
+                        (GameLogic.currentInteractiveObject as? ItemBag)?.setItem(nil)
+                        if (containerA.item != nil) {
+                            let newBag = ItemBag(withItem: containerA.item!, loc: thisCharacter.position)
+                            GameLogic.enteredDistanceOf(newBag as Interactive)
+                            GameLogic.addObject(newBag)
                         }
-                        
                     }
                     else {
                         thisCharacter.inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
-                        containerA.swapItemWith(containerB)
                     }
+                    containerA.swapItemWith(containerB)
                     containerSelected(containerB)
 
                 }
@@ -118,12 +101,11 @@ class InventoryViewController: UIViewController {
         }
     }
     @IBAction func containerSelected(sender:ItemContainer) {
-        for container in containers {
-            container.setSelectedTo(false)
-        }
+        previousSelectedContainer?.setSelectedTo(false)
         sender.setSelectedTo(true)
-    //    NameLabel.text = sender.item!.name
-    //    DescriptionLabel.text = sender.item!.description
+        previousSelectedContainer = sender
+    //    NameLabel.text = sender.item?.name
+    //    DescriptionLabel.text = sender.item?.description
     }
     override func shouldAutorotate() -> Bool {
         return true

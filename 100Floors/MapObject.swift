@@ -78,9 +78,7 @@ class Portal:MapObject, Interactive {
     }
     
     func trigger() {
-   //     if (enabled) {
-            GameLogic.usePortal(self)
-   //     }
+        GameLogic.usePortal(self)
     }
     func displayPopup(state: Bool) {
         
@@ -93,7 +91,7 @@ class ItemBag:MapObject, Interactive {
         return item.img
     }
     var item:Item
-    init(withItem: Item, loc:CGPoint) {
+    init (withItem: Item, loc:CGPoint) {
         item = withItem
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
@@ -113,15 +111,16 @@ class ItemBag:MapObject, Interactive {
     func trigger() {
         GameLogic.openInventory()
     }
-    
+        
     func displayPopup(state:Bool) {
         if (state) {
             addChild(PopUp(buttonText: interactText, image: thumbnailImg, size: CGSizeMake(16, 16), parent:self))
         }
         else {
             for child in children {
-                if let popup = child as? PopUp {
-                    popup.removeFromParent()
+                if child is PopUp {
+                    child.removeFromParent()
+                    return
                 }
             }
         }

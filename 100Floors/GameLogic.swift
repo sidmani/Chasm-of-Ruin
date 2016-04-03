@@ -144,6 +144,7 @@ class GameLogic {
             //UIElements.setVisible(false)
             //gameScene?.paused = true
             gameScene = nil
+            currentViewController = nil
             break
         default:
             break
@@ -198,6 +199,7 @@ class GameLogic {
     
     ////called by didBeginContact() and didEndContact() in gameScene
     static func enteredDistanceOf(object:Interactive) {
+        if (object.autotrigger) { object.trigger() }
         currentInteractiveObject?.displayPopup(false)
         object.displayPopup(true)
         currentInteractiveObject = object
