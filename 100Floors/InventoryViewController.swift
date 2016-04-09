@@ -80,12 +80,11 @@ class InventoryViewController: UIViewController {
                         groundBag?.setItem(nil)
                         if (containerB.item != nil) {
                             let newBag = ItemBag(withItem: containerB.item!, loc: dropLoc)
-                 //           GameLogic.enteredDistanceOf(newBag as Interactive)
-                            if (groundBag != nil) {
-                                GameLogic.exitedDistanceOf(groundBag!)
-                            }
                             groundBag = newBag
                             GameLogic.addObject(newBag)
+                        }
+                        else {
+                            groundBag = nil
                         }
                     }
                     else if (containerB == GroundContainer) {
@@ -93,12 +92,11 @@ class InventoryViewController: UIViewController {
                         groundBag?.setItem(nil)
                         if (containerA.item != nil) {
                             let newBag = ItemBag(withItem: containerA.item!, loc: dropLoc)
-                 //           GameLogic.enteredDistanceOf(newBag as Interactive)
-                            if (groundBag != nil) {
-                                GameLogic.exitedDistanceOf(groundBag!)
-                            }
                             groundBag = newBag
                             GameLogic.addObject(newBag)
+                        }
+                        else {
+                            groundBag = nil
                         }
                     }
                     else {
