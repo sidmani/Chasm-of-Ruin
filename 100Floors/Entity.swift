@@ -119,6 +119,7 @@ class Entity:SKSpriteNode {
     
     func struckByProjectile(p:Projectile) {
     
+        
     }
     
     private func setImageOrientation(toAngle:CGFloat) {
