@@ -48,8 +48,18 @@ class InGameViewController: UIViewController {
     }
  
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
+        loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:GameLogic.nearestGroundBag())
+    }
+    
+    func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
         blurView()
         GameLogic.setGameState(.InventoryMenu)
+        let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
+        inventoryController.inventory = inv
+        inventoryController.groundBag = groundBag
+        inventoryController.dropLoc = dropLoc
+        inventoryController.modalTransitionStyle = .CoverVertical
+        presentViewController(inventoryController, animated: true, completion: nil)
     }
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {

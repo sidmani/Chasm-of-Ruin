@@ -29,17 +29,18 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     var nonCharNodes = SKNode()
     
     override func didMoveToView(view: SKView) {
+        GameLogic.setupGame(self)
+        GameLogic.setGameState(.InGame)
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
         self.camera = mainCamera
-        self.camera!.position = thisCharacter.position
-        self.camera!.xScale = 0.3
-        self.camera!.yScale = 0.3
-        GameLogic.setGameState(.InGame)
-        GameLogic.setupGame(self)
-        nonCharNodes.physicsBody = SKPhysicsBody()
-        nonCharNodes.physicsBody!.affectedByGravity = false
-        nonCharNodes.physicsBody!.friction = 0
+        self.camera?.position = thisCharacter.position
+        self.camera?.xScale = 0.3
+        self.camera?.yScale = 0.3
+
+        nonCharNodes.physicsBody = SKPhysicsBody() //CHECK
+        nonCharNodes.physicsBody?.affectedByGravity = false
+        nonCharNodes.physicsBody?.friction = 0
         
         //////////////////////////////////////////
         //////////////////////////////////////////
@@ -68,11 +69,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
         ////// projectile hits map boundary
         else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
-            (contact.bodyA.node as! Projectile).struckMapBoundary()
+            (contact.bodyA.node as? Projectile)?.struckMapBoundary()
             return
         }
         else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
-            (contact.bodyB.node as! Projectile).struckMapBoundary()
+            (contact.bodyB.node as? Projectile)?.struckMapBoundary()
             return
         }
         
@@ -81,11 +82,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     func didEndContact(contact: SKPhysicsContact) {
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
             //GameLogic.isWithinDistanceOf(nil)
-            GameLogic.exitedDistanceOf(contact.bodyA.node as? Interactive)
+            GameLogic.exitedDistanceOf(contact.bodyA.node as! Interactive)
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.exitedDistanceOf(contact.bodyB.node as? Interactive)
+            GameLogic.exitedDistanceOf(contact.bodyB.node as! Interactive)
         }
     }
     
@@ -94,17 +95,19 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         camera!.position = CGPointMake(floor(thisCharacter.position.x*6)/6, floor(thisCharacter.position.y*6)/6)
     }
     
-    func setLevel(newLevel:BaseLevel)
+    func setLevel(newLevel:BaseLevel, introScreen:Bool)
     {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
-        //TODO: trigger loading screen
-        GameLogic.setGameState(.LoadingScreen)
         nonCharNodes.removeAllChildren()
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
-        //end loading screen
+
+        if (introScreen) {
+            GameLogic.setGameState(.LoadingScreen)
+            //TODO: trigger intro screen
+        }
         GameLogic.setGameState(.InGame)
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
@@ -116,10 +119,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
         if (GameLogic.getCurrentState() == GameStates.InGame && deltaT < 100) {
-            camera!.position = oldLoc //reset position to floating-point value for SKPhysics
+            camera?.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
-                let newWidth = Int(CGFloat(currentLevel!.mapSizeOnScreen.width)*camera!.xScale)+2
-                let newHeight = Int(CGFloat(currentLevel!.mapSizeOnScreen.height)*camera!.yScale)+2
+                let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)+2
+                let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale)+2
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
@@ -131,7 +134,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     func addObject(node:SKNode) {
         if (node.parent == nil) {
             if let obj = node as? MapObject {
-                currentLevel?.addObject(obj)
+                currentLevel?.objects.addChild(obj)
             }
             else {
                 nonCharNodes.addChild(node)

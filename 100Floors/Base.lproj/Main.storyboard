@@ -83,7 +83,6 @@
                                 <state key="normal" title="Inventory"/>
                                 <connections>
                                     <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
-                                    <segue destination="CGb-Sh-tvY" kind="presentation" identifier="InGameToInventory" id="rS0-84-0BE"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -120,7 +119,7 @@
         <!--Inventory View Controller-->
         <scene sceneID="X8T-87-8dq">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inventoryView" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OqS-s8-3dQ"/>
                         <viewControllerLayoutGuide type="bottom" id="CJs-Wc-P5S"/>

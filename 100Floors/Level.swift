@@ -6,6 +6,8 @@
 //
 //
 class BaseLevel:SKNode {
+    static let hubID = "Hub"
+
     struct LayerDef {
         static let PopUps:CGFloat = 20
         static let Lighting:CGFloat = 8
@@ -21,7 +23,8 @@ class BaseLevel:SKNode {
     var levelName:String
     var desc:String
     var mapSizeOnScreen: CGSize
-    
+    var objects = SKNode()
+
     init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSizeOnScreen:CGSize) {
         startLoc = _startLoc
         tileEdge = _tileEdge
@@ -39,16 +42,11 @@ class BaseLevel:SKNode {
     }
     func cull(x:Int, y:Int, width:Int, height:Int) {
         fatalError("must be overriden")
-    }
-    func addObject(obj:MapObject) {
-        fatalError("must be overriden")
-    }
-  
+    }  
 }
 
 class MapLevel:BaseLevel, Updatable {
     private var map:SKATiledMap
-    private var objects = SKNode()
     var collisionBodies = SKNode()
     
     init(_map:String, _name:String, _startLoc:CGPoint) {
@@ -114,7 +112,7 @@ class MapLevel:BaseLevel, Updatable {
     convenience init (withID:String) {
         ///Load level from XML
         var thisLevel:AEXMLElement
-        if let levels = levelXML!.root["level"].allWithAttributes(["index":withID]) {
+        if let levels = levelXML.root["level"].allWithAttributes(["index":withID]) {
             if (levels.count != 1) {
                 fatalError("Level ID error")
             }
@@ -154,10 +152,6 @@ class MapLevel:BaseLevel, Updatable {
     
     override func cull(x:Int, y:Int, width:Int, height:Int) {
         map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
-    }
-    
-    override func addObject(o:MapObject) {
-        objects.addChild(o)
     }
     
     func update(deltaT: Double) {

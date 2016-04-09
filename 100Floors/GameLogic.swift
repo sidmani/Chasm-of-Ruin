@@ -5,7 +5,7 @@
 //  Created by Sid Mani on 1/9/16.
 //
 //
-
+import Swift
 import SpriteKit
 
 enum GameStates {
@@ -17,7 +17,7 @@ protocol Updatable {
 
 protocol Interactive {
     var thumbnailImg:String { get }
-    var interactText:String { get }
+ //   var interactText:String { get }
     var autotrigger:Bool { get }
     func trigger()
     func displayPopup(state:Bool)
@@ -29,7 +29,6 @@ struct UIElements {
     static var LeftJoystick:JoystickControl?
     static var RightJoystick:JoystickControl?
     static var HPBar:ReallyBigDisplayBar?
- //   static var InteractButton:UIButton?
     static var InventoryButton:UIButton?
     static var MenuButton:UIButton?
     static func setVisible(toState:Bool) {
@@ -37,7 +36,6 @@ struct UIElements {
         UIElements.LeftJoystick?.hidden = _toState
         UIElements.RightJoystick?.hidden = _toState
         UIElements.HPBar?.hidden = _toState
- //       UIElements.InteractButton?.hidden = _toState
         UIElements.InventoryButton?.hidden = _toState
         UIElements.MenuButton?.hidden = _toState
     }
@@ -47,7 +45,7 @@ struct UIElements {
 
 let thisCharacter = ThisCharacter()
 
-let itemXML: AEXMLDocument? = {() -> AEXMLDocument? in
+let itemXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
     let data = NSData(contentsOfFile: xmlPath!)!
     do {
@@ -58,7 +56,7 @@ let itemXML: AEXMLDocument? = {() -> AEXMLDocument? in
     }
     
 }()
-let levelXML: AEXMLDocument? = {() -> AEXMLDocument? in
+let levelXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Levels", ofType: "xml")!
     let data = NSData(contentsOfFile: xmlPath)!
     do {
@@ -70,7 +68,7 @@ let levelXML: AEXMLDocument? = {() -> AEXMLDocument? in
     
 }()
 
-let enemyXML: AEXMLDocument? = {() -> AEXMLDocument? in
+let enemyXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
     let data = NSData(contentsOfFile: xmlPath)!
     do {
@@ -82,7 +80,7 @@ let enemyXML: AEXMLDocument? = {() -> AEXMLDocument? in
     
 }()
 
-let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
+let behaviorXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Behaviors", ofType: "xml")!
     let data = NSData(contentsOfFile: xmlPath)!
     do {
@@ -96,17 +94,18 @@ let behaviorXML: AEXMLDocument? = {() -> AEXMLDocument? in
 
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
-    private static var gameScene: InGameScene?
-    private static var currentViewController:InGameViewController?
+    private static var gameScene: InGameScene!
+    private static var gameViewController:InGameViewController?
     
-    static var currentInteractiveObject: Interactive?
+    static var currentInteractiveObjects: [Interactive] = []
     
     static func setupGame(scene: InGameScene) {
         gameScene = scene
         currentState = .InGame
+        assert(gameViewController != nil)
         //load save
         //set level to Hub
-        setLevel(MapLevel(withID: "0"), loadScreen: false)
+        setLevel(MapLevel(withID: "0"), introScreen: false)
         thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Weapon(withID: "wep1"))
         thisCharacter.inventory.setItem(0, toItem: Weapon(withID: "wep2"))
         thisCharacter.inventory.setItem(1, toItem: Weapon(withID: "wep3"))
@@ -114,7 +113,7 @@ class GameLogic {
     }
     
     static func setViewController(to:InGameViewController) {
-        currentViewController = to
+        gameViewController = to
     }
     
     /////////////
@@ -127,24 +126,22 @@ class GameLogic {
         switch(currentState) {
         case .LoadingScreen:
             UIElements.setVisible(false)
-            gameScene?.paused = true
+            gameScene.paused = true
         case .InGame:
             UIElements.setVisible(true)
-            gameScene?.paused = false
+            gameScene.paused = false
         case .CutScene:
             UIElements.setVisible(false)
-            gameScene?.paused = false
+            gameScene.paused = false
         case .InventoryMenu:
             UIElements.setVisible(false)
-            gameScene?.paused = true
+            gameScene.paused = true
         case .InGameMenu:
             UIElements.setVisible(false)
-            gameScene?.paused = true
+            gameScene.paused = true
         case .MainMenu:
-            //UIElements.setVisible(false)
-            //gameScene?.paused = true
             gameScene = nil
-            currentViewController = nil
+            gameViewController = nil
             break
         default:
             break
@@ -158,7 +155,7 @@ class GameLogic {
         //updateUIElements()
     }
     private static func updateNonCharNodes(deltaT:Double) {
-        for node in gameScene!.nonCharNodes.children {
+        for node in gameScene.nonCharNodes.children {
             if let nodeToUpdate = node as? Updatable {
                 nodeToUpdate.update(deltaT)
             }
@@ -169,13 +166,21 @@ class GameLogic {
     }
     /////////////////////////
     static func addObject(p:SKNode) {
-        gameScene?.addObject(p)
+        gameScene.addObject(p)
     }
     
-    static func setLevel(l:BaseLevel, loadScreen:Bool) {
+    static func setLevel(l:BaseLevel, introScreen:Bool) {
         if (currentState == .InGame) {
-            gameScene?.setLevel(l)
+            gameScene.setLevel(l, introScreen: introScreen)
         }
+    }
+    ///////
+    static func characterDeath() {
+        gameScene.paused = true
+        //display death screen
+        //set level to hub
+       // setLevel(MapLevel(withID: BaseLevel.hubID), introScreen: false)
+        
     }
     ///////
     static func timerCallback() {
@@ -183,8 +188,8 @@ class GameLogic {
     }
     ///////
     static func usePortal(p:Portal) {
-        exitedDistanceOf(currentInteractiveObject)
-        setLevel(MapLevel(withID: p.destinationID), loadScreen: p.showLoadScreen)
+        currentInteractiveObjects = []
+        setLevel(MapLevel(withID: p.destinationID), introScreen: p.showIntroScreen)
       //  gameScene?.paused = true
         if (p.showCountdown) {
            // let timer = CountdownTimer(time: 3, endText: "Go!")
@@ -192,7 +197,7 @@ class GameLogic {
             node.zPosition = 20
             node.fontSize = 40
             node.position = screenCenter
-            gameScene?.camera?.addChild(node)
+            gameScene.camera?.addChild(node)
          //   timer.startTimer()
         }
     }
@@ -200,21 +205,28 @@ class GameLogic {
     ////called by didBeginContact() and didEndContact() in gameScene
     static func enteredDistanceOf(object:Interactive) {
         if (object.autotrigger) { object.trigger() }
-        currentInteractiveObject?.displayPopup(false)
         object.displayPopup(true)
-        currentInteractiveObject = object
+        currentInteractiveObjects.append(object)
     }
     
-    static func exitedDistanceOf(object:Interactive?) {
-        if (currentInteractiveObject != nil && (currentInteractiveObject! as? MapObject) == (object as? MapObject)) {
-            currentInteractiveObject?.displayPopup(false)
-            currentInteractiveObject = nil
+    static func exitedDistanceOf(object:Interactive) {
+        if let index = currentInteractiveObjects.indexOf({($0 as! MapObject) == (object as! MapObject)}) {
+            object.displayPopup(false)
+            currentInteractiveObjects.removeAtIndex(index)
         }
     }
-    
-    static func openInventory() {
-        currentViewController?.inventoryButtonPressed(nil)
-        currentViewController?.performSegueWithIdentifier("InGameToInventory", sender: nil)
+    /////////////
+    static func openInventory(withBag:ItemBag?) {
+        gameViewController?.loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag: withBag)
+    }
+    /////////////
+    static func nearestGroundBag() -> ItemBag? {
+        for i in 0..<currentInteractiveObjects.count {
+            if let bag = currentInteractiveObjects[currentInteractiveObjects.count-i-1] as? ItemBag {
+                return bag
+            }
+        }
+        return nil
     }
 }
 

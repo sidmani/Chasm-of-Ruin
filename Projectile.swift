@@ -19,7 +19,7 @@ class Projectile:SKSpriteNode, Updatable{
     
     init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool) {
         var thisProjectile:AEXMLElement
-        if let projectiles = itemXML!.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
+        if let projectiles = itemXML.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
             if (projectiles.count != 1) {
                 fatalError("Projectile ID error")
             }

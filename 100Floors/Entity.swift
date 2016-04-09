@@ -64,9 +64,6 @@ struct Stats {
     static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
 }
 
-/*func +(left: Stats, right: Stats) -> Stats { // add Stats together
-    return Stats(health: left.health + right.health,  defense: left.defense + right.defense, attack: left.attack + right.attack, speed: left.speed+right.speed, dexterity: left.dexterity + right.dexterity, mana: left.mana+right.mana, rage: left.rage + right.rage)
-}*/
 func +(left:Stats?, right:Stats?) -> Stats{
     if (left != nil && right != nil) {
         return Stats(health: left!.health + right!.health,  defense: left!.defense + right!.defense, attack: left!.attack + right!.attack, speed: left!.speed+right!.speed, dexterity: left!.dexterity + right!.dexterity, mana: left!.mana+right!.mana, rage: left!.rage + right!.rage)
@@ -179,9 +176,11 @@ class ThisCharacter: Entity, Updatable {
     }
 
     override func die() {
-        //lose all inventory and 1 random equipment
+        GameLogic.characterDeath()
+        inventory.dropAllExceptInventory()
+        let rand = Int(randomBetweenNumbers(CGFloat(inventory.weaponIndex), secondNum: CGFloat(inventory.enhancerIndex)))
+        inventory.setItem(rand, toItem: nil)
         //save game
-        //display death screen
     }
     
     //ITEM HANDLER METHODS
@@ -238,7 +237,7 @@ class Enemy:Entity, Updatable{
 
     convenience init(withID:String, atPosition:CGPoint) {
         var thisEnemy:AEXMLElement
-        if let enemies = enemyXML!.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
+        if let enemies = enemyXML.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
             if (enemies.count != 1) {
                 fatalError("Enemy ID error")
             }

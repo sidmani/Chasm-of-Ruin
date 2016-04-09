@@ -11,7 +11,7 @@ import SpriteKit
 
 class PopUp:SKNode {
     private var mainObject:Interactive
-    init(buttonText:String, image:String, size:CGSize, parent:Interactive) {
+    init(image:String, size:CGSize, parent:Interactive) {
         mainObject = parent
         super.init()
 

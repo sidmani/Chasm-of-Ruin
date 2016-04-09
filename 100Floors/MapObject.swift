@@ -37,23 +37,19 @@ class Spawner:MapObject, Updatable {
 
 class Portal:MapObject, Interactive {
     
-    static let hubID = "Hub"
-    
-    let interactText = "Go!"
     var thumbnailImg:String
     var autotrigger:Bool
 
     var destinationID:String
- //   var enabled = true
-    var showLoadScreen:Bool
+    var showIntroScreen:Bool
     var showCountdown:Bool
     
     //var destinationLoc:CGPoint // if different than the map's defined start loc.
 
-    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, loadScreen:Bool, countdown:Bool, thumbnail:String) {
+    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, introScreen:Bool, countdown:Bool, thumbnail:String) {
         destinationID = _destinationID
         autotrigger = _autotrigger
-        showLoadScreen = loadScreen
+        showIntroScreen = introScreen
         showCountdown = countdown
         thumbnailImg = thumbnail
         
@@ -69,9 +65,9 @@ class Portal:MapObject, Interactive {
         let destID = fromXMLObject["dest-id"].stringValue
         let autotrigger = fromXMLObject["autotrigger"].boolValue
         let countdown = fromXMLObject["countdown"].boolValue
-        let loadscreen = fromXMLObject["load-screen"].boolValue
+        let introScreen = fromXMLObject["load-screen"].boolValue
         let thumbnail = fromXMLObject["thumbnail-img"].stringValue
-        self.init(loc: withTileEdge*loc, _destinationID: destID, _autotrigger: autotrigger, loadScreen: loadscreen, countdown: countdown, thumbnail: thumbnail)
+        self.init(loc: withTileEdge*loc, _destinationID: destID, _autotrigger: autotrigger, introScreen: introScreen, countdown: countdown, thumbnail: thumbnail)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -80,13 +76,13 @@ class Portal:MapObject, Interactive {
     func trigger() {
         GameLogic.usePortal(self)
     }
+    
     func displayPopup(state: Bool) {
         
     }
 }
 class ItemBag:MapObject, Interactive {
     var autotrigger:Bool = false
-    let interactText: String = "Pick Up"
     var thumbnailImg: String {
         return item.img
     }
@@ -95,10 +91,10 @@ class ItemBag:MapObject, Interactive {
         item = withItem
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
-        self.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Interactive
-        self.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
-        self.physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
-        self.physicsBody!.pinned = true
+        self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Interactive
+        self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
+        self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
+        self.physicsBody?.pinned = true
     }
     convenience init (fromElement:AEXMLElement, withTileEdge:CGFloat) {
         let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
@@ -109,12 +105,12 @@ class ItemBag:MapObject, Interactive {
     }
     
     func trigger() {
-        GameLogic.openInventory()
+        GameLogic.openInventory(self)
     }
         
     func displayPopup(state:Bool) {
         if (state) {
-            addChild(PopUp(buttonText: interactText, image: thumbnailImg, size: CGSizeMake(16, 16), parent:self))
+            addChild(PopUp(image: thumbnailImg, size: CGSizeMake(16, 16), parent:self))
         }
         else {
             for child in children {

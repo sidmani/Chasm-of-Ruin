@@ -82,7 +82,7 @@ class Behavior: Updatable {
     }
     
     convenience init (withID: String, asChildOf: Enemy) {
-        if let behaviors = behaviorXML?.root["behaviors"]["behavior"].allWithAttributes(["id":withID]) {
+        if let behaviors = behaviorXML.root["behaviors"]["behavior"].allWithAttributes(["id":withID]) {
             if (behaviors.count != 1) {
                 fatalError("Behavior ID error")
             }

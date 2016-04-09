@@ -68,7 +68,6 @@ class Inventory {
         let temp = getItem(atIndexA)
         setItem(atIndexA, toItem: getItem(atIndexB))
         setItem(atIndexB, toItem: temp)
-        parent?.updateEquipStats()
     }
 
     func getItem(atIndex:Int) -> Item? {
@@ -87,31 +86,28 @@ class Inventory {
             if (toItem != nil && !(toItem! is Enhancer)) {
                 return toItem
             }
-            parent?.updateEquipStats()
             break
         case weaponIndex:
             if (toItem != nil && !(toItem! is Weapon)) {
                 return toItem
             }
-            parent?.updateEquipStats()
             break
         case shieldIndex:
             if (toItem != nil && !(toItem! is Shield)) {
                 return toItem
             }
-            parent?.updateEquipStats()
             break
         case skillIndex:
             if (toItem != nil && !(toItem! is Skill)) {
                 return toItem
             }
-            parent?.updateEquipStats()
             break
         default:
             break
         }
         let out = inventory[atIndex]
         inventory[atIndex] = toItem
+        parent?.updateEquipStats()
         return out
     }
     
@@ -120,5 +116,14 @@ class Inventory {
         let allItems = inventory
         inventory = [Item?](count:size, repeatedValue: nil)
         return allItems
+    }
+    
+    func dropAllExceptInventory() -> [Item?] {
+        var droppedItems:[Item?] = []
+        for i in 0..<baseSize {
+            droppedItems.append(inventory[i])
+            inventory[i] = nil
+        }
+        return droppedItems
     }
 }

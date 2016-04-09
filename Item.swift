@@ -31,7 +31,7 @@ class Item {
 
     convenience init(withID:String) {
         var thisItem:AEXMLElement
-        if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
+        if let items = itemXML.root["items"]["item"].allWithAttributes(["id":withID]) {
             if (items.count != 1) {
                 fatalError("Item ID error")
             }
@@ -65,7 +65,7 @@ class Item {
     }
     static func initHandler(withID:String) -> Item? {
         var thisItem:AEXMLElement
-        if let items = itemXML?.root["items"]["item"].allWithAttributes(["id":withID]) {
+        if let items = itemXML.root["items"]["item"].allWithAttributes(["id":withID]) {
             if (items.count != 1) {
                 fatalError("Item ID error")
             }

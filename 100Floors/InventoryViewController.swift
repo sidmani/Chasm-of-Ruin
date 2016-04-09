@@ -27,6 +27,10 @@ class InventoryViewController: UIViewController {
     @IBOutlet weak var GroundContainer: ItemContainer!
     
     private var containers:[ItemContainer] = []
+    var groundBag:ItemBag?
+    var inventory:Inventory!
+    var dropLoc:CGPoint!
+    
     private var previousSelectedContainer:ItemContainer? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +45,10 @@ class InventoryViewController: UIViewController {
         var selected = 0
         for i in 0..<containers.count {
             if (i == containers.count - 1) {
-                containers[i].setItem((GameLogic.currentInteractiveObject as? ItemBag)?.item)
+                containers[i].setItem(groundBag?.item)
             }
             else {
-                containers[i].setItem(thisCharacter.inventory.getItem(i))
+                containers[i].setItem(inventory.getItem(i))
                 containers[i].correspondsToInventoryIndex = i
             }
             if (containers[containers.count-i-1].item != nil) {
@@ -72,29 +76,36 @@ class InventoryViewController: UIViewController {
             if (CGRectContainsPoint(containerB.frame, containerA.droppedAt)) {
                 if (containerA.swappableWith(containerB)) {
                     if (containerA == GroundContainer) {
-                        thisCharacter.inventory.setItem(containerB.correspondsToInventoryIndex, toItem: (GameLogic.currentInteractiveObject as? ItemBag)?.item)
-                        (GameLogic.currentInteractiveObject as? ItemBag)?.setItem(nil)
+                        inventory.setItem(containerB.correspondsToInventoryIndex, toItem: groundBag?.item)
+                        groundBag?.setItem(nil)
                         if (containerB.item != nil) {
-                            let newBag = ItemBag(withItem: containerB.item!, loc: thisCharacter.position)
-                            GameLogic.enteredDistanceOf(newBag as Interactive)
+                            let newBag = ItemBag(withItem: containerB.item!, loc: dropLoc)
+                 //           GameLogic.enteredDistanceOf(newBag as Interactive)
+                            if (groundBag != nil) {
+                                GameLogic.exitedDistanceOf(groundBag!)
+                            }
+                            groundBag = newBag
                             GameLogic.addObject(newBag)
                         }
                     }
                     else if (containerB == GroundContainer) {
-                        thisCharacter.inventory.setItem(containerA.correspondsToInventoryIndex, toItem: (GameLogic.currentInteractiveObject as? ItemBag)?.item)
-                        (GameLogic.currentInteractiveObject as? ItemBag)?.setItem(nil)
+                        inventory.setItem(containerA.correspondsToInventoryIndex, toItem: groundBag?.item)
+                        groundBag?.setItem(nil)
                         if (containerA.item != nil) {
-                            let newBag = ItemBag(withItem: containerA.item!, loc: thisCharacter.position)
-                            GameLogic.enteredDistanceOf(newBag as Interactive)
+                            let newBag = ItemBag(withItem: containerA.item!, loc: dropLoc)
+                 //           GameLogic.enteredDistanceOf(newBag as Interactive)
+                            if (groundBag != nil) {
+                                GameLogic.exitedDistanceOf(groundBag!)
+                            }
+                            groundBag = newBag
                             GameLogic.addObject(newBag)
                         }
                     }
                     else {
-                        thisCharacter.inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
+                        inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
                     }
                     containerA.swapItemWith(containerB)
                     containerSelected(containerB)
-
                 }
                 return
             }
