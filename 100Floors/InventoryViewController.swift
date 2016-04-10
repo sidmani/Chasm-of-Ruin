@@ -45,10 +45,10 @@ class InventoryViewController: UIViewController {
         var selected = 0
         for i in 0..<containers.count {
             if (i == containers.count - 1) {
-                containers[i].setItem(groundBag?.item)
+                containers[i].setItemTo(groundBag?.item)
             }
             else {
-                containers[i].setItem(inventory.getItem(i))
+                containers[i].setItemTo(inventory.getItem(i))
                 containers[i].correspondsToInventoryIndex = i
             }
             if (containers[containers.count-i-1].item != nil) {
@@ -77,7 +77,7 @@ class InventoryViewController: UIViewController {
                 if (containerA.swappableWith(containerB)) {
                     if (containerA == GroundContainer) {
                         inventory.setItem(containerB.correspondsToInventoryIndex, toItem: groundBag?.item)
-                        groundBag?.setItem(nil)
+                        groundBag?.setItemTo(nil)
                         if (containerB.item != nil) {
                             let newBag = ItemBag(withItem: containerB.item!, loc: dropLoc)
                             groundBag = newBag
@@ -89,7 +89,7 @@ class InventoryViewController: UIViewController {
                     }
                     else if (containerB == GroundContainer) {
                         inventory.setItem(containerA.correspondsToInventoryIndex, toItem: groundBag?.item)
-                        groundBag?.setItem(nil)
+                        groundBag?.setItemTo(nil)
                         if (containerA.item != nil) {
                             let newBag = ItemBag(withItem: containerA.item!, loc: dropLoc)
                             groundBag = newBag

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="10">
+ <tileset firstgid="1" name="Sprites00" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
+  <image source="Sheets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>
+  <terraintypes>
+   <terrain name="Grass" tile="-1"/>
+   <terrain name="Dirt" tile="-1"/>
+   <terrain name="sand" tile="-1"/>
+   <terrain name="Water" tile="-1"/>
+  </terraintypes>
+  <tile id="1" terrain="0,0,0,"/>
+  <tile id="2" terrain="0,0,,0"/>
+  <tile id="3" terrain=",,0,"/>
+  <tile id="66" terrain="0,0,,"/>
+  <tile id="128" terrain="0,,0,0"/>
+  <tile id="129" terrain=",,0,0"/>
+  <tile id="130" terrain=",0,0,0"/>
+  <tile id="131" terrain=",0,,0"/>
+  <tile id="256" terrain="2,2,2,3"/>
+  <tile id="257" terrain="2,2,3,3"/>
+  <tile id="258" terrain="2,2,3,2"/>
+  <tile id="260" terrain="1,1,1,1"/>
+  <tile id="261" terrain="0,0,0,0"/>
+  <tile id="262" terrain="0,0,0,1"/>
+  <tile id="263" terrain="0,0,1,0"/>
+  <tile id="320" terrain="2,3,2,3"/>
+  <tile id="321" terrain="3,3,3,3"/>
+  <tile id="322" terrain="3,2,3,2"/>
+  <tile id="326" terrain="0,1,0,0"/>
+  <tile id="327" terrain="1,0,0,0"/>
+  <tile id="384" terrain="2,3,2,2"/>
+  <tile id="385" terrain="3,3,2,2"/>
+  <tile id="386" terrain="3,2,2,2"/>
+  <tile id="388" terrain="0,1,1,1"/>
+  <tile id="389" terrain="1,0,1,1"/>
+  <tile id="390" terrain="0,1,0,1"/>
+  <tile id="391" terrain="0,0,1,1"/>
+  <tile id="452" terrain="1,1,0,1"/>
+  <tile id="453" terrain="1,1,1,0"/>
+  <tile id="454" terrain="1,0,1,0"/>
+  <tile id="455" terrain="1,1,0,0"/>
+ </tileset>
+ <layer name="Base" width="25" height="25">
+  <properties>
+   <property name="AbovePlayer" value="false"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzNkw0OgjAMhTdE5rVEE7yWUcFroUE5ll2yJk2zP0cxJr5oYL7v9RUarVST0FXlXVuiXzIqFWfAR42FbPTbJxj8zFpdlTJq+N8R1LpvqxzGsHBn0nP8G6MW8qc74mo916SYqKewp30nNdNFmCG1X5pxo9ZhGNAdtAOdHesg1At630Bb0Dsjv3FZaK4YY3DeL9AMOiUYxuXpA7liDDz3IHsZye+KnQ/lijF6z8x2DtoHzoD+KW/OQA7t1zJohhJ/qw40EQ7tTbP7ud2k9j6x3rCfb7PH9k67CT3TJcI+sHOcZ2k/Ps5M/LoC7w+C4kmS
+  </data>
+ </layer>
+ <layer name="Objects" width="25" height="25">
+  <properties>
+   <property name="AbovePlayer" value="false"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF9AKuWNiu2BRS0XxcfGrbSW3zcZlLT3/Qyi5agGMD7YBRMCSB2yA1m9j0TGq6d2Mg3V2k2kFOXiTkrmM42OTag8sMaqQHepRF+MKDlml6MJazAOqRD8s=
+  </data>
+ </layer>
+ <layer name="AbovePlayer1" width="25" height="25">
+  <properties>
+   <property name="AbovePlayer" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF9AKsWNis2BSSCTxw2EVte7CZS23zcZnrga6QSgBmLrY4GgWjYBSMglEwCgYjAADLOQEQ
+  </data>
+ </layer>
+</map>

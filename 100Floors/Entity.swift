@@ -8,7 +8,7 @@
 import SpriteKit
 
 struct Stats {
-    let numStats = 7
+    static let numStats = 7
     
     var health:CGFloat    // Health
     var defense:CGFloat   // Defense (% projectile is weakened by)
@@ -43,7 +43,16 @@ struct Stats {
         default: break
         }
     }
-    
+    func toArray() -> NSArray {
+        return NSArray(array: [health,defense,attack,speed,dexterity,mana,rage])
+    }
+    static func statsFrom(Array:NSArray) -> Stats {
+        var out = nilStats
+        for i in 0..<numStats {
+            out.setIndex(i, toVal: Array[i] as! CGFloat)
+        }
+        return out
+    }
     static func statsFrom(Element:AEXMLElement) -> Stats {
         return Stats(
             health: CGFloat(Element["Stats"]["health"].doubleValue),
@@ -56,7 +65,7 @@ struct Stats {
     }
     
     mutating func capAt(maxVal:CGFloat) {
-        for i in 0..<numStats {
+        for i in 0..<Stats.numStats {
             setIndex(i, toVal: min(getIndex(i), maxVal))
         }
     }
@@ -87,7 +96,8 @@ class Entity:SKSpriteNode {
     
     var equipStats:Stats = Stats.nilStats
     
-    var inventory:Inventory
+    let inventory:Inventory
+    
     private var textures:[SKTexture?] = [SKTexture?](count:4, repeatedValue:nil) //0 - north, 1 - east, 2 - south, 3 - west
     private var weapon:Weapon? {
         return inventory.getItem(inventory.weaponIndex) as? Weapon
@@ -151,12 +161,12 @@ class Entity:SKSpriteNode {
 class ThisCharacter: Entity, Updatable {
     
     private var timeSinceProjectile:Double = 0
-    
+    var totalDamageInflicted:Int = 0
     //////////////
     //INIT
-    init() {
-        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withCurrStats: Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withEquipment: true, withSize: inventory_size))
-
+    init(withCurrStats:Stats, withBaseStats:Stats, withInventory:Inventory)
+    {
+        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withCurrStats: withCurrStats, withBaseStats: withBaseStats, withInventory: withInventory)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.friction = 0
@@ -165,9 +175,21 @@ class ThisCharacter: Entity, Updatable {
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         self.position = screenCenter
-
+        self.yScale = 0.5
+        self.xScale = 0.5
     }
-
+    
+    convenience init() {
+        self.init(withCurrStats:Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withEquipment: true, withSize: inventory_size))
+        self.inventory.setItem(self.inventory.weaponIndex, toItem: Item.initHandlerID("wep1"))
+        self.inventory.setItem(0, toItem: Item.initHandlerID("wep2"))
+        self.inventory.setItem(1, toItem: Item.initHandlerID("wep3"))
+        
+    }
+    
+    convenience init(fromSaveData:SaveData) {
+        self.init(withCurrStats:fromSaveData.currStats, withBaseStats: fromSaveData.baseStats, withInventory: fromSaveData.inventory)
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

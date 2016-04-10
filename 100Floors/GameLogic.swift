@@ -26,24 +26,25 @@ protocol Interactive {
 let screenSize = UIScreen.mainScreen().bounds
 let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
 struct UIElements {
-    static var LeftJoystick:JoystickControl?
-    static var RightJoystick:JoystickControl?
-    static var HPBar:ReallyBigDisplayBar?
-    static var InventoryButton:UIButton?
-    static var MenuButton:UIButton?
+    static var LeftJoystick:JoystickControl!
+    static var RightJoystick:JoystickControl!
+    static var HPBar:ReallyBigDisplayBar!
+    static var InventoryButton:UIButton!
+    static var MenuButton:UIButton!
+    
     static func setVisible(toState:Bool) {
         let _toState = !toState
-        UIElements.LeftJoystick?.hidden = _toState
-        UIElements.RightJoystick?.hidden = _toState
-        UIElements.HPBar?.hidden = _toState
-        UIElements.InventoryButton?.hidden = _toState
-        UIElements.MenuButton?.hidden = _toState
+        UIElements.LeftJoystick.hidden = _toState
+        UIElements.RightJoystick.hidden = _toState
+        UIElements.HPBar.hidden = _toState
+        UIElements.InventoryButton.hidden = _toState
+        UIElements.MenuButton.hidden = _toState
     }
 }
 
 
 
-let thisCharacter = ThisCharacter()
+var thisCharacter:ThisCharacter!
 
 let itemXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
@@ -96,6 +97,7 @@ class GameLogic {
     private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene!
     private static var gameViewController:InGameViewController?
+    private static var currentSave:SaveData?
     
     static var currentInteractiveObjects: [Interactive] = []
     
@@ -103,13 +105,24 @@ class GameLogic {
         gameScene = scene
         currentState = .InGame
         assert(gameViewController != nil)
-        //load save
-        //set level to Hub
-        setLevel(MapLevel(withID: "0"), introScreen: false)
-        thisCharacter.inventory.setItem(thisCharacter.inventory.weaponIndex, toItem: Weapon(withID: "wep1"))
-        thisCharacter.inventory.setItem(0, toItem: Weapon(withID: "wep2"))
-        thisCharacter.inventory.setItem(1, toItem: Weapon(withID: "wep3"))
-        gameScene!.nonCharNodes.addChild(Enemy(withID: "0", atPosition: CGPointMake(30,30)))
+        currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
+        if (currentSave != nil) {
+            thisCharacter = ThisCharacter(fromSaveData: currentSave!)
+        }
+        else {
+            thisCharacter = ThisCharacter()
+            currentSave = SaveData(fromCharacter: thisCharacter)
+        }
+        setLevel(MapLevel(withID: BaseLevel.hubID), introScreen: false) //set level to hub
+    }
+    static func saveGame() -> Bool{
+        if (currentSave != nil) {
+            let out = NSKeyedArchiver.archiveRootObject(currentSave!, toFile: SaveData.SaveURL.path!)
+            print(out)
+            return out
+        }
+        print(false)
+        return false
     }
     
     static func setViewController(to:InGameViewController) {
@@ -176,7 +189,7 @@ class GameLogic {
     }
     ///////
     static func characterDeath() {
-        gameScene.paused = true
+       // gameScene.paused = true
         //display death screen
         //set level to hub
        // setLevel(MapLevel(withID: BaseLevel.hubID), introScreen: false)

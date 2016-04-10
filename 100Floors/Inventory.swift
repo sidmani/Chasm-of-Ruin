@@ -7,7 +7,7 @@
 //
 let inventory_size = 8 // TODO: fix this (IAP)
 
-class Inventory {
+class Inventory:NSObject, NSCoding {
     var weaponIndex:Int {
         return baseSize
     }
@@ -21,9 +21,10 @@ class Inventory {
         return baseSize + 3
     }
     
-    private var baseSize:Int
+    private let baseSize:Int
     private var inventory:[Item?]
     private var parent:Entity?
+    private var hasInventory:Bool
     
     func setParent(to:Entity?) {
         parent = to
@@ -32,6 +33,7 @@ class Inventory {
     init(withEquipment:Bool, withSize: Int)
     {
         baseSize = withSize
+        hasInventory = withEquipment
         if (withEquipment) {
             inventory = [Item?](count:baseSize+4, repeatedValue: nil)
         }
@@ -40,21 +42,21 @@ class Inventory {
         }
     }
     
-    convenience init(fromElement:AEXMLElement) {
+    convenience init(fromElement:AEXMLElement) { //Remove this, inventory already implements NSCoding
         self.init(withEquipment:(fromElement.attributes["equip"] == "true"), withSize:Int(fromElement.attributes["size"]!)!)
         if (fromElement["item"].all != nil) {
             for item in fromElement["item"].all! {
                 switch (item.attributes["index"]!) {
                 case "weapon":
-                    self.setItem(weaponIndex, toItem: Weapon(withID: item.stringValue))
+                    self.setItem(weaponIndex, toItem: Item.initHandlerID(item.stringValue))
                 case "shield":
-                    self.setItem(shieldIndex, toItem: Shield(withID: item.stringValue))
+                    self.setItem(shieldIndex, toItem: Item.initHandlerID(item.stringValue))
                 case "skill":
-                    self.setItem(skillIndex, toItem: Skill(withID: item.stringValue))
+                    self.setItem(skillIndex, toItem: Item.initHandlerID(item.stringValue))
                 case "enhancer":
-                    self.setItem(enhancerIndex, toItem: Enhancer(withID: item.stringValue))
+                    self.setItem(enhancerIndex, toItem: Item.initHandlerID(item.stringValue))
                 default:
-                    self.setItem(Int(item.attributes["index"]!)!, toItem: Item.initHandler(item.stringValue))
+                    self.setItem(Int(item.attributes["index"]!)!, toItem: Item.initHandlerID(item.stringValue))
                 }
             }
         }
@@ -125,5 +127,26 @@ class Inventory {
             inventory[i] = nil
         }
         return droppedItems
+    }
+    /////NSCoding
+    private struct PropertyKey {
+        static let inventoryArrKey = "inventory"
+        static let baseSizeKey = "baseSize"
+        static let hasInventoryKey = "hasInventory"
+    }
+    required convenience init?(coder aDecoder: NSCoder) {
+        let size = aDecoder.decodeObjectForKey(PropertyKey.baseSizeKey) as! Int
+        let hasInventory = aDecoder.decodeObjectForKey(PropertyKey.hasInventoryKey) as! Bool
+        self.init(withEquipment: hasInventory, withSize: size)
+        let arr = aDecoder.decodeObjectForKey(PropertyKey.inventoryArrKey) as! NSArray
+        for i in 0..<arr.count {
+            self.setItem(i, toItem: arr[i] as? Item)
+        }
+    }
+    func encodeWithCoder(aCoder: NSCoder) {
+        let arr:[AnyObject!] = self.inventory.map({$0 == nil ? NSNull():$0})
+        aCoder.encodeObject(arr, forKey: PropertyKey.inventoryArrKey)
+        aCoder.encodeObject(baseSize, forKey: PropertyKey.baseSizeKey)
+        aCoder.encodeObject(hasInventory, forKey: PropertyKey.hasInventoryKey)
     }
 }

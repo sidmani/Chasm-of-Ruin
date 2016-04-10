@@ -42,7 +42,7 @@ class ItemContainer:UIControl {
         self.addSubview(itemView)
     }
     func swapItemWith(container:ItemContainer) {
-            setItem(container.setItem(self.item))
+            setItemTo(container.setItemTo(self.item))
     }
     func setSelectedTo(val:Bool) {
         if (val) {
@@ -58,7 +58,7 @@ class ItemContainer:UIControl {
         return (self.itemTypeRestriction == Any.self || self.itemTypeRestriction == container.itemType || container.itemType == Any.self) && (container.itemTypeRestriction == Any.self || container.itemTypeRestriction == self.itemType || self.itemType == Any.self)
     }
     
-    func setItem(newItem:Item?) -> Item?
+    func setItemTo(newItem:Item?) -> Item?
     {
         let oldItem:Item? = item
         item = newItem

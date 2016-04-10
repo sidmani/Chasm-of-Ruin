@@ -10,6 +10,7 @@ class MapObject:SKNode {
     init(loc:CGPoint) {
         super.init()
         self.position = loc
+        self.zPosition = BaseLevel.LayerDef.MapObjects
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,14 +38,14 @@ class Spawner:MapObject, Updatable {
 
 class Portal:MapObject, Interactive {
     
-    var thumbnailImg:String
-    var autotrigger:Bool
+    let thumbnailImg:String
+    let autotrigger:Bool
 
-    var destinationID:String
-    var showIntroScreen:Bool
-    var showCountdown:Bool
+    let destinationID:String
+    let showIntroScreen:Bool
+    let showCountdown:Bool
     
-    //var destinationLoc:CGPoint // if different than the map's defined start loc.
+    //var destinationLoc:CGPoint? // if different than the map's defined start loc.
 
     init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, introScreen:Bool, countdown:Bool, thumbnail:String) {
         destinationID = _destinationID
@@ -82,7 +83,7 @@ class Portal:MapObject, Interactive {
     }
 }
 class ItemBag:MapObject, Interactive {
-    var autotrigger:Bool = false
+    let autotrigger:Bool = false
     var thumbnailImg: String {
         return item.img
     }
@@ -98,7 +99,7 @@ class ItemBag:MapObject, Interactive {
     }
     convenience init (fromElement:AEXMLElement, withTileEdge:CGFloat) {
         let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
-        self.init(withItem: Item.initHandler(fromElement["itemID"].stringValue)!, loc:withTileEdge*loc)
+        self.init(withItem: Item.initHandlerID(fromElement["itemID"].stringValue)!, loc:withTileEdge*loc)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -110,25 +111,21 @@ class ItemBag:MapObject, Interactive {
         
     func displayPopup(state:Bool) {
         if (state) {
-            addChild(PopUp(image: thumbnailImg, size: CGSizeMake(16, 16), parent:self))
+            addChild(PopUp(image: thumbnailImg, size: CGSizeMake(8, 8), parent:self))
         }
         else {
-            for child in children {
-                if child is PopUp {
-                    child.removeFromParent()
-                    return
-                }
-            }
+            removeAllChildren()
         }
     }
     
-    func setItem(toItem:Item?) {
-        if (toItem == nil) {
+    func setItemTo(_item:Item?) {
+        if (_item == nil) {
             removeFromParent()
             GameLogic.exitedDistanceOf(self)
         }
         else {
-            item = toItem!
+            
+            item = _item!
         }
     }
 }

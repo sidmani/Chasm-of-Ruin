@@ -25,8 +25,6 @@
 #define _SKAToolKit_h
 #define _SKAToolKit_
 
-#import "SKACroppedMiniMap.h"
-#import "SKAMiniMap.h"
 #import "SKATiledMap.h"
 
 #import "SKATMXParser.h"
@@ -38,8 +36,5 @@
 #import "SKAObjectLayer.h"
 #import "SKASpriteLayer.h"
 
-#import "SKAButtonSprite.h"
-
-#import "SKALabelNode.h"
 
 #endif

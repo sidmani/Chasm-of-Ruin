@@ -8,14 +8,15 @@
 
 import SpriteKit
 class Projectile:SKSpriteNode, Updatable{
-    var friendly: Bool
-    var attack:CGFloat
+    let friendly: Bool
+    let attack:CGFloat
     
-    private var range: CGFloat
-    private var startLoc: CGPoint
-    private var _speed:CGFloat
+    private let range: CGFloat
+    private let startLoc: CGPoint
+    private let _speed:CGFloat
+    private let reflects:Bool
+
     private var distanceTraveled:CGFloat = 0
-    private var reflects:Bool
     
     init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool) {
         var thisProjectile:AEXMLElement

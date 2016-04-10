@@ -6,7 +6,7 @@
 //
 //
 class BaseLevel:SKNode {
-    static let hubID = "Hub"
+    static let hubID = "hub"
 
     struct LayerDef {
         static let PopUps:CGFloat = 20
@@ -18,12 +18,12 @@ class BaseLevel:SKNode {
         static let MapObjects:CGFloat = 3.5
         static let MapTop:CGFloat = 3
     }
-    var startLoc:CGPoint
-    var tileEdge:CGFloat
-    var levelName:String
-    var desc:String
-    var mapSizeOnScreen: CGSize
-    var objects = SKNode()
+    let startLoc:CGPoint
+    let tileEdge:CGFloat
+    let levelName:String
+    let desc:String
+    let mapSizeOnScreen: CGSize
+    let objects = SKNode()
 
     init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSizeOnScreen:CGSize) {
         startLoc = _startLoc

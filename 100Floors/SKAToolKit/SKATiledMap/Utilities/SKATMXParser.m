@@ -215,20 +215,7 @@ typedef NS_ENUM(NSUInteger, ParseMode)
                 self.currentProperties = [[NSMutableDictionary alloc] init];
             }
         }
-    }
- /*   else if([elementName isEqualToString:kProperty])
-    {
-        if(self.parseMode == ParseModeTileProperties)
-        {
-           
-            self.currentProperties[self.currentTileID] =
-                @{ attributeDict[kName] : attributeDict[kValue] };
-        }
-        else if(self.parseMode == ParseModeObjectProperties)
-        {
-            self.currentProperties[attributeDict[kName]] = attributeDict[kValue];
-        }
-    }*/
+    } 
     else if([elementName isEqualToString:kProperty])
     {
         if(self.parseMode == ParseModeTileProperties)

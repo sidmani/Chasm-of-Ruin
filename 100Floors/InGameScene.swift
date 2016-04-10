@@ -35,8 +35,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.camera = mainCamera
         self.camera?.position = thisCharacter.position
-        self.camera?.xScale = 0.3
-        self.camera?.yScale = 0.3
+        self.camera?.xScale = 0.2
+        self.camera?.yScale = 0.2
 
         nonCharNodes.physicsBody = SKPhysicsBody() //CHECK
         nonCharNodes.physicsBody?.affectedByGravity = false
@@ -103,7 +103,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
-
         if (introScreen) {
             GameLogic.setGameState(.LoadingScreen)
             //TODO: trigger intro screen
