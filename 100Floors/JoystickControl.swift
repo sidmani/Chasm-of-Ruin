@@ -10,27 +10,24 @@ import UIKit
 import SpriteKit
 
 class JoystickControl:UIControl{
-    let ring_size: CGFloat = 25
-    let center_offset:CGFloat = 50
+    private let ring_size: CGFloat = 25
+    private let center_offset:CGFloat = 50
     
-    let ringView = UIView()
-    let stickView = UIView()
+    private let ringView = UIView()
+    private let stickView = UIView()
 
-    let ringLayer = CAShapeLayer()
-    let stickLayer = CAShapeLayer()
+    private let ringLayer = CAShapeLayer()
+    private let stickLayer = CAShapeLayer()
 
     var currentPoint = CGPoint(x:0, y:0)
-   /* var angle: CGFloat {
-        return atan2(currentPoint.y, currentPoint.x)
-    }*/
-    var distance: CGFloat = 0
-    var displacement:CGVector {
+   
+    private var distance: CGFloat = 0
+    var normalDisplacement:CGVector {
         if (distance == 0) {
             return CGVector(dx: 0, dy: 0)
         }
         return CGVectorMake(stickView.center.x/distance, -stickView.center.y/distance)
     }
-
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -68,7 +65,7 @@ class JoystickControl:UIControl{
             }
             else
             {
-                stickView.center = ring_size*CGPointMake(currentPoint.x/distance, currentPoint.y/distance)
+                stickView.center = CGPointMake(ring_size*currentPoint.x/distance, ring_size*currentPoint.y/distance)
                 distance = ring_size
             }
         }
@@ -86,7 +83,7 @@ class JoystickControl:UIControl{
             }
             else
             {
-                stickView.center = ring_size*CGPointMake(currentPoint.x/distance, currentPoint.y/distance)
+                stickView.center = CGPointMake(ring_size*currentPoint.x/distance, ring_size*currentPoint.y/distance)
                 distance = ring_size
             }
         }

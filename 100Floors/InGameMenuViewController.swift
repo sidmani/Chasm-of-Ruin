@@ -5,6 +5,7 @@
 //  Created by Sid Mani on 2/28/16.
 //
 //
+import UIKit
 
 class InGameMenuViewController: UIViewController {
     override func viewDidLoad() {

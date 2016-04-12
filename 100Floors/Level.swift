@@ -5,6 +5,9 @@
 //  Created by Sid Mani on 1/29/16.
 //
 //
+import SpriteKit
+import UIKit
+
 class BaseLevel:SKNode {
     static let hubID = "hub"
 
@@ -58,9 +61,9 @@ class MapLevel:BaseLevel, Updatable {
         self.addChild(objects)
         if (map.spriteLayers.count > 1) {
             for i in 0..<map.spriteLayers.count-1 {
-                (map.spriteLayers[i] as! SKNode).zPosition = LayerDef.MapTop - CGFloat(map.spriteLayers.count) + CGFloat(i)
+                map.spriteLayers[i].zPosition = LayerDef.MapTop - CGFloat(map.spriteLayers.count) + CGFloat(i)
             }
-            (map.spriteLayers[map.spriteLayers.count-1] as! SKNode).zPosition = LayerDef.MapAbovePlayer
+            map.spriteLayers[map.spriteLayers.count-1].zPosition = LayerDef.MapAbovePlayer
         }
         else {
             map.zPosition = LayerDef.MapTop
@@ -69,23 +72,23 @@ class MapLevel:BaseLevel, Updatable {
         for l in 0..<map.spriteLayers.count { //should be able to delete this if Tiled collisions are fixed
             for x in 0..<map.mapWidth {
                 for y in 0..<map.mapHeight {
-                    let _sprite:SKASprite? = map.spriteOnLayer(l, indexX: x, indexY: y)
-                    if (_sprite != nil && _sprite!.properties != nil) {
-                        let sprite:SKASprite = _sprite!
+                    let sprite = map.spriteFor(l, x: x, y: y)
+                    if (sprite.properties != nil) {
+                        //let sprite:SKASprite = _sprite!
                             var bodies:[SKPhysicsBody] = []
-                            if (sprite.properties["NorthImpassable"] != nil && sprite.properties["NorthImpassable"]!.boolValue! == true) {
+                            if (sprite.properties!["NorthImpassable"] != nil && sprite.properties!["NorthImpassable"]!.boolValue! == true) {
 
                                 bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, sprite.size.height/2)))
                             }
-                            if (sprite.properties["WestImpassable"] != nil && sprite.properties["WestImpassable"]!.boolValue! == true) {
+                            if (sprite.properties!["WestImpassable"] != nil && sprite.properties!["WestImpassable"]!.boolValue! == true) {
                                 bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: 0.1, height: sprite.size.height), center: CGPointMake(-sprite.size.width/2, 0)))
 
                             }
-                            if (sprite.properties["EastImpassable"] != nil && sprite.properties["EastImpassable"]!.boolValue! == true) {
+                            if (sprite.properties!["EastImpassable"] != nil && sprite.properties!["EastImpassable"]!.boolValue! == true) {
                                 bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: 0.1, height: sprite.size.height), center: CGPointMake(sprite.size.width/2, 0)))
 
                             }
-                            if (sprite.properties["SouthImpassable"] != nil && sprite.properties["SouthImpassable"]!.boolValue! == true) {
+                            if (sprite.properties!["SouthImpassable"] != nil && sprite.properties!["SouthImpassable"]!.boolValue! == true) {
                                 bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, -sprite.size.height/2)))
 
                             }
@@ -147,11 +150,11 @@ class MapLevel:BaseLevel, Updatable {
     }
 
     override func indexForPoint(p:CGPoint) -> CGPoint {
-        return map.indexForPoint(p)
+        return map.index(p)
     }
     
     override func cull(x:Int, y:Int, width:Int, height:Int) {
-        map.cullAroundIndexX(x, indexY: y, columnWidth: width, rowHeight: height)
+        map.cullAround(x, y: y, width: width, height: height)
     }
     
     func update(deltaT: Double) {

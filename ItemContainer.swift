@@ -21,9 +21,8 @@ class ItemContainer:UIControl {
             if (item == nil) {
                 return Any.self
             }
-            else {
-                return item!.dynamicType
-            }
+            return item!.dynamicType
+            
         }
     }
     required init?(coder aDecoder: NSCoder) {

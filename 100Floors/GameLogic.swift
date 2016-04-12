@@ -7,6 +7,8 @@
 //
 import Swift
 import SpriteKit
+import UIKit
+import Foundation
 
 enum GameStates {
     case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene
@@ -17,7 +19,6 @@ protocol Updatable {
 
 protocol Interactive {
     var thumbnailImg:String { get }
- //   var interactText:String { get }
     var autotrigger:Bool { get }
     func trigger()
     func displayPopup(state:Bool)
@@ -25,6 +26,7 @@ protocol Interactive {
 
 let screenSize = UIScreen.mainScreen().bounds
 let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
+
 struct UIElements {
     static var LeftJoystick:JoystickControl!
     static var RightJoystick:JoystickControl!
@@ -96,7 +98,7 @@ let behaviorXML: AEXMLDocument! = {() -> AEXMLDocument? in
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene!
-    private static var gameViewController:InGameViewController?
+    private static var gameViewController:InGameViewController!
     private static var currentSave:SaveData?
     
     static var currentInteractiveObjects: [Interactive] = []
@@ -104,7 +106,7 @@ class GameLogic {
     static func setupGame(scene: InGameScene) {
         gameScene = scene
         currentState = .InGame
-        assert(gameViewController != nil)
+      //  assert(gameViewController != nil)
         currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
         if (currentSave != nil) {
             thisCharacter = ThisCharacter(fromSaveData: currentSave!)

@@ -1,8 +1,8 @@
 //
-//  SKASpriteLayer.h
-//  SKATMXParser
+//  SKAMapTile.swift
 //
-//  Copyright (c) 2015 Sprite Kit Alliance
+//  Created by Skyler Lauren on 10/10/15.
+//  Copyright © 2015 Sprite Kit Alliance. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -21,32 +21,20 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
-//
 
-#import <SpriteKit/SpriteKit.h>
-#import "SKASprite.h"
-
-@interface SKASpriteLayer : SKNode
-
-// TODO these can be a struct {{x: NSInteger, y: NSInteger}, {width: NSInteger,
-// height: NSInteger}}
-@property (nonatomic) NSInteger x;
-@property (nonatomic) NSInteger y;
-@property (nonatomic) NSInteger height;
-@property (nonatomic) NSInteger width;
-
-@property (nonatomic) float opacity;
-@property (nonatomic) BOOL visible;
-
-@property (nonatomic, strong) NSString *type;
-
-@property (nonatomic, strong) NSArray *collisionSprites;
+import Foundation
+import SpriteKit
 
 /**
- two dementional array of SKASprites and NSNull
+ This class is only used to to hold texture info during SKATiledMap creation
  */
-@property (nonatomic, strong) NSArray *sprites;
-
-- (SKASprite *)spriteForIndexX:(NSInteger)x indexY:(NSInteger)y;
-
-@end
+class SKAMapTile {
+    
+    let texture : SKTexture
+    var properties : [String : AnyObject]?
+    
+    init (texture : SKTexture)
+    {
+        self.texture = texture
+    }
+}

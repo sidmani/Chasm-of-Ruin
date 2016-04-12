@@ -92,7 +92,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didFinishUpdate() {
         oldLoc = camera!.position
-        camera!.position = CGPointMake(floor(thisCharacter.position.x*6)/6, floor(thisCharacter.position.y*6)/6)
+        camera!.position = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
     }
     
     func setLevel(newLevel:BaseLevel, introScreen:Bool)

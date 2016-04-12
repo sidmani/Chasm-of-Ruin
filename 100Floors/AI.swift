@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 class EnemyAI: Updatable{
     private let behavior_update_interval:Double = 500
     private var parent:Enemy

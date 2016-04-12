@@ -5,6 +5,8 @@
 //  Created by Sid Mani on 2/13/16.
 //
 //
+import UIKit
+import SpriteKit
 
 class MapObject:SKNode {
     init(loc:CGPoint) {

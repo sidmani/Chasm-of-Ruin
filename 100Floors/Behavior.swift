@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct BehaviorConditionals {
     static let FixedValue = {(e:Enemy, params:[CGFloat]) -> Bool in

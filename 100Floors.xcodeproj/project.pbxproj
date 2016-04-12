@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */; };
 		1F0428971C8367B400FB4516 /* InventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428961C8367B400FB4516 /* InventoryViewController.swift */; };
+		1F29C0C81CBC84CA00A2EFEE /* SKAMapTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C11CBC84CA00A2EFEE /* SKAMapTile.swift */; };
+		1F29C0C91CBC84CA00A2EFEE /* SKAObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C21CBC84CA00A2EFEE /* SKAObject.swift */; };
+		1F29C0CA1CBC84CA00A2EFEE /* SKAObjectLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C31CBC84CA00A2EFEE /* SKAObjectLayer.swift */; };
+		1F29C0CB1CBC84CA00A2EFEE /* SKASprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C41CBC84CA00A2EFEE /* SKASprite.swift */; };
+		1F29C0CC1CBC84CA00A2EFEE /* SKASpriteLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C51CBC84CA00A2EFEE /* SKASpriteLayer.swift */; };
+		1F29C0CD1CBC84CA00A2EFEE /* SKATiledMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C61CBC84CA00A2EFEE /* SKATiledMap.swift */; };
+		1F29C0CE1CBC84CA00A2EFEE /* SKATMXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C71CBC84CA00A2EFEE /* SKATMXParser.swift */; };
 		1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */; };
 		1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */; };
 		1F2CEE0F1C387B1F00E4FB2E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */; };
@@ -25,17 +32,6 @@
 		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
 		1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078371C3C9AEA00EC773E /* Entity.swift */; };
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
-		1F56B96F1C4AE37E0098380D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56B96E1C4AE37E0098380D /* libz.tbd */; };
-		1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9921C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m */; };
-		1F56B9AE1C4AEC8D0098380D /* SKACollisionDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9941C4AEC8D0098380D /* SKACollisionDefine.m */; };
-		1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9961C4AEC8D0098380D /* SKAObject.m */; };
-		1F56B9B01C4AEC8D0098380D /* SKAObjectLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9981C4AEC8D0098380D /* SKAObjectLayer.m */; };
-		1F56B9B11C4AEC8D0098380D /* SKASprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B99A1C4AEC8D0098380D /* SKASprite.m */; };
-		1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B99C1C4AEC8D0098380D /* SKASpriteLayer.m */; };
-		1F56B9B31C4AEC8D0098380D /* SKATiledMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B99E1C4AEC8D0098380D /* SKATiledMap.m */; };
-		1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */; };
-		1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */; };
-		1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */; };
 		1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CF03B1C9262F600B00AB7 /* AI.swift */; };
 		1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7415151CB03DA8000A2D48 /* Popup.swift */; };
 		1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D9381C67C0E100ECA534 /* AEXML.swift */; };
@@ -44,7 +40,6 @@
 		1FC40B4F1CB9AF2300AAC096 /* Sprites00.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC40B4E1CB9AF2300AAC096 /* Sprites00.png */; };
 		1FC7D7211CA3325900B8CD2B /* Behaviors.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1FC7D7201CA3325900B8CD2B /* Behaviors.xml */; };
 		1FC9AC571C9E08CB00E80D30 /* Enemies.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9AC561C9E08CB00E80D30 /* Enemies.xml */; };
-		1FC9AC591C9E10C100E80D30 /* gnarled-tree.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9AC581C9E10C100E80D30 /* gnarled-tree.png */; };
 		1FC9AC5B1C9E161B00E80D30 /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC9AC5A1C9E161B00E80D30 /* Behavior.swift */; };
 		1FCE14BE1C45F02100112188 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14BD1C45F02100112188 /* Item.swift */; };
 		1FCE14C21C46080600112188 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE14C11C46080600112188 /* Inventory.swift */; };
@@ -61,6 +56,13 @@
 /* Begin PBXFileReference section */
 		1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameMenuViewController.swift; sourceTree = "<group>"; };
 		1F0428961C8367B400FB4516 /* InventoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryViewController.swift; sourceTree = "<group>"; };
+		1F29C0C11CBC84CA00A2EFEE /* SKAMapTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAMapTile.swift; sourceTree = "<group>"; };
+		1F29C0C21CBC84CA00A2EFEE /* SKAObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAObject.swift; sourceTree = "<group>"; };
+		1F29C0C31CBC84CA00A2EFEE /* SKAObjectLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAObjectLayer.swift; sourceTree = "<group>"; };
+		1F29C0C41CBC84CA00A2EFEE /* SKASprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKASprite.swift; sourceTree = "<group>"; };
+		1F29C0C51CBC84CA00A2EFEE /* SKASpriteLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKASpriteLayer.swift; sourceTree = "<group>"; };
+		1F29C0C61CBC84CA00A2EFEE /* SKATiledMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKATiledMap.swift; sourceTree = "<group>"; };
+		1F29C0C71CBC84CA00A2EFEE /* SKATMXParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKATMXParser.swift; sourceTree = "<group>"; };
 		1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F2CEE0C1C387B1F00E4FB2E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -78,29 +80,6 @@
 		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
-		1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "100Floors-Bridging-Header.h"; sourceTree = "<group>"; };
-		1F56B96E1C4AE37E0098380D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		1F56B9911C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SKATMXParserUtils.h"; sourceTree = "<group>"; };
-		1F56B9921C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SKATMXParserUtils.m"; sourceTree = "<group>"; };
-		1F56B9931C4AEC8D0098380D /* SKACollisionDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKACollisionDefine.h; sourceTree = "<group>"; };
-		1F56B9941C4AEC8D0098380D /* SKACollisionDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKACollisionDefine.m; sourceTree = "<group>"; };
-		1F56B9951C4AEC8D0098380D /* SKAObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAObject.h; sourceTree = "<group>"; };
-		1F56B9961C4AEC8D0098380D /* SKAObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAObject.m; sourceTree = "<group>"; };
-		1F56B9971C4AEC8D0098380D /* SKAObjectLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAObjectLayer.h; sourceTree = "<group>"; };
-		1F56B9981C4AEC8D0098380D /* SKAObjectLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAObjectLayer.m; sourceTree = "<group>"; };
-		1F56B9991C4AEC8D0098380D /* SKASprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKASprite.h; sourceTree = "<group>"; };
-		1F56B99A1C4AEC8D0098380D /* SKASprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKASprite.m; sourceTree = "<group>"; };
-		1F56B99B1C4AEC8D0098380D /* SKASpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKASpriteLayer.h; sourceTree = "<group>"; };
-		1F56B99C1C4AEC8D0098380D /* SKASpriteLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKASpriteLayer.m; sourceTree = "<group>"; };
-		1F56B99D1C4AEC8D0098380D /* SKATiledMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATiledMap.h; sourceTree = "<group>"; };
-		1F56B99E1C4AEC8D0098380D /* SKATiledMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATiledMap.m; sourceTree = "<group>"; };
-		1F56B9A01C4AEC8D0098380D /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
-		1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
-		1F56B9A21C4AEC8D0098380D /* SKAMapTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAMapTile.h; sourceTree = "<group>"; };
-		1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAMapTile.m; sourceTree = "<group>"; };
-		1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKATMXParser.h; sourceTree = "<group>"; };
-		1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKATMXParser.m; sourceTree = "<group>"; };
-		1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAToolKit.h; sourceTree = "<group>"; };
 		1F5CF03B1C9262F600B00AB7 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		1F7415151CB03DA8000A2D48 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		1FA7D9381C67C0E100ECA534 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
@@ -109,7 +88,6 @@
 		1FC40B4E1CB9AF2300AAC096 /* Sprites00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sprites00.png; sourceTree = "<group>"; };
 		1FC7D7201CA3325900B8CD2B /* Behaviors.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Behaviors.xml; sourceTree = "<group>"; };
 		1FC9AC561C9E08CB00E80D30 /* Enemies.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Enemies.xml; sourceTree = "<group>"; };
-		1FC9AC581C9E10C100E80D30 /* gnarled-tree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gnarled-tree.png"; sourceTree = "<group>"; };
 		1FC9AC5A1C9E161B00E80D30 /* Behavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Behavior.swift; sourceTree = "<group>"; };
 		1FCE14BA1C45E0CD00112188 /* 100Floors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 100Floors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCE14BD1C45F02100112188 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../Item.swift; sourceTree = "<group>"; };
@@ -129,13 +107,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F56B96F1C4AE37E0098380D /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F29C0C01CBC84CA00A2EFEE /* SKATiledMap */ = {
+			isa = PBXGroup;
+			children = (
+				1F29C0C11CBC84CA00A2EFEE /* SKAMapTile.swift */,
+				1F29C0C21CBC84CA00A2EFEE /* SKAObject.swift */,
+				1F29C0C31CBC84CA00A2EFEE /* SKAObjectLayer.swift */,
+				1F29C0C41CBC84CA00A2EFEE /* SKASprite.swift */,
+				1F29C0C51CBC84CA00A2EFEE /* SKASpriteLayer.swift */,
+				1F29C0C61CBC84CA00A2EFEE /* SKATiledMap.swift */,
+				1F29C0C71CBC84CA00A2EFEE /* SKATMXParser.swift */,
+			);
+			path = SKATiledMap;
+			sourceTree = "<group>";
+		};
 		1F2CEDFC1C387B1F00E4FB2E = {
 			isa = PBXGroup;
 			children = (
@@ -149,7 +140,6 @@
 			children = (
 				1F2CEE181C387B1F00E4FB2E /* Info.plist */,
 				1F2CEE081C387B1F00E4FB2E /* AppDelegate.swift */,
-				1F56B9671C4AE2780098380D /* 100Floors-Bridging-Header.h */,
 				1FA7D9381C67C0E100ECA534 /* AEXML.swift */,
 				1F3D79C41C4B1C700036C680 /* Game Logic */,
 				1F3D79C31C4B1C4B0036C680 /* Graphics */,
@@ -172,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				1FE667651CAE1AA3003BCE30 /* Effects.swift */,
-				1F56B97C1C4AEC8D0098380D /* SKAToolKit */,
+				1F29C0C01CBC84CA00A2EFEE /* SKATiledMap */,
 				1F4DB7C21C44A54600887FBC /* Interface */,
 				1F3D79C21C4B1C3C0036C680 /* Scenes */,
 			);
@@ -198,7 +188,6 @@
 		1F45F9B31C4CAE9A00334AB5 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
-				1FC9AC581C9E10C100E80D30 /* gnarled-tree.png */,
 				1FDD427D1C4DDD65008C809E /* Projectiles.atlas */,
 				1FB3EB951C4B58B60056AAE1 /* chars.atlas */,
 			);
@@ -240,59 +229,6 @@
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 			);
 			name = Interface;
-			sourceTree = "<group>";
-		};
-		1F56B97C1C4AEC8D0098380D /* SKAToolKit */ = {
-			isa = PBXGroup;
-			children = (
-				1F56B96E1C4AE37E0098380D /* libz.tbd */,
-				1F56B98F1C4AEC8D0098380D /* SKATiledMap */,
-				1F56B9A61C4AEC8D0098380D /* SKAToolKit.h */,
-			);
-			path = SKAToolKit;
-			sourceTree = "<group>";
-		};
-		1F56B98F1C4AEC8D0098380D /* SKATiledMap */ = {
-			isa = PBXGroup;
-			children = (
-				1F56B9901C4AEC8D0098380D /* Categories */,
-				1F56B9931C4AEC8D0098380D /* SKACollisionDefine.h */,
-				1F56B9941C4AEC8D0098380D /* SKACollisionDefine.m */,
-				1F56B9951C4AEC8D0098380D /* SKAObject.h */,
-				1F56B9961C4AEC8D0098380D /* SKAObject.m */,
-				1F56B9971C4AEC8D0098380D /* SKAObjectLayer.h */,
-				1F56B9981C4AEC8D0098380D /* SKAObjectLayer.m */,
-				1F56B9991C4AEC8D0098380D /* SKASprite.h */,
-				1F56B99A1C4AEC8D0098380D /* SKASprite.m */,
-				1F56B99B1C4AEC8D0098380D /* SKASpriteLayer.h */,
-				1F56B99C1C4AEC8D0098380D /* SKASpriteLayer.m */,
-				1F56B99D1C4AEC8D0098380D /* SKATiledMap.h */,
-				1F56B99E1C4AEC8D0098380D /* SKATiledMap.m */,
-				1F56B99F1C4AEC8D0098380D /* Utilities */,
-			);
-			path = SKATiledMap;
-			sourceTree = "<group>";
-		};
-		1F56B9901C4AEC8D0098380D /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				1F56B9911C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.h */,
-				1F56B9921C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		1F56B99F1C4AEC8D0098380D /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				1F56B9A01C4AEC8D0098380D /* LFCGzipUtility.h */,
-				1F56B9A11C4AEC8D0098380D /* LFCGzipUtility.m */,
-				1F56B9A21C4AEC8D0098380D /* SKAMapTile.h */,
-				1F56B9A31C4AEC8D0098380D /* SKAMapTile.m */,
-				1F56B9A41C4AEC8D0098380D /* SKATMXParser.h */,
-				1F56B9A51C4AEC8D0098380D /* SKATMXParser.m */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		1F689EF31CA998F200F6C3FE /* ViewControllers */ = {
@@ -404,7 +340,6 @@
 				1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */,
 				1FC7D7211CA3325900B8CD2B /* Behaviors.xml in Resources */,
 				1FC9AC571C9E08CB00E80D30 /* Enemies.xml in Resources */,
-				1FC9AC591C9E10C100E80D30 /* gnarled-tree.png in Resources */,
 				1FC40B4F1CB9AF2300AAC096 /* Sprites00.png in Resources */,
 				1F457D431C6D009500E0CB37 /* Items.xml in Resources */,
 				1FD105C81C87D69000C9F624 /* Sword-T6.png in Resources */,
@@ -438,33 +373,30 @@
 				1F0428971C8367B400FB4516 /* InventoryViewController.swift in Sources */,
 				1FCE14BE1C45F02100112188 /* Item.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */,
-				1F56B9AE1C4AEC8D0098380D /* SKACollisionDefine.m in Sources */,
 				1FE667641CAC9FD6003BCE30 /* SaveData.swift in Sources */,
+				1F29C0CD1CBC84CA00A2EFEE /* SKATiledMap.swift in Sources */,
 				1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */,
+				1F29C0CC1CBC84CA00A2EFEE /* SKASpriteLayer.swift in Sources */,
+				1F29C0C81CBC84CA00A2EFEE /* SKAMapTile.swift in Sources */,
+				1F29C0C91CBC84CA00A2EFEE /* SKAObject.swift in Sources */,
 				1FC9AC5B1C9E161B00E80D30 /* Behavior.swift in Sources */,
-				1F56B9B11C4AEC8D0098380D /* SKASprite.m in Sources */,
 				1F2CEE0F1C387B1F00E4FB2E /* MenuViewController.swift in Sources */,
 				1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */,
 				1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */,
-				1F56B9B01C4AEC8D0098380D /* SKAObjectLayer.m in Sources */,
 				1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */,
-				1F56B9B21C4AEC8D0098380D /* SKASpriteLayer.m in Sources */,
 				1FEC7C8C1C7033E0005AEDB3 /* MapObject.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,
 				1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */,
 				1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */,
-				1F56B9B31C4AEC8D0098380D /* SKATiledMap.m in Sources */,
-				1F56B9B51C4AEC8D0098380D /* SKAMapTile.m in Sources */,
 				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
+				1F29C0CA1CBC84CA00A2EFEE /* SKAObjectLayer.swift in Sources */,
+				1F29C0CB1CBC84CA00A2EFEE /* SKASprite.swift in Sources */,
+				1F29C0CE1CBC84CA00A2EFEE /* SKATMXParser.swift in Sources */,
 				1FE667661CAE1AA3003BCE30 /* Effects.swift in Sources */,
 				1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */,
 				1FCE14C21C46080600112188 /* Inventory.swift in Sources */,
 				1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */,
-				1F56B9AD1C4AEC8D0098380D /* NSMutableDictionary+SKATMXParserUtils.m in Sources */,
-				1F56B9B41C4AEC8D0098380D /* LFCGzipUtility.m in Sources */,
 				1F4686151C5C50AD004D3F55 /* Level.swift in Sources */,
-				1F56B9B61C4AEC8D0098380D /* SKATMXParser.m in Sources */,
-				1F56B9AF1C4AEC8D0098380D /* SKAObject.m in Sources */,
 				1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
 			);
@@ -593,7 +525,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00Floors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "100Floors/100Floors-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -611,7 +542,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "B7F.-00Floors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "100Floors/100Floors-Bridging-Header.h";
 			};
 			name = Release;
 		};

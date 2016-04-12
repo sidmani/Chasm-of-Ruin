@@ -1,8 +1,8 @@
 //
-//  SpriteMapTile.m
-//  SpriteKitGame
+//  SKASprite.swift
 //
-//  Copyright (c) 2015 Sprite Kit Alliance
+//  Created by Skyler Lauren on 10/5/15.
+//  Copyright © 2015 Sprite Kit Alliance. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -21,10 +21,22 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
-//
 
-#import "SKAMapTile.h"
+import Foundation
+import SpriteKit
 
-@implementation SKAMapTile
+/**
+ SKASprite generated from a Tiled Sprite with additional properties
+ */
+struct IntegerPoint {
+    var x:Int
+    var y:Int
+}
 
-@end
+class SKASprite : SKSpriteNode {
+    /**
+     Properties defined by Tiled
+     */
+    var positionOnMap:IntegerPoint?
+    var properties : [String : AnyObject]?
+}

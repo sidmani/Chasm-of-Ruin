@@ -43,9 +43,17 @@ struct Stats {
         default: break
         }
     }
+    
     func toArray() -> NSArray {
         return NSArray(array: [health,defense,attack,speed,dexterity,mana,rage])
     }
+    
+    mutating func capAt(maxVal:CGFloat) {
+        for i in 0..<Stats.numStats {
+            setIndex(i, toVal: min(getIndex(i), maxVal))
+        }
+    }
+    
     static func statsFrom(Array:NSArray) -> Stats {
         var out = nilStats
         for i in 0..<numStats {
@@ -62,12 +70,6 @@ struct Stats {
             dexterity: CGFloat(Element["Stats"]["dex"].doubleValue),
             mana: CGFloat(Element["Stats"]["mana"].doubleValue),
             rage: CGFloat(Element["Stats"]["rage"].doubleValue))
-    }
-    
-    mutating func capAt(maxVal:CGFloat) {
-        for i in 0..<Stats.numStats {
-            setIndex(i, toVal: min(getIndex(i), maxVal))
-        }
     }
     
     static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
@@ -222,24 +224,24 @@ class ThisCharacter: Entity, Updatable {
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
+            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: currStats.attack + equipStats.attack, reflects: weapon!.projectileReflects)
             GameLogic.addObject(newProjectile)
         }
     }
 
     
-    func update(deltaT:Double) {
-        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 300 && weapon != nil) {
-            fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.displacement)
+    func update(deltaT:Double) { //as dex goes from 0-100, time between projectiles goes from 1000 to 20 ms
+        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(currStats.dexterity+equipStats.dexterity) && weapon != nil) {
+            fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.normalDisplacement)
             timeSinceProjectile = 0
         }
         else {
             timeSinceProjectile += deltaT
         }
-
-        self.physicsBody?.velocity = 50*UIElements.LeftJoystick!.displacement
-        }
+        self.physicsBody?.velocity = 0.3*(currStats.speed + equipStats.speed + 100) * UIElements.LeftJoystick!.normalDisplacement
+        
     }
+}
 
 
 class Enemy:Entity, Updatable{

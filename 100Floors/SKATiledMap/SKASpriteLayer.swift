@@ -1,6 +1,8 @@
 //
-//  SKAToolKit.h
-//  SKAToolKitExample
+//  SKASpriteLayer.swift
+//
+//  Created by Skyler Lauren on 10/5/15.
+//  Copyright © 2015 Sprite Kit Alliance. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -19,22 +21,41 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
-//
 
-#ifndef _SKAToolKit_h
-#define _SKAToolKit_h
-#define _SKAToolKit_
+import Foundation
+import SpriteKit
 
-#import "SKATiledMap.h"
+/**
+ SKASpriteLayer is a SKNode generated from a Tiled sprite layer 
+ */
+class SKASpriteLayer : SKNode {
+    
+    /**
+     Type defined by Tiled at creation
+     */
+    var type : String
+    
+    /**
+     A 2D array of SKASprites to easily access tiles for specific indexes
+     */
+    var sprites = [[SKASprite]]()
 
-#import "SKATMXParser.h"
+    
+    init(properties: [String: AnyObject]){
+        
+        guard let _ = properties["type"] as? String else{
+            fatalError("Error: missing type for Sprite Layer")
+        }
+        type = properties["type"] as! String
+        
+        super.init()
+        
+    }
 
-#import "SKASprite.h"
-#import "SKAObject.h"
-#import "SKAMapTile.h"
-#import "SKACollisionDefine.h"
-#import "SKAObjectLayer.h"
-#import "SKASpriteLayer.h"
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
 
-#endif
+    
+}

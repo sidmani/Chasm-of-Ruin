@@ -5,6 +5,8 @@
 //  Created by Sid Mani on 2/28/16.
 //
 //
+import UIKit
+
 class InventoryViewController: UIViewController {
 
     @IBOutlet weak var NameLabel: UILabel!
@@ -51,11 +53,11 @@ class InventoryViewController: UIViewController {
                 containers[i].setItemTo(inventory.getItem(i))
                 containers[i].correspondsToInventoryIndex = i
             }
-            if (containers[containers.count-i-1].item != nil) {
-                selected = containers.count-i-1
+            if (containers[i].item != nil) {
+                selected = i
             }
-            containers[i].addTarget(self, action: #selector(InventoryViewController.itemDropped(_:)), forControlEvents: .ApplicationReserved)
-            containers[i].addTarget(self, action: #selector(InventoryViewController.containerSelected(_:)), forControlEvents: .TouchUpInside)
+            containers[i].addTarget(self, action: #selector(itemDropped(_:)), forControlEvents: .ApplicationReserved)
+            containers[i].addTarget(self, action: #selector(containerSelected(_:)), forControlEvents: .TouchUpInside)
         }
      
         if (GroundContainer.item != nil) {

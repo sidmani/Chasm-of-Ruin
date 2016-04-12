@@ -5,6 +5,8 @@
 //  Created by Sid Mani on 1/12/16.
 //
 //
+import Foundation
+
 let inventory_size = 8 // TODO: fix this (IAP)
 
 class Inventory:NSObject, NSCoding {
@@ -138,7 +140,7 @@ class Inventory:NSObject, NSCoding {
         let size = aDecoder.decodeObjectForKey(PropertyKey.baseSizeKey) as! Int
         let hasInventory = aDecoder.decodeObjectForKey(PropertyKey.hasInventoryKey) as! Bool
         self.init(withEquipment: hasInventory, withSize: size)
-        let arr = aDecoder.decodeObjectForKey(PropertyKey.inventoryArrKey) as! NSArray
+        let arr = aDecoder.decodeObjectForKey(PropertyKey.inventoryArrKey) as! NSArray        
         for i in 0..<arr.count {
             self.setItem(i, toItem: arr[i] as? Item)
         }
