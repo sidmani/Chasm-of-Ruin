@@ -227,14 +227,14 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
             if let pairsString = attributeDict["points"] {
                 
                 var polygons = [[String: Int]]()
-                
                 let pairs = pairsString.componentsSeparatedByString(" ")
                 
                 for pair in pairs{
                     let xy = pair.componentsSeparatedByString(",")
                     if xy.count == 2 {
-                        polygons.append(["x": Int(xy[0])!, "y": Int(xy[1])!])
-                        
+                        let x = Int(NSNumberFormatter().numberFromString(xy[0])!.intValue)
+                        let y = Int(NSNumberFormatter().numberFromString(xy[1])!.intValue)
+                        polygons.append(["x": x, "y": y])
                     }else{
                         fatalError("TMXParser Error: expected x,y pair but got \(xy)")
                     }

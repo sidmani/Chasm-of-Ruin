@@ -58,9 +58,6 @@
                                     <constraint firstAttribute="height" constant="100" id="6wg-ua-AYI"/>
                                 </constraints>
                             </view>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vbj-Kt-bRo" userLabel="HP Display Bar" customClass="ReallyBigDisplayBar" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="240" y="37" width="150" height="2"/>
-                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cs-Y9-J62">
                                 <rect key="frame" x="531" y="30" width="39" height="30"/>
                                 <state key="normal" title="Menu"/>
@@ -79,24 +76,30 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h">
-                                <rect key="frame" x="60" y="440" width="64" height="30"/>
+                                <rect key="frame" x="53" y="440" width="64" height="30"/>
                                 <state key="normal" title="Inventory"/>
                                 <connections>
                                     <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vbj-Kt-bRo" userLabel="HP Display Bar" customClass="ReallyBigDisplayBar" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="30" y="44" width="476" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="CwZ-pI-Qun" secondAttribute="trailing" constant="25" id="2Gq-dk-xwA"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="9d2-oo-m9X" secondAttribute="bottom" constant="15" id="64R-gg-7lU"/>
+                            <constraint firstItem="vbj-Kt-bRo" firstAttribute="centerY" secondItem="7cs-Y9-J62" secondAttribute="centerY" id="EJG-ud-LQE"/>
+                            <constraint firstItem="7cs-Y9-J62" firstAttribute="leading" secondItem="vbj-Kt-bRo" secondAttribute="trailing" constant="25" id="I78-gK-vUY"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="leading" secondItem="8xQ-dL-goi" secondAttribute="leadingMargin" constant="15" id="MsG-SJ-iba"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CwZ-pI-Qun" secondAttribute="trailing" constant="15" id="OHF-eX-Rs6"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="CwZ-pI-Qun" secondAttribute="bottom" constant="15" id="ZCJ-Yh-Hov"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="top" secondItem="ilu-46-eXo" secondAttribute="bottom" constant="10" id="Zwn-6o-cgG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7cs-Y9-J62" secondAttribute="trailing" constant="10" id="cbm-Ix-0Fm"/>
+                            <constraint firstItem="ZZN-eM-M4h" firstAttribute="centerX" secondItem="9d2-oo-m9X" secondAttribute="centerX" id="crP-kc-CYA"/>
+                            <constraint firstItem="vbj-Kt-bRo" firstAttribute="leading" secondItem="8xQ-dL-goi" secondAttribute="leadingMargin" constant="10" id="fos-Zg-o2p"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="bottom" constant="15" id="iJF-Tb-fsM"/>
-                            <constraint firstItem="ZZN-eM-M4h" firstAttribute="leading" secondItem="8xQ-dL-goi" secondAttribute="leadingMargin" constant="40" id="siR-x7-fTr"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">

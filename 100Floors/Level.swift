@@ -50,7 +50,6 @@ class BaseLevel:SKNode {
 
 class MapLevel:BaseLevel, Updatable {
     private var map:SKATiledMap
-    var collisionBodies = SKNode()
     
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)
@@ -68,48 +67,6 @@ class MapLevel:BaseLevel, Updatable {
         else {
             map.zPosition = LayerDef.MapTop
         }
-
-        for l in 0..<map.spriteLayers.count { //should be able to delete this if Tiled collisions are fixed
-            for x in 0..<map.mapWidth {
-                for y in 0..<map.mapHeight {
-                    let sprite = map.spriteFor(l, x: x, y: y)
-                    if (sprite.properties != nil) {
-                        //let sprite:SKASprite = _sprite!
-                            var bodies:[SKPhysicsBody] = []
-                            if (sprite.properties!["NorthImpassable"] != nil && sprite.properties!["NorthImpassable"]!.boolValue! == true) {
-
-                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, sprite.size.height/2)))
-                            }
-                            if (sprite.properties!["WestImpassable"] != nil && sprite.properties!["WestImpassable"]!.boolValue! == true) {
-                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: 0.1, height: sprite.size.height), center: CGPointMake(-sprite.size.width/2, 0)))
-
-                            }
-                            if (sprite.properties!["EastImpassable"] != nil && sprite.properties!["EastImpassable"]!.boolValue! == true) {
-                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: 0.1, height: sprite.size.height), center: CGPointMake(sprite.size.width/2, 0)))
-
-                            }
-                            if (sprite.properties!["SouthImpassable"] != nil && sprite.properties!["SouthImpassable"]!.boolValue! == true) {
-                                bodies.append(SKPhysicsBody(rectangleOfSize: CGSize(width: sprite.size.width, height: 0.1), center: CGPointMake(0, -sprite.size.height/2)))
-
-                            }
-                            
-                            let newCollisionSprite = SKSpriteNode(color: UIColor.clearColor(), size: sprite.size)
-                            newCollisionSprite.zPosition = CGFloat(l)
-                            newCollisionSprite.position = sprite.position
-                            newCollisionSprite.physicsBody = SKPhysicsBody(bodies: bodies)
-                            newCollisionSprite.physicsBody?.dynamic = false
-                            newCollisionSprite.physicsBody?.restitution = 0
-                            newCollisionSprite.physicsBody?.pinned = true
-                            newCollisionSprite.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
-                            newCollisionSprite.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
-                            newCollisionSprite.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
-                            collisionBodies.addChild(newCollisionSprite)
-                    }
-                }
-            }
-        }
-        self.addChild(collisionBodies)
-
     }
     
     convenience init (withID:String) {

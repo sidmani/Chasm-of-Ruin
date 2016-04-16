@@ -28,11 +28,11 @@ import SpriteKit
 /**
  Enum used to define collision for auto generated physics feature
 */
-enum SKAColliderType: UInt32 {
-    case Player = 1
-    case Floor = 2
-    case Wall = 4
-}
+/*enum SKAColliderType: UInt32 {
+    case Player = 0b00010
+    case Floor = 0
+    case Wall = 0b100000
+}*/
 
 class SKATiledMap : SKNode{
 
@@ -166,18 +166,12 @@ class SKATiledMap : SKNode{
     }
     
     /**
-    Culling "hiding" nodes that do not need to be rendered greatly improves performace and frame rate.
+    Culling nodes that do not need to be rendered greatly improves performace and frame rate.
     This method is optimized to be called every update loop
     @param x the center x index you wish to cull around
     @param y the center y index you wish to cull around
     @param width the number of tiles wide you would like to keep
     @param height the number of tiles high you would like to keep
-    */
-
-    
-    /**
-    Returns a CGPoint that can be used as an x and y index
-    @param point the point in which to calculate the index
     */
     func cullAround(x : Int, y : Int, width : Int, height : Int) {
         if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
@@ -215,16 +209,15 @@ class SKATiledMap : SKNode{
                 
                 startingY = endingY - height
             }
-            var spritesToTrash = [SKASprite]();
-           // self.visibleArray.enumerateObjectsUsingBlock({obj, idx, stop in
-            for (_, sprite) in visibleArray.enumerate() {
-           // let sprite = obj as SKASprite
+     //       var spritesToTrash = [SKASprite]();
+            for (idx, sprite) in visibleArray.enumerate() {
                 if (sprite.positionOnMap != nil && (sprite.positionOnMap!.x < startingX || sprite.positionOnMap!.x >= endingX || sprite.positionOnMap!.y < startingY || sprite.positionOnMap!.y >= endingY)) {
                     sprite.removeFromParent();
-                    spritesToTrash.append(sprite)
+                    //spritesToTrash.append(sprite)
+                    self.visibleArray.removeAtIndex(idx)
                 }
             }
-            self.visibleArray = Array(Set(self.visibleArray).subtract(Set(spritesToTrash)))
+           // self.visibleArray = Array(Set(self.visibleArray).subtract(Set(spritesToTrash)))
             
             for l in  0..<self.spriteLayers.count
             {
@@ -248,9 +241,12 @@ class SKATiledMap : SKNode{
         self.lastWidth = width;
         self.lastHeight = height;
         
-       // self.culledBefore = true;
     }
     
+    /**
+     Returns a CGPoint that can be used as an x and y index
+     @param point the point in which to calculate the index
+     */
     func index(point : CGPoint) -> CGPoint{
         let x = Int(point.x)/tileWidth
         let y = Int(point.y)/tileHeight
@@ -633,26 +629,21 @@ class SKATiledMap : SKNode{
                                     sprite.position = CGPointMake(CGFloat(x), CGFloat(y))
                                     
                                     sprite.properties = mapTile.properties
-                                  //  print("position set to \(sprite.positionOnMap)")
-                                    
-                                  //  if (sprite.positionOnMap == nil) {
-                                  //      print("failure")
-                                  //  }
                                     //creating collision body if special SKACollision type is set
                                     if  let properties = sprite.properties{
                                         if let collisionType = properties["SKACollisionType"] as? String{
                                             if collisionType == "SKACollisionTypeRect"{
                                                 sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
                                                 sprite.physicsBody!.dynamic = false
-                                                sprite.physicsBody!.categoryBitMask = SKAColliderType.Floor.rawValue;
-                                                sprite.physicsBody!.contactTestBitMask = SKAColliderType.Player.rawValue;
+                                                sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
+                                                sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                 sprite.zPosition = 20;
                                             } else if collisionType == "SKACollisionTypeTexture"{
                                                 sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
                                                 if sprite.physicsBody != nil{
                                                     sprite.physicsBody!.dynamic = false
-                                                    sprite.physicsBody!.categoryBitMask = SKAColliderType.Floor.rawValue;
-                                                    sprite.physicsBody!.contactTestBitMask = SKAColliderType.Player.rawValue;
+                                                    sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
+                                                    sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                     sprite.zPosition = 20;
                                                 }else{
                                                     print("Error creating body from texture: \(sprite.texture)")
@@ -661,8 +652,8 @@ class SKATiledMap : SKNode{
                                             } else if collisionType == "SKACollisionTypeCircle"{
                                                 sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
                                                 sprite.physicsBody!.dynamic = false
-                                                sprite.physicsBody!.categoryBitMask = SKAColliderType.Floor.rawValue;
-                                                sprite.physicsBody!.contactTestBitMask = SKAColliderType.Player.rawValue;
+                                                sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
+                                                sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                 sprite.zPosition = 20;
                                             }
                                         }
@@ -716,12 +707,13 @@ class SKATiledMap : SKNode{
                                             floorSprite.position = CGPointMake(centerX, centerY)
                                             floorSprite.physicsBody = SKPhysicsBody(rectangleOfSize: floorSprite.size)
                                             floorSprite.physicsBody?.dynamic = false
-                                            floorSprite.physicsBody!.categoryBitMask = SKAColliderType.Floor.rawValue;
-                                            floorSprite.physicsBody!.contactTestBitMask = SKAColliderType.Player.rawValue;
+                                            floorSprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
+                                            floorSprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
                                             addChild(floorSprite)
                                             collisionSprites.append(floorSprite)
-                                        }else if collisionType == "SKACollisionTypeShape"{
-                                            
+                                        }
+                                        else if collisionType == "SKACollisionTypeShape"{
+                                            print("collsion type shape")
                                             if object.polygon != nil{
                                                 
                                                 let points = object.polygon!
@@ -731,7 +723,7 @@ class SKATiledMap : SKNode{
                                                 for set in points{
                                                     let x = set["x"]!
                                                     var y = set["y"]!
-                                                    
+                                                    print("\(x),\(y)")
                                                     //getting origin in the correct position based on draw order
                                                     if(objectLayer.drawOrder == "topdown")
                                                     {
@@ -743,17 +735,18 @@ class SKATiledMap : SKNode{
                                                     }
                                                 }
                                                 
-                                                let shapeNode = SKShapeNode(path: myPath.CGPath)
-                                                shapeNode.zPosition = CGFloat(layerNumber)
+                                                let node = SKNode()
+                                                node.zPosition = CGFloat(layerNumber)
                                                 let centerX = CGFloat(object.x+object.width/2)
                                                 let centerY = CGFloat(object.y+object.height/2)
-                                                shapeNode.position = CGPointMake(centerX, centerY)
-                                                shapeNode.physicsBody = SKPhysicsBody(polygonFromPath: shapeNode.path!)
-                                                shapeNode.physicsBody?.dynamic = false
-                                                shapeNode.physicsBody!.categoryBitMask = SKAColliderType.Floor.rawValue;
-                                                shapeNode.physicsBody!.contactTestBitMask = SKAColliderType.Player.rawValue;
-                                                addChild(shapeNode)
-                                                collisionSprites.append(shapeNode)
+                                                node.position = CGPointMake(centerX, centerY)
+                                                node.physicsBody = SKPhysicsBody(polygonFromPath: myPath.CGPath)
+                                                node.physicsBody?.dynamic = false
+                                                node.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
+                                                node.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
+                                                node.physicsBody!.restitution = 0
+                                                addChild(node)
+                                                collisionSprites.append(node)
                                                 
                                             } else if object.isEllipse{
                                                 
@@ -768,8 +761,8 @@ class SKATiledMap : SKNode{
                                                 
                                                 shapeNode.physicsBody = SKPhysicsBody(polygonFromPath: CGPathCreateWithEllipseInRect(CGRectMake(CGFloat(-object.width/2), CGFloat(-object.height/2), CGFloat(object.width), CGFloat(object.height)), nil))
                                                 shapeNode.physicsBody?.dynamic = false
-                                                shapeNode.physicsBody!.categoryBitMask = SKAColliderType.Floor.rawValue;
-                                                shapeNode.physicsBody!.contactTestBitMask = SKAColliderType.Player.rawValue;
+                                                shapeNode.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
+                                                shapeNode.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                 addChild(shapeNode)
                                                 collisionSprites.append(shapeNode)
                                             }

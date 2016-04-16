@@ -9,13 +9,12 @@
 import SpriteKit
 class Projectile:SKSpriteNode, Updatable{
     let friendly: Bool
-    let attack:CGFloat
+    let attack: CGFloat
     
     private let range: CGFloat
     private let startLoc: CGPoint
     private let _speed:CGFloat
     private let reflects:Bool
-
     private var distanceTraveled:CGFloat = 0
     
     init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool) {

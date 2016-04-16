@@ -167,7 +167,7 @@ class GameLogic {
     static func update(deltaT:Double) {
         thisCharacter.update(deltaT)
         updateNonCharNodes(deltaT)
-        //updateUIElements()
+     //   updateUIElements()
     }
     private static func updateNonCharNodes(deltaT:Double) {
         for node in gameScene.nonCharNodes.children {
@@ -176,9 +176,9 @@ class GameLogic {
             }
         }
     }
-    private static func updateUIElements() {
-        
-    }
+    //private static func updateUIElements() {
+    //    UIElements.HPBar.setValue((thisCharacter.currStats.health+0.01)/(thisCharacter.baseStats.health+0.01), animated: true)
+    //}
     /////////////////////////
     static func addObject(p:SKNode) {
         gameScene.addObject(p)

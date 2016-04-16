@@ -234,6 +234,8 @@ class ThisCharacter: Entity, Updatable {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(currStats.dexterity+equipStats.dexterity) && weapon != nil) {
             fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.normalDisplacement)
             timeSinceProjectile = 0
+            let rand = randomBetweenNumbers(0, secondNum: 1.0)
+            UIElements.HPBar.setProgressWithBounce(rand)
         }
         else {
             timeSinceProjectile += deltaT

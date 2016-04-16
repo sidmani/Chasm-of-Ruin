@@ -7,9 +7,9 @@
 //
 import UIKit
 class ItemContainer:UIControl {
-    private var containerView:UIView = UIView()
-    private var itemView:UIView = UIView()
-    private var rectangleLayer = CAShapeLayer()
+    private let containerView:UIView = UIView()
+    private let itemView:UIView = UIView()
+    private let rectangleLayer = CAShapeLayer()
     var centerPoint = CGPointZero
     var item:Item?
     var correspondsToInventoryIndex:Int = -1
