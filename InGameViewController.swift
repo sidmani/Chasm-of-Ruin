@@ -86,6 +86,7 @@ class InGameViewController: UIViewController {
         }
 
     }
+   
     
     override func shouldAutorotate() -> Bool {
         return true

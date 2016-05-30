@@ -18,7 +18,7 @@ struct Stats {
     var mana:CGFloat      // Mana (used when casting spells)
     var rage:CGFloat      // Boosts with combos
     
-    func getIndex(index:Int) -> CGFloat{
+    func getIndex(index:Int) -> CGFloat {
         switch (index) {
         case 0: return health
         case 1: return defense
@@ -130,8 +130,7 @@ class Entity:SKSpriteNode {
     }
     
     func struckByProjectile(p:Projectile) {
-    
-        
+        fatalError("Must be overriden!")
     }
     
     private func setImageOrientation(toAngle:CGFloat) {
@@ -182,7 +181,7 @@ class ThisCharacter: Entity, Updatable {
     }
     
     convenience init() {
-        self.init(withCurrStats:Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withEquipment: true, withSize: inventory_size))
+        self.init(withCurrStats:Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withSize: inventory_size))
         self.inventory.setItem(self.inventory.weaponIndex, toItem: Item.initHandlerID("wep1"))
         self.inventory.setItem(0, toItem: Item.initHandlerID("wep2"))
         self.inventory.setItem(1, toItem: Item.initHandlerID("wep3"))
@@ -196,6 +195,11 @@ class ThisCharacter: Entity, Updatable {
         fatalError("init(coder:) has not been implemented")
     }
     ///collision handling
+    override func takeDamage(d: CGFloat) {
+        super.takeDamage(d)
+       // UIElements.HPBar.setProgressWithBounce(currStats.health/baseStats.health) //div by zero error
+    }
+    
     override func struckByProjectile(p:Projectile) {
         takeDamage(p.attack - currStats.defense)
     }
@@ -234,8 +238,8 @@ class ThisCharacter: Entity, Updatable {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(currStats.dexterity+equipStats.dexterity) && weapon != nil) {
             fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.normalDisplacement)
             timeSinceProjectile = 0
-            let rand = randomBetweenNumbers(0, secondNum: 1.0)
-            UIElements.HPBar.setProgressWithBounce(rand)
+         //   let rand = randomBetweenNumbers(0, secondNum: 1.0)
+         //   UIElements.HPBar.setProgressWithBounce(rand)
         }
         else {
             timeSinceProjectile += deltaT

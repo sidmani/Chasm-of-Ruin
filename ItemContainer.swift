@@ -6,17 +6,19 @@
 //
 //
 import UIKit
-class ItemContainer:UIControl {
+class ItemContainer:UICollectionViewCell {
+    
     private let containerView:UIView = UIView()
-    private let itemView:UIView = UIView()
     private let rectangleLayer = CAShapeLayer()
+
+    let itemView:UIView = UIView()
+
     var centerPoint = CGPointZero
     var item:Item?
-    var correspondsToInventoryIndex:Int = -1
-    var droppedAt:CGPoint = CGPointZero
-    var itemTypeRestriction:Any.Type = Any.self
-    
-    var itemType:Any.Type {
+    var correspondsToInventoryIndex:Int = -5
+    //var droppedAt:CGPoint = CGPointZero
+ //   var itemTypeRestriction:Any.Type = Any.self
+ /*   var itemType:Any.Type {
         get {
             if (item == nil) {
                 return Any.self
@@ -24,7 +26,8 @@ class ItemContainer:UIControl {
             return item!.dynamicType
             
         }
-    }
+    }*/
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
@@ -40,9 +43,15 @@ class ItemContainer:UIControl {
         self.addSubview(containerView)
         self.addSubview(itemView)
     }
+    func resetItemView() {
+        self.addSubview(itemView)
+        itemView.center = centerPoint
+    }
+    
     func swapItemWith(container:ItemContainer) {
             setItemTo(container.setItemTo(self.item))
     }
+    
     func setSelectedTo(val:Bool) {
         if (val) {
             rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 1.0).CGColor
@@ -53,9 +62,10 @@ class ItemContainer:UIControl {
             rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         }
     }
-    func swappableWith(container:ItemContainer) -> Bool {
+    
+  /*  func swappableWith(container:ItemContainer) -> Bool {
         return (self.itemTypeRestriction == Any.self || self.itemTypeRestriction == container.itemType || container.itemType == Any.self) && (container.itemTypeRestriction == Any.self || container.itemTypeRestriction == self.itemType || self.itemType == Any.self)
-    }
+    }*/
     
     func setItemTo(newItem:Item?) -> Item?
     {
@@ -76,31 +86,4 @@ class ItemContainer:UIControl {
         return oldItem
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        superview?.bringSubviewToFront(self)
-        super.touchesBegan(touches, withEvent: event)
-    }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first {
-            itemView.center = touch.locationInView(self)
-        }
-        super.touchesMoved(touches, withEvent: event)
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if item != nil {
-            if let touch = touches.first {
-                let currentPoint = touch.locationInView(superview)
-                if (!CGRectContainsPoint(self.frame, currentPoint)) {
-                    droppedAt = currentPoint
-                    sendActionsForControlEvents(.ApplicationReserved)
-                }
-                else {
-                    super.touchesEnded(touches, withEvent: event)
-                }
-            }
-        }
-        itemView.center = centerPoint
-    }
 }

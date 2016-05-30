@@ -81,7 +81,7 @@ class Item:NSObject, NSCoding {
          name = aDecoder.decodeObjectForKey(PropertyKey.nameKey) as! String
          desc = aDecoder.decodeObjectForKey(PropertyKey.descriptionKey) as! String
          img = aDecoder.decodeObjectForKey(PropertyKey.imgKey) as! String
-        //self.init(statMods: statMods, name: name, description: description, img: img)
+         //self.init(statMods: statMods, name: name, description: description, img: img)
     }
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(statMods.toArray(), forKey: PropertyKey.statModsKey)

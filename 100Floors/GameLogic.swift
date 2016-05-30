@@ -107,7 +107,7 @@ class GameLogic {
         gameScene = scene
         currentState = .InGame
       //  assert(gameViewController != nil)
-        currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
+       currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
         if (currentSave != nil) {
             thisCharacter = ThisCharacter(fromSaveData: currentSave!)
         }
@@ -167,7 +167,6 @@ class GameLogic {
     static func update(deltaT:Double) {
         thisCharacter.update(deltaT)
         updateNonCharNodes(deltaT)
-     //   updateUIElements()
     }
     private static func updateNonCharNodes(deltaT:Double) {
         for node in gameScene.nonCharNodes.children {
@@ -176,9 +175,7 @@ class GameLogic {
             }
         }
     }
-    //private static func updateUIElements() {
-    //    UIElements.HPBar.setValue((thisCharacter.currStats.health+0.01)/(thisCharacter.baseStats.health+0.01), animated: true)
-    //}
+
     /////////////////////////
     static func addObject(p:SKNode) {
         gameScene.addObject(p)

@@ -8,7 +8,10 @@
 import SpriteKit
 import UIKit
 
-class BaseLevel:SKNode {
+class Level:SKNode {
+    
+}
+class BaseLevel:SKNode { //TODO: probably merge these two classes together
     static let hubID = "hub"
 
     struct LayerDef {
@@ -21,11 +24,16 @@ class BaseLevel:SKNode {
         static let MapObjects:CGFloat = 3.5
         static let MapTop:CGFloat = 3
     }
-    let startLoc:CGPoint
+    enum TerrainType:CGFloat {
+        case Road = 1, Grass = 0.8, Dirt = 0.7
+    }
+    
     let tileEdge:CGFloat
     let levelName:String
     let desc:String
     let mapSizeOnScreen: CGSize
+    
+    let startLoc:CGPoint
     let objects = SKNode()
 
     init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSizeOnScreen:CGSize) {
@@ -49,7 +57,7 @@ class BaseLevel:SKNode {
 }
 
 class MapLevel:BaseLevel, Updatable {
-    private var map:SKATiledMap
+    private let map:SKATiledMap
     
     init(_map:String, _name:String, _startLoc:CGPoint) {
         map = SKATiledMap(mapName: _map)

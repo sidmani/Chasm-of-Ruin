@@ -12,8 +12,6 @@
                 <atk>0</atk>
                 <spd>0</spd>
                 <dex>0</dex>
-                <hunger>0</hunger>
-                <level>0</level>
                 <mana>0</mana>
                 <rage>0</rage>
             </stats>
@@ -34,8 +32,6 @@
                 <atk>0</atk>
                 <spd>0</spd>
                 <dex>0</dex>
-                <hunger>0</hunger>
-                <level>0</level>
                 <mana>0</mana>
                 <rage>0</rage>
             </stats>

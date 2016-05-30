@@ -34,6 +34,7 @@
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
 		1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CF03B1C9262F600B00AB7 /* AI.swift */; };
 		1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7415151CB03DA8000A2D48 /* Popup.swift */; };
+		1F9998C41CC2F58200A76E9D /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9998C31CC2F58200A76E9D /* StatsView.swift */; };
 		1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D9381C67C0E100ECA534 /* AEXML.swift */; };
 		1FB3EB961C4B58B60056AAE1 /* chars.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FB3EB951C4B58B60056AAE1 /* chars.atlas */; };
 		1FC40B461CB9AE0B00AAC096 /* Main.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1FC40B451CB9AE0B00AAC096 /* Main.tmx */; };
@@ -82,6 +83,7 @@
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
 		1F5CF03B1C9262F600B00AB7 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		1F7415151CB03DA8000A2D48 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		1F9998C31CC2F58200A76E9D /* StatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		1FA7D9381C67C0E100ECA534 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
 		1FB3EB951C4B58B60056AAE1 /* chars.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = chars.atlas; sourceTree = "<group>"; };
 		1FC40B451CB9AE0B00AAC096 /* Main.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Main.tmx; path = Resources/Main.tmx; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
 				1F7415151CB03DA8000A2D48 /* Popup.swift */,
 				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
+				1F9998C31CC2F58200A76E9D /* StatsView.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 			);
@@ -391,6 +394,7 @@
 				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
 				1F29C0CA1CBC84CA00A2EFEE /* SKAObjectLayer.swift in Sources */,
 				1F29C0CB1CBC84CA00A2EFEE /* SKASprite.swift in Sources */,
+				1F9998C41CC2F58200A76E9D /* StatsView.swift in Sources */,
 				1F29C0CE1CBC84CA00A2EFEE /* SKATMXParser.swift in Sources */,
 				1FE667661CAE1AA3003BCE30 /* Effects.swift in Sources */,
 				1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */,

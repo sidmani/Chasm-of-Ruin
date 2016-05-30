@@ -10,42 +10,28 @@ import Foundation
 let inventory_size = 8 // TODO: fix this (IAP)
 
 class Inventory:NSObject, NSCoding {
-    var weaponIndex:Int {
-        return baseSize
-    }
-    var shieldIndex:Int {
-        return baseSize + 1
-    }
-    var skillIndex:Int {
-        return baseSize + 2
-    }
-    var enhancerIndex:Int {
-        return baseSize + 3
-    }
+    
+    var weaponIndex:Int = -1
+    var shieldIndex:Int = -1
+    var skillIndex:Int = -1
+    var enhancerIndex:Int = -1
     
     private let baseSize:Int
     private var inventory:[Item?]
     private var parent:Entity?
-    private var hasInventory:Bool
     
     func setParent(to:Entity?) {
         parent = to
     }
     //INIT
-    init(withEquipment:Bool, withSize: Int)
+    init(withSize: Int)
     {
         baseSize = withSize
-        hasInventory = withEquipment
-        if (withEquipment) {
-            inventory = [Item?](count:baseSize+4, repeatedValue: nil)
-        }
-        else {
-            inventory = [Item?](count:baseSize, repeatedValue: nil)
-        }
+        inventory = [Item?](count:baseSize, repeatedValue: nil)
     }
     
     convenience init(fromElement:AEXMLElement) { //Remove this, inventory already implements NSCoding
-        self.init(withEquipment:(fromElement.attributes["equip"] == "true"), withSize:Int(fromElement.attributes["size"]!)!)
+        self.init(withSize:Int(fromElement.attributes["size"]!)!)
         if (fromElement["item"].all != nil) {
             for item in fromElement["item"].all! {
                 switch (item.attributes["index"]!) {
@@ -85,34 +71,36 @@ class Inventory:NSObject, NSCoding {
         if (atIndex >= inventory.count || atIndex < 0) {
             return toItem
         }
-        switch(atIndex) {
-        case enhancerIndex:
-            if (toItem != nil && !(toItem! is Enhancer)) {
-                return toItem
-            }
-            break
-        case weaponIndex:
-            if (toItem != nil && !(toItem! is Weapon)) {
-                return toItem
-            }
-            break
-        case shieldIndex:
-            if (toItem != nil && !(toItem! is Shield)) {
-                return toItem
-            }
-            break
-        case skillIndex:
-            if (toItem != nil && !(toItem! is Skill)) {
-                return toItem
-            }
-            break
-        default:
-            break
-        }
         let out = inventory[atIndex]
         inventory[atIndex] = toItem
         parent?.updateEquipStats()
         return out
+    }
+    
+    func equipItem(atIndex:Int) {
+        switch(atIndex) {
+        case weaponIndex:
+            weaponIndex = -1
+        case enhancerIndex:
+            enhancerIndex = -1
+        case shieldIndex:
+            shieldIndex = -1
+        case skillIndex:
+            skillIndex = -1
+        default:
+            if (getItem(atIndex) as? Weapon) != nil {
+                weaponIndex = atIndex
+            }
+            else if (getItem(atIndex) as? Shield) != nil {
+                shieldIndex = atIndex
+            }
+            else if (getItem(atIndex) as? Skill) != nil {
+                skillIndex = atIndex
+            }
+            else if (getItem(atIndex) as? Enhancer) != nil {
+                enhancerIndex = atIndex
+            }
+        }
     }
     
     func dropAllItems() -> [Item?] {
@@ -122,24 +110,25 @@ class Inventory:NSObject, NSCoding {
         return allItems
     }
     
-    func dropAllExceptInventory() -> [Item?] {
+    func dropAllExceptInventory() -> [Item?] { //TODO: FIX
         var droppedItems:[Item?] = []
         for i in 0..<baseSize {
-            droppedItems.append(inventory[i])
-            inventory[i] = nil
+            if (i != skillIndex && i != weaponIndex && i != enhancerIndex && i != shieldIndex) {
+                droppedItems.append(inventory[i])
+                inventory[i] = nil
+            }
         }
         return droppedItems
     }
+    
     /////NSCoding
     private struct PropertyKey {
         static let inventoryArrKey = "inventory"
         static let baseSizeKey = "baseSize"
-        static let hasInventoryKey = "hasInventory"
     }
     required convenience init?(coder aDecoder: NSCoder) {
         let size = aDecoder.decodeObjectForKey(PropertyKey.baseSizeKey) as! Int
-        let hasInventory = aDecoder.decodeObjectForKey(PropertyKey.hasInventoryKey) as! Bool
-        self.init(withEquipment: hasInventory, withSize: size)
+        self.init(withSize: size)
         let arr = aDecoder.decodeObjectForKey(PropertyKey.inventoryArrKey) as! NSArray        
         for i in 0..<arr.count {
             self.setItem(i, toItem: arr[i] as? Item)
@@ -149,6 +138,5 @@ class Inventory:NSObject, NSCoding {
         let arr:[AnyObject!] = self.inventory.map({$0 == nil ? NSNull():$0})
         aCoder.encodeObject(arr, forKey: PropertyKey.inventoryArrKey)
         aCoder.encodeObject(baseSize, forKey: PropertyKey.baseSizeKey)
-        aCoder.encodeObject(hasInventory, forKey: PropertyKey.hasInventoryKey)
     }
 }
