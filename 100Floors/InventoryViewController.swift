@@ -7,19 +7,10 @@
 //
 import UIKit
 
-class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var NameLabel: UILabel!
     @IBOutlet weak var DescriptionLabel: UILabel!
-    
-//    @IBOutlet weak var Container1: ItemContainer!
-//    @IBOutlet weak var Container2: ItemContainer!
-//    @IBOutlet weak var Container3: ItemContainer!
-//    @IBOutlet weak var Container4: ItemContainer!
-//    @IBOutlet weak var Container5: ItemContainer!
-//    @IBOutlet weak var Container6: ItemContainer!
-//    @IBOutlet weak var Container7: ItemContainer!
-//    @IBOutlet weak var Container8: ItemContainer!
     
     @IBOutlet weak var inventoryCollection: UICollectionView!
 //    @IBOutlet weak var WeaponContainer: ItemContainer!
@@ -41,7 +32,11 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     private var previousSelectedContainer:ItemContainer? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.scrollDirection = .Horizontal
+        let lpgr = UILongPressGestureRecognizer()
+        inventoryCollection.addGestureRecognizer(lpgr)
+        lpgr.addTarget(self, action: #selector(handleLongPress))
        // containers = [Container1, Container2, Container3, Container4, Container5, Container6, Container7, Container8]
    //     containers = []
   //      containers.append(WeaponContainer)
@@ -50,7 +45,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
  //       containers.append(EnhancerContainer)
 //        containers.append(GroundContainer)
 
-     
+    
 /*        if (GroundContainer.item != nil) {
             containerSelected(GroundContainer)
         }
@@ -107,7 +102,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return 8
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -123,9 +118,11 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     //gesture recognizer
-    @IBAction func handlePan(recognizer:UIPanGestureRecognizer) {
+    @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
+        print("pan registered")
         let loc = recognizer.locationInView(self.inventoryCollection)
         if (recognizer.state == .Began) {
+            print("gesture recognized")
             if let path = inventoryCollection.indexPathForItemAtPoint(loc)
             {
                 currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer)
@@ -152,7 +149,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
         }
     }
-    
+  
     override func shouldAutorotate() -> Bool {
         return true
     }
