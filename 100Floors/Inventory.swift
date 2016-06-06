@@ -110,7 +110,7 @@ class Inventory:NSObject, NSCoding {
         return allItems
     }
     
-    func dropAllExceptInventory() -> [Item?] { //TODO: FIX
+    func dropAllExceptInventory() -> [Item?] {
         var droppedItems:[Item?] = []
         for i in 0..<baseSize {
             if (i != skillIndex && i != weaponIndex && i != enhancerIndex && i != shieldIndex) {

@@ -16,18 +16,7 @@ class ItemContainer:UICollectionViewCell {
     var centerPoint = CGPointZero
     var item:Item?
     var correspondsToInventoryIndex:Int = -5
-    //var droppedAt:CGPoint = CGPointZero
- //   var itemTypeRestriction:Any.Type = Any.self
- /*   var itemType:Any.Type {
-        get {
-            if (item == nil) {
-                return Any.self
-            }
-            return item!.dynamicType
-            
-        }
-    }*/
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
@@ -62,10 +51,6 @@ class ItemContainer:UICollectionViewCell {
             rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         }
     }
-    
-  /*  func swappableWith(container:ItemContainer) -> Bool {
-        return (self.itemTypeRestriction == Any.self || self.itemTypeRestriction == container.itemType || container.itemType == Any.self) && (container.itemTypeRestriction == Any.self || container.itemTypeRestriction == self.itemType || self.itemType == Any.self)
-    }*/
     
     func setItemTo(newItem:Item?) -> Item?
     {

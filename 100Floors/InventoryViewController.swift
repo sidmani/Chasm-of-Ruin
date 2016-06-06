@@ -28,8 +28,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     var groundBag:ItemBag?
     var inventory:Inventory!
     var dropLoc:CGPoint!
+    private var leftScrollBound:CGFloat!
+    private var rightScrollBound:CGFloat!
     
     private var previousSelectedContainer:ItemContainer? = nil
+    
+  //  private var previousSelectedIndex = -10
     override func viewDidLoad() {
         super.viewDidLoad()
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
@@ -37,6 +41,11 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         let lpgr = UILongPressGestureRecognizer()
         inventoryCollection.addGestureRecognizer(lpgr)
         lpgr.addTarget(self, action: #selector(handleLongPress))
+        
+        inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
+        inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
+        leftScrollBound = -inventoryCollection.contentInset.left
+        rightScrollBound = inventoryCollection.collectionViewLayout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
        // containers = [Container1, Container2, Container3, Container4, Container5, Container6, Container7, Container8]
    //     containers = []
   //      containers.append(WeaponContainer)
@@ -89,58 +98,56 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
             //}
             containerA.swapItemWith(containerB)
-            containerSelected(containerB)
+         //   containerSelected(containerB)
+            updateInfoDisplay()
      //   }
     }
-    func containerSelected(sender:ItemContainer) {
-        if (sender.item != nil) {
-            previousSelectedContainer?.setSelectedTo(false)
-            sender.setSelectedTo(true)
-            previousSelectedContainer = sender
-            //NameLabel.text = sender.item?.name
-            //DescriptionLabel.text = sender.item?.description
-        }
+    
+    func updateInfoDisplay() {
+        //NameLabel.text = sender.item?.name
+        //DescriptionLabel.text = sender.item?.description
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return inventory_size
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
         cell.correspondsToInventoryIndex = indexPath.item
         cell.setItemTo(inventory.getItem(indexPath.item))
+        cell.setSelectedTo(false)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ItemContainer
-        containerSelected(cell)
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (currentItemView != nil) { return }
+        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection))
+        {
+            let container = (inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer)
+            previousSelectedContainer?.setSelectedTo(false)
+            container.setSelectedTo(true)
+            previousSelectedContainer = container
+        }
     }
-    
-    //gesture recognizer
+
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
-        print("pan registered")
         let loc = recognizer.locationInView(self.inventoryCollection)
+        let newLoc = self.view.convertPoint(loc, fromView: inventoryCollection)
         if (recognizer.state == .Began) {
-            print("gesture recognized")
             if let path = inventoryCollection.indexPathForItemAtPoint(loc)
             {
                 currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer)
                 currentItemView = currentContainer!.itemView
-                currentItemView?.center = self.view.convertPoint(loc, fromView: inventoryCollection)
+                currentItemView?.center = newLoc
                 self.view.addSubview(currentItemView!)
             }
             
         }
-        else if (recognizer.state == .Changed) {
-            currentItemView?.center = self.view.convertPoint(loc, fromView: inventoryCollection)
-
-        }
+      
         else if (recognizer.state == .Ended) {
             currentItemView?.removeFromSuperview()
             currentItemView = nil
             currentContainer?.resetItemView()
-            
             if let path = inventoryCollection.indexPathForItemAtPoint(loc) {
                 if let containerA = currentContainer {
                     let containerB = inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer
@@ -148,8 +155,20 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
             }
         }
+        //else if (recognizer.state == .Changed) {
+        else {
+            if let itemView = currentItemView {
+                if (screenSize.width - newLoc.x < 0.2*screenSize.width || newLoc.x < screenSize.width*0.2) {
+                    let offsetX = constrain((itemView.center.x-inventoryCollection.center.x)/10+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
+                    inventoryCollection.setContentOffset(CGPoint(x: offsetX, y:0), animated: false)
+                }
+                itemView.center = newLoc
+            }
+        }
     }
-  
+    private func constrain(x:CGFloat, lower:CGFloat, upper:CGFloat) -> CGFloat{
+        return max(lower, min(x,upper))
+    }
     override func shouldAutorotate() -> Bool {
         return true
     }
