@@ -13,27 +13,22 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     @IBOutlet weak var DescriptionLabel: UILabel!
     
     @IBOutlet weak var inventoryCollection: UICollectionView!
-//    @IBOutlet weak var WeaponContainer: ItemContainer!
-//    @IBOutlet weak var ShieldContainer: ItemContainer!
-//    @IBOutlet weak var SkillContainer: ItemContainer!
-//    @IBOutlet weak var EnhancerContainer: ItemContainer!
-    
-  //  @IBOutlet weak var GroundContainer: ItemContainer!
-    
-    private var containers:[ItemContainer] = []
-    
-    private var currentItemView:UIView?
+
+    private var currentItemView:UIImageView = UIImageView()
     private var currentContainer:ItemContainer?
+    private var currentIndex:Int = -1
     
-    var groundBag:ItemBag?
     var inventory:Inventory!
+
+    var groundBag:ItemBag?
     var dropLoc:CGPoint!
+    
     private var leftScrollBound:CGFloat!
     private var rightScrollBound:CGFloat!
     
     private var previousSelectedContainer:ItemContainer? = nil
-    
-  //  private var previousSelectedIndex = -10
+    private var selectedPath:NSIndexPath?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
@@ -44,28 +39,16 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
+
         leftScrollBound = -inventoryCollection.contentInset.left
         rightScrollBound = inventoryCollection.collectionViewLayout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
-       // containers = [Container1, Container2, Container3, Container4, Container5, Container6, Container7, Container8]
-   //     containers = []
-  //      containers.append(WeaponContainer)
- ///       containers.append(ShieldContainer)
- //       containers.append(SkillContainer)
- //       containers.append(EnhancerContainer)
-//        containers.append(GroundContainer)
-
-    
-/*        if (GroundContainer.item != nil) {
-            containerSelected(GroundContainer)
-        }
-        else {
-            
-        }*/
-
- //       WeaponContainer.itemTypeRestriction = Weapon.self
- //       ShieldContainer.itemTypeRestriction = Shield.self
- //       SkillContainer.itemTypeRestriction = Skill.self
- //       EnhancerContainer.itemTypeRestriction = Enhancer.self
+        
+        inventoryCollection.setContentOffset(CGPointMake(leftScrollBound,0), animated: false)
+        
+        currentItemView.contentMode = .ScaleAspectFit
+        currentItemView.layer.magnificationFilter = kCAFilterNearest
+        
+        selectCenterCell()
     }
     
     func itemDropped(containerA:ItemContainer, containerB:ItemContainer) {
@@ -97,11 +80,52 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             else {*/
                 inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
             //}
-            containerA.swapItemWith(containerB)
+        containerA.setItemTo(inventory.getItem(containerA.correspondsToInventoryIndex))
+        containerB.setItemTo(inventory.getItem(containerB.correspondsToInventoryIndex))
+
          //   containerSelected(containerB)
-            updateInfoDisplay()
+        updateInfoDisplay()
      //   }
     }
+    func itemDropped(containerA:ItemContainer, indexB:Int) {
+        //   if (containerA.swappableWith(containerB)) {
+        /*    if (containerA == GroundContainer) {
+         inventory.setItem(containerB.correspondsToInventoryIndex, toItem: groundBag?.item)
+         groundBag?.setItemTo(nil)
+         if (containerB.item != nil) {
+         let newBag = ItemBag(withItem: containerB.item!, loc: dropLoc)
+         groundBag = newBag
+         GameLogic.addObject(newBag)
+         }
+         else {
+         groundBag = nil
+         }
+         }
+         else if (containerB == GroundContainer) {
+         inventory.setItem(containerA.correspondsToInventoryIndex, toItem: groundBag?.item)
+         groundBag?.setItemTo(nil)
+         if (containerA.item != nil) {
+         let newBag = ItemBag(withItem: containerA.item!, loc: dropLoc)
+         groundBag = newBag
+         GameLogic.addObject(newBag)
+         }
+         else {
+         groundBag = nil
+         }
+         }
+         else {*/
+        print("swapping \(containerA.correspondsToInventoryIndex), \(indexB)")
+        inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: indexB)
+        containerA.setItemTo(inventory.getItem(containerA.correspondsToInventoryIndex))
+        //}
+        //containerA.swapItemWith(containerB)
+        //   containerSelected(containerB)
+        updateInfoDisplay()
+        //   }
+
+    }
+    
+
     
     func updateInfoDisplay() {
         //NameLabel.text = sender.item?.name
@@ -114,16 +138,26 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
         cell.correspondsToInventoryIndex = indexPath.item
+      
+        if (indexPath.item != currentIndex) {
+            cell.resetItemView()
+        }
+        else {
+            cell.itemView.hidden = true
+        }
         cell.setItemTo(inventory.getItem(indexPath.item))
         cell.setSelectedTo(false)
         return cell
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (currentItemView != nil) { return }
-        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection))
-        {
-            let container = (inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer)
+        selectCenterCell()
+    }
+
+    
+    func selectCenterCell() {
+        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)), container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
+            selectedPath = path
             previousSelectedContainer?.setSelectedTo(false)
             container.setSelectedTo(true)
             previousSelectedContainer = container
@@ -132,39 +166,54 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
         let loc = recognizer.locationInView(self.inventoryCollection)
-        let newLoc = self.view.convertPoint(loc, fromView: inventoryCollection)
+        let newLoc = recognizer.locationInView(self.view)
         if (recognizer.state == .Began) {
             if let path = inventoryCollection.indexPathForItemAtPoint(loc)
             {
-                currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer)
-                currentItemView = currentContainer!.itemView
-                currentItemView?.center = newLoc
-                self.view.addSubview(currentItemView!)
+                currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer)
+                if (currentContainer?.item == nil) {
+                    currentContainer = nil
+                    return
+                }
+                
+                currentIndex = currentContainer!.correspondsToInventoryIndex
+                currentItemView.image = currentContainer!.itemView.image
+                let bounds = currentContainer!.itemView.bounds
+                currentItemView.bounds = CGRectMake(bounds.minX, bounds.minY, bounds.width*1.5, bounds.height*1.5)
+                currentItemView.center = newLoc
+                
+                currentContainer!.itemView.hidden = true
+        
+                self.view.addSubview(currentItemView)
             }
             
         }
-      
-        else if (recognizer.state == .Ended) {
-            currentItemView?.removeFromSuperview()
-            currentItemView = nil
-            currentContainer?.resetItemView()
-            if let path = inventoryCollection.indexPathForItemAtPoint(loc) {
-                if let containerA = currentContainer {
-                    let containerB = inventoryCollection.cellForItemAtIndexPath(path) as! ItemContainer
-                    itemDropped(containerA, containerB: containerB)
-                }
-            }
-        }
-        //else if (recognizer.state == .Changed) {
-        else {
-            if let itemView = currentItemView {
+        else if (recognizer.state == .Changed) {
+            if (currentItemView.image != nil) {
+                currentItemView.center = newLoc
                 if (screenSize.width - newLoc.x < 0.2*screenSize.width || newLoc.x < screenSize.width*0.2) {
-                    let offsetX = constrain((itemView.center.x-inventoryCollection.center.x)/10+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
+                    let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
                     inventoryCollection.setContentOffset(CGPoint(x: offsetX, y:0), animated: false)
                 }
-                itemView.center = newLoc
             }
         }
+        else if (recognizer.state == .Ended) {
+            if let path = inventoryCollection.indexPathForItemAtPoint(loc), containerA = inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer  {
+                inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: currentIndex)
+                currentIndex = -1
+                inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
+                selectCenterCell()
+                updateInfoDisplay()
+            }
+            else {
+                currentIndex = -1
+                currentContainer?.resetItemView()
+            }
+            currentItemView.removeFromSuperview()
+            currentItemView.image = nil
+
+        }
+    
     }
     private func constrain(x:CGFloat, lower:CGFloat, upper:CGFloat) -> CGFloat{
         return max(lower, min(x,upper))

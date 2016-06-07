@@ -52,7 +52,7 @@ class Inventory:NSObject, NSCoding {
     
     //////////
     func swapItems(atIndexA: Int, atIndexB: Int) {
-        if (atIndexA >= inventory.count || atIndexB >= inventory.count || atIndexA < 0 || atIndexB < 0) {
+        if (atIndexA >= inventory.count || atIndexB >= inventory.count || atIndexA < 0 || atIndexB < 0 || atIndexA == atIndexB) {
             return
         }
         let temp = getItem(atIndexA)

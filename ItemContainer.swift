@@ -11,7 +11,7 @@ class ItemContainer:UICollectionViewCell {
     private let containerView:UIView = UIView()
     private let rectangleLayer = CAShapeLayer()
 
-    let itemView:UIView = UIView()
+    let itemView = UIImageView()
 
     var centerPoint = CGPointZero
     var item:Item?
@@ -28,17 +28,16 @@ class ItemContainer:UICollectionViewCell {
         itemView.bounds = self.bounds
         itemView.userInteractionEnabled = false
         itemView.center = centerPoint
+        itemView.contentMode = .ScaleAspectFit
+        itemView.layer.magnificationFilter = kCAFilterNearest
+
         ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(itemView)
     }
     func resetItemView() {
-        self.addSubview(itemView)
         itemView.center = centerPoint
-    }
-    
-    func swapItemWith(container:ItemContainer) {
-            setItemTo(container.setItemTo(self.item))
+        itemView.hidden = false
     }
     
     func setSelectedTo(val:Bool) {
@@ -56,17 +55,11 @@ class ItemContainer:UICollectionViewCell {
     {
         let oldItem:Item? = item
         item = newItem
-        for view in itemView.subviews{
-            view.removeFromSuperview()
-        }
         if (item != nil) {
-            let imageView = UIImageView(image: UIImage(named: item!.img))
-            imageView.contentMode = .ScaleAspectFit
-            imageView.layer.magnificationFilter = kCAFilterNearest
-            imageView.bounds = itemView.bounds
-            imageView.center = centerPoint
-            imageView.userInteractionEnabled = false
-            itemView.addSubview(imageView)
+            itemView.image = UIImage(named: item!.img)
+        }
+        else {
+            itemView.image = nil
         }
         return oldItem
     }
