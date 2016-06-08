@@ -9,8 +9,8 @@ import UIKit
 
 class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
 
-    @IBOutlet weak var NameLabel: UILabel!
-    @IBOutlet weak var DescriptionLabel: UILabel!
+    @IBOutlet weak var ItemNameLabel: UILabel!
+    @IBOutlet weak var IndexLabel: UILabel!
     
     @IBOutlet weak var inventoryCollection: UICollectionView!
 
@@ -26,7 +26,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     private var leftScrollBound:CGFloat!
     private var rightScrollBound:CGFloat!
     
-    private var previousSelectedContainer:ItemContainer? = nil
+    private var previousSelectedContainer:ItemContainer?
     private var selectedPath:NSIndexPath?
 
     override func viewDidLoad() {
@@ -51,7 +51,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         selectCenterCell()
     }
     
-    func itemDropped(containerA:ItemContainer, containerB:ItemContainer) {
+    /*func itemDropped(containerA:ItemContainer, containerB:ItemContainer) {
      //   if (containerA.swappableWith(containerB)) {
         /*    if (containerA == GroundContainer) {
                 inventory.setItem(containerB.correspondsToInventoryIndex, toItem: groundBag?.item)
@@ -86,66 +86,64 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
          //   containerSelected(containerB)
         updateInfoDisplay()
      //   }
-    }
-    func itemDropped(containerA:ItemContainer, indexB:Int) {
-        //   if (containerA.swappableWith(containerB)) {
-        /*    if (containerA == GroundContainer) {
-         inventory.setItem(containerB.correspondsToInventoryIndex, toItem: groundBag?.item)
-         groundBag?.setItemTo(nil)
-         if (containerB.item != nil) {
-         let newBag = ItemBag(withItem: containerB.item!, loc: dropLoc)
-         groundBag = newBag
-         GameLogic.addObject(newBag)
-         }
-         else {
-         groundBag = nil
-         }
-         }
-         else if (containerB == GroundContainer) {
-         inventory.setItem(containerA.correspondsToInventoryIndex, toItem: groundBag?.item)
-         groundBag?.setItemTo(nil)
-         if (containerA.item != nil) {
-         let newBag = ItemBag(withItem: containerA.item!, loc: dropLoc)
-         groundBag = newBag
-         GameLogic.addObject(newBag)
-         }
-         else {
-         groundBag = nil
-         }
-         }
-         else {*/
-        print("swapping \(containerA.correspondsToInventoryIndex), \(indexB)")
-        inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: indexB)
-        containerA.setItemTo(inventory.getItem(containerA.correspondsToInventoryIndex))
-        //}
-        //containerA.swapItemWith(containerB)
-        //   containerSelected(containerB)
-        updateInfoDisplay()
-        //   }
-
+    }*/
+    func itemDropped(indexA:Int, indexB:Int) {
+        if (indexA == indexB) {return}
+        if (indexA == -2) {
+            if let item = inventory.getItem(indexB) {
+                inventory.setItem(indexB, toItem: groundBag?.item)
+                groundBag?.setItemTo(nil)
+                let newBag = ItemBag(withItem: item, loc: dropLoc)
+                groundBag = newBag
+                GameLogic.addObject(newBag)
+            }
+            else {
+                groundBag = nil // this should never happen
+            }
+        }
+        else if (indexB == -2) {
+            if let item = inventory.getItem(indexA) {
+                inventory.setItem(indexA, toItem: groundBag?.item)
+                groundBag?.setItemTo(nil)
+                let newBag = ItemBag(withItem: item, loc: dropLoc)
+                groundBag = newBag
+                GameLogic.addObject(newBag)
+            }
+            else {
+                inventory.setItem(indexA, toItem: groundBag?.item)
+                groundBag?.setItemTo(nil)
+                groundBag = nil
+            }
+        }
+        else {
+            inventory.swapItems(indexA, atIndexB: indexB)
+        }
     }
     
 
     
     func updateInfoDisplay() {
-        //NameLabel.text = sender.item?.name
-        //DescriptionLabel.text = sender.item?.description
+        if (previousSelectedContainer != nil) {
+            ItemNameLabel.text = (previousSelectedContainer!.item == nil ? "---" : previousSelectedContainer!.item!.name)
+            IndexLabel.text = previousSelectedContainer!.correspondsToInventoryIndex == -2 ? "Ground" : ("Slot \(previousSelectedContainer!.correspondsToInventoryIndex + 1)")
+        }
     }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inventory_size
+        return inventory_size + 1
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
-        cell.correspondsToInventoryIndex = indexPath.item
+        cell.correspondsToInventoryIndex = (indexPath.item == 0 ? -2 : indexPath.item - 1)
       
-        if (indexPath.item != currentIndex) {
+        if (cell.correspondsToInventoryIndex != currentIndex) {
             cell.resetItemView()
         }
         else {
             cell.itemView.hidden = true
         }
-        cell.setItemTo(inventory.getItem(indexPath.item))
+        cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
         cell.setSelectedTo(false)
         return cell
     }
@@ -162,6 +160,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             container.setSelectedTo(true)
             previousSelectedContainer = container
         }
+        updateInfoDisplay()
     }
 
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
@@ -199,11 +198,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
         else if (recognizer.state == .Ended) {
             if let path = inventoryCollection.indexPathForItemAtPoint(loc), containerA = inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer  {
-                inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: currentIndex)
+                itemDropped(containerA.correspondsToInventoryIndex, indexB: currentIndex)
                 currentIndex = -1
                 inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
                 selectCenterCell()
-                updateInfoDisplay()
             }
             else {
                 currentIndex = -1

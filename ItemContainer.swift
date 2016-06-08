@@ -13,7 +13,8 @@ class ItemContainer:UICollectionViewCell {
 
     let itemView = UIImageView()
 
-    var centerPoint = CGPointZero
+    private var centerPoint = CGPointZero
+    
     var item:Item?
     var correspondsToInventoryIndex:Int = -5
 
@@ -30,11 +31,11 @@ class ItemContainer:UICollectionViewCell {
         itemView.center = centerPoint
         itemView.contentMode = .ScaleAspectFit
         itemView.layer.magnificationFilter = kCAFilterNearest
-
         ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(itemView)
     }
+    
     func resetItemView() {
         itemView.center = centerPoint
         itemView.hidden = false
