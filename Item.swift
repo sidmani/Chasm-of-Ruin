@@ -193,4 +193,6 @@ class Consumable: Item {
         super.encodeWithCoder(aCoder)
     }
 }
-
+class Usable:Item {
+    
+}

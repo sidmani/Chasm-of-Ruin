@@ -25,6 +25,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     @IBOutlet weak var DEXProgressView: VerticalProgressView!
     @IBOutlet weak var WISProgressView: VerticalProgressView!
     
+    @IBOutlet weak var EquipButton: UIButton!
+    
+
     var StatsDisplay:[VerticalProgressView] = []
     
     var inventory:Inventory!
@@ -49,19 +52,23 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         lpgr.addTarget(self, action: #selector(handleLongPress))
         
         StatsDisplay = [HPProgressView, DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView, WISProgressView]
-        for view in StatsDisplay {
-            view.backgroundColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
-        }
+       
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
 
         leftScrollBound = -inventoryCollection.contentInset.left
         rightScrollBound = inventoryCollection.collectionViewLayout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
-        
+    
         inventoryCollection.setContentOffset(CGPointMake(leftScrollBound,0), animated: false)
+
         
         currentItemView.contentMode = .ScaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
+        
+        EquipButton.layer.cornerRadius = 12
+        EquipButton.backgroundColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
+        EquipButton.layer.borderWidth = 2.0
+        EquipButton.layer.borderColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         
         selectCenterCell() //this doesn't work for some reason
     }
@@ -99,29 +106,63 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
+    @IBAction func equipButtonPressed(sender: AnyObject) {
+        if let item = previousSelectedContainer?.item {
+            if (item is Usable) {
+                //do something
+            }
+            else if (item is Consumable) {
+                thisCharacter.consumeItem(item as! Consumable)
+                inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
+                inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
+            }
+            else {
+                if (inventory.equipItem(previousSelectedContainer!.correspondsToInventoryIndex)) {
+                    EquipButton.setTitle("Unload", forState: .Normal)
+                }
+                else {
+                    EquipButton.setTitle("Equip", forState: .Normal)
+                }
+            }
+        }
+    }
 
     
     func updateInfoDisplay() {
-        print("run")
         if (previousSelectedContainer != nil) {
-            if (previousSelectedContainer!.item != nil) {
-                ItemNameLabel.text = previousSelectedContainer!.item!.name
+            if let item = previousSelectedContainer!.item {
+                ItemNameLabel.text = item.name
                 for i in 0..<StatsDisplay.count {
-                    StatsDisplay[i].setProgress(Float(previousSelectedContainer!.item!.statMods.getIndex(i)/100), animated: true)
+                    StatsDisplay[i].setProgress(Float(item.statMods.getIndex(i)/100), animated: true)
                 }
+                if (item is Consumable) {
+                    EquipButton.setTitle("Consume", forState: .Normal)
+                
+                }
+                else if (item is Usable) {
+                    EquipButton.setTitle("Use", forState: .Normal)
+                }
+                else if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
+                    EquipButton.setTitle("Unload", forState: .Normal)
+                }
+                else {
+                    EquipButton.setTitle("Equip", forState: .Normal)
+                }
+                EquipButton.enabled = true
+                EquipButton.alpha = 1
+
             }
             else {
                 ItemNameLabel.text = "---"
                 for i in 0..<StatsDisplay.count {
                     StatsDisplay[i].setProgress(0, animated: true)
                 }
+                EquipButton.enabled = false
+                EquipButton.alpha = 0.3
             }
             IndexLabel.text = previousSelectedContainer!.correspondsToInventoryIndex == -2 ? "Ground" : ("Slot \(previousSelectedContainer!.correspondsToInventoryIndex + 1)")
         }
     }
-    //////////////////////////////
-    //UITableView handling
-    
     ////////////////////////////
     //UICollectionView handling
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -146,30 +187,26 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (selectCenterCell()) {
+            updateInfoDisplay()
+        }
+    }
+    
+    func selectCenterCell() -> Bool {
         if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)), container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
-            if (container != previousSelectedContainer) {
+            if (previousSelectedContainer != container) {
                 selectedPath = path
                 previousSelectedContainer?.setSelectedTo(false)
                 container.setSelectedTo(true)
                 previousSelectedContainer = container
-                updateInfoDisplay()
+                return true
             }
         }
-    }
- 
-    
-
-    
-    func selectCenterCell() {
-        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)), container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
-            selectedPath = path
-            previousSelectedContainer?.setSelectedTo(false)
-            container.setSelectedTo(true)
-            previousSelectedContainer = container
-        }
+        return false
     }
 
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
+
         let loc = recognizer.locationInView(self.inventoryCollection)
         let newLoc = recognizer.locationInView(self.view)
         if (recognizer.state == .Began) {
@@ -198,7 +235,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 currentItemView.center = newLoc
                 if (screenSize.width - newLoc.x < 0.2*screenSize.width || newLoc.x < screenSize.width*0.2) {
                     let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
-                    inventoryCollection.setContentOffset(CGPoint(x: offsetX, y:0), animated: false)
+                    inventoryCollection.setContentOffset(CGPoint(x:offsetX, y:0), animated: false)
                 }
             }
         }

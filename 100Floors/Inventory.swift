@@ -77,7 +77,7 @@ class Inventory:NSObject, NSCoding {
         return out
     }
     
-    func equipItem(atIndex:Int) {
+    func equipItem(atIndex:Int) -> Bool { //equipped -> true, unloaded -> false
         switch(atIndex) {
         case weaponIndex:
             weaponIndex = -1
@@ -88,21 +88,29 @@ class Inventory:NSObject, NSCoding {
         case skillIndex:
             skillIndex = -1
         default:
-            if (getItem(atIndex) as? Weapon) != nil {
+            let item = getItem(atIndex)
+            if (item is Weapon) {
                 weaponIndex = atIndex
+                return true
             }
-            else if (getItem(atIndex) as? Shield) != nil {
+            else if (item is Shield) {
                 shieldIndex = atIndex
+                return true
             }
-            else if (getItem(atIndex) as? Skill) != nil {
+            else if (item is Skill) {
                 skillIndex = atIndex
+                return true
             }
-            else if (getItem(atIndex) as? Enhancer) != nil {
+            else if (item is Enhancer) {
                 enhancerIndex = atIndex
+                return true
             }
         }
+        return false
     }
-    
+    func isEquipped(index:Int) -> Bool {
+        return (weaponIndex == index || skillIndex == index || shieldIndex == index || enhancerIndex == index) 
+    }
     func dropAllItems() -> [Item?] {
         let size = inventory.count
         let allItems = inventory
