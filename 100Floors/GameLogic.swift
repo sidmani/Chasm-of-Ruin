@@ -107,7 +107,7 @@ class GameLogic {
         gameScene = scene
         currentState = .InGame
       //  assert(gameViewController != nil)
-       currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
+    //   currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
         if (currentSave != nil) {
             thisCharacter = ThisCharacter(fromSaveData: currentSave!)
         }

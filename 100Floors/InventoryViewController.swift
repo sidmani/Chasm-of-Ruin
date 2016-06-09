@@ -13,10 +13,19 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     @IBOutlet weak var IndexLabel: UILabel!
     
     @IBOutlet weak var inventoryCollection: UICollectionView!
-
+    
     private var currentItemView:UIImageView = UIImageView()
     private var currentContainer:ItemContainer?
     private var currentIndex:Int = -1
+    ////////
+    @IBOutlet weak var HPProgressView: VerticalProgressView!
+    @IBOutlet weak var DEFProgressView: VerticalProgressView!
+    @IBOutlet weak var ATKProgressView: VerticalProgressView!
+    @IBOutlet weak var SPDProgressView: VerticalProgressView!
+    @IBOutlet weak var DEXProgressView: VerticalProgressView!
+    @IBOutlet weak var WISProgressView: VerticalProgressView!
+    
+    var StatsDisplay:[VerticalProgressView] = []
     
     var inventory:Inventory!
 
@@ -31,12 +40,18 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
+        
         let lpgr = UILongPressGestureRecognizer()
         inventoryCollection.addGestureRecognizer(lpgr)
         lpgr.addTarget(self, action: #selector(handleLongPress))
         
+        StatsDisplay = [HPProgressView, DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView, WISProgressView]
+        for view in StatsDisplay {
+            view.backgroundColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
+        }
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
 
@@ -48,45 +63,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         currentItemView.contentMode = .ScaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
         
-        selectCenterCell()
+        selectCenterCell() //this doesn't work for some reason
     }
     
-    /*func itemDropped(containerA:ItemContainer, containerB:ItemContainer) {
-     //   if (containerA.swappableWith(containerB)) {
-        /*    if (containerA == GroundContainer) {
-                inventory.setItem(containerB.correspondsToInventoryIndex, toItem: groundBag?.item)
-                groundBag?.setItemTo(nil)
-                if (containerB.item != nil) {
-                    let newBag = ItemBag(withItem: containerB.item!, loc: dropLoc)
-                    groundBag = newBag
-                    GameLogic.addObject(newBag)
-                }
-                else {
-                    groundBag = nil
-                }
-            }
-            else if (containerB == GroundContainer) {
-                inventory.setItem(containerA.correspondsToInventoryIndex, toItem: groundBag?.item)
-                groundBag?.setItemTo(nil)
-                if (containerA.item != nil) {
-                    let newBag = ItemBag(withItem: containerA.item!, loc: dropLoc)
-                    groundBag = newBag
-                    GameLogic.addObject(newBag)
-                }
-                else {
-                    groundBag = nil
-                }
-            }
-            else {*/
-                inventory.swapItems(containerA.correspondsToInventoryIndex, atIndexB: containerB.correspondsToInventoryIndex)
-            //}
-        containerA.setItemTo(inventory.getItem(containerA.correspondsToInventoryIndex))
-        containerB.setItemTo(inventory.getItem(containerB.correspondsToInventoryIndex))
-
-         //   containerSelected(containerB)
-        updateInfoDisplay()
-     //   }
-    }*/
     func itemDropped(indexA:Int, indexB:Int) {
         if (indexA == indexB) {return}
         if (indexA == -2) {
@@ -123,12 +102,28 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     
     func updateInfoDisplay() {
+        print("run")
         if (previousSelectedContainer != nil) {
-            ItemNameLabel.text = (previousSelectedContainer!.item == nil ? "---" : previousSelectedContainer!.item!.name)
+            if (previousSelectedContainer!.item != nil) {
+                ItemNameLabel.text = previousSelectedContainer!.item!.name
+                for i in 0..<StatsDisplay.count {
+                    StatsDisplay[i].setProgress(Float(previousSelectedContainer!.item!.statMods.getIndex(i)/100), animated: true)
+                }
+            }
+            else {
+                ItemNameLabel.text = "---"
+                for i in 0..<StatsDisplay.count {
+                    StatsDisplay[i].setProgress(0, animated: true)
+                }
+            }
             IndexLabel.text = previousSelectedContainer!.correspondsToInventoryIndex == -2 ? "Ground" : ("Slot \(previousSelectedContainer!.correspondsToInventoryIndex + 1)")
         }
     }
+    //////////////////////////////
+    //UITableView handling
     
+    ////////////////////////////
+    //UICollectionView handling
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return inventory_size + 1
     }
@@ -145,12 +140,24 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
         cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
         cell.setSelectedTo(false)
+        cell.layer.shouldRasterize = true
+        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
         return cell
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        selectCenterCell()
+        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)), container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
+            if (container != previousSelectedContainer) {
+                selectedPath = path
+                previousSelectedContainer?.setSelectedTo(false)
+                container.setSelectedTo(true)
+                previousSelectedContainer = container
+                updateInfoDisplay()
+            }
+        }
     }
+ 
+    
 
     
     func selectCenterCell() {
@@ -160,7 +167,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             container.setSelectedTo(true)
             previousSelectedContainer = container
         }
-        updateInfoDisplay()
     }
 
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
@@ -202,6 +208,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 currentIndex = -1
                 inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
                 selectCenterCell()
+                updateInfoDisplay()
             }
             else {
                 currentIndex = -1
@@ -213,6 +220,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     
     }
+    /////////////////////////
+    
+    
+    
     private func constrain(x:CGFloat, lower:CGFloat, upper:CGFloat) -> CGFloat{
         return max(lower, min(x,upper))
     }

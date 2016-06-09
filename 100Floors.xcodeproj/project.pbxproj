@@ -52,6 +52,7 @@
 		1FE667641CAC9FD6003BCE30 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE667631CAC9FD6003BCE30 /* SaveData.swift */; };
 		1FE667661CAE1AA3003BCE30 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE667651CAE1AA3003BCE30 /* Effects.swift */; };
 		1FEC7C8C1C7033E0005AEDB3 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */; };
+		1FFC63231D09DD4100074EE0 /* VerticalProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC63221D09DD4100074EE0 /* VerticalProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		1FE667631CAC9FD6003BCE30 /* SaveData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 		1FE667651CAE1AA3003BCE30 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
 		1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
+		1FFC63221D09DD4100074EE0 /* VerticalProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,7 @@
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
 				1F7415151CB03DA8000A2D48 /* Popup.swift */,
 				1FCE14C31C475A0400112188 /* ItemContainer.swift */,
+				1FFC63221D09DD4100074EE0 /* VerticalProgressView.swift */,
 				1F9998C31CC2F58200A76E9D /* StatsView.swift */,
 				1F5078391C3CB20600EC773E /* DisplayBar.swift */,
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
@@ -403,6 +406,7 @@
 				1F4686151C5C50AD004D3F55 /* Level.swift in Sources */,
 				1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
+				1FFC63231D09DD4100074EE0 /* VerticalProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

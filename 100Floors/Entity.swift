@@ -27,7 +27,7 @@ struct Stats {
         case 4: return dexterity
         case 5: return mana
         case 6: return rage
-        default: return 0
+        default: return 10
         }
     }
     
@@ -63,13 +63,13 @@ struct Stats {
     }
     static func statsFrom(Element:AEXMLElement) -> Stats {
         return Stats(
-            health: CGFloat(Element["Stats"]["health"].doubleValue),
-            defense: CGFloat(Element["Stats"]["def"].doubleValue),
-            attack: CGFloat(Element["Stats"]["atk"].doubleValue),
-            speed: CGFloat(Element["Stats"]["spd"].doubleValue),
-            dexterity: CGFloat(Element["Stats"]["dex"].doubleValue),
-            mana: CGFloat(Element["Stats"]["mana"].doubleValue),
-            rage: CGFloat(Element["Stats"]["rage"].doubleValue))
+            health: CGFloat(Element["stats"]["health"].doubleValue),
+            defense: CGFloat(Element["stats"]["def"].doubleValue),
+            attack: CGFloat(Element["stats"]["atk"].doubleValue),
+            speed: CGFloat(Element["stats"]["spd"].doubleValue),
+            dexterity: CGFloat(Element["stats"]["dex"].doubleValue),
+            mana: CGFloat(Element["stats"]["mana"].doubleValue),
+            rage: CGFloat(Element["stats"]["rage"].doubleValue))
     }
     
     static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
@@ -182,9 +182,9 @@ class ThisCharacter: Entity, Updatable {
     
     convenience init() {
         self.init(withCurrStats:Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withSize: inventory_size))
-        self.inventory.setItem(self.inventory.weaponIndex, toItem: Item.initHandlerID("wep1"))
-        self.inventory.setItem(0, toItem: Item.initHandlerID("wep2"))
-        self.inventory.setItem(1, toItem: Item.initHandlerID("wep3"))
+        self.inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
+        self.inventory.setItem(1, toItem: Item.initHandlerID("wep2"))
+        self.inventory.setItem(2, toItem: Item.initHandlerID("wep3"))
         
     }
     

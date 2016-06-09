@@ -7,13 +7,13 @@
             <desc>This sword was forged from the scales of a dragon.</desc>
             <img>Sword-T10</img>
             <stats>
-                <health>0</health>
-                <def>0</def>
-                <atk>0</atk>
-                <spd>0</spd>
-                <dex>0</dex>
-                <mana>0</mana>
-                <rage>0</rage>
+                <health>40</health>
+                <def>90</def>
+                <atk>85</atk>
+                <spd>100</spd>
+                <dex>90</dex>
+                <mana>100</mana>
+                <rage>2</rage>
             </stats>
             <consumable>false</consumable>
             <projectile-id>testid</projectile-id>
@@ -27,12 +27,12 @@
             <desc>test description</desc>
             <img>Sword-T6</img>
             <stats>
-                <health>0</health>
+                <health>50</health>
                 <def>0</def>
-                <atk>0</atk>
+                <atk>50</atk>
                 <spd>0</spd>
-                <dex>0</dex>
-                <mana>0</mana>
+                <dex>50</dex>
+                <mana>50</mana>
                 <rage>0</rage>
             </stats>
             <consumable>false</consumable>
@@ -48,12 +48,10 @@
             <img>Sword-T1</img>
             <stats>
                 <health>0</health>
-                <def>0</def>
-                <atk>0</atk>
-                <spd>0</spd>
-                <dex>0</dex>
-                <hunger>0</hunger>
-                <level>0</level>
+                <def>75</def>
+                <atk>10</atk>
+                <spd>10</spd>
+                <dex>30</dex>
                 <mana>0</mana>
                 <rage>0</rage>
             </stats>
