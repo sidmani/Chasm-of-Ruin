@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <levels>
-	<level index="hub">
+	<level index="0">
 		<map>Main</map>
 		<name>Hub</name>
 		<desc></desc>

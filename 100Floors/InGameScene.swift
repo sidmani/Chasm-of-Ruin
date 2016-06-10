@@ -29,8 +29,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     var nonCharNodes = SKNode()
     
     override func didMoveToView(view: SKView) {
-        GameLogic.setupGame(self)
-        GameLogic.setGameState(.InGame)
+       // GameLogic.setupGame(self)
+       // GameLogic.setGameState(.InGame)
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
         self.camera = mainCamera
@@ -38,7 +38,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera?.xScale = 0.2
         self.camera?.yScale = 0.2
 
-        nonCharNodes.physicsBody = SKPhysicsBody() //CHECK
+        nonCharNodes.physicsBody = SKPhysicsBody() //CHECK IF NECESSARY
         nonCharNodes.physicsBody?.affectedByGravity = false
         nonCharNodes.physicsBody?.friction = 0
         
@@ -95,7 +95,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         camera!.position = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
     }
     
-    func setLevel(newLevel:BaseLevel, introScreen:Bool)
+    func setLevel(newLevel:BaseLevel)
     {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
@@ -103,11 +103,9 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         currentLevel = newLevel
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
-        if (introScreen) {
-            GameLogic.setGameState(.LoadingScreen)
+       // if (introScreen) {
             //TODO: trigger intro screen
-        }
-        GameLogic.setGameState(.InGame)
+      //  }
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
         
@@ -117,7 +115,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
-        if (GameLogic.getCurrentState() == GameStates.InGame && deltaT < 100) {
+        if (deltaT < 100) {
             camera?.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
                 let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)+2

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
 	<behaviors>
-		<behavior id="01">
+		<behavior id="01" desc="">
             <conditional>CharacterIsCloserThan</conditional>
             <conditional-params>
                 <param name="distance">100</param>
@@ -17,7 +17,7 @@
             </priority-params>
             <idtype>0</idtype>
 		</behavior>
-        <behavior id="02">
+        <behavior id="02" desc="">
             <conditional>CharacterIsCloserThan</conditional>
             <conditional-params>
                 <param name="distance">60</param>

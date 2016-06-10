@@ -47,6 +47,8 @@ class JoystickControl:UIControl{
         //add layer to views
         ringView.layer.addSublayer(ringLayer)
         stickView.layer.addSublayer(stickLayer)
+        
+        
         //add views to main view
         self.addSubview(ringView)
         self.addSubview(stickView)

@@ -10,8 +10,11 @@ import UIKit
 import SpriteKit
 
 class MenuViewController: UIViewController {
+    @IBOutlet weak var playButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         GameLogic.setGameState(.MainMenu)
     }
   

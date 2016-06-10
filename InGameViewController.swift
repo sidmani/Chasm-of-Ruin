@@ -15,10 +15,12 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var LeftJoystickControl: JoystickControl!
     @IBOutlet weak var RightJoystickControl: JoystickControl!
     
-    @IBOutlet weak var HPDisplayBar: ReallyBigDisplayBar!
+    @IBOutlet weak var HPDisplayBar: VerticalProgressView!
     
     @IBOutlet weak var MenuButton: UIButton!
     @IBOutlet weak var InventoryButton: UIButton!
+    
+    var level:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +32,7 @@ class InGameViewController: UIViewController {
         UIElements.InventoryButton = InventoryButton
         //////////
         GameLogic.setViewController(self)
+        
         self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
         skView.showsFPS = true
@@ -37,9 +40,12 @@ class InGameViewController: UIViewController {
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
         let gameScene = InGameScene(size:skView.bounds.size)
+        GameLogic.setupGame(gameScene, level: level)
         gameScene.scaleMode = .AspectFill
         gameScene.view?.window?.rootViewController = self
         skView.presentScene(gameScene)
+        
+        GameLogic.setGameState(.InGame)
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {

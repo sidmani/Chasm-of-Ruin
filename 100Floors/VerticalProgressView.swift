@@ -17,6 +17,7 @@ public class VerticalProgressView : UIView {
     @IBInspectable public var fillUndoneColor: UIColor = UIColor(red: 0, green: 0, blue: 1, alpha: 0.1)
     //@IBInspectable var fillRestColor : UIColor = UIColor.whiteColor()
     @IBInspectable public var animationDuration: Double = 0.5
+    @IBInspectable public var vertical:Bool = true
     
     @IBInspectable public var progress: Float {
         get {
@@ -39,7 +40,13 @@ public class VerticalProgressView : UIView {
             self.layer.addSublayer(filledView!)
         }
         self.filledView!.frame = self.bounds
-        self.filledView!.frame.origin.y = self.shouldHavePosition()
+        if (vertical) {
+            self.filledView!.frame.origin.y = self.shouldHavePosition()
+        }
+        else {
+            self.filledView!.frame.origin.x = self.shouldHavePosition()
+
+        }
         self.layer.borderColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
         self.layer.borderWidth = 2.0
         self.backgroundColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
@@ -53,10 +60,19 @@ public class VerticalProgressView : UIView {
     
     override public func drawRect(rect: CGRect) {
         super.drawRect(rect)
-        let filledHeight = rect.size.height * CGFloat(self.progressPriv)
-        self.setLayerProperties()
-        let y = self.frame.size.height - filledHeight
-        self.filledView!.frame = CGRectMake(0, y, rect.size.width, rect.size.height)
+        if (vertical) {
+            let filledHeight = rect.size.height * CGFloat(self.progressPriv)
+            self.setLayerProperties()
+            let y = self.frame.size.height - filledHeight
+            self.filledView!.frame = CGRectMake(0, y, rect.size.width, rect.size.height)
+
+        }
+        else {
+            let filledWidth = rect.size.width * CGFloat(self.progressPriv)
+            self.setLayerProperties()
+            let x = filledWidth - self.frame.size.width
+            self.filledView!.frame = CGRectMake(x, 0, rect.size.width, rect.size.height)
+        }
         
     }
     
@@ -67,9 +83,16 @@ public class VerticalProgressView : UIView {
     }
     
     func shouldHavePosition() -> CGFloat {
-        let filledHeight = self.frame.size.height * CGFloat(self.progressPriv)
-        let position = self.frame.size.height - filledHeight
-        return position
+        if (vertical) {
+            let filledHeight = self.frame.size.height * CGFloat(self.progressPriv)
+            let position = self.frame.size.height - filledHeight
+            return position
+        }
+        else {
+            let filledWidth = self.frame.size.width * CGFloat(self.progressPriv)
+            let position = filledWidth - self.frame.size.width
+            return position
+        }
     }
     
     func setFilledPosition(position: CGFloat, animated: Bool) {
@@ -78,9 +101,16 @@ public class VerticalProgressView : UIView {
         let duration: NSTimeInterval = animated ? self.animationDuration : 0;
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
-        self.filledView!.frame.origin.y = position
-        CATransaction.commit()
+
+        if (vertical) {
+            self.filledView!.frame.origin.y = position
+        }
+        else {
+            self.filledView!.frame.origin.x = position
+        }
         
+        CATransaction.commit()
+
     }
     
     public func setProgress(progress: Float, animated: Bool){
@@ -93,6 +123,6 @@ public class VerticalProgressView : UIView {
         setFilledPosition(self.shouldHavePosition(), animated: animated)
     }
     
-    
+
     
 }

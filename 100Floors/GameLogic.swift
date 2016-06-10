@@ -11,7 +11,7 @@ import UIKit
 import Foundation
 
 enum GameStates {
-    case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene
+    case InGame, Paused, MainMenu, InventoryMenu, InGameMenu, LoadingScreen, CutScene, LevelSelect
 }
 protocol Updatable {
     func update(deltaT:Double)
@@ -30,7 +30,7 @@ let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/
 struct UIElements {
     static var LeftJoystick:JoystickControl!
     static var RightJoystick:JoystickControl!
-    static var HPBar:ReallyBigDisplayBar!
+    static var HPBar:VerticalProgressView!
     static var InventoryButton:UIButton!
     static var MenuButton:UIButton!
     
@@ -101,13 +101,14 @@ class GameLogic {
     private static var gameViewController:InGameViewController!
     private static var currentSave:SaveData?
     
-    static var currentInteractiveObjects: [Interactive] = []
+    private static var currentInteractiveObjects: [Interactive] = []
     
-    static func setupGame(scene: InGameScene) {
+    
+    static func setupGame(scene: InGameScene, level:String) {
         gameScene = scene
         currentState = .InGame
       //  assert(gameViewController != nil)
-    //   currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
+        currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
         if (currentSave != nil) {
             thisCharacter = ThisCharacter(fromSaveData: currentSave!)
         }
@@ -115,15 +116,15 @@ class GameLogic {
             thisCharacter = ThisCharacter()
             currentSave = SaveData(fromCharacter: thisCharacter)
         }
-        setLevel(MapLevel(withID: BaseLevel.hubID), introScreen: false) //set level to hub
+        scene.paused = true
+        setLevel(MapLevel(withID: level), introScreen: true)
     }
+
+    
     static func saveGame() -> Bool{
         if (currentSave != nil) {
-            let out = NSKeyedArchiver.archiveRootObject(currentSave!, toFile: SaveData.SaveURL.path!)
-            print(out)
-            return out
+            return NSKeyedArchiver.archiveRootObject(currentSave!, toFile: SaveData.SaveURL.path!)
         }
-        print(false)
         return false
     }
     
@@ -141,7 +142,7 @@ class GameLogic {
         switch(currentState) {
         case .LoadingScreen:
             UIElements.setVisible(false)
-            gameScene.paused = true
+            gameScene.paused = false
         case .InGame:
             UIElements.setVisible(true)
             gameScene.paused = false
@@ -183,15 +184,15 @@ class GameLogic {
     
     static func setLevel(l:BaseLevel, introScreen:Bool) {
         if (currentState == .InGame) {
-            gameScene.setLevel(l, introScreen: introScreen)
+            GameLogic.setGameState(.LoadingScreen)
+            gameScene.setLevel(l)
+            GameLogic.setGameState(.InGame)
         }
     }
     ///////
     static func characterDeath() {
        // gameScene.paused = true
         //display death screen
-        //set level to hub
-       // setLevel(MapLevel(withID: BaseLevel.hubID), introScreen: false)
         
     }
     ///////

@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
+class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet weak var ItemNameLabel: UILabel!
     @IBOutlet weak var IndexLabel: UILabel!
@@ -65,11 +65,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         currentItemView.contentMode = .ScaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
         
-        EquipButton.layer.cornerRadius = 12
-        EquipButton.backgroundColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
-        EquipButton.layer.borderWidth = 2.0
-        EquipButton.layer.borderColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
-        
         selectCenterCell() //this doesn't work for some reason
     }
     
@@ -114,7 +109,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             else if (item is Consumable) {
                 thisCharacter.consumeItem(item as! Consumable)
                 inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
-                inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
             }
             else {
                 if (inventory.equipItem(previousSelectedContainer!.correspondsToInventoryIndex)) {
@@ -124,6 +118,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     EquipButton.setTitle("Equip", forState: .Normal)
                 }
             }
+            inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
+            selectCenterCell()
         }
     }
 
@@ -179,6 +175,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         else {
             cell.itemView.hidden = true
         }
+        cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
         cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
         cell.setSelectedTo(false)
         cell.layer.shouldRasterize = true

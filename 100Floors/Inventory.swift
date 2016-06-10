@@ -58,6 +58,13 @@ class Inventory:NSObject, NSCoding {
         let temp = getItem(atIndexA)
         setItem(atIndexA, toItem: getItem(atIndexB))
         setItem(atIndexB, toItem: temp)
+        if (isEquipped(atIndexA)) {
+            equipItem(atIndexB)
+        }
+        else if (isEquipped(atIndexB)) {
+            equipItem(atIndexA)
+        }
+
     }
 
     func getItem(atIndex:Int) -> Item? {

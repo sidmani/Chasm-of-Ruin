@@ -1,0 +1,67 @@
+//
+//  LevelContainer.swift
+//  100Floors
+//
+//  Created by Sid Mani on 6/10/16.
+//
+//
+
+import Foundation
+//
+//  ItemContainer.swift
+//  100Floors
+//
+//  Created by Sid Mani on 1/13/16.
+//
+//
+import UIKit
+class LevelContainer:UICollectionViewCell {
+    
+    
+    private let containerView:UIView = UIView()
+    private let rectangleLayer = CAShapeLayer()
+    
+    private let levelView = UIImageView()
+    var level:String = ""
+    private var centerPoint = CGPointZero
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
+        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.width), cornerRadius: 12)
+        rectangleLayer.path = rectanglePath.CGPath
+        setSelectedTo(false)
+        rectangleLayer.lineWidth = 2.0
+        containerView.layer.addSublayer(rectangleLayer)
+        levelView.bounds = self.bounds
+        levelView.userInteractionEnabled = false
+        levelView.center = centerPoint
+        levelView.contentMode = .ScaleAspectFit
+        levelView.layer.magnificationFilter = kCAFilterNearest
+        ////////////////////////////
+        self.addSubview(containerView)
+        self.addSubview(levelView)
+    }
+    
+    
+    func setSelectedTo(val:Bool) {
+        if (val) {
+            rectangleLayer.fillColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5).CGColor
+            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 1.0).CGColor
+        }
+        else {
+            rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
+            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+        }
+    }
+    
+    func setLevelTo(l:String) {
+        level = l
+        //TODO: somehow get level thumbnail from level name
+        //then add it to the UIImageView
+        
+    }
+
+    
+}

@@ -8,11 +8,7 @@
 import SpriteKit
 import UIKit
 
-class Level:SKNode {
-    
-}
 class BaseLevel:SKNode { //TODO: probably merge these two classes together
-    static let hubID = "hub"
 
     struct LayerDef {
         static let PopUps:CGFloat = 20
