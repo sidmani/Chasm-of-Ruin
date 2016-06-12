@@ -55,8 +55,8 @@ class Item:NSObject, NSCoding {
         }
     }
     static func initHandlerID(withID:String) -> Item? {
-        var thisItem:AEXMLElement
-        if let items = itemXML.root["items"]["item"].allWithAttributes(["id":withID]) {
+      //  var thisItem:AEXMLElement
+      /*  if let items = itemXML.root["items"]["item"].allWithAttributes(["id":withID]) {
             if (items.count != 1) {
                 fatalError("Item ID error")
             }
@@ -66,8 +66,9 @@ class Item:NSObject, NSCoding {
         }
         else {
             fatalError("Item Not Found")
-        }
-        return initHandler(thisItem)
+        }*/
+      //  let thisItem = itemXML.root["items"]["item"].allWithAttributes(["id":withID])!.first!
+        return initHandler(itemXML.root["items"]["item"].allWithAttributes(["id":withID])!.first!)
     }
     //NSCoding
     private struct PropertyKey {
@@ -145,32 +146,32 @@ class Weapon: Item {
 }
 
 class Skill: Item {
-    override init(thisItem: AEXMLElement) {
-        super.init(thisItem: thisItem)
-    }
+   // override init(thisItem: AEXMLElement) {
+   //     super.init(thisItem: thisItem)
+   // }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+   // required init?(coder aDecoder: NSCoder) {
+   //     super.init(coder: aDecoder)
+   // }
     
 }
 
 class Shield: Item {
-    override init(thisItem: AEXMLElement) {
-        super.init(thisItem: thisItem)
-    }
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    //override init(thisItem: AEXMLElement) {
+    //    super.init(thisItem: thisItem)
+    //}
+    //required init?(coder aDecoder: NSCoder) {
+    //    super.init(coder: aDecoder)
+    //}
 }
 
 class Enhancer: Item {
-    override init(thisItem: AEXMLElement) {
-        super.init(thisItem: thisItem)
-    }
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+ //   override init(thisItem: AEXMLElement) {
+ //       super.init(thisItem: thisItem)
+ //   }
+ //   required init?(coder aDecoder: NSCoder) {
+ //       super.init(coder: aDecoder)
+ //   }
 }
 
 class Consumable: Item {
@@ -193,6 +194,7 @@ class Consumable: Item {
         super.encodeWithCoder(aCoder)
     }
 }
+
 class Usable:Item {
     
 }

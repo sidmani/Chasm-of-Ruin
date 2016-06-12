@@ -43,7 +43,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        GameLogic.setGameState(.InventoryMenu)
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
         

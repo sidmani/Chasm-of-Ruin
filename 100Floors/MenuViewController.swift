@@ -14,10 +14,14 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        GameLogic.setGameState(.MainMenu)
     }
   
+    @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
+        GameLogic.resetEverything()
+        GameLogic.setGameState(.MainMenu)
+
+
+    }
     
     override func shouldAutorotate() -> Bool {
         return true
@@ -39,4 +43,5 @@ class MenuViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
 }

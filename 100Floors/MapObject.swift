@@ -84,11 +84,13 @@ class Portal:MapObject, Interactive {
         
     }
 }
+
 class ItemBag:MapObject, Interactive {
     let autotrigger:Bool = false
     var thumbnailImg: String {
         return item.img
     }
+    
     var item:Item
     init (withItem: Item, loc:CGPoint) {
         item = withItem
@@ -108,7 +110,7 @@ class ItemBag:MapObject, Interactive {
     }
     
     func trigger() {
-        GameLogic.openInventory(self)
+        NSNotificationCenter.defaultCenter().postNotificationName("groundBagTapped", object: self)
     }
         
     func displayPopup(state:Bool) {

@@ -5,7 +5,15 @@
 //  Created by Sid Mani on 1/13/16.
 //
 //
+
+
 import UIKit
+let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
+let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
+
+let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
+let fillColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5)
+
 class ItemContainer:UICollectionViewCell {
     
     private let containerView:UIView = UIView()
@@ -47,10 +55,10 @@ class ItemContainer:UICollectionViewCell {
             isEquipped = false
         }
         if (val) {
-            rectangleLayer.fillColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5).CGColor
+            rectangleLayer.fillColor = fillColorSelected.CGColor
         }
         else {
-            rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
+            rectangleLayer.fillColor = fillColor.CGColor
         }
         
         if (isEquipped) {
@@ -68,10 +76,10 @@ class ItemContainer:UICollectionViewCell {
             }
         }
         else if (val) {
-            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 1.0).CGColor
+            rectangleLayer.strokeColor = strokeColorSelected.CGColor
         }
         else {
-            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+            rectangleLayer.strokeColor = strokeColor.CGColor
         }
         
     }

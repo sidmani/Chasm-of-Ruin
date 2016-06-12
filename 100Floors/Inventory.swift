@@ -16,13 +16,14 @@ class Inventory:NSObject, NSCoding {
     var skillIndex:Int = -1
     var enhancerIndex:Int = -1
     
-    private let baseSize:Int
+    let baseSize:Int
     private var inventory:[Item?]
     private var parent:Entity?
     
     func setParent(to:Entity?) {
         parent = to
     }
+    
     //INIT
     init(withSize: Int)
     {
@@ -74,12 +75,15 @@ class Inventory:NSObject, NSCoding {
         return inventory[atIndex]
     }
     
-    func setItem(atIndex:Int, toItem:Item?) -> Item? {
+    func setItem(atIndex:Int, toItem:Item?) -> Item? { //UNSAFE: could cause crash due to setting an equipped index to the wrong type
         if (atIndex >= inventory.count || atIndex < 0) {
             return toItem
         }
         let out = inventory[atIndex]
         inventory[atIndex] = toItem
+      //  if (isEquipped(atIndex)) {
+      //      equipItem(atIndex)
+      //  }
         parent?.updateEquipStats()
         return out
     }
@@ -119,9 +123,13 @@ class Inventory:NSObject, NSCoding {
         return (weaponIndex == index || skillIndex == index || shieldIndex == index || enhancerIndex == index) 
     }
     func dropAllItems() -> [Item?] {
-        let size = inventory.count
         let allItems = inventory
-        inventory = [Item?](count:size, repeatedValue: nil)
+        inventory = [Item?](count:baseSize, repeatedValue: nil)
+        weaponIndex = -1
+        skillIndex = -1
+        shieldIndex = -1
+        enhancerIndex = -1
+        
         return allItems
     }
     

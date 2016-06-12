@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class StatsView: UIView {
+/*class StatsView: UIView {
     private var stats:Stats!
     private var bars = [UIProgressView](count: Stats.numStats, repeatedValue:UIProgressView(progressViewStyle: .Default))
     required init?(coder aDecoder: NSCoder) {
@@ -32,4 +32,4 @@ class StatsView: UIView {
             bars[i].setProgress(Float(stats.getIndex(i)/100), animated: true)
         }
     }
-}
+}*/

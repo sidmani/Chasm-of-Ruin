@@ -30,9 +30,10 @@ class InGameViewController: UIViewController {
         UIElements.HPBar = HPDisplayBar
         UIElements.MenuButton = MenuButton
         UIElements.InventoryButton = InventoryButton
-        //////////
-        GameLogic.setViewController(self)
         
+        MenuButton.tintColor = strokeColor
+       
+        //////////
         self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
         skView.showsFPS = true
@@ -41,11 +42,18 @@ class InGameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         let gameScene = InGameScene(size:skView.bounds.size)
         GameLogic.setupGame(gameScene, level: level)
+        level = ""
         gameScene.scaleMode = .AspectFill
         gameScene.view?.window?.rootViewController = self
         skView.presentScene(gameScene)
-        
+        /////NSNotificationCenter
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
+        /////////////////////////
         GameLogic.setGameState(.InGame)
+    }
+    
+    func groundBagTapped(notification: NSNotification) {
+        loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:notification.object as? ItemBag)
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {
@@ -70,6 +78,9 @@ class InGameViewController: UIViewController {
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
         GameLogic.setGameState(.InGame)
+        LeftJoystickControl.resetControl()
+        RightJoystickControl.resetControl()
+
         for view:UIView in self.view.subviews {
             if let effectView = view as? UIVisualEffectView {
                 UIView.animateWithDuration(0.5, animations: {

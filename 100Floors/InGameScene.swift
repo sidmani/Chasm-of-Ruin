@@ -29,14 +29,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     var nonCharNodes = SKNode()
     
     override func didMoveToView(view: SKView) {
-       // GameLogic.setupGame(self)
-       // GameLogic.setGameState(.InGame)
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
         self.camera = mainCamera
-        self.camera?.position = thisCharacter.position
-        self.camera?.xScale = 0.2
-        self.camera?.yScale = 0.2
+        self.camera!.position = thisCharacter.position
+        self.camera!.setScale(0.2)
 
         nonCharNodes.physicsBody = SKPhysicsBody() //CHECK IF NECESSARY
         nonCharNodes.physicsBody?.affectedByGravity = false
@@ -91,7 +88,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didFinishUpdate() {
-        oldLoc = camera!.position
+        oldLoc = self.camera!.position
         camera!.position = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
     }
     
@@ -116,14 +113,20 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
         if (deltaT < 100) {
-            camera?.position = oldLoc //reset position to floating-point value for SKPhysics
+            camera!.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
                 let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)+2
                 let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale)+2
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
-            GameLogic.update(deltaT) //send update methods time diff in ms
+          //  GameLogic.update(deltaT) //send update methods time diff in ms
+            thisCharacter.update(deltaT)
+            for node in nonCharNodes.children {
+                if let nodeToUpdate = node as? Updatable {
+                    nodeToUpdate.update(deltaT)
+                }
+            }
         }
     }
  

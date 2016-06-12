@@ -47,12 +47,12 @@ class LevelContainer:UICollectionViewCell {
     
     func setSelectedTo(val:Bool) {
         if (val) {
-            rectangleLayer.fillColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5).CGColor
-            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 1.0).CGColor
+            rectangleLayer.fillColor = fillColorSelected.CGColor
+            rectangleLayer.strokeColor = strokeColorSelected.CGColor
         }
         else {
-            rectangleLayer.fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5).CGColor
-            rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8).CGColor
+            rectangleLayer.fillColor = fillColor.CGColor
+            rectangleLayer.strokeColor = strokeColor.CGColor
         }
     }
     

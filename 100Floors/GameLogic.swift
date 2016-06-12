@@ -46,7 +46,6 @@ struct UIElements {
 
 
 
-var thisCharacter:ThisCharacter!
 
 let itemXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
@@ -95,14 +94,16 @@ let behaviorXML: AEXMLDocument! = {() -> AEXMLDocument? in
     
 }()
 
+var thisCharacter:ThisCharacter!
+
 class GameLogic {
     private static var currentState:GameStates = .MainMenu
     private static var gameScene: InGameScene!
-    private static var gameViewController:InGameViewController!
     private static var currentSave:SaveData?
     
     private static var currentInteractiveObjects: [Interactive] = []
     
+
     
     static func setupGame(scene: InGameScene, level:String) {
         gameScene = scene
@@ -114,7 +115,6 @@ class GameLogic {
         }
         else {
             thisCharacter = ThisCharacter()
-            currentSave = SaveData(fromCharacter: thisCharacter)
         }
         scene.paused = true
         setLevel(MapLevel(withID: level), introScreen: true)
@@ -122,16 +122,21 @@ class GameLogic {
 
     
     static func saveGame() -> Bool{
-        if (currentSave != nil) {
-            return NSKeyedArchiver.archiveRootObject(currentSave!, toFile: SaveData.SaveURL.path!)
-        }
-        return false
+        //if (currentSave != nil) {
+            return NSKeyedArchiver.archiveRootObject(SaveData(fromCharacter: thisCharacter), toFile: SaveData.SaveURL.path!)
+        //}
+        //return false
     }
     
-    static func setViewController(to:InGameViewController) {
-        gameViewController = to
+    static func resetEverything() {
+        gameScene = nil
+        currentSave = nil
+        currentInteractiveObjects = []
+        
+        thisCharacter = nil
+        
+        //probably unnecessary, but just in case.
     }
-    
     /////////////
     static func getCurrentState() -> GameStates {
         return currentState
@@ -157,25 +162,12 @@ class GameLogic {
             gameScene.paused = true
         case .MainMenu:
             gameScene = nil
-            gameViewController = nil
             break
         default:
             break
         }
     }
-    /////////////////////
-    ///////UPDATE////////
-    static func update(deltaT:Double) {
-        thisCharacter.update(deltaT)
-        updateNonCharNodes(deltaT)
-    }
-    private static func updateNonCharNodes(deltaT:Double) {
-        for node in gameScene.nonCharNodes.children {
-            if let nodeToUpdate = node as? Updatable {
-                nodeToUpdate.update(deltaT)
-            }
-        }
-    }
+ 
 
     /////////////////////////
     static func addObject(p:SKNode) {
@@ -184,16 +176,15 @@ class GameLogic {
     
     static func setLevel(l:BaseLevel, introScreen:Bool) {
         if (currentState == .InGame) {
-            GameLogic.setGameState(.LoadingScreen)
+            setGameState(.LoadingScreen)
             gameScene.setLevel(l)
-            GameLogic.setGameState(.InGame)
+            setGameState(.InGame)
         }
     }
     ///////
     static func characterDeath() {
        // gameScene.paused = true
         //display death screen
-        
     }
     ///////
     static func timerCallback() {
@@ -229,9 +220,6 @@ class GameLogic {
         }
     }
     /////////////
-    static func openInventory(withBag:ItemBag?) {
-        gameViewController?.loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag: withBag)
-    }
     /////////////
     static func nearestGroundBag() -> ItemBag? {
         for i in 0..<currentInteractiveObjects.count {

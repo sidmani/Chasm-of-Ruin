@@ -101,6 +101,7 @@ class Entity:SKSpriteNode {
     let inventory:Inventory
     
     private var textures:[SKTexture?] = [SKTexture?](count:4, repeatedValue:nil) //0 - north, 1 - east, 2 - south, 3 - west
+    
     private var weapon:Weapon? {
         return inventory.getItem(inventory.weaponIndex) as? Weapon
     }
@@ -119,8 +120,15 @@ class Entity:SKSpriteNode {
         currStats = withCurrStats
         baseStats = withBaseStats
         inventory = withInventory
+        fromTexture.filteringMode = .Nearest
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: fromTexture.size())
+        
         inventory.setParent(self)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
+        self.physicsBody!.allowsRotation = false
+        self.physicsBody!.friction = 0
+        self.physicsBody!.restitution = 0
+        
         self.zPosition = BaseLevel.LayerDef.Entity
 
     }
@@ -168,19 +176,15 @@ class ThisCharacter: Entity, Updatable {
     init(withCurrStats:Stats, withBaseStats:Stats, withInventory:Inventory)
     {
         super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withCurrStats: withCurrStats, withBaseStats: withBaseStats, withInventory: withInventory)
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
-        self.physicsBody?.allowsRotation = false
-        self.physicsBody?.friction = 0
-        self.physicsBody?.restitution = 0
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         self.position = screenCenter
-        self.yScale = 0.5
-        self.xScale = 0.5
+        self.setScale(0.5)
+    
     }
     
-    convenience init() {
+    convenience init() { //probably delete this
         self.init(withCurrStats:Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withSize: inventory_size))
         self.inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
         self.inventory.setItem(1, toItem: Item.initHandlerID("wep2"))
@@ -191,6 +195,7 @@ class ThisCharacter: Entity, Updatable {
     convenience init(fromSaveData:SaveData) {
         self.init(withCurrStats:fromSaveData.currStats, withBaseStats: fromSaveData.baseStats, withInventory: fromSaveData.inventory)
     }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -206,23 +211,19 @@ class ThisCharacter: Entity, Updatable {
 
     override func die() {
         GameLogic.characterDeath()
-        inventory.dropAllExceptInventory()
-        let rand = Int(randomBetweenNumbers(CGFloat(inventory.weaponIndex), secondNum: CGFloat(inventory.enhancerIndex)))
-        inventory.setItem(rand, toItem: nil)
+        //inventory.dropAllExceptInventory()
+        //let rand = Int(randomBetweenNumbers(0, secondNum: CGFloat(inventory.baseSize)))
+        //inventory.setItem(rand, toItem: nil)
         //save game
     }
     
     //ITEM HANDLER METHODS
-    func consumeItem(c:Item)
-    {
-        if let consumable = c as? Consumable
-        {
-            if (consumable.permanent) {
-                baseStats = baseStats + c.statMods
-            }
-            else {
-                currStats = currStats + c.statMods
-            }
+    func consumeItem(c:Consumable) {
+        if (c.permanent) {
+            baseStats = baseStats + c.statMods
+        }
+        else {
+            currStats = currStats + c.statMods
         }
     }
 
@@ -245,7 +246,6 @@ class ThisCharacter: Entity, Updatable {
             timeSinceProjectile += deltaT
         }
         self.physicsBody?.velocity = 0.3*(currStats.speed + equipStats.speed + 100) * UIElements.LeftJoystick!.normalDisplacement
-        
     }
 }
 
@@ -258,7 +258,7 @@ class Enemy:Entity, Updatable{
         let _baseStats = Stats.statsFrom(thisEnemy)
         super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withCurrStats: _baseStats, withBaseStats: _baseStats, withInventory: Inventory(fromElement: thisEnemy["inventory"]))
         AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
-        physicsBody = SKPhysicsBody(circleOfRadius: 10)
+
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
         physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
