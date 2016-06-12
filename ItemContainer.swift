@@ -61,7 +61,7 @@ class ItemContainer:UICollectionViewCell {
             rectangleLayer.fillColor = fillColor.CGColor
         }
         
-        if (isEquipped) {
+        if (isEquipped) { //TODO: nicer colors
             if (item! is Weapon) {
                 rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0, blue: 0, alpha: 1.0).CGColor
             }

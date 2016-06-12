@@ -13,7 +13,7 @@ class CountdownTimer:SKLabelNode {
     private var timeSinceUpdate:Double = 0
     private var currTime:Int
     private var timer:NSTimer?
-    private var finalText:String
+    private let finalText:String
     init(time:Int, endText:String) {
         currTime = time
         finalText = endText

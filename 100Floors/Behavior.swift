@@ -79,13 +79,13 @@ struct BehaviorPriority {
         if (e.baseStats.getIndex(Int(params[0])) == 0) {
             return 0
         }
-        return Int((e.currStats.getIndex(Int(params[0])) / e.baseStats.getIndex(Int(params[0]))) * 10 * params[1])
+        return Int((e.currStats.getIndex(Int(params[0])) / e.baseStats.getIndex(Int(params[0]))) * params[1])
     }
     static let ProportionalToCharacterStat = {(e:Enemy, params:[CGFloat]) -> Int in
         //PARAMS
         //0 - index of stat
         //1 - (-1 to 1) as stat decreases or increases, proportion
-        return Int((thisCharacter.currStats.getIndex(Int(params[0])) / thisCharacter.baseStats.getIndex(Int(params[0]))) * 10 * params[1])
+        return Int((thisCharacter.currStats.getIndex(Int(params[0])) / thisCharacter.baseStats.getIndex(Int(params[0]))) * params[1])
     }
     static func behaviorFromString(s:String) -> ((e:Enemy, params:[CGFloat]) -> Int){
         switch (s) {
@@ -101,8 +101,13 @@ struct BehaviorPriority {
 
 
 struct BehaviorExecutor {
+    ///////////////////////
+    //////////MOVE/////////
+    ///////////////////////
+
     static let Wander = {(e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool in
-        print("Wandering")
+        //print("Wandering")
+        
         return true
     }
     static let Orbit = {(e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool in
@@ -111,7 +116,29 @@ struct BehaviorExecutor {
         
         return true
     }
-    
+    static let MaintainDistance = {(e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool in
+        //PARAMS
+        //0 - distance to maintain
+        if (timeSinceUpdate < 200) {
+            return false
+        }
+     //   print("maintain distance")
+
+        let v = e.normalVectorToCharacter()
+        let dist = e.distanceToCharacter()
+        if (dist > params[0]) {
+            //e.physicsBody!.velocity = e.currStats.speed * v
+            e.physicsBody!.velocity = -25 * v
+
+        }
+        else if (dist < params[0]) {
+     //       e.physicsBody!.velocity = -e.currStats.speed * v
+            e.physicsBody!.velocity = 25 * v
+
+        }
+        return true
+    }
+
     ///////////////////////
     //////////ATK//////////
     ///////////////////////
@@ -119,6 +146,8 @@ struct BehaviorExecutor {
         //PARAMS
         //0 - interval to attack in milliseconds
         //1 - accuracy of aim
+        
+
         if (timeSinceUpdate > Double(params[0])) {
             var angle = e.angleToCharacter() //find angle to player
             if (params[1] != 1) {
@@ -134,13 +163,15 @@ struct BehaviorExecutor {
     static func behaviorFromString(s:String) -> ((e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool) {
         switch (s) {
         case "Wander":
-            return BehaviorExecutor.Wander
+            return Wander
+        case "MaintainDistance":
+            return MaintainDistance
         case "DoMainAtkAtInterval":
-            return BehaviorExecutor.DoMainAtkAtInterval
+            return DoMainAtkAtInterval
         case "Orbit":
-            return BehaviorExecutor.Orbit
+            return Orbit
         default:
-            return {_ in return true}
+            fatalError()
         }
     }
 }

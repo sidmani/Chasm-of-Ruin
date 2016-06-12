@@ -65,7 +65,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         currentItemView.contentMode = .ScaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
         
-        selectCenterCell() //this doesn't work for some reason
     }
     
     func itemDropped(indexA:Int, indexB:Int) {
@@ -168,7 +167,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
         cell.correspondsToInventoryIndex = (indexPath.item == 0 ? -2 : indexPath.item - 1)
-      
+       print(indexPath.section)
         if (cell.correspondsToInventoryIndex != currentIndex) {
             cell.resetItemView()
         }
@@ -177,7 +176,14 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
         cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
         cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
-        cell.setSelectedTo(false)
+        if (indexPath.item == 0 && previousSelectedContainer == nil) {
+            previousSelectedContainer = cell
+            cell.setSelectedTo(true)
+            updateInfoDisplay()
+        }
+        else {
+            cell.setSelectedTo(false)
+        }
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.mainScreen().scale
         return cell

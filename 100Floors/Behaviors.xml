@@ -15,20 +15,20 @@
             <priority-params>
                 <param>1</param>
             </priority-params>
-            <idtype>0</idtype>
+            <idtype>1</idtype>
 		</behavior>
         <behavior id="02" desc="">
-            <conditional>CharacterIsCloserThan</conditional>
+            <conditional>FixedValue</conditional>
             <conditional-params>
-                <param name="distance">60</param>
+                <param name="distance">1</param>
             </conditional-params>
-            <execute>Orbit</execute>
+            <execute>MaintainDistance</execute>
             <execute-params>
-                <param>50</param>
+                <param>10</param>
             </execute-params>
             <priority>FixedValue</priority>
             <priority-params>
-                <param>1</param>
+                <param>0</param>
             </priority-params>
             <idtype>1</idtype>
         </behavior>

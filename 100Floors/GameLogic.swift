@@ -27,23 +27,6 @@ protocol Interactive {
 let screenSize = UIScreen.mainScreen().bounds
 let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
 
-struct UIElements {
-    static var LeftJoystick:JoystickControl!
-    static var RightJoystick:JoystickControl!
-    static var HPBar:VerticalProgressView!
-    static var InventoryButton:UIButton!
-    static var MenuButton:UIButton!
-    
-    static func setVisible(toState:Bool) {
-        let _toState = !toState
-        UIElements.LeftJoystick.hidden = _toState
-        UIElements.RightJoystick.hidden = _toState
-        UIElements.HPBar.hidden = _toState
-        UIElements.InventoryButton.hidden = _toState
-        UIElements.MenuButton.hidden = _toState
-    }
-}
-
 
 
 

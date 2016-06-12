@@ -35,17 +35,10 @@ class Inventory:NSObject, NSCoding {
         self.init(withSize:Int(fromElement.attributes["size"]!)!)
         if (fromElement["item"].all != nil) {
             for item in fromElement["item"].all! {
-                switch (item.attributes["index"]!) {
-                case "weapon":
-                    self.setItem(weaponIndex, toItem: Item.initHandlerID(item.stringValue))
-                case "shield":
-                    self.setItem(shieldIndex, toItem: Item.initHandlerID(item.stringValue))
-                case "skill":
-                    self.setItem(skillIndex, toItem: Item.initHandlerID(item.stringValue))
-                case "enhancer":
-                    self.setItem(enhancerIndex, toItem: Item.initHandlerID(item.stringValue))
-                default:
-                    self.setItem(Int(item.attributes["index"]!)!, toItem: Item.initHandlerID(item.stringValue))
+                let index = Int(item.attributes["index"]!)!
+                self.setItem(index, toItem: Item.initHandlerID(item.stringValue))
+                if (item.attributes["equipped"] == "true") {
+                    equipItem(index)
                 }
             }
         }

@@ -19,6 +19,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         static let Interactive: UInt32 = 0b01000
         static let EnemyProjectile: UInt32 = 0b10000
         static let MapBoundary:UInt32 = 0b100000
+        static let Spawner:UInt32 = 0b1000000
     }
     
     private var currentLevel:BaseLevel?
@@ -34,10 +35,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
-
-        nonCharNodes.physicsBody = SKPhysicsBody() //CHECK IF NECESSARY
-        nonCharNodes.physicsBody?.affectedByGravity = false
-        nonCharNodes.physicsBody?.friction = 0
         
         //////////////////////////////////////////
         //////////////////////////////////////////
@@ -47,11 +44,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
 
     func didBeginContact(contact: SKPhysicsContact) {
         /////// player contacts interactive object
-        if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
+        if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive) {
             GameLogic.enteredDistanceOf(contact.bodyA.node as! Interactive)
             return
         }
-        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive) {
             GameLogic.enteredDistanceOf(contact.bodyB.node as! Interactive)
             return
         }
@@ -66,24 +63,38 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
         ////// projectile hits map boundary
         else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
-            (contact.bodyA.node as? Projectile)?.struckMapBoundary()
+            (contact.bodyA.node as! Projectile).struckMapBoundary()
             return
         }
+            
         else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
-            (contact.bodyB.node as? Projectile)?.struckMapBoundary()
+            (contact.bodyB.node as! Projectile).struckMapBoundary()
             return
+        }
+        ////// character enters spawner radius
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Spawner) {
+            (contact.bodyA.node as! Spawner).playerIsInRadius(true)
+        }
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Spawner) {
+            (contact.bodyB.node as! Spawner).playerIsInRadius(true)
         }
         
     }
     
     func didEndContact(contact: SKPhysicsContact) {
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            //GameLogic.isWithinDistanceOf(nil)
             GameLogic.exitedDistanceOf(contact.bodyA.node as! Interactive)
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
             GameLogic.exitedDistanceOf(contact.bodyB.node as! Interactive)
+        }
+        ////// character exits spawner radius
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Spawner) {
+            (contact.bodyA.node as! Spawner).playerIsInRadius(false)
+        }
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Spawner) {
+            (contact.bodyB.node as! Spawner).playerIsInRadius(false)
         }
     }
     
@@ -120,7 +131,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
             }
-          //  GameLogic.update(deltaT) //send update methods time diff in ms
             thisCharacter.update(deltaT)
             for node in nonCharNodes.children {
                 if let nodeToUpdate = node as? Updatable {

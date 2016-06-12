@@ -28,7 +28,7 @@ public class VerticalProgressView : UIView {
         }
     }
     
-    var progressPriv: Float = 0.0
+    private var progressPriv: Float = 0.0
     
     public var filledView: CALayer?
     
@@ -82,7 +82,7 @@ public class VerticalProgressView : UIView {
         self.layer.masksToBounds = true
     }
     
-    func shouldHavePosition() -> CGFloat {
+    private func shouldHavePosition() -> CGFloat {
         if (vertical) {
             let filledHeight = self.frame.size.height * CGFloat(self.progressPriv)
             let position = self.frame.size.height - filledHeight

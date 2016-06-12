@@ -239,8 +239,6 @@ class ThisCharacter: Entity, Updatable {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(currStats.dexterity+equipStats.dexterity) && weapon != nil) {
             fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.normalDisplacement)
             timeSinceProjectile = 0
-         //   let rand = randomBetweenNumbers(0, secondNum: 1.0)
-         //   UIElements.HPBar.setProgressWithBounce(rand)
         }
         else {
             timeSinceProjectile += deltaT
@@ -253,33 +251,23 @@ class ThisCharacter: Entity, Updatable {
 class Enemy:Entity, Updatable{
 
     private var AI:EnemyAI?
+    private var parentSpawner:Spawner?
     
-    init(thisEnemy:AEXMLElement, atPosition:CGPoint) {
+    init(thisEnemy:AEXMLElement, atPosition:CGPoint, spawnedFrom:Spawner?) {
         let _baseStats = Stats.statsFrom(thisEnemy)
         super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withCurrStats: _baseStats, withBaseStats: _baseStats, withInventory: Inventory(fromElement: thisEnemy["inventory"]))
         AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
-
+        parentSpawner = spawnedFrom
+        
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
         physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         position = atPosition
     }
-    
 
-    convenience init(withID:String, atPosition:CGPoint) {
-        var thisEnemy:AEXMLElement
-        if let enemies = enemyXML.root["enemies"]["enemy"].allWithAttributes(["id":withID]) {
-            if (enemies.count != 1) {
-                fatalError("Enemy ID error")
-            }
-            else {
-                thisEnemy = enemies[0]
-            }
-        }
-        else {
-            fatalError("Enemy Not Found")
-        }
-        self.init(thisEnemy: thisEnemy, atPosition: atPosition)
+    convenience init(withID:String, atPosition:CGPoint, spawnedFrom:Spawner?) {
+        let thisEnemy = enemyXML.root["enemies"]["enemy"].allWithAttributes(["id":withID])!.first!
+        self.init(thisEnemy: thisEnemy, atPosition: atPosition, spawnedFrom: spawnedFrom)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -316,8 +304,16 @@ class Enemy:Entity, Updatable{
         return CGVectorMake((self.position.x - thisCharacter.position.x)/dist, (self.position.y - thisCharacter.position.y)/dist)
     }
     
+    func vectorToCharacter() -> CGVector {
+        return CGVectorMake((self.position.x - thisCharacter.position.x), (self.position.y - thisCharacter.position.y))
+    }
+    
     func update(deltaT:Double) {
         AI?.update(deltaT)
+    }
+    
+    func moveTo(point:CGPoint) {
+        //do SKAction to animate move to point
     }
     
     override func die() {
@@ -328,6 +324,7 @@ class Enemy:Entity, Updatable{
                 GameLogic.addObject(ItemBag(withItem: item!, loc: newPoint))
             }
         } //drop inventory
+        parentSpawner?.childDied()
         removeFromParent()
     }
     

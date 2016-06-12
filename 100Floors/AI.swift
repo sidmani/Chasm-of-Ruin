@@ -51,6 +51,9 @@ class EnemyAI: Updatable{
 
 class Behavior: Updatable {
     var idType:Int
+    //0 - movement
+    //1 - atk
+    
     var priority:Int = 0
     
     private var conditional: (e:Enemy, params:[CGFloat]) -> Bool
@@ -62,7 +65,7 @@ class Behavior: Updatable {
     private var calcPriority: (e:Enemy, params:[CGFloat]) -> Int
     private var priorityParams:[CGFloat] = []
     
-    private var parent:Enemy
+    private let parent:Enemy
     private var elapsedSinceUpdate:Double = 0
     
     init(fromElement: AEXMLElement, asChildOf: Enemy) {
@@ -84,17 +87,9 @@ class Behavior: Updatable {
     }
     
     convenience init (withID: String, asChildOf: Enemy) {
-        if let behaviors = behaviorXML.root["behaviors"]["behavior"].allWithAttributes(["id":withID]) {
-            if (behaviors.count != 1) {
-                fatalError("Behavior ID error")
-            }
-            else {
-                self.init(fromElement: behaviors[0], asChildOf: asChildOf)
-            }
-        }
-        else {
-            fatalError("Behavior Not Found")
-        }
+        
+        self.init(fromElement: behaviorXML.root["behaviors"]["behavior"].allWithAttributes(["id":withID])!.first!, asChildOf: asChildOf)
+   
     }
     
     func update(deltaT: Double) {

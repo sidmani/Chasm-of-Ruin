@@ -11,15 +11,16 @@ import UIKit
 class BaseLevel:SKNode { //TODO: probably merge these two classes together
 
     struct LayerDef {
+        static let Effects:CGFloat = 100
         static let PopUps:CGFloat = 20
         static let Lighting:CGFloat = 8
-        static let Effects:CGFloat = 7
         static let MapAbovePlayer:CGFloat = 6
         static let Projectiles:CGFloat = 5
         static let Entity:CGFloat = 4
         static let MapObjects:CGFloat = 3.5
         static let MapTop:CGFloat = 3
     }
+    
     enum TerrainType:CGFloat {
         case Road = 1, Grass = 0.8, Dirt = 0.7
     }
@@ -75,31 +76,19 @@ class MapLevel:BaseLevel, Updatable {
     
     convenience init (withID:String) {
         ///Load level from XML
-        var thisLevel:AEXMLElement
-        if let levels = levelXML.root["level"].allWithAttributes(["index":withID]) {
-            if (levels.count != 1) {
-                fatalError("Level ID error")
-            }
-            else {
-                thisLevel = levels[0]
-            }
-        }
-        else {
-            fatalError("Level Not Found")
-        }
+        let thisLevel = levelXML.root["level"].allWithAttributes(["index":withID])!.first!
         ////////
         let location = CGPointMake(CGFloat(thisLevel["spawn-loc"]["x"].doubleValue), CGFloat(thisLevel["spawn-loc"]["y"].doubleValue))
         self.init(_map:thisLevel["map"].stringValue, _name:thisLevel["name"].stringValue, _startLoc:location) //init map
         //add all map objects
         for obj in thisLevel["map-objects"].children {
-            var newObj:MapObject
             switch (obj["type"].stringValue) { //handle different types of map objects
             case "Portal":
-                newObj = Portal(fromXMLObject: obj, withTileEdge: CGFloat(map.tileWidth))
-                objects.addChild(newObj)
+                objects.addChild(Portal(fromXMLObject: obj, withTileEdge: CGFloat(map.tileWidth)))
             case "ItemBag":
-                newObj = ItemBag(fromElement: obj, withTileEdge: CGFloat(map.tileWidth))
-                objects.addChild(newObj)
+                objects.addChild(ItemBag(fromElement: obj, withTileEdge: CGFloat(map.tileWidth)))
+            case "ConstantRateSpawner":
+                objects.addChild(ConstantRateSpawner(fromElement: obj, withTileEdge: CGFloat(map.tileWidth)))
             default:
                 print("unsupported map object type")
             }

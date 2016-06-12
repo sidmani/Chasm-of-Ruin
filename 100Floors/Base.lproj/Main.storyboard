@@ -236,6 +236,7 @@
                         <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
                         <outlet property="MenuButton" destination="7cs-Y9-J62" id="pic-p6-seH"/>
                         <outlet property="RightJoystickControl" destination="CwZ-pI-Qun" id="TrL-BJ-nKT"/>
+                        <outlet property="SkillButton" destination="3qM-pQ-J3m" id="bFi-qu-JWk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbL-Y6-bd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -254,7 +255,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P64-Qm-GHx">
+                            <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P64-Qm-GHx">
                                 <rect key="frame" x="0.0" y="52" width="600" height="448"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

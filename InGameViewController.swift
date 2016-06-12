@@ -9,6 +9,26 @@
 import UIKit
 import SpriteKit
 
+struct UIElements {
+    static var LeftJoystick:JoystickControl!
+    static var RightJoystick:JoystickControl!
+    static var HPBar:VerticalProgressView!
+    static var InventoryButton:UIButton!
+    static var MenuButton:UIButton!
+    static var SkillButton:UIButton!
+    
+    static func setVisible(toState:Bool) {
+        let _toState = !toState
+        LeftJoystick.hidden = _toState
+        RightJoystick.hidden = _toState
+        HPBar.hidden = _toState
+        InventoryButton.hidden = _toState
+        MenuButton.hidden = _toState
+        SkillButton.hidden = _toState
+    }
+}
+
+
 class InGameViewController: UIViewController {
     // MARK: Properties
     
@@ -19,6 +39,7 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var MenuButton: UIButton!
     @IBOutlet weak var InventoryButton: UIButton!
+    @IBOutlet weak var SkillButton: RectButton!
     
     var level:String = ""
     
@@ -30,7 +51,7 @@ class InGameViewController: UIViewController {
         UIElements.HPBar = HPDisplayBar
         UIElements.MenuButton = MenuButton
         UIElements.InventoryButton = InventoryButton
-        
+        UIElements.SkillButton = SkillButton
         MenuButton.tintColor = strokeColor
        
         //////////

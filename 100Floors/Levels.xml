@@ -21,6 +21,16 @@
                     <y>17</y>
                 </loc>
             </map-object>
+            <map-object>
+                <type>ConstantRateSpawner</type>
+                <loc>
+                    <x>1</x>
+                    <y>1</y>
+                </loc>
+                <rate>5000</rate>
+                <distance-threshold>20</distance-threshold>
+                <enemy-id>0</enemy-id>
+            </map-object>
         </map-objects>
 	</level>
 </levels>

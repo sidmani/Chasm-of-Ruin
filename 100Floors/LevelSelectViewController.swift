@@ -35,7 +35,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! LevelContainer
         cell.setLevelTo("\(indexPath.item)")
-        if (indexPath.item == 0) {
+        if (indexPath.item == 0 && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
         }
