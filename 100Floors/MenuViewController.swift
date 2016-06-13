@@ -17,8 +17,8 @@ class MenuViewController: UIViewController {
     }
   
     @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
-        GameLogic.resetEverything()
-        GameLogic.setGameState(.MainMenu)
+     //   GameLogic.resetEverything()
+     //   GameLogic.setGameState(.MainMenu)
 
 
     }

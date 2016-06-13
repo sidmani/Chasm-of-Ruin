@@ -16,6 +16,22 @@ import Foundation
 class SaveData:NSObject, NSCoding {
     static let SaveDir = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     static let SaveURL = SaveDir.URLByAppendingPathComponent("SaveGame")
+    
+    static func loadCharacter() -> ThisCharacter {
+        let currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
+        if (currentSave != nil) {
+            return ThisCharacter(fromSaveData: currentSave!)
+        }
+        else {
+            return ThisCharacter()
+        }
+        
+    }
+    
+    static func saveGame() -> Bool {
+        return NSKeyedArchiver.archiveRootObject(SaveData(fromCharacter: thisCharacter), toFile: SaveData.SaveURL.path!)
+    }
+    
     private struct PropertyKey {
         static let currStatsKey = "currStats"
         static let baseStatsKey = "baseStats"

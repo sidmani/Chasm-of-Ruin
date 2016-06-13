@@ -90,7 +90,7 @@ class MapLevel:BaseLevel, Updatable {
             case "ConstantRateSpawner":
                 objects.addChild(ConstantRateSpawner(fromElement: obj, withTileEdge: CGFloat(map.tileWidth)))
             default:
-                print("unsupported map object type")
+                fatalError()
             }
         }
     }

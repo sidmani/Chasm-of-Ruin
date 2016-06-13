@@ -106,7 +106,6 @@ struct BehaviorExecutor {
     ///////////////////////
 
     static let Wander = {(e:Enemy, params:[CGFloat], timeSinceUpdate:Double) -> Bool in
-        //print("Wandering")
         
         return true
     }
@@ -122,7 +121,6 @@ struct BehaviorExecutor {
         if (timeSinceUpdate < 200) {
             return false
         }
-     //   print("maintain distance")
 
         let v = e.normalVectorToCharacter()
         let dist = e.distanceToCharacter()

@@ -8,6 +8,13 @@
 import UIKit
 import SpriteKit
 
+protocol Interactive {
+    var thumbnailImg:String { get }
+    var autotrigger:Bool { get }
+    func trigger()
+    func displayPopup(state:Bool)
+}
+
 class MapObject:SKNode {
     init(loc:CGPoint) {
         super.init()
@@ -20,6 +27,7 @@ class MapObject:SKNode {
     }
     
 }
+
 class Spawner:MapObject, Updatable {
     private let enemyID:String
     private var playerIsWithinRadius:Bool = false
@@ -77,7 +85,8 @@ class ConstantRateSpawner:Spawner {
         if (elapsedTime > rateOfSpawning && playerIsWithinRadius) {
             elapsedTime = 0
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
-            GameLogic.addObject(newEnemy)
+            (self.scene as! InGameScene).addObject(newEnemy)
+           // GameLogic.addObject(newEnemy)
         }
         else {
             elapsedTime += deltaT
@@ -102,7 +111,8 @@ class FixedNumSpawner:Spawner {
     override func update(deltaT: Double) {
         if (currNumOfEnemies < maxNumOfEnemies) {
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
-            GameLogic.addObject(newEnemy)
+            (self.scene as! InGameScene).addObject(newEnemy)
+          //  GameLogic.addObject(newEnemy)
             currNumOfEnemies += 1
         }
     }
@@ -137,7 +147,8 @@ class OneTimeSpawner:Spawner {
     override func update(deltaT: Double) {
         if (playerIsWithinRadius) {
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
-            GameLogic.addObject(newEnemy)
+            (self.scene as! InGameScene).addObject(newEnemy)
+            //   GameLogic.addObject(newEnemy)
             self.removeFromParent()
         }
     }
@@ -148,7 +159,7 @@ class Portal:MapObject, Interactive {
     let thumbnailImg:String
     let autotrigger:Bool
 
-    let destinationID:String
+    private let destinationID:String
     let showIntroScreen:Bool
     let showCountdown:Bool
     
@@ -181,7 +192,7 @@ class Portal:MapObject, Interactive {
     }
     
     func trigger() {
-        GameLogic.usePortal(self)
+        (self.scene as! InGameScene).setLevel(MapLevel(withID: destinationID))
     }
     
     func displayPopup(state: Bool) {
@@ -230,7 +241,7 @@ class ItemBag:MapObject, Interactive {
     func setItemTo(_item:Item?) {
         if (_item == nil) {
             removeFromParent()
-            GameLogic.exitedDistanceOf(self)
+         //   GameLogic.exitedDistanceOf(self)
         }
         else {
             

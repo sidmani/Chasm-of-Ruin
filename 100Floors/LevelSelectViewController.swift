@@ -22,7 +22,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
 
-        GameLogic.setGameState(.LevelSelect)
+       // GameLogic.setGameState(.LevelSelect)
     }
     
     ///////////////

@@ -43,6 +43,7 @@ class InGameViewController: UIViewController {
     
     var level:String = ""
     
+    private var gameScene:InGameScene!
     override func viewDidLoad() {
         super.viewDidLoad()
         //setup UI components
@@ -61,16 +62,17 @@ class InGameViewController: UIViewController {
         skView.showsNodeCount = true
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
-        let gameScene = InGameScene(size:skView.bounds.size)
-        GameLogic.setupGame(gameScene, level: level)
-        level = ""
-        gameScene.scaleMode = .AspectFill
-        gameScene.view?.window?.rootViewController = self
+        thisCharacter = SaveData.loadCharacter()
+
+        gameScene = InGameScene(size:skView.bounds.size)
+        gameScene.setLevel(MapLevel(withID:level))
         skView.presentScene(gameScene)
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
+        level = ""
+
         /////////////////////////
-        GameLogic.setGameState(.InGame)
+       // GameLogic.setGameState(.InGame)
     }
     
     func groundBagTapped(notification: NSNotification) {
@@ -79,16 +81,20 @@ class InGameViewController: UIViewController {
     
     @IBAction func menuButtonPressed(sender: UIButton) {
         blurView()
-        GameLogic.setGameState(.InGameMenu)
+        UIElements.setVisible(false)
+        gameScene.paused = true
+       // GameLogic.setGameState(.InGameMenu)
     }
  
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
-        loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:GameLogic.nearestGroundBag())
+        loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:gameScene.currentGroundBag)
     }
     
     func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
         blurView()
-        GameLogic.setGameState(.InventoryMenu)
+      //  GameLogic.setGameState(.InventoryMenu)
+        UIElements.setVisible(false)
+        gameScene.paused = true
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
         inventoryController.inventory = inv
         inventoryController.groundBag = groundBag
@@ -98,10 +104,17 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
-        GameLogic.setGameState(.InGame)
+      //  GameLogic.setGameState(.InGame)
+        gameScene.paused = false
+        UIElements.setVisible(true)
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
-
+        if (gameScene.currentGroundBag?.parent == nil) {
+            gameScene.currentGroundBag = nil
+        }
+        if let bag = (segue.sourceViewController as? InventoryViewController)?.groundBag {
+            gameScene.addObject(bag)
+        }
         for view:UIView in self.view.subviews {
             if let effectView = view as? UIVisualEffectView {
                 UIView.animateWithDuration(0.5, animations: {
@@ -113,6 +126,7 @@ class InGameViewController: UIViewController {
                 return
             }
         }
+
     }
     
     private func blurView() {

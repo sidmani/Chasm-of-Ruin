@@ -179,7 +179,7 @@ class ThisCharacter: Entity, Updatable {
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
-        self.position = screenCenter
+        self.position = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
         self.setScale(0.5)
     
     }
@@ -210,7 +210,7 @@ class ThisCharacter: Entity, Updatable {
     }
 
     override func die() {
-        GameLogic.characterDeath()
+     //   GameLogic.characterDeath()
         //inventory.dropAllExceptInventory()
         //let rand = Int(randomBetweenNumbers(0, secondNum: CGFloat(inventory.baseSize)))
         //inventory.setItem(rand, toItem: nil)
@@ -230,7 +230,8 @@ class ThisCharacter: Entity, Updatable {
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
             let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: currStats.attack + equipStats.attack, reflects: weapon!.projectileReflects)
-            GameLogic.addObject(newProjectile)
+            (self.scene as! InGameScene).addObject(newProjectile)
+            //GameLogic.addObject(newProjectile)
         }
     }
 
@@ -282,7 +283,9 @@ class Enemy:Entity, Updatable{
         if (weapon != nil) {
             let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: weapon!.projectileSpeed*withVelocity, isFriendly: false, withRange:weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
             //TODO: check if projectiles can be shot etc
-            GameLogic.addObject(newProjectile)
+            (self.scene as! InGameScene).addObject(newProjectile)
+
+            //GameLogic.addObject(newProjectile)
         }
     }
     
@@ -321,7 +324,8 @@ class Enemy:Entity, Updatable{
         for item in inventory.dropAllItems() {
             if (item != nil) {
                 let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-20, secondNum: self.position.x+20), randomBetweenNumbers(self.position.y-20, secondNum: self.position.y+20))
-                GameLogic.addObject(ItemBag(withItem: item!, loc: newPoint))
+                (self.scene as! InGameScene).addObject(ItemBag(withItem: item!, loc: newPoint))
+                //GameLogic.addObject(ItemBag(withItem: item!, loc: newPoint))
             }
         } //drop inventory
         parentSpawner?.childDied()

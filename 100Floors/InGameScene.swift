@@ -9,7 +9,10 @@
 
 import SpriteKit
 
+let screenSize = UIScreen.mainScreen().bounds
+
 class InGameScene: SKScene, SKPhysicsContactDelegate {
+
     struct PhysicsCategory {
         static let None: UInt32 = 0
         static let All: UInt32 = UINT32_MAX
@@ -27,16 +30,20 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var oldTime:CFTimeInterval = 0
     private var mainCamera = SKCameraNode()
     
-    var nonCharNodes = SKNode()
+    private var nonCharNodes = SKNode()
+    
+    var currentGroundBag:ItemBag?
     
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
+        self.scaleMode = .AspectFill
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
-        
+        nonCharNodes.name = "nonCharNodes"
         //////////////////////////////////////////
+    //    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setLevel), name: "setLevel", object: nil)
         //////////////////////////////////////////
         addChild(nonCharNodes)
         addChild(thisCharacter)
@@ -45,11 +52,19 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         /////// player contacts interactive object
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive) {
-            GameLogic.enteredDistanceOf(contact.bodyA.node as! Interactive)
+          //  GameLogic.enteredDistanceOf(contact.bodyA.node as! Interactive)
+            let object = contact.bodyA.node as! Interactive
+            if (object.autotrigger) { object.trigger() }
+            object.displayPopup(true)
+            if (object is ItemBag) {currentGroundBag = (object as! ItemBag)}
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive) {
-            GameLogic.enteredDistanceOf(contact.bodyB.node as! Interactive)
+           // GameLogic.enteredDistanceOf(contact.bodyB.node as! Interactive)
+            let object = contact.bodyB.node as! Interactive
+            if (object.autotrigger) { object.trigger() }
+            object.displayPopup(true)
+            if (object is ItemBag) {currentGroundBag = (object as! ItemBag)}
             return
         }
         ////// player is hit by projectile
@@ -83,11 +98,16 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     func didEndContact(contact: SKPhysicsContact) {
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.exitedDistanceOf(contact.bodyA.node as! Interactive)
-            return
+          //  GameLogic.exitedDistanceOf(contact.bodyA.node as! Interactive)
+            let object = contact.bodyA.node as! Interactive
+            object.displayPopup(false)
+            if (object is ItemBag && (object as! ItemBag) == currentGroundBag) { currentGroundBag = nil }
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            GameLogic.exitedDistanceOf(contact.bodyB.node as! Interactive)
+            // GameLogic.exitedDistanceOf(contact.bodyB.node as! Interactive)
+            let object = contact.bodyB.node as! Interactive
+            object.displayPopup(false)
+            if (object is ItemBag && (object as! ItemBag) == currentGroundBag) { currentGroundBag = nil }
         }
         ////// character exits spawner radius
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.Spawner) {
@@ -103,12 +123,12 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         camera!.position = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
     }
     
-    func setLevel(newLevel:BaseLevel)
+    @objc func setLevel(level:BaseLevel)
     {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
         nonCharNodes.removeAllChildren()
-        currentLevel = newLevel
+        currentLevel = level
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
        // if (introScreen) {

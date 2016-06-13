@@ -43,7 +43,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        GameLogic.setGameState(.InventoryMenu)
+       // GameLogic.setGameState(.InventoryMenu)
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
         
@@ -75,7 +75,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 groundBag?.setItemTo(nil)
                 let newBag = ItemBag(withItem: item, loc: dropLoc)
                 groundBag = newBag
-                GameLogic.addObject(newBag)
+                //GameLogic.addObject(newBag)
             }
             else {
                 groundBag = nil // this should never happen
@@ -87,7 +87,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 groundBag?.setItemTo(nil)
                 let newBag = ItemBag(withItem: item, loc: dropLoc)
                 groundBag = newBag
-                GameLogic.addObject(newBag)
+             //   GameLogic.addObject(newBag)
             }
             else {
                 inventory.setItem(indexA, toItem: groundBag?.item)
@@ -167,7 +167,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
         cell.correspondsToInventoryIndex = (indexPath.item == 0 ? -2 : indexPath.item - 1)
-       print(indexPath.section)
         if (cell.correspondsToInventoryIndex != currentIndex) {
             cell.resetItemView()
         }

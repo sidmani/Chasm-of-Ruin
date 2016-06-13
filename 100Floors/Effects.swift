@@ -42,7 +42,7 @@ class CountdownTimer:SKLabelNode {
         else {
             //do some animation
             //callback
-            GameLogic.timerCallback()
+   //         GameLogic.timerCallback()
             timer?.invalidate()
             self.removeFromParent()
         }
