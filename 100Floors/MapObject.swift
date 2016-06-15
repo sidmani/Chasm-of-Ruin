@@ -219,7 +219,7 @@ class ItemBag:MapObject, Interactive {
     }
     convenience init (fromElement:AEXMLElement, withTileEdge:CGFloat) {
         let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
-        self.init(withItem: Item.initHandlerID(fromElement["itemID"].stringValue)!, loc:withTileEdge*loc)
+        self.init(withItem: Item.initHandlerID(fromElement["itemID"].stringValue), loc:withTileEdge*loc)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -241,10 +241,8 @@ class ItemBag:MapObject, Interactive {
     func setItemTo(_item:Item?) {
         if (_item == nil) {
             removeFromParent()
-         //   GameLogic.exitedDistanceOf(self)
         }
         else {
-            
             item = _item!
         }
     }

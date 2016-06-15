@@ -3,10 +3,7 @@
 	<enemies>
 		<enemy id="0">
 			<img>enemy</img>
-			<behaviors>
-				<behavior>01</behavior>
-                <behavior>02</behavior>
-			</behaviors>
+			<name>Basic Enemy</name>
             <inventory size="4">
                 <item index="0" equipped="true">wep1</item>
             </inventory>

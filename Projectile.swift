@@ -18,18 +18,8 @@ class Projectile:SKSpriteNode, Updatable{
     private var distanceTraveled:CGFloat = 0
     
     init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool) {
-        var thisProjectile:AEXMLElement
-        if let projectiles = itemXML.root["projectiles"]["projectile"].allWithAttributes(["id":withID]) {
-            if (projectiles.count != 1) {
-                fatalError("Projectile ID error")
-            }
-            else {
-                thisProjectile = projectiles[0]
-            }
-        }
-        else {
-            fatalError("Projectile Not Found")
-        }
+        let thisProjectile:AEXMLElement = itemXML.root["projectiles"]["projectile"].allWithAttributes(["id":withID])!.first!
+
         let texture = SKTextureAtlas(named: "Projectiles").textureNamed(thisProjectile["img"].value!)
         let size = texture.size()
         range = withRange

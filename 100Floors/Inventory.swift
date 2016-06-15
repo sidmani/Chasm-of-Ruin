@@ -11,6 +11,8 @@ let inventory_size = 8 // TODO: fix this (IAP)
 
 class Inventory:NSObject, NSCoding {
     
+    var stats:Stats = Stats.nilStats
+    
     var weaponIndex:Int = -1
     var shieldIndex:Int = -1
     var skillIndex:Int = -1
@@ -18,12 +20,6 @@ class Inventory:NSObject, NSCoding {
     
     let baseSize:Int
     private var inventory:[Item?]
-    private var parent:Entity?
-    
-    func setParent(to:Entity?) {
-        parent = to
-    }
-    
     //INIT
     init(withSize: Int)
     {
@@ -31,7 +27,7 @@ class Inventory:NSObject, NSCoding {
         inventory = [Item?](count:baseSize, repeatedValue: nil)
     }
     
-    convenience init(fromElement:AEXMLElement) { //Remove this, inventory already implements NSCoding
+    convenience init(fromElement:AEXMLElement) { 
         self.init(withSize:Int(fromElement.attributes["size"]!)!)
         if (fromElement["item"].all != nil) {
             for item in fromElement["item"].all! {
@@ -74,10 +70,7 @@ class Inventory:NSObject, NSCoding {
         }
         let out = inventory[atIndex]
         inventory[atIndex] = toItem
-      //  if (isEquipped(atIndex)) {
-      //      equipItem(atIndex)
-      //  }
-        parent?.updateEquipStats()
+
         return out
     }
     
@@ -110,6 +103,7 @@ class Inventory:NSObject, NSCoding {
                 return true
             }
         }
+        stats = getEquippedStats()
         return false
     }
     func isEquipped(index:Int) -> Bool {
@@ -135,6 +129,10 @@ class Inventory:NSObject, NSCoding {
             }
         }
         return droppedItems
+    }
+    
+    func getEquippedStats() -> Stats {
+        return getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
     }
     
     /////NSCoding

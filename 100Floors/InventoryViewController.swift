@@ -155,7 +155,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
             }
-            IndexLabel.text = previousSelectedContainer!.correspondsToInventoryIndex == -2 ? "Ground" : ("Slot \(previousSelectedContainer!.correspondsToInventoryIndex + 1)")
+            IndexLabel.text = previousSelectedContainer!.correspondsToInventoryIndex == -2 ? "Ground" : "Slot \(previousSelectedContainer!.correspondsToInventoryIndex + 1)"
         }
     }
     ////////////////////////////

@@ -15,8 +15,6 @@ protocol Updatable {
 }
 
 
-//let screenCenter = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
-
 let itemXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
     let data = NSData(contentsOfFile: xmlPath!)!

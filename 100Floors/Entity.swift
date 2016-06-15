@@ -8,16 +8,19 @@
 import SpriteKit
 
 struct Stats {
-    static let numStats = 7
+    static let numStats = 8
     
-    var health:CGFloat    // Health
     var defense:CGFloat   // Defense (% projectile is weakened by)
     var attack:CGFloat    // Attack (% own projectile is strengthened by)
     var speed:CGFloat     // Speed
     var dexterity:CGFloat // Dexterity (rate of projectile release)
-    var mana:CGFloat      // Mana (used when casting spells)
-    var rage:CGFloat      // Boosts with combos
     
+    var health:CGFloat    // Health
+    var maxHealth:CGFloat
+    
+    var mana:CGFloat      // Mana (used when casting spells)
+    var maxMana:CGFloat
+
     func getIndex(index:Int) -> CGFloat {
         switch (index) {
         case 0: return health
@@ -26,7 +29,6 @@ struct Stats {
         case 3: return speed
         case 4: return dexterity
         case 5: return mana
-        case 6: return rage
         default: return 10
         }
     }
@@ -39,13 +41,12 @@ struct Stats {
         case 3: speed = toVal
         case 4: dexterity = toVal
         case 5: mana = toVal
-        case 6: rage = toVal
         default: break
         }
     }
     
     func toArray() -> NSArray {
-        return NSArray(array: [health,defense,attack,speed,dexterity,mana,rage])
+        return NSArray(array: [health,defense,attack,speed,dexterity,mana])
     }
     
     mutating func capAt(maxVal:CGFloat) {
@@ -61,23 +62,26 @@ struct Stats {
         }
         return out
     }
+    
     static func statsFrom(Element:AEXMLElement) -> Stats {
         return Stats(
-            health: CGFloat(Element["stats"]["health"].doubleValue),
             defense: CGFloat(Element["stats"]["def"].doubleValue),
             attack: CGFloat(Element["stats"]["atk"].doubleValue),
             speed: CGFloat(Element["stats"]["spd"].doubleValue),
             dexterity: CGFloat(Element["stats"]["dex"].doubleValue),
+            health: CGFloat(Element["stats"]["health"].doubleValue),
+            maxHealth: CGFloat(Element["stats"]["maxHealth"].doubleValue),
             mana: CGFloat(Element["stats"]["mana"].doubleValue),
-            rage: CGFloat(Element["stats"]["rage"].doubleValue))
+            maxMana: CGFloat(Element["stats"]["maxMana"].doubleValue)
+        )
     }
     
-    static let nilStats = Stats(health: 0, defense: 0, attack: 0, speed: 0, dexterity: 0, mana: 0, rage: 0)
+    static let nilStats = Stats(defense: 0, attack: 0, speed: 0, dexterity: 0, health: 0, maxHealth: 0, mana: 0, maxMana: 0)
 }
 
 func +(left:Stats?, right:Stats?) -> Stats{
     if (left != nil && right != nil) {
-        return Stats(health: left!.health + right!.health,  defense: left!.defense + right!.defense, attack: left!.attack + right!.attack, speed: left!.speed+right!.speed, dexterity: left!.dexterity + right!.dexterity, mana: left!.mana+right!.mana, rage: left!.rage + right!.rage)
+        return Stats(defense: left!.defense + right!.defense, attack: left!.attack + right!.attack, speed: left!.speed+right!.speed, dexterity: left!.dexterity + right!.dexterity, health: left!.health + right!.health, maxHealth: left!.maxHealth + right!.maxHealth,  mana: left!.mana+right!.mana, maxMana: left!.maxMana + right!.maxMana)
     }
     else if (left != nil) {
         return left!
@@ -93,10 +97,7 @@ func +(left:Stats?, right:Stats?) -> Stats{
 
 
 class Entity:SKSpriteNode {
-    var currStats:Stats
-    var baseStats:Stats
-    
-    var equipStats:Stats = Stats.nilStats
+    var stats:Stats
     
     let inventory:Inventory
     
@@ -115,15 +116,13 @@ class Entity:SKSpriteNode {
         return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
     
-    init(fromTexture: SKTexture, withCurrStats:Stats, withBaseStats:Stats, withInventory:Inventory)
+    init(fromTexture: SKTexture, withStats:Stats, withInventory:Inventory)
     {
-        currStats = withCurrStats
-        baseStats = withBaseStats
         inventory = withInventory
         fromTexture.filteringMode = .Nearest
+        stats = withStats
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: fromTexture.size())
         
-        inventory.setParent(self)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.allowsRotation = false
         self.physicsBody!.friction = 0
@@ -148,19 +147,15 @@ class Entity:SKSpriteNode {
     }
     
     private func takeDamage(d:CGFloat) {
-        currStats.health -= d
-        if (currStats.health <= 0) {
-            currStats.health = 0
+        stats.health -= d
+        if (stats.health <= 0) {
+            stats.health = 0
             die()
         }
     }
     
     func die() {
         
-    }
-    
-    func updateEquipStats() {
-        equipStats = weapon?.statMods + shield?.statMods + skill?.statMods + enhancer?.statMods
     }
     
 }
@@ -173,9 +168,9 @@ class ThisCharacter: Entity, Updatable {
     var totalDamageInflicted:Int = 0
     //////////////
     //INIT
-    init(withCurrStats:Stats, withBaseStats:Stats, withInventory:Inventory)
+    init(withStats:Stats, withInventory:Inventory)
     {
-        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withCurrStats: withCurrStats, withBaseStats: withBaseStats, withInventory: withInventory)
+        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withStats: withStats, withInventory: withInventory)
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
@@ -185,7 +180,7 @@ class ThisCharacter: Entity, Updatable {
     }
     
     convenience init() { //probably delete this
-        self.init(withCurrStats:Stats.nilStats, withBaseStats: Stats.nilStats, withInventory: Inventory(withSize: inventory_size))
+        self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventory_size))
         self.inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
         self.inventory.setItem(1, toItem: Item.initHandlerID("wep2"))
         self.inventory.setItem(2, toItem: Item.initHandlerID("wep3"))
@@ -193,7 +188,7 @@ class ThisCharacter: Entity, Updatable {
     }
     
     convenience init(fromSaveData:SaveData) {
-        self.init(withCurrStats:fromSaveData.currStats, withBaseStats: fromSaveData.baseStats, withInventory: fromSaveData.inventory)
+        self.init(withStats: fromSaveData.stats, withInventory: fromSaveData.inventory)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -206,11 +201,10 @@ class ThisCharacter: Entity, Updatable {
     }
     
     override func struckByProjectile(p:Projectile) {
-        takeDamage(p.attack - currStats.defense)
+        takeDamage(p.attack - (stats.defense + inventory.stats.defense))
     }
 
     override func die() {
-     //   GameLogic.characterDeath()
         //inventory.dropAllExceptInventory()
         //let rand = Int(randomBetweenNumbers(0, secondNum: CGFloat(inventory.baseSize)))
         //inventory.setItem(rand, toItem: nil)
@@ -219,17 +213,18 @@ class ThisCharacter: Entity, Updatable {
     
     //ITEM HANDLER METHODS
     func consumeItem(c:Consumable) {
-        if (c.permanent) {
+        /*if (c.permanent) {
             baseStats = baseStats + c.statMods
         }
         else {
             currStats = currStats + c.statMods
-        }
+        }*/
+        stats = stats + c.statMods
     }
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: currStats.attack + equipStats.attack, reflects: weapon!.projectileReflects)
+            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: stats.attack + inventory.stats.attack, reflects: weapon!.projectileReflects)
             (self.scene as! InGameScene).addObject(newProjectile)
             //GameLogic.addObject(newProjectile)
         }
@@ -237,14 +232,14 @@ class ThisCharacter: Entity, Updatable {
 
     
     func update(deltaT:Double) { //as dex goes from 0-100, time between projectiles goes from 1000 to 20 ms
-        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(currStats.dexterity+equipStats.dexterity) && weapon != nil) {
+        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
             fireProjectile(weapon!.projectileSpeed * UIElements.RightJoystick!.normalDisplacement)
             timeSinceProjectile = 0
         }
         else {
             timeSinceProjectile += deltaT
         }
-        self.physicsBody?.velocity = 0.3*(currStats.speed + equipStats.speed + 100) * UIElements.LeftJoystick!.normalDisplacement
+        self.physicsBody?.velocity = 0.3 * (stats.speed+inventory.stats.speed) * UIElements.LeftJoystick!.normalDisplacement
     }
 }
 
@@ -255,9 +250,8 @@ class Enemy:Entity, Updatable{
     private var parentSpawner:Spawner?
     
     init(thisEnemy:AEXMLElement, atPosition:CGPoint, spawnedFrom:Spawner?) {
-        let _baseStats = Stats.statsFrom(thisEnemy)
-        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withCurrStats: _baseStats, withBaseStats: _baseStats, withInventory: Inventory(fromElement: thisEnemy["inventory"]))
-        AI = EnemyAI(parent: self, withBehaviors: thisEnemy["behaviors"]["behavior"].all!)
+        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withStats: Stats.statsFrom(thisEnemy), withInventory: Inventory(fromElement: thisEnemy["inventory"]))
+        AI = EnemyDictionary.EnemyDictionary[thisEnemy["name"].stringValue]!(parent: self)
         parentSpawner = spawnedFrom
         
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
@@ -281,11 +275,9 @@ class Enemy:Entity, Updatable{
     
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: weapon!.projectileSpeed*withVelocity, isFriendly: false, withRange:weapon!.range, withAtk: self.currStats.attack, reflects: weapon!.projectileReflects)
+            let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: weapon!.projectileSpeed*withVelocity, isFriendly: false, withRange:weapon!.range, withAtk: stats.attack, reflects: weapon!.projectileReflects)
             //TODO: check if projectiles can be shot etc
             (self.scene as! InGameScene).addObject(newProjectile)
-
-            //GameLogic.addObject(newProjectile)
         }
     }
     
@@ -315,9 +307,9 @@ class Enemy:Entity, Updatable{
         AI?.update(deltaT)
     }
     
-    func moveTo(point:CGPoint) {
-        //do SKAction to animate move to point
-    }
+    //func moveTo(point:CGPoint) {
+    //    //do SKAction to animate move to point
+    //}
     
     override func die() {
         //do some kind of animation
@@ -325,7 +317,6 @@ class Enemy:Entity, Updatable{
             if (item != nil) {
                 let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-20, secondNum: self.position.x+20), randomBetweenNumbers(self.position.y-20, secondNum: self.position.y+20))
                 (self.scene as! InGameScene).addObject(ItemBag(withItem: item!, loc: newPoint))
-                //GameLogic.addObject(ItemBag(withItem: item!, loc: newPoint))
             }
         } //drop inventory
         parentSpawner?.childDied()

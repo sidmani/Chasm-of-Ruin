@@ -33,37 +33,32 @@ class SaveData:NSObject, NSCoding {
     }
     
     private struct PropertyKey {
-        static let currStatsKey = "currStats"
-        static let baseStatsKey = "baseStats"
+        static let statsKey = "stats"
         static let inventoryKey = "inventory"
         static let totalDamageKey = "totalDamage"
     }
 
-    let currStats:Stats
-    let baseStats:Stats
+    let stats:Stats
     let inventory:Inventory
     let totalDamageInflicted:Int
-    init (currStats:Stats, baseStats:Stats, inventory:Inventory, totalDamageInflicted:Int) {
-        self.currStats = currStats
-        self.baseStats = baseStats
+    init (stats:Stats, inventory:Inventory, totalDamageInflicted:Int) {
+        self.stats = stats
         self.inventory = inventory
         self.totalDamageInflicted = totalDamageInflicted
     }
     convenience init (fromCharacter:ThisCharacter) {
-        self.init(currStats:fromCharacter.currStats, baseStats: fromCharacter.baseStats, inventory: fromCharacter.inventory, totalDamageInflicted: fromCharacter.totalDamageInflicted)
+        self.init(stats: fromCharacter.stats, inventory: fromCharacter.inventory, totalDamageInflicted: fromCharacter.totalDamageInflicted)
     }
     required convenience init?(coder aDecoder: NSCoder) {
-        let currStats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.currStatsKey) as! NSArray)
-        let baseStats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.baseStatsKey) as! NSArray)
+        let stats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statsKey) as! NSArray)
         let inventory = aDecoder.decodeObjectForKey(PropertyKey.inventoryKey) as! Inventory
         let totalDamageInflicted = aDecoder.decodeObjectForKey(PropertyKey.totalDamageKey) as! Int
-        self.init(currStats:currStats, baseStats: baseStats, inventory: inventory, totalDamageInflicted: totalDamageInflicted)
+        self.init(stats: stats, inventory: inventory, totalDamageInflicted: totalDamageInflicted)
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(inventory, forKey: PropertyKey.inventoryKey)
-        aCoder.encodeObject(currStats.toArray(), forKey: PropertyKey.currStatsKey)
-        aCoder.encodeObject(baseStats.toArray(), forKey: PropertyKey.baseStatsKey)
+        aCoder.encodeObject(stats.toArray(), forKey: PropertyKey.statsKey)
         aCoder.encodeObject(totalDamageInflicted, forKey: PropertyKey.totalDamageKey)
     }
 }
