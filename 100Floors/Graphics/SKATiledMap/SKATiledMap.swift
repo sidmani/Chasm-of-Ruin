@@ -587,7 +587,6 @@ class SKATiledMap : SKNode{
         
         //generating layers
         if let layers = mapDictionary["layers"] as? [AnyObject]{
-            
             for layer  in layers {
                 if let layerDictionary = layer as? [String : AnyObject] {
                     
@@ -696,7 +695,7 @@ class SKATiledMap : SKNode{
                                 }
                                 
                                 //creating collision body if special SKACollision type is set
-                                if let objectProperties = object.properties{
+                                if let objectProperties = object.properties {
                                     if let collisionType = objectProperties["SKACollisionType"] as? String{
                                         if collisionType == "SKACollisionTypeRect"{
                                             
@@ -713,7 +712,7 @@ class SKATiledMap : SKNode{
                                             collisionSprites.append(floorSprite)
                                         }
                                         else if collisionType == "SKACollisionTypeShape"{
-                                            print("collsion type shape")
+                                            print("collision type shape")
                                             if object.polygon != nil{
                                                 
                                                 let points = object.polygon!
@@ -723,7 +722,7 @@ class SKATiledMap : SKNode{
                                                 for set in points{
                                                     let x = set["x"]!
                                                     var y = set["y"]!
-                                                    print("\(x),\(y)")
+                                                 //   print("\(x),\(y)")
                                                     //getting origin in the correct position based on draw order
                                                     if(objectLayer.drawOrder == "topdown")
                                                     {
@@ -770,7 +769,6 @@ class SKATiledMap : SKNode{
 
                                     }
                                 }
-                                
                                 objects.append(object)
                             }
                         }

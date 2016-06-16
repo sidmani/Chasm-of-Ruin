@@ -43,7 +43,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera!.setScale(0.2)
         nonCharNodes.name = "nonCharNodes"
         //////////////////////////////////////////
-    //    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setLevel), name: "setLevel", object: nil)
         //////////////////////////////////////////
         addChild(nonCharNodes)
         addChild(thisCharacter)
@@ -52,7 +51,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         /////// player contacts interactive object
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive) {
-          //  GameLogic.enteredDistanceOf(contact.bodyA.node as! Interactive)
             let object = contact.bodyA.node as! Interactive
             if (object.autotrigger) { object.trigger() }
             object.displayPopup(true)
@@ -60,7 +58,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive) {
-           // GameLogic.enteredDistanceOf(contact.bodyB.node as! Interactive)
             let object = contact.bodyB.node as! Interactive
             if (object.autotrigger) { object.trigger() }
             object.displayPopup(true)
@@ -69,22 +66,32 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
         ////// player is hit by projectile
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile) {
-            thisCharacter.struckByProjectile(contact.bodyB.node as! Projectile)
-            return
+            if let projectile = contact.bodyB.node as? Projectile {
+                thisCharacter.struckByProjectile(projectile)
+                projectile.struckMapBoundary()
+                return
+            }
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer && contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile) {
-            thisCharacter.struckByProjectile(contact.bodyA.node as! Projectile)
-            return
+            if let projectile = contact.bodyA.node as? Projectile {
+                thisCharacter.struckByProjectile(projectile)
+                projectile.struckMapBoundary()
+                return
+            }
         }
         ////// projectile hits map boundary
-        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
-            (contact.bodyA.node as! Projectile).struckMapBoundary()
-            return
+        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile | PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
+            if let projectile = contact.bodyA.node as? Projectile {
+                projectile.struckMapBoundary()
+                return
+            }
         }
             
-        else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
-            (contact.bodyB.node as! Projectile).struckMapBoundary()
-            return
+        else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile | PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
+            if let projectile = contact.bodyB.node as? Projectile {
+                projectile.struckMapBoundary()
+                return
+            }
         }
         ////// character enters spawner radius
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.Spawner) {
@@ -93,7 +100,22 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Spawner) {
             (contact.bodyB.node as! Spawner).playerIsInRadius(true)
         }
-        
+        ////// enemy hit by friendly projectile
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile && contact.bodyB.categoryBitMask == PhysicsCategory.Enemy) {
+            if let projectile = contact.bodyA.node as? Projectile {
+                (contact.bodyB.node as! Enemy).struckByProjectile(projectile)
+                projectile.struckMapBoundary()
+            }
+            return
+        }
+            
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile && contact.bodyA.categoryBitMask == PhysicsCategory.Enemy) {
+            if let projectile = contact.bodyB.node as?  Projectile {
+                (contact.bodyA.node as! Enemy).struckByProjectile(projectile)
+                projectile.struckMapBoundary()
+                return
+            }
+        }
     }
     
     func didEndContact(contact: SKPhysicsContact) {

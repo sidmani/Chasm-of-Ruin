@@ -32,9 +32,15 @@ class Spawner:MapObject, Updatable {
     private let enemyID:String
     private var playerIsWithinRadius:Bool = false
 
-    init(loc: CGPoint, withEnemyID:String) {
+    init(loc: CGPoint, withEnemyID:String, threshold:CGFloat) {
         enemyID = withEnemyID
         super.init(loc: loc)
+        physicsBody = SKPhysicsBody(circleOfRadius: threshold)
+        physicsBody!.pinned = true
+        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Spawner
+        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
+        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,27 +62,13 @@ class Spawner:MapObject, Updatable {
 
 class ConstantRateSpawner:Spawner {
     private let rateOfSpawning:Double
-    private let distanceThreshold:CGFloat
     private var elapsedTime:Double = 0
+    
     init(loc:CGPoint, withEnemyID:String, rate:Double, threshold:CGFloat) {
         rateOfSpawning = rate
-        distanceThreshold = threshold
-        super.init(loc: loc, withEnemyID:withEnemyID)
-        physicsBody = SKPhysicsBody(circleOfRadius: threshold)
-        physicsBody!.pinned = true
-        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Spawner
-        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
-        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+        super.init(loc: loc, withEnemyID:withEnemyID, threshold:threshold)
     }
   
-    convenience init(fromElement:AEXMLElement, withTileEdge:CGFloat) {
-        let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
-        let rate = fromElement["rate"].doubleValue
-        let dist = CGFloat(fromElement["distance-threshold"].doubleValue)
-        let enemyID = fromElement["enemy-id"].stringValue
-        self.init(loc: withTileEdge*loc, withEnemyID: enemyID, rate:rate, threshold:dist)
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -86,7 +78,6 @@ class ConstantRateSpawner:Spawner {
             elapsedTime = 0
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
-           // GameLogic.addObject(newEnemy)
         }
         else {
             elapsedTime += deltaT
@@ -100,46 +91,44 @@ class ConstantRateSpawner:Spawner {
 }
 
 class FixedNumSpawner:Spawner {
+    private let rateOfSpawning:Double
     private let maxNumOfEnemies:Int
     private var currNumOfEnemies:Int = 0
-
-    init(loc:CGPoint, withEnemyID:String, maxNumEnemies:Int) {
+    private var elapsedTime:Double = 0
+    init(loc:CGPoint, withEnemyID:String, rate:Double, threshold:CGFloat, maxNumEnemies:Int) {
         maxNumOfEnemies = maxNumEnemies
-        super.init(loc: loc, withEnemyID:withEnemyID)
+        rateOfSpawning = rate
+        super.init(loc: loc, withEnemyID:withEnemyID, threshold:threshold)
     }
     
     override func update(deltaT: Double) {
-        if (currNumOfEnemies < maxNumOfEnemies) {
+        if (playerIsWithinRadius && currNumOfEnemies < maxNumOfEnemies && elapsedTime > rateOfSpawning) {
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
-          //  GameLogic.addObject(newEnemy)
             currNumOfEnemies += 1
+            elapsedTime = 0
         }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        else {
+            elapsedTime += deltaT
+        }
     }
     
     override func childDied() {
         currNumOfEnemies -= 1
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+ 
 }
 
 class OneTimeSpawner:Spawner {
-    private let distanceThreshold:CGFloat
     
-    init(loc:CGPoint, withEnemyID:String, threshold:CGFloat) {
-        distanceThreshold = threshold
-        super.init(loc: loc, withEnemyID:withEnemyID)
-        physicsBody = SKPhysicsBody(circleOfRadius: threshold)
-        physicsBody!.pinned = true
-        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Spawner
-        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
-        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+    override init(loc: CGPoint, withEnemyID: String, threshold: CGFloat) {
+        super.init(loc: loc, withEnemyID: withEnemyID, threshold: threshold)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -148,7 +137,6 @@ class OneTimeSpawner:Spawner {
         if (playerIsWithinRadius) {
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
-            //   GameLogic.addObject(newEnemy)
             self.removeFromParent()
         }
     }
@@ -160,14 +148,10 @@ class Portal:MapObject, Interactive {
     let autotrigger:Bool
 
     private let destinationID:String
-    let showIntroScreen:Bool
-    let showCountdown:Bool
     
-    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, introScreen:Bool, countdown:Bool, thumbnail:String) {
+    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, thumbnail:String) {
         destinationID = _destinationID
         autotrigger = _autotrigger
-        showIntroScreen = introScreen
-        showCountdown = countdown
         thumbnailImg = thumbnail
         
         super.init(loc: loc)
@@ -178,15 +162,6 @@ class Portal:MapObject, Interactive {
         self.physicsBody!.pinned = true
     }
     
-    convenience init(fromXMLObject:AEXMLElement, withTileEdge:CGFloat) {
-        let loc = CGPointMake(CGFloat(fromXMLObject["loc"]["x"].doubleValue), CGFloat(fromXMLObject["loc"]["y"].doubleValue))
-        let destID = fromXMLObject["dest-id"].stringValue
-        let autotrigger = fromXMLObject["autotrigger"].boolValue
-        let countdown = fromXMLObject["countdown"].boolValue
-        let introScreen = fromXMLObject["load-screen"].boolValue
-        let thumbnail = fromXMLObject["thumbnail-img"].stringValue
-        self.init(loc: withTileEdge*loc, _destinationID: destID, _autotrigger: autotrigger, introScreen: introScreen, countdown: countdown, thumbnail: thumbnail)
-    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -216,10 +191,6 @@ class ItemBag:MapObject, Interactive {
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.pinned = true
-    }
-    convenience init (fromElement:AEXMLElement, withTileEdge:CGFloat) {
-        let loc = CGPointMake(CGFloat(fromElement["loc"]["x"].doubleValue), CGFloat(fromElement["loc"]["y"].doubleValue))
-        self.init(withItem: Item.initHandlerID(fromElement["itemID"].stringValue), loc:withTileEdge*loc)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

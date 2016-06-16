@@ -75,6 +75,7 @@ class Inventory:NSObject, NSCoding {
     }
     
     func equipItem(atIndex:Int) -> Bool { //equipped -> true, unloaded -> false
+        var equipped = false
         switch(atIndex) {
         case weaponIndex:
             weaponIndex = -1
@@ -88,23 +89,23 @@ class Inventory:NSObject, NSCoding {
             let item = getItem(atIndex)
             if (item is Weapon) {
                 weaponIndex = atIndex
-                return true
+                equipped = true
             }
             else if (item is Shield) {
                 shieldIndex = atIndex
-                return true
+                equipped = true
             }
             else if (item is Skill) {
                 skillIndex = atIndex
-                return true
+                equipped = true
             }
             else if (item is Enhancer) {
                 enhancerIndex = atIndex
-                return true
+                equipped = true
             }
         }
         stats = getEquippedStats()
-        return false
+        return equipped
     }
     func isEquipped(index:Int) -> Bool {
         return (weaponIndex == index || skillIndex == index || shieldIndex == index || enhancerIndex == index) 
@@ -132,6 +133,7 @@ class Inventory:NSObject, NSCoding {
     }
     
     func getEquippedStats() -> Stats {
+        print("stats updated: \(getItem(weaponIndex)?.statMods.speed)")
         return getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
     }
     

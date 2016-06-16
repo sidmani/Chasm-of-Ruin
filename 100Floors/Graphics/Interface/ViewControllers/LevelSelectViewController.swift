@@ -11,7 +11,7 @@ import SpriteKit
 
 class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     private var previousSelectedContainer:LevelContainer?
-    
+
     @IBOutlet weak var levelCollection: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +21,14 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
 
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
-
-       // GameLogic.setGameState(.LevelSelect)
     }
     
     ///////////////
     //Collection View
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return levelXML.root["level"].count
+       // return levelXML.root["level"].count
+        return levelDict.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

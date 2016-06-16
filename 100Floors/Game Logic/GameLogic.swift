@@ -42,6 +42,7 @@ let enemyXML: AEXMLDocument! = {() -> AEXMLDocument? in
     let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
     let data = NSData(contentsOfFile: xmlPath)!
     do {
+        print("loaded xml")
         return try AEXMLDocument(xmlData: data)
     }
     catch {
@@ -49,19 +50,6 @@ let enemyXML: AEXMLDocument! = {() -> AEXMLDocument? in
     }
     
 }()
-
-let behaviorXML: AEXMLDocument! = {() -> AEXMLDocument? in
-    let xmlPath = NSBundle.mainBundle().pathForResource("Behaviors", ofType: "xml")!
-    let data = NSData(contentsOfFile: xmlPath)!
-    do {
-        return try AEXMLDocument(xmlData: data)
-    }
-    catch {
-        return nil
-    }
-    
-}()
-
 var thisCharacter:ThisCharacter!
 
 //////////////////

@@ -13,7 +13,6 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
     //MARK: - Public Properties
     var parser = NSXMLParser()
     var mapDictionary = ["properties" : [String: AnyObject]()] as [String : AnyObject]
-    
     //MARK: - Private Properties
     /**
      Parsing keys
@@ -121,7 +120,6 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         let intTypes = ["width", "height", "x", "y", "tilewidth", "tileheight", "firstgid", "imagewidth", "imageheight", "spacing", "margin"]
         let floatTypes = ["opacity", "rotation"]
         let boolTypes = ["visible"]
-        
         for (key, value) in dictionary where value is String{
             //clean expected Ints
             for intType in intTypes where intType == key {
@@ -133,6 +131,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
             for boolType in boolTypes where boolType == key {
                 dictCopy[key] = Int(value as! String) == 1
             }
+            
         }
         
         if let image = dictCopy["source"] as? String{
@@ -142,10 +141,8 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         
         return dictCopy
     }
-    
     //MARK: - NSXMLParserDelegate Methods
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        
         //Filling correct data holders based on element name
         //When appropriate data holders are prefilled with required values that may not be in xml
         switch elementName{
@@ -156,13 +153,21 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
             }
         
         case kTileset :
+            if (properties.count > 0) {
+                var dict:[String:AnyObject] = [:]
+                for (key,value) in properties{
+                   dict[key] = value
+                }
+                mapDictionary["properties"] = dict
+                properties = [String: AnyObject]()
+            }
             tileSet = newTileset()
             for (key, value) in attributeDict{
                 tileSet[key] = value
             }
-        //reseting tiles because we are starting a new set
+        //resetting tiles because we are starting a new set
         tiles = [String : AnyObject]()
-        
+
         case kTile :
             tile = [String: AnyObject]()
             //we only care about the id
@@ -219,10 +224,8 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
                     properties[key] = value
                 }
             }
-        
         case kProperies:
             properties = [String: AnyObject]()
-            
         case kPolygon:
             if let pairsString = attributeDict["points"] {
                 
@@ -299,15 +302,32 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
                 tileID = ""
             
             case kLayer:
+                if(properties.count > 0){
+                    for (key, value) in properties{
+                        layer[key] = value
+                    }
+                    properties = [String: AnyObject]()
+                }
                 layers.append(cleanDictionary(layer))
-            
             case kData:
                 data = [String : AnyObject]()
             
             case kObject:
+                if(properties.count > 0){
+                    for (key, value) in properties{
+                        object[key] = value
+                    }
+                    properties = [String: AnyObject]()
+                }
                 objects.append(cleanDictionary(object))
             
             case kObjectGroup:
+                if(properties.count > 0){
+                    for (key, value) in properties{
+                        objectLayer[key] = value
+                    }
+                    properties = [String: AnyObject]()
+                }
                 objectLayer["objects"] = objects
                 layers.append(objectLayer)
             
@@ -320,7 +340,6 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
     }
     
     func parserDidEndDocument(parser: NSXMLParser) {
-        
         //final clean up
         mapDictionary["tilesets"] = tileSets
         mapDictionary["layers"] = layers

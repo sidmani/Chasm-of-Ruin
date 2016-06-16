@@ -7,6 +7,11 @@
             <inventory size="4">
                 <item index="0" equipped="true">wep1</item>
             </inventory>
+            <stats>
+                <atk>20</atk>
+                <health>50</health>
+                <maxHealth>50</maxHealth>
+            </stats>
 		</enemy>
 	</enemies>
 </root>

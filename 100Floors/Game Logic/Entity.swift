@@ -29,6 +29,8 @@ struct Stats {
         case 3: return speed
         case 4: return dexterity
         case 5: return mana
+        case 6: return maxHealth
+        case 7: return maxMana
         default: return 10
         }
     }
@@ -41,12 +43,14 @@ struct Stats {
         case 3: speed = toVal
         case 4: dexterity = toVal
         case 5: mana = toVal
+        case 6: maxHealth = toVal
+        case 7: maxMana = toVal
         default: break
         }
     }
     
     func toArray() -> NSArray {
-        return NSArray(array: [health,defense,attack,speed,dexterity,mana])
+        return NSArray(array: [health,defense,attack,speed,dexterity,mana, maxHealth, maxMana])
     }
     
     mutating func capAt(maxVal:CGFloat) {
@@ -101,7 +105,7 @@ class Entity:SKSpriteNode {
     
     let inventory:Inventory
     
-    private var textures:[SKTexture?] = [SKTexture?](count:4, repeatedValue:nil) //0 - north, 1 - east, 2 - south, 3 - west
+    private var textures:[SKTexture] = [] //0 - north, 1 - east, 2 - south, 3 - west
     
     private var weapon:Weapon? {
         return inventory.getItem(inventory.weaponIndex) as? Weapon
@@ -170,7 +174,7 @@ class ThisCharacter: Entity, Updatable {
     //INIT
     init(withStats:Stats, withInventory:Inventory)
     {
-        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("character"), withStats: withStats, withInventory: withInventory)
+        super.init(fromTexture: SKTextureAtlas(named: "chars").textureNamed("Character"), withStats: withStats, withInventory: withInventory)
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
@@ -179,11 +183,23 @@ class ThisCharacter: Entity, Updatable {
     
     }
     
-    convenience init() { //probably delete this
+    convenience init() {
         self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventory_size))
-        self.inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
+        self.inventory.setItem(0, toItem: Item.initHandlerID("wep1")) //TODO: make these starting items
         self.inventory.setItem(1, toItem: Item.initHandlerID("wep2"))
         self.inventory.setItem(2, toItem: Item.initHandlerID("wep3"))
+        
+        stats.maxHealth = 20 + randomBetweenNumbers(0, secondNum: 10)
+        stats.maxMana = 15 + randomBetweenNumbers(0, secondNum: 10)
+        stats.health = stats.maxHealth
+        stats.mana = stats.maxMana
+        
+        stats.defense = 15 + randomBetweenNumbers(0, secondNum: 10)
+        stats.attack = 15 + randomBetweenNumbers(0, secondNum: 10)
+        stats.dexterity = 15 + randomBetweenNumbers(0, secondNum: 10)
+        stats.speed = 15 + randomBetweenNumbers(0, secondNum: 10)
+        
+        UIElements.HPBar.setProgress(Float(stats.health/stats.maxHealth), animated: true)
         
     }
     
@@ -197,7 +213,7 @@ class ThisCharacter: Entity, Updatable {
     ///collision handling
     override func takeDamage(d: CGFloat) {
         super.takeDamage(d)
-       // UIElements.HPBar.setProgressWithBounce(currStats.health/baseStats.health) //div by zero error
+        UIElements.HPBar.setProgress(Float(stats.health/stats.maxHealth), animated: true) //div by zero error
     }
     
     override func struckByProjectile(p:Projectile) {
@@ -211,22 +227,26 @@ class ThisCharacter: Entity, Updatable {
         //save game
     }
     
+    func killedEnemy(e:Enemy) {
+        //gain exp
+        //possibly increase level
+        //add to kills
+    }
     //ITEM HANDLER METHODS
     func consumeItem(c:Consumable) {
-        /*if (c.permanent) {
-            baseStats = baseStats + c.statMods
-        }
-        else {
-            currStats = currStats + c.statMods
-        }*/
         stats = stats + c.statMods
+        if (stats.health > stats.maxHealth) {
+            stats.health = stats.maxHealth
+        }
+        if (stats.mana > stats.maxMana) {
+            stats.mana = stats.maxMana
+        }
     }
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
             let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: stats.attack + inventory.stats.attack, reflects: weapon!.projectileReflects)
             (self.scene as! InGameScene).addObject(newProjectile)
-            //GameLogic.addObject(newProjectile)
         }
     }
 
@@ -239,7 +259,7 @@ class ThisCharacter: Entity, Updatable {
         else {
             timeSinceProjectile += deltaT
         }
-        self.physicsBody?.velocity = 0.3 * (stats.speed+inventory.stats.speed) * UIElements.LeftJoystick!.normalDisplacement
+        self.physicsBody?.velocity =  (stats.speed+inventory.stats.speed) * UIElements.LeftJoystick!.normalDisplacement
     }
 }
 
@@ -248,10 +268,11 @@ class Enemy:Entity, Updatable{
 
     private var AI:EnemyAI?
     private var parentSpawner:Spawner?
-    
+
     init(thisEnemy:AEXMLElement, atPosition:CGPoint, spawnedFrom:Spawner?) {
         super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withStats: Stats.statsFrom(thisEnemy), withInventory: Inventory(fromElement: thisEnemy["inventory"]))
-        AI = EnemyDictionary.EnemyDictionary[thisEnemy["name"].stringValue]!(parent: self)
+        name = thisEnemy["name"].stringValue
+        AI = EnemyDictionary.EnemyDictionary[name!]!(parent: self)
         parentSpawner = spawnedFrom
         
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
@@ -269,10 +290,6 @@ class Enemy:Entity, Updatable{
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func struckByProjectile(p:Projectile) {
-        
-    }
-    
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
             let newProjectile = Projectile(withID: weapon!.projectile, fromPoint: position, withVelocity: weapon!.projectileSpeed*withVelocity, isFriendly: false, withRange:weapon!.range, withAtk: stats.attack, reflects: weapon!.projectileReflects)
@@ -283,6 +300,10 @@ class Enemy:Entity, Updatable{
     
     func fireProjectileAngle(atAngle:CGFloat) {
         fireProjectile(CGVectorMake(cos(atAngle), sin(atAngle)))
+    }
+    
+    override func struckByProjectile(p:Projectile) {
+        takeDamage(p.attack - stats.defense)
     }
     
     func distanceToCharacter() -> CGFloat {
@@ -299,25 +320,15 @@ class Enemy:Entity, Updatable{
         return CGVectorMake((self.position.x - thisCharacter.position.x)/dist, (self.position.y - thisCharacter.position.y)/dist)
     }
     
-    func vectorToCharacter() -> CGVector {
-        return CGVectorMake((self.position.x - thisCharacter.position.x), (self.position.y - thisCharacter.position.y))
-    }
-    
     func update(deltaT:Double) {
         AI?.update(deltaT)
     }
     
-    //func moveTo(point:CGPoint) {
-    //    //do SKAction to animate move to point
-    //}
-    
     override func die() {
         //do some kind of animation
-        for item in inventory.dropAllItems() {
-            if (item != nil) {
-                let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-20, secondNum: self.position.x+20), randomBetweenNumbers(self.position.y-20, secondNum: self.position.y+20))
+        for item in inventory.dropAllItems() where item != nil {
+                let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
                 (self.scene as! InGameScene).addObject(ItemBag(withItem: item!, loc: newPoint))
-            }
         } //drop inventory
         parentSpawner?.childDied()
         removeFromParent()

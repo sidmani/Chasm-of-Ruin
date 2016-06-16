@@ -83,11 +83,14 @@ class SKAObjectLayer {
      */
     let drawOrder : String
     
+    var properties:[String:AnyObject]
+    
     init(properties: [String: AnyObject])
     {
         guard let _ = properties["type"] as? String else{
             fatalError("Error: missing required type for object layer")
         }
+        self.properties = properties
         type = properties["type"] as! String
 
         guard let _ = properties["x"] as? Int else{

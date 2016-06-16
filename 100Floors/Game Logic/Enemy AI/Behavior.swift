@@ -52,8 +52,13 @@ class Behavior: Updatable {
     func executeBehavior() {
         
     }
-    
 }
+
+/////////////////////////////////
+/////////////////////////////////
+////////////MOVEMENT/////////////
+/////////////////////////////////
+/////////////////////////////////
 
 class MaintainDistance:Behavior {
     private let distanceToMaintain:CGFloat
@@ -79,7 +84,7 @@ class MaintainDistance:Behavior {
             
         }
         else if (dist < distanceToMaintain) {
-            //       e.physicsBody!.velocity = -e.currStats.speed * v
+            //e.physicsBody!.velocity = -e.currStats.speed * v
             parent.physicsBody!.velocity = 25 * v
             
         }

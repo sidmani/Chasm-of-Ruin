@@ -34,7 +34,7 @@ class SKASpriteLayer : SKNode {
      Type defined by Tiled at creation
      */
     var type : String
-    
+    var properties: [String:AnyObject]
     /**
      A 2D array of SKASprites to easily access tiles for specific indexes
      */
@@ -46,8 +46,8 @@ class SKASpriteLayer : SKNode {
         guard let _ = properties["type"] as? String else{
             fatalError("Error: missing type for Sprite Layer")
         }
+        self.properties = properties
         type = properties["type"] as! String
-        
         super.init()
         
     }

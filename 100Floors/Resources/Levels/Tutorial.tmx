@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="29">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="44">
+ <properties>
+  <property name="Name" value="test"/>
+  <property name="StartLoc" value="5,5"/>
+ </properties>
  <tileset firstgid="1" name="Sprites00" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
   <image source="Sheets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>
   <terraintypes>
@@ -137,11 +141,12 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="26" x="145.091" y="-1.28786e-14">
+  <object id="41" type="ConstantRateSpawner" x="207.636" y="215.455" width="13.0909" height="12.1818">
    <properties>
-    <property name="SKACollisionType" value="SKACollisionTypeShape"/>
+    <property name="EnemyID" value="0"/>
+    <property name="Rate" value="5000"/>
+    <property name="Threshold" value="20"/>
    </properties>
-   <polygon points="0,0 0.181818,86.5455 2.54545,91.2727 5.27273,94.5455 30.3636,94.9091 31.4545,95.4545 31.2727,80.1818 3.09091,81.0909 1.63636,79.8182 1.45455,0.181818"/>
   </object>
  </objectgroup>
 </map>

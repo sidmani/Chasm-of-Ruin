@@ -298,23 +298,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
                                 <rect key="frame" x="10" y="500" width="475" height="90"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5yw-pV-zB3" userLabel="HPBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="0.0" green="0.90196079019999997" blue="0.088134331735178775" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillUndoneColor">
-                                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="DEFBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                        <rect key="frame" x="80" y="0.0" width="77" height="90"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="117" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
@@ -326,7 +311,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOa-EE-equ" userLabel="ATKBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                        <rect key="frame" x="159" y="0.0" width="78" height="90"/>
+                                        <rect key="frame" x="119" y="0.0" width="118" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="progress">
@@ -338,7 +323,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-gq-H6F" userLabel="SPDBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                        <rect key="frame" x="239" y="0.0" width="77" height="90"/>
+                                        <rect key="frame" x="239" y="0.0" width="117" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="progress">
@@ -350,7 +335,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zt6-Hz-xfa" userLabel="DEXBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                        <rect key="frame" x="318" y="0.0" width="78" height="90"/>
+                                        <rect key="frame" x="358" y="0.0" width="117" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="progress">
@@ -358,18 +343,6 @@
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="1" green="0.90228585023564523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bgH-JN-mBC" userLabel="WISBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                        <rect key="frame" x="398" y="0.0" width="77" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="0.60058965140969411" green="0.29106252655695597" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -442,11 +415,9 @@
                         <outlet property="DEFProgressView" destination="T32-LU-H58" id="cGE-2X-TWu"/>
                         <outlet property="DEXProgressView" destination="zt6-Hz-xfa" id="fSN-rd-4CU"/>
                         <outlet property="EquipButton" destination="BCD-Gl-DCV" id="gu6-2S-1Rz"/>
-                        <outlet property="HPProgressView" destination="5yw-pV-zB3" id="4oz-ZK-Lua"/>
                         <outlet property="IndexLabel" destination="JGN-7i-B9C" id="3sg-qk-MZI"/>
                         <outlet property="ItemNameLabel" destination="IGa-Ja-NoJ" id="zE6-Gx-Zb8"/>
                         <outlet property="SPDProgressView" destination="VQ3-gq-H6F" id="Oc0-Ch-HKW"/>
-                        <outlet property="WISProgressView" destination="bgH-JN-mBC" id="o07-6r-C93"/>
                         <outlet property="inventoryCollection" destination="P64-Qm-GHx" id="bT3-zB-XJv"/>
                     </connections>
                 </viewController>
