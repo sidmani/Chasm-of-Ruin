@@ -28,10 +28,11 @@ struct UIElements {
     }
 }
 
+var enemyXML: AEXMLDocument! = nil
+var itemXML: AEXMLDocument! = nil
 
 class InGameViewController: UIViewController {
     // MARK: Properties
-    
     @IBOutlet weak var LeftJoystickControl: JoystickControl!
     @IBOutlet weak var RightJoystickControl: JoystickControl!
     
@@ -41,7 +42,7 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var InventoryButton: UIButton!
     @IBOutlet weak var SkillButton: RectButton!
     
-    var level:String = ""
+    var level:Int?
     
     private var gameScene:InGameScene!
     override func viewDidLoad() {
@@ -56,6 +57,31 @@ class InGameViewController: UIViewController {
         MenuButton.tintColor = strokeColor
        
         //////////
+        enemyXML = {
+            let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
+            let data = NSData(contentsOfFile: xmlPath)!
+            do {
+                print("loaded xml")
+                return try AEXMLDocument(xmlData: data)
+            }
+            catch {
+                return nil
+            }
+            
+        }()
+        
+        itemXML = {
+            let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
+            let data = NSData(contentsOfFile: xmlPath!)!
+            do {
+                return try AEXMLDocument(xmlData: data)
+            }
+            catch {
+                return nil
+            }
+            
+        }()
+        //////////
         self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
         skView.showsFPS = true
@@ -65,14 +91,14 @@ class InGameViewController: UIViewController {
         thisCharacter = SaveData.loadCharacter()
 
         gameScene = InGameScene(size:skView.bounds.size)
-        gameScene.setLevel(MapLevel(withID:level))
         skView.presentScene(gameScene)
+        gameScene.setLevel(MapLevel(index:level!))
+
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
-        level = ""
+        level = nil
 
         /////////////////////////
-       // GameLogic.setGameState(.InGame)
     }
     
     func groundBagTapped(notification: NSNotification) {
@@ -83,7 +109,6 @@ class InGameViewController: UIViewController {
         blurView()
         UIElements.setVisible(false)
         gameScene.paused = true
-       // GameLogic.setGameState(.InGameMenu)
     }
  
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
@@ -92,7 +117,6 @@ class InGameViewController: UIViewController {
     
     func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
         blurView()
-      //  GameLogic.setGameState(.InventoryMenu)
         UIElements.setVisible(false)
         gameScene.paused = true
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
@@ -104,7 +128,6 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
-      //  GameLogic.setGameState(.InGame)
         gameScene.paused = false
         UIElements.setVisible(true)
         LeftJoystickControl.resetControl()

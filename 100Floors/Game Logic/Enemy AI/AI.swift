@@ -13,7 +13,7 @@ class EnemyAI: Updatable{
     private static let transition_update_interval:Double = 1000
     private var elapsedSinceUpdate:Double = 0
     
-    private let parent:Enemy
+    private unowned let parent:Enemy
     private var states:[String:State] = [:]
     private var currState:State
     

@@ -74,7 +74,7 @@ class Weapon: Item {
     let projectileReflects:Bool
     
     required init(thisItem:AEXMLElement) {
-        projectile = thisItem["projectile-id"].stringValue
+        projectile = thisItem["projectile-img"].stringValue
         range = CGFloat(thisItem["range"].doubleValue)
         projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
         projectileReflects = thisItem["projectile-reflects"].boolValue

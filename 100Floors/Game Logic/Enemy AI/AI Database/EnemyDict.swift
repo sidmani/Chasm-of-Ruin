@@ -15,7 +15,7 @@ struct EnemyDictionary {
        return EnemyAI(parent:parent, startingState:"Idle", withStates: [
         State(name: "Idle",
             behaviors: [
-                MaintainDistance(parent: parent, distanceToMaintain: 10, triggerDistance: 20, updateRate: 50, priority: 5)
+                Wander(parent: parent, triggerOutsideOfDistance: 10, updateRate: 200, priority: 5)
             ],
             transitions: [
                 

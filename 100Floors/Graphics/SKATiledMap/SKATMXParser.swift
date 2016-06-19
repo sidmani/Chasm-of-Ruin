@@ -154,12 +154,13 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         
         case kTileset :
             if (properties.count > 0) {
-                var dict:[String:AnyObject] = [:]
+                var dict:[String:AnyObject]? = [:]
                 for (key,value) in properties{
-                   dict[key] = value
+                   dict![key] = value
                 }
                 mapDictionary["properties"] = dict
                 properties = [String: AnyObject]()
+                dict = nil
             }
             tileSet = newTileset()
             for (key, value) in attributeDict{

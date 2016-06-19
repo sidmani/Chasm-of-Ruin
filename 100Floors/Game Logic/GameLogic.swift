@@ -5,8 +5,6 @@
 //  Created by Sid Mani on 1/9/16.
 //
 //
-import Swift
-import SpriteKit
 import UIKit
 import Foundation
 
@@ -14,42 +12,6 @@ protocol Updatable {
     func update(deltaT:Double)
 }
 
-
-let itemXML: AEXMLDocument! = {() -> AEXMLDocument? in
-    let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
-    let data = NSData(contentsOfFile: xmlPath!)!
-    do {
-        return try AEXMLDocument(xmlData: data)
-    }
-    catch {
-        return nil
-    }
-    
-}()
-let levelXML: AEXMLDocument! = {() -> AEXMLDocument? in
-    let xmlPath = NSBundle.mainBundle().pathForResource("Levels", ofType: "xml")!
-    let data = NSData(contentsOfFile: xmlPath)!
-    do {
-        return try AEXMLDocument(xmlData: data)
-    }
-    catch {
-        return nil
-    }
-    
-}()
-
-let enemyXML: AEXMLDocument! = {() -> AEXMLDocument? in
-    let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
-    let data = NSData(contentsOfFile: xmlPath)!
-    do {
-        print("loaded xml")
-        return try AEXMLDocument(xmlData: data)
-    }
-    catch {
-        return nil
-    }
-    
-}()
 var thisCharacter:ThisCharacter!
 
 //////////////////

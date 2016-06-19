@@ -22,7 +22,7 @@ class LevelContainer:UICollectionViewCell {
     private let rectangleLayer = CAShapeLayer()
     
     private let levelView = UIImageView()
-    var level:String = ""
+    var level:Int = -10
     private var centerPoint = CGPointZero
     
     
@@ -39,6 +39,7 @@ class LevelContainer:UICollectionViewCell {
         levelView.center = centerPoint
         levelView.contentMode = .ScaleAspectFit
         levelView.layer.magnificationFilter = kCAFilterNearest
+        
         ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(levelView)
@@ -56,7 +57,7 @@ class LevelContainer:UICollectionViewCell {
         }
     }
     
-    func setLevelTo(l:String) {
+    func setLevelTo(l:Int) {
         level = l
         //TODO: somehow get level thumbnail from level name
         //then add it to the UIImageView

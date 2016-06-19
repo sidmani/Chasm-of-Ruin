@@ -8,6 +8,9 @@
 
 
 import UIKit
+import SpriteKit
+import CoreGraphics
+
 let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
 let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
 
@@ -89,7 +92,7 @@ class ItemContainer:UICollectionViewCell {
         let oldItem:Item? = item
         item = newItem
         if (item != nil) {
-            itemView.image = UIImage(named: item!.img)
+            itemView.image = UIImage(named:item!.img)
         }
         else {
             itemView.image = nil

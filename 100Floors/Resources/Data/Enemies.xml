@@ -9,9 +9,12 @@
             </inventory>
             <stats>
                 <atk>20</atk>
-                <health>50</health>
-                <maxHealth>50</maxHealth>
+                <health>5000</health>
+                <maxHealth>5000</maxHealth>
             </stats>
+            <drops>
+                <drop chance="0.5" type="ItemBag">wep1</drop>
+            </drops>
 		</enemy>
 	</enemies>
 </root>

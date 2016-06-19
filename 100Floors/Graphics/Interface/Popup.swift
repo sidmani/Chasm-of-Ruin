@@ -10,8 +10,8 @@ import Foundation
 import SpriteKit
 
 class PopUp:SKNode {
-    private var parentObject:Interactive
-    init(image:String, size:CGSize, parent:Interactive) {
+    private unowned var parentObject:MapObject
+    init(image:String, size:CGSize, parent:MapObject) {
         parentObject = parent
         super.init()
 
@@ -38,7 +38,7 @@ class PopUp:SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        parentObject.trigger()
+        (parentObject as! Interactive).trigger()
     }
     
 }

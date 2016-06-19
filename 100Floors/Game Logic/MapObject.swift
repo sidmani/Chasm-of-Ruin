@@ -15,7 +15,37 @@ protocol Interactive {
     func displayPopup(state:Bool)
 }
 
+extension String {
+    func base64Encoded() -> String {
+        let plainData = dataUsingEncoding(NSUTF8StringEncoding)
+        let base64String = plainData?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        return base64String!
+    }
+    
+    func base64Decoded() -> String {
+        let decodedData = NSData(base64EncodedString: self, options:NSDataBase64DecodingOptions(rawValue: 0))
+        return NSString(data: decodedData!, encoding: NSUTF8StringEncoding)! as String
+    }
+}
+
 class MapObject:SKNode {
+    static func initHandler(type:String, fromBase64:String, loc:CGPoint) -> MapObject {
+        switch (type) {
+        case "Portal":
+           return Portal(fromBase64: fromBase64, loc: loc)
+        case "ItemBag":
+            return ItemBag(withItem: Item.initHandlerID(fromBase64), loc: loc)
+        case "ConstantRateSpawner":
+            return ConstantRateSpawner(fromBase64: fromBase64, loc: loc)
+        case "FixedNumSpawner":
+            return FixedNumSpawner(fromBase64: fromBase64, loc: loc)
+        case "OneTimeSpawner":
+            return OneTimeSpawner(fromBase64: fromBase64, loc: loc)
+        default:
+            fatalError()
+        }
+    }
+    
     init(loc:CGPoint) {
         super.init()
         self.position = loc
@@ -64,11 +94,23 @@ class ConstantRateSpawner:Spawner {
     private let rateOfSpawning:Double
     private var elapsedTime:Double = 0
     
-    init(loc:CGPoint, withEnemyID:String, rate:Double, threshold:CGFloat) {
+    init(loc:CGPoint, withEnemyID:String, threshold:CGFloat, rate:Double) {
         rateOfSpawning = rate
         super.init(loc: loc, withEnemyID:withEnemyID, threshold:threshold)
     }
-  
+    convenience init(fromBase64:String, loc:CGPoint) {
+        // "enemyID, threshold, rate"
+        let str = fromBase64.base64Decoded()
+        let optArr = str.componentsSeparatedByString(",")
+        if (optArr.count != 3) {
+            fatalError()
+        }
+        let enemyID = optArr[0]
+        let threshold = CGFloat(s:optArr[1])
+        let rate = Double(optArr[2])!
+        self.init(loc:loc, withEnemyID: enemyID, threshold: threshold, rate: rate)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -95,12 +137,27 @@ class FixedNumSpawner:Spawner {
     private let maxNumOfEnemies:Int
     private var currNumOfEnemies:Int = 0
     private var elapsedTime:Double = 0
-    init(loc:CGPoint, withEnemyID:String, rate:Double, threshold:CGFloat, maxNumEnemies:Int) {
+    init(loc:CGPoint, withEnemyID:String, threshold:CGFloat, rate:Double, maxNumEnemies:Int) {
         maxNumOfEnemies = maxNumEnemies
         rateOfSpawning = rate
         super.init(loc: loc, withEnemyID:withEnemyID, threshold:threshold)
     }
     
+    convenience init(fromBase64:String, loc:CGPoint) {
+        // "enemyID, threshold, rate, maxNumEnemies"
+        let str = fromBase64.base64Decoded()
+        let optArr = str.componentsSeparatedByString(",")
+        if (optArr.count != 4) {
+            fatalError()
+        }
+        let enemyID = optArr[0]
+        let threshold = CGFloat(s:optArr[1])
+        let rate = Double(optArr[2])!
+        let maxNumEnemies = Int(optArr[3])!
+        self.init(loc:loc, withEnemyID: enemyID, threshold: threshold, rate: rate, maxNumEnemies: maxNumEnemies)
+    }
+    
+
     override func update(deltaT: Double) {
         if (playerIsWithinRadius && currNumOfEnemies < maxNumOfEnemies && elapsedTime > rateOfSpawning) {
             let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
@@ -129,6 +186,18 @@ class OneTimeSpawner:Spawner {
         super.init(loc: loc, withEnemyID: withEnemyID, threshold: threshold)
     }
     
+    convenience init(fromBase64:String, loc:CGPoint) {
+        // "enemyID, threshold"
+        let str = fromBase64.base64Decoded()
+        let optArr = str.componentsSeparatedByString(",")
+        if (optArr.count != 2) {
+            fatalError()
+        }
+        let enemyID = optArr[0]
+        let threshold = CGFloat(s:optArr[1])
+        self.init(loc:loc, withEnemyID: enemyID, threshold: threshold)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -147,12 +216,12 @@ class Portal:MapObject, Interactive {
     let thumbnailImg:String
     let autotrigger:Bool
 
-    private let destinationID:String
+    private let destinationIndex:Int
     
-    init(loc:CGPoint, _destinationID:String, _autotrigger:Bool, thumbnail:String) {
-        destinationID = _destinationID
-        autotrigger = _autotrigger
-        thumbnailImg = thumbnail
+    init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, thumbnailImg:String) {
+        self.destinationIndex = destinationIndex
+        self.autotrigger = autotrigger
+        self.thumbnailImg = thumbnailImg
         
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
@@ -162,12 +231,25 @@ class Portal:MapObject, Interactive {
         self.physicsBody!.pinned = true
     }
     
+    convenience init(fromBase64:String, loc:CGPoint) {
+        // "destination_index, autotrigger, thumbnailImg"
+        let str = fromBase64.base64Decoded()
+        let optArr = str.componentsSeparatedByString(",")
+        if (optArr.count != 3) {
+            fatalError()
+        }
+        let destInd = Int(optArr[0])!
+        let autotrigger = optArr[1] == "1"
+        let thumbnail = optArr[2]
+        self.init(loc:loc, destinationIndex: destInd, autotrigger: autotrigger, thumbnailImg: thumbnail)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func trigger() {
-        (self.scene as! InGameScene).setLevel(MapLevel(withID: destinationID))
+        (self.scene as! InGameScene).setLevel(MapLevel(index:destinationIndex))
     }
     
     func displayPopup(state: Bool) {
@@ -183,6 +265,7 @@ class ItemBag:MapObject, Interactive {
     }
     
     var item:Item
+    
     init (withItem: Item, loc:CGPoint) {
         item = withItem
         super.init(loc: loc)
@@ -191,7 +274,12 @@ class ItemBag:MapObject, Interactive {
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.pinned = true
+        self.runAction(SKAction.waitForDuration(20, withRange: 2), completion: {[unowned self] in
+            self.removeAllChildren()
+            self.removeFromParent()
+        })
     }
+        
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

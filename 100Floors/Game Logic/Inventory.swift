@@ -27,8 +27,11 @@ class Inventory:NSObject, NSCoding {
         inventory = [Item?](count:baseSize, repeatedValue: nil)
     }
     
-    convenience init(fromElement:AEXMLElement) { 
+    private var ignoreStats = false
+    
+    convenience init(fromElement:AEXMLElement, ignoreStats:Bool) {
         self.init(withSize:Int(fromElement.attributes["size"]!)!)
+        self.ignoreStats = ignoreStats
         if (fromElement["item"].all != nil) {
             for item in fromElement["item"].all! {
                 let index = Int(item.attributes["index"]!)!
@@ -48,11 +51,13 @@ class Inventory:NSObject, NSCoding {
         let temp = getItem(atIndexA)
         setItem(atIndexA, toItem: getItem(atIndexB))
         setItem(atIndexB, toItem: temp)
-        if (isEquipped(atIndexA)) {
-            equipItem(atIndexB)
+        let isEquippedA = isEquipped(atIndexA)
+        let isEquippedB = isEquipped(atIndexB)
+        if (isEquippedA) {
+            forceEquipItem(atIndexB)
         }
-        else if (isEquipped(atIndexB)) {
-            equipItem(atIndexA)
+        if (isEquippedB) {
+            forceEquipItem(atIndexA)
         }
 
     }
@@ -73,7 +78,24 @@ class Inventory:NSObject, NSCoding {
 
         return out
     }
-    
+    private func forceEquipItem(atIndex:Int) {
+        let item = getItem(atIndex)
+        if (item is Weapon) {
+            weaponIndex = atIndex
+        }
+        else if (item is Shield) {
+            shieldIndex = atIndex
+        }
+        else if (item is Skill) {
+            skillIndex = atIndex
+        }
+        else if (item is Enhancer) {
+            enhancerIndex = atIndex
+        }
+        if (!ignoreStats) {
+            stats = getEquippedStats()
+        }
+    }
     func equipItem(atIndex:Int) -> Bool { //equipped -> true, unloaded -> false
         var equipped = false
         switch(atIndex) {
@@ -104,7 +126,9 @@ class Inventory:NSObject, NSCoding {
                 equipped = true
             }
         }
-        stats = getEquippedStats()
+        if (!ignoreStats) {
+            stats = getEquippedStats()
+        }
         return equipped
     }
     func isEquipped(index:Int) -> Bool {
@@ -132,8 +156,9 @@ class Inventory:NSObject, NSCoding {
         return droppedItems
     }
     
-    func getEquippedStats() -> Stats {
+    private func getEquippedStats() -> Stats {
         print("stats updated: \(getItem(weaponIndex)?.statMods.speed)")
+        print("\(ignoreStats)")
         return getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
     }
     

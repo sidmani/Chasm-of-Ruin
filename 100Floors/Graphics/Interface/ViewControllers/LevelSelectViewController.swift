@@ -27,13 +27,12 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     //Collection View
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       // return levelXML.root["level"].count
-        return levelDict.count
+        return LevelDict.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! LevelContainer
-        cell.setLevelTo("\(indexPath.item)")
+        cell.setLevelTo(indexPath.item)
         if (indexPath.item == 0 && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
@@ -64,9 +63,9 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         loadLevel(previousSelectedContainer!.level)
     }
     
-    func loadLevel(level:String) {
+    func loadLevel(index:Int) {
         let igvc = storyboard?.instantiateViewControllerWithIdentifier("igvc") as! InGameViewController
-        igvc.level = level
+        igvc.level = index
         igvc.modalTransitionStyle = .CrossDissolve
         presentViewController(igvc, animated: true, completion:nil)
     }

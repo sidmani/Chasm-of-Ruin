@@ -21,7 +21,7 @@ class Behavior: Updatable {
     
     var priority:Int = 0
     
-    var parent:Enemy
+    unowned var parent:Enemy
     
     
     init(parent:Enemy, idType:BehaviorIDType, updateRate:Double) {
@@ -30,9 +30,9 @@ class Behavior: Updatable {
         self.updateRate = updateRate
     }
     
-    func update(deltaT: Double) {
+    final func update(deltaT: Double) {
         if (timeSinceUpdate >= updateRate) {
-            executeBehavior()
+            executeBehavior(timeSinceUpdate)
             timeSinceUpdate = 0
         }
         else {
@@ -49,45 +49,8 @@ class Behavior: Updatable {
         return false
     }
     
-    func executeBehavior() {
+    internal func executeBehavior(timeSinceUpdate:Double) {
         
     }
 }
 
-/////////////////////////////////
-/////////////////////////////////
-////////////MOVEMENT/////////////
-/////////////////////////////////
-/////////////////////////////////
-
-class MaintainDistance:Behavior {
-    private let distanceToMaintain:CGFloat
-    private let triggerDistance:CGFloat
-    
-    init(parent:Enemy, distanceToMaintain:CGFloat, triggerDistance:CGFloat, updateRate:Double, priority:Int) {
-        self.distanceToMaintain = distanceToMaintain
-        self.triggerDistance = triggerDistance
-        super.init(parent:parent, idType:.Movement, updateRate: updateRate)
-        self.priority = priority
-    }
-    override func getConditional() -> Bool {
-        let dist = parent.distanceToCharacter()
-        return dist < triggerDistance && dist > distanceToMaintain
-    }
-    override func executeBehavior() {
-        
-        let v = parent.normalVectorToCharacter()
-        let dist = parent.distanceToCharacter()
-        if (dist > distanceToMaintain) {
-            //e.physicsBody!.velocity = e.currStats.speed * v
-            parent.physicsBody!.velocity = -25 * v
-            
-        }
-        else if (dist < distanceToMaintain) {
-            //e.physicsBody!.velocity = -e.currStats.speed * v
-            parent.physicsBody!.velocity = 25 * v
-            
-        }
-    }
-    
-}

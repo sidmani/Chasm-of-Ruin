@@ -35,8 +35,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     var groundBag:ItemBag?
     var dropLoc:CGPoint!
     
-    private var leftScrollBound:CGFloat!
-    private var rightScrollBound:CGFloat!
+    private var leftScrollBound:CGFloat = 0
+    private var rightScrollBound:CGFloat = 0
     
     private var previousSelectedContainer:ItemContainer?
     private var selectedPath:NSIndexPath?
@@ -52,13 +52,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         lpgr.addTarget(self, action: #selector(handleLongPress))
         
         StatsDisplay = [DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView]
-       
+
+
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
-
+        
         leftScrollBound = -inventoryCollection.contentInset.left
-        rightScrollBound = inventoryCollection.collectionViewLayout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
-    
         inventoryCollection.setContentOffset(CGPointMake(leftScrollBound,0), animated: false)
 
         
@@ -66,16 +65,22 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         currentItemView.layer.magnificationFilter = kCAFilterNearest
         
     }
-    
+    override func viewDidAppear(animated: Bool) {
+        let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
+        rightScrollBound = layout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
+        print("scroll bounds set")
+    }
     func itemDropped(indexA:Int, indexB:Int) {
         if (indexA == indexB) {return}
         if (indexA == -2) {
             if let item = inventory.getItem(indexB) {
+                if (inventory.isEquipped(indexB)) {
+                    inventory.equipItem(indexB)
+                }
                 inventory.setItem(indexB, toItem: groundBag?.item)
                 groundBag?.setItemTo(nil)
                 let newBag = ItemBag(withItem: item, loc: dropLoc)
                 groundBag = newBag
-                //GameLogic.addObject(newBag)
             }
             else {
                 groundBag = nil // this should never happen
@@ -83,11 +88,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
         else if (indexB == -2) {
             if let item = inventory.getItem(indexA) {
+                if (inventory.isEquipped(indexB)) {
+                    inventory.equipItem(indexB)
+                }
                 inventory.setItem(indexA, toItem: groundBag?.item)
                 groundBag?.setItemTo(nil)
                 let newBag = ItemBag(withItem: item, loc: dropLoc)
                 groundBag = newBag
-             //   GameLogic.addObject(newBag)
             }
             else {
                 inventory.setItem(indexA, toItem: groundBag?.item)
@@ -157,6 +164,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 for i in 0..<StatsDisplay.count {
                     StatsDisplay[i].setProgress(0, animated: true)
                 }
+                EquipButton.enabled = false
+                EquipButton.alpha = 0.3
+            }
+            if (previousSelectedContainer!.correspondsToInventoryIndex == -2) {
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
             }
@@ -240,7 +251,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         else if (recognizer.state == .Changed) {
             if (currentItemView.image != nil) {
                 currentItemView.center = newLoc
-                if (screenSize.width - newLoc.x < 0.2*screenSize.width || newLoc.x < screenSize.width*0.2) {
+                if (newLoc.x > 0.8*screenSize.width || newLoc.x < screenSize.width*0.2) {
                     let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
                     inventoryCollection.setContentOffset(CGPoint(x:offsetX, y:0), animated: false)
                 }

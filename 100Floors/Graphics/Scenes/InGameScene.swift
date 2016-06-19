@@ -26,12 +26,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private var currentLevel:BaseLevel?
-    private var oldLoc:CGPoint = CGPointZero
+
     private var oldTime:CFTimeInterval = 0
-    private var mainCamera = SKCameraNode()
+    private let mainCamera = SKCameraNode()
     
     private var nonCharNodes = SKNode()
     
+    private var cameraBounds:(left:CGFloat, right:CGFloat, top:CGFloat, bottom:CGFloat) = (left:0, right:0, top:0 ,bottom:0)
     var currentGroundBag:ItemBag?
     
     override func didMoveToView(view: SKView) {
@@ -41,7 +42,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
-        nonCharNodes.name = "nonCharNodes"
+        self.paused = true
+      ///  nonCharNodes.name = "nonCharNodes"
         //////////////////////////////////////////
         //////////////////////////////////////////
         addChild(nonCharNodes)
@@ -80,14 +82,14 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         ////// projectile hits map boundary
-        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile | PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
+        else if ((contact.bodyA.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
             if let projectile = contact.bodyA.node as? Projectile {
                 projectile.struckMapBoundary()
                 return
             }
         }
             
-        else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile | PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
+        else if ((contact.bodyB.categoryBitMask == PhysicsCategory.EnemyProjectile || contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile) && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
             if let projectile = contact.bodyB.node as? Projectile {
                 projectile.struckMapBoundary()
                 return
@@ -120,13 +122,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     func didEndContact(contact: SKPhysicsContact) {
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
-          //  GameLogic.exitedDistanceOf(contact.bodyA.node as! Interactive)
             let object = contact.bodyA.node as! Interactive
             object.displayPopup(false)
             if (object is ItemBag && (object as! ItemBag) == currentGroundBag) { currentGroundBag = nil }
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Interactive && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            // GameLogic.exitedDistanceOf(contact.bodyB.node as! Interactive)
             let object = contact.bodyB.node as! Interactive
             object.displayPopup(false)
             if (object is ItemBag && (object as! ItemBag) == currentGroundBag) { currentGroundBag = nil }
@@ -141,9 +141,15 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didFinishUpdate() {
-        oldLoc = self.camera!.position
-        camera!.position = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
+        var newLoc = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
+        newLoc.x = min(cameraBounds.right, newLoc.x)
+        newLoc.x = max(cameraBounds.left, newLoc.x)
+        newLoc.y = min(cameraBounds.top, newLoc.y)
+        newLoc.y = max(cameraBounds.bottom, newLoc.y)
+        camera!.position = newLoc
+
     }
+
     
     @objc func setLevel(level:BaseLevel)
     {
@@ -153,12 +159,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         currentLevel = level
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
-       // if (introScreen) {
+        cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
+        // if (introScreen) {
             //TODO: trigger intro screen
       //  }
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
-        
+        self.paused = false
     }
     
     ////////
@@ -166,12 +173,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
         if (deltaT < 100) {
-            camera!.position = oldLoc //reset position to floating-point value for SKPhysics
             if (currentLevel != nil) {
-                let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)+2
-                let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale)+2
+                let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)
+                let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale)
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
-                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
+                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth - 1, height: newHeight - 1) //Remove tiles that are off-screen
             }
             thisCharacter.update(deltaT)
             for node in nonCharNodes.children {
@@ -181,8 +187,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
- 
-   
+
     func addObject(node:SKNode) {
         if (node.parent == nil) {
             if let obj = node as? MapObject {

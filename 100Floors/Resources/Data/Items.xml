@@ -5,7 +5,7 @@
             <type>Weapon</type>
             <name>Dragonsword</name>
             <desc>This sword was forged from the scales of a dragon.</desc>
-            <img>Sword-T10</img>
+            <img>Wep10</img>
             <stats>
                 <health>40</health>
                 <def>90</def>
@@ -16,7 +16,7 @@
                 <rage>2</rage>
             </stats>
             <consumable>false</consumable>
-            <projectile-id>testid</projectile-id>
+            <projectile-img>000</projectile-img>
             <projectile-speed>200</projectile-speed>
             <projectile-reflects>true</projectile-reflects>
             <range>50</range>
@@ -25,7 +25,7 @@
             <type>Weapon</type>
             <name>Sword-T6</name>
             <desc>test description</desc>
-            <img>Sword-T6</img>
+            <img>Wep5</img>
             <stats>
                 <health>50</health>
                 <def>0</def>
@@ -36,7 +36,7 @@
                 <rage>0</rage>
             </stats>
             <consumable>false</consumable>
-            <projectile-id>testid</projectile-id>
+            <projectile-img>000</projectile-img>
             <projectile-speed>20</projectile-speed>
             <projectile-reflects>false</projectile-reflects>
             <range>25</range>
@@ -45,7 +45,7 @@
             <type>Weapon</type>
             <name>Sword-T1</name>
             <desc>test description sword t1</desc>
-            <img>Sword-T1</img>
+            <img>Wep7</img>
             <stats>
                 <health>0</health>
                 <def>75</def>
@@ -56,15 +56,10 @@
                 <rage>0</rage>
             </stats>
             <consumable>false</consumable>
-            <projectile-id>testid</projectile-id>
+            <projectile-img>000</projectile-img>
             <projectile-speed>20</projectile-speed>
             <projectile-reflects>false</projectile-reflects>
             <range>25</range>
         </item>
     </items>
-    <projectiles>
-        <projectile id="testid">
-            <img>SwordProjectile</img>
-        </projectile>
-    </projectiles>
 </root>

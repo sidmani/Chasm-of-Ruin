@@ -11,7 +11,7 @@ import UIKit
 
 class Transition {
     private let destinationState:String
-    private let parent:Enemy
+    private unowned let parent:Enemy
     
     init(enemy:Enemy, dest:String) {
         parent = enemy

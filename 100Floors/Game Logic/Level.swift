@@ -7,10 +7,24 @@
 //
 import SpriteKit
 import UIKit
-let levelDict:[Int:(String,String,String,String)] = [
-    0:("Tutorial", "Tutorial","Description", "thumbnail")
+let LevelDict:[Int:(fileName:String,mapName:String,desc:String,thumbnail:String)] = [
+    0:(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumbnail:"thumbnail")
 ]
-
+extension CGPoint {
+    init(s:String) {
+        let stringArr = s.componentsSeparatedByString(",")
+        self.init(x: stringArr[0], y: stringArr[1])
+    }
+    
+    init(x:String, y:String) {
+        self.init(x: CGFloat(NSNumberFormatter().numberFromString(x)!), y: CGFloat(NSNumberFormatter().numberFromString(y)!))
+    }
+}
+extension CGFloat {
+    init(s:String) {
+        self.init(NSNumberFormatter().numberFromString(s)!)
+    }
+}
 class BaseLevel:SKNode { //TODO: probably merge these two classes together
 
     struct LayerDef {
@@ -27,7 +41,7 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
     enum TerrainType:CGFloat {
         case Road = 1, Grass = 0.8, Dirt = 0.7
     }
-    
+    let mapSize:CGSize
     let tileEdge:CGFloat
     let levelName:String
     let desc:String
@@ -36,8 +50,9 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
     let startLoc:CGPoint
     let objects = SKNode()
 
-    init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSizeOnScreen:CGSize) {
+    init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSize:CGSize,mapSizeOnScreen:CGSize) {
         startLoc = _startLoc
+        self.mapSize = mapSize
         tileEdge = _tileEdge
         desc = description
         levelName = _name
@@ -59,48 +74,19 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
 class MapLevel:BaseLevel, Updatable {
     private let map:SKATiledMap
     
-    init(_map:String) {
-        map = SKATiledMap(mapName: _map)
-        let startLocPoint = MapLevel.stringToPoint(map.mapProperties["StartLoc"] as! String)
-        let mapSize = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
+    init(index:Int) {
         
-        super.init(_startLoc: startLocPoint, _name: (map.mapProperties["Name"] as! String), description:"", _tileEdge: CGFloat(map.tileWidth), mapSizeOnScreen: mapSize)
+        map = SKATiledMap(mapName: LevelDict[index]!.fileName)
+        
+        let startLocPoint = CGPoint(s: map.mapProperties["StartLoc"] as! String)
+        let mapSizeOnScreen = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
+        let mapSize = CGSizeMake(CGFloat(map.mapWidth*map.tileWidth), CGFloat(map.mapHeight*map.tileHeight))
+        super.init(_startLoc: startLocPoint, _name: (map.mapProperties["Name"] as! String), description:"", _tileEdge: CGFloat(map.tileWidth), mapSize:mapSize, mapSizeOnScreen: mapSizeOnScreen)
         
         for layer in map.objectLayers {
             for obj in layer.objects {
-                    switch (obj.type) {
-                        case "Portal":
-                            let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
-                            let destID = obj.properties!["Destination"] as! String
-                            let auto = (obj.properties!["Autotrigger"] as! String) == "true"
-                            let thumbnail = obj.properties!["Thumbnail"] as! String
-                            objects.addChild(Portal(loc: loc, _destinationID: destID, _autotrigger: auto, thumbnail: thumbnail))
-                        case "ItemBag":
-                            let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
-                            let itemID = obj.properties!["ItemID"] as! String
-                            objects.addChild(ItemBag(withItem: Item.initHandlerID(itemID), loc: loc))
-                        case "ConstantRateSpawner":
-                            let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
-                            let enemyID = obj.properties!["EnemyID"] as! String
-                            let rate = Double(obj.properties!["Rate"] as! String)!
-                            let threshold = CGFloat(NSNumberFormatter().numberFromString(obj.properties!["Threshold"] as! String)!)
-                            objects.addChild(ConstantRateSpawner(loc: loc, withEnemyID: enemyID, rate: rate, threshold: threshold))
-                        case "FixedNumSpawner":
-                            let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
-                            let enemyID = obj.properties!["EnemyID"] as! String
-                            let maxNumEnemies = Int(obj.properties!["MaxNumEnemies"] as! String)!
-                            let rate = Double(obj.properties!["Rate"] as! String)!
-                            let threshold = CGFloat(NSNumberFormatter().numberFromString(obj.properties!["Threshold"] as! String)!)
-                            objects.addChild(FixedNumSpawner(loc: loc, withEnemyID: enemyID, rate:rate, threshold:threshold, maxNumEnemies: maxNumEnemies))
-                        case "OneTimeSpawner":
-                            let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
-                            let enemyID = obj.properties!["EnemyID"] as! String
-                            let threshold = CGFloat(NSNumberFormatter().numberFromString(obj.properties!["Threshold"] as! String)!)
-                            objects.addChild(OneTimeSpawner(loc:loc, withEnemyID:enemyID, threshold:threshold))
-                        default:
-                            fatalError()
-                
-                    }
+                let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
+                objects.addChild(MapObject.initHandler(obj.type, fromBase64: obj.properties!["Data"] as! String, loc: loc))
             }
         }
         for i in 0..<map.spriteLayers.count {
@@ -116,20 +102,6 @@ class MapLevel:BaseLevel, Updatable {
 
     }
     
-    private static func stringToPoint(s:String) -> CGPoint {
-        let stringArr = s.componentsSeparatedByString(",")
-        return CGPointFromString(stringArr[0], y: stringArr[1])
-    }
-    
-    private static func CGPointFromString(x:String, y:String) -> CGPoint {
-        return CGPointMake(CGFloat(NSNumberFormatter().numberFromString(x)!), CGFloat(NSNumberFormatter().numberFromString(y)!))
-    }
-   /* convenience init (withID:String) {
-        ///Load level from XML
-        let thisLevel = levelXML.root["level"].allWithAttributes(["index":withID])!.first!
-        ////////
-        self.init(_map:thisLevel["map"].stringValue) //init map
-      }*/
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -145,9 +117,9 @@ class MapLevel:BaseLevel, Updatable {
     
     func update(deltaT: Double) {
         for object in objects.children {
-            if let obj = object as? Updatable {
-                obj.update(deltaT)
-            }
+            //if let obj = object as? Updatable {
+                (object as? Updatable)?.update(deltaT)
+            //}
         }
     }
     

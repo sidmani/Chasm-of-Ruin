@@ -42,10 +42,30 @@ class CountdownTimer:SKLabelNode {
         else {
             //do some animation
             //callback
-   //         GameLogic.timerCallback()
             timer?.invalidate()
             self.removeFromParent()
         }
         currTime -= 1
     }
+}
+
+class StatUpdatePopup:SKNode {
+    
+    init(color:SKColor, text:String, velocity:CGVector, zoomRate:CGFloat) {
+        super.init()
+        self.zPosition = BaseLevel.LayerDef.Effects
+        let labelNode = SKLabelNode()
+        labelNode.text = text
+        labelNode.setScale(0.2)
+        labelNode.fontColor = color
+        labelNode.fontSize = 20
+        labelNode.fontName = "AvenirNext-Heavy"
+        self.addChild(labelNode)
+        labelNode.runAction(SKAction.group([SKAction.moveBy(velocity, duration: 1), SKAction.scaleBy(zoomRate, duration: 1)]), completion: {[unowned self]  in self.removeFromParent()})
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+    
 }

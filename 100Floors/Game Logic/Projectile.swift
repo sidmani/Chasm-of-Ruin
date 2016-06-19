@@ -17,10 +17,9 @@ class Projectile:SKSpriteNode, Updatable{
     private let reflects:Bool
     private var distanceTraveled:CGFloat = 0
     
-    init (withID:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool) {
-        let thisProjectile:AEXMLElement = itemXML.root["projectiles"]["projectile"].allWithAttributes(["id":withID])!.first!
-
-        let texture = SKTextureAtlas(named: "Projectiles").textureNamed(thisProjectile["img"].value!)
+    init (fromImage:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool) {
+        let texture = SKTextureAtlas(named: "Projectiles").textureNamed(fromImage)
+        texture.filteringMode = .Nearest
         let size = texture.size()
         range = withRange
         startLoc = fromPoint
@@ -29,8 +28,8 @@ class Projectile:SKSpriteNode, Updatable{
         self.reflects = reflects
         _speed = abs(hypot(withVelocity.dx, withVelocity.dy))
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
-        
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) //TODO: create from texture
+        self.zRotation = atan2(withVelocity.dy, withVelocity.dx) - CGFloat(M_PI_4)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) 
         self.physicsBody?.friction = 0
         self.physicsBody?.velocity = withVelocity
         
