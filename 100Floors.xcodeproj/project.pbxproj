@@ -11,6 +11,7 @@
 		1F0428971C8367B400FB4516 /* InventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428961C8367B400FB4516 /* InventoryViewController.swift */; };
 		1F1690CD1D0B233A0006C504 /* LevelSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */; };
 		1F1690CF1D0B250F0006C504 /* LevelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1690CE1D0B250F0006C504 /* LevelContainer.swift */; };
+		1F2220DF1D170E89007F1B56 /* TextDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2220DE1D170E89007F1B56 /* TextDisplay.swift */; };
 		1F2761A51D1340B50005D6CC /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2761A41D1340B50005D6CC /* Movement.swift */; };
 		1F2761A91D1345F00005D6CC /* Character.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F2761A81D1345F00005D6CC /* Character.png */; };
 		1F29C0C81CBC84CA00A2EFEE /* SKAMapTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F29C0C11CBC84CA00A2EFEE /* SKAMapTile.swift */; };
@@ -42,6 +43,7 @@
 		1F724D0C1D0B6EE200984611 /* RectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F724D0B1D0B6EE200984611 /* RectButton.swift */; };
 		1F737DE51D0C744500605E37 /* menu-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F737DE41D0C744500605E37 /* menu-512.png */; };
 		1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7415151CB03DA8000A2D48 /* Popup.swift */; };
+		1F746DA01D17934000E3A518 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F746D9F1D17934000E3A518 /* add.png */; };
 		1F979AFE1D10EB49002B45DD /* Character.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F979AFD1D10EB49002B45DD /* Character.png */; };
 		1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D9381C67C0E100ECA534 /* AEXML.swift */; };
 		1FC40B461CB9AE0B00AAC096 /* Tutorial.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1FC40B451CB9AE0B00AAC096 /* Tutorial.tmx */; };
@@ -73,6 +75,7 @@
 		1F0428961C8367B400FB4516 /* InventoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryViewController.swift; sourceTree = "<group>"; };
 		1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectViewController.swift; sourceTree = "<group>"; };
 		1F1690CE1D0B250F0006C504 /* LevelContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelContainer.swift; sourceTree = "<group>"; };
+		1F2220DE1D170E89007F1B56 /* TextDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDisplay.swift; sourceTree = "<group>"; };
 		1F2761A41D1340B50005D6CC /* Movement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
 		1F2761A81D1345F00005D6CC /* Character.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Character.png; sourceTree = "<group>"; };
 		1F29C0C11CBC84CA00A2EFEE /* SKAMapTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAMapTile.swift; sourceTree = "<group>"; };
@@ -105,6 +108,7 @@
 		1F724D0B1D0B6EE200984611 /* RectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectButton.swift; sourceTree = "<group>"; };
 		1F737DE41D0C744500605E37 /* menu-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-512.png"; sourceTree = "<group>"; };
 		1F7415151CB03DA8000A2D48 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		1F746D9F1D17934000E3A518 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		1F979AFD1D10EB49002B45DD /* Character.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Character.png; sourceTree = "<group>"; };
 		1FA7D9381C67C0E100ECA534 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
 		1FC40B451CB9AE0B00AAC096 /* Tutorial.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tutorial.tmx; sourceTree = "<group>"; };
@@ -273,6 +277,7 @@
 				1F2CEE6C1C38B76C00E4FB2E /* JoystickControl.swift */,
 				1F1690CE1D0B250F0006C504 /* LevelContainer.swift */,
 				1F7415151CB03DA8000A2D48 /* Popup.swift */,
+				1F2220DE1D170E89007F1B56 /* TextDisplay.swift */,
 				1F724D0B1D0B6EE200984611 /* RectButton.swift */,
 				1FFC63221D09DD4100074EE0 /* VerticalProgressView.swift */,
 				1F2CEE101C387B1F00E4FB2E /* Main.storyboard */,
@@ -304,6 +309,7 @@
 		1F737DE31D0C743700605E37 /* UI Icons */ = {
 			isa = PBXGroup;
 			children = (
+				1F746D9F1D17934000E3A518 /* add.png */,
 				1F737DE41D0C744500605E37 /* menu-512.png */,
 			);
 			path = "UI Icons";
@@ -409,6 +415,7 @@
 				1F2CEE171C387B1F00E4FB2E /* LaunchScreen.storyboard in Resources */,
 				1FFD7ECC1D15D11100D034AB /* Wep7.png in Resources */,
 				1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */,
+				1F746DA01D17934000E3A518 /* add.png in Resources */,
 				1F2CEE141C387B1F00E4FB2E /* Assets.xcassets in Resources */,
 				1FC40B461CB9AE0B00AAC096 /* Tutorial.tmx in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
@@ -466,6 +473,7 @@
 				1F29C0C91CBC84CA00A2EFEE /* SKAObject.swift in Sources */,
 				1FC9AC5B1C9E161B00E80D30 /* Behavior.swift in Sources */,
 				1F2CEE0F1C387B1F00E4FB2E /* MenuViewController.swift in Sources */,
+				1F2220DF1D170E89007F1B56 /* TextDisplay.swift in Sources */,
 				1F1690CF1D0B250F0006C504 /* LevelContainer.swift in Sources */,
 				1F2CEE6D1C38B76C00E4FB2E /* JoystickControl.swift in Sources */,
 				1F2CEE091C387B1F00E4FB2E /* AppDelegate.swift in Sources */,

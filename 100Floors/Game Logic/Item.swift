@@ -149,5 +149,6 @@ class Consumable: Item {
 }
 
 class Usable:Item {
-    
+//    let eventKey:String
+//    send NSNotifications 
 }

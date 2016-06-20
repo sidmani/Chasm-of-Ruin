@@ -217,11 +217,12 @@ class Portal:MapObject, Interactive {
     let autotrigger:Bool
 
     private let destinationIndex:Int
-    
-    init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, thumbnailImg:String) {
+    private let endsLevel:Bool
+    init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, thumbnailImg:String, endsLevel:Bool) {
         self.destinationIndex = destinationIndex
         self.autotrigger = autotrigger
         self.thumbnailImg = thumbnailImg
+        self.endsLevel = endsLevel
         
         super.init(loc: loc)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
@@ -235,13 +236,14 @@ class Portal:MapObject, Interactive {
         // "destination_index, autotrigger, thumbnailImg"
         let str = fromBase64.base64Decoded()
         let optArr = str.componentsSeparatedByString(",")
-        if (optArr.count != 3) {
+        if (optArr.count != 4) {
             fatalError()
         }
         let destInd = Int(optArr[0])!
-        let autotrigger = optArr[1] == "1"
+        let autotrigger = optArr[1] == "true"
         let thumbnail = optArr[2]
-        self.init(loc:loc, destinationIndex: destInd, autotrigger: autotrigger, thumbnailImg: thumbnail)
+        let endsLevel = optArr[3] == "true"
+        self.init(loc:loc, destinationIndex: destInd, autotrigger: autotrigger, thumbnailImg: thumbnail, endsLevel: endsLevel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -249,7 +251,12 @@ class Portal:MapObject, Interactive {
     }
     
     func trigger() {
-        (self.scene as! InGameScene).setLevel(MapLevel(index:destinationIndex))
+        if (endsLevel) {
+            (self.scene as! InGameScene).endLevel()
+        }
+        else {
+            (self.scene as! InGameScene).setLevel(MapLevel(index:destinationIndex))
+        }
     }
     
     func displayPopup(state: Bool) {
@@ -307,8 +314,30 @@ class ItemBag:MapObject, Interactive {
     }
 }
 
+class UsableItemResponder:MapObject {
+    private let eventKey:String
+    
+    init(loc:CGPoint, eventKey:String) {
+        self.eventKey = eventKey
+        super.init(loc: loc)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(eventTriggered), name: "UsableItemUsed", object: nil)
+    }
+    
+    @objc final private func eventTriggered(notification:NSNotification) {
+        if (notification.object as! String == eventKey) {
+            triggerAction()
+        }
+    }
+    func triggerAction() {
+        //override me
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
-
-
+class InfoDisplay:MapObject {
+    
+}
 
 

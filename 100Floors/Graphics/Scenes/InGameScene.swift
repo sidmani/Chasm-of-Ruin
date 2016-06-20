@@ -43,7 +43,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
         self.paused = true
-      ///  nonCharNodes.name = "nonCharNodes"
         //////////////////////////////////////////
         //////////////////////////////////////////
         addChild(nonCharNodes)
@@ -105,7 +104,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         ////// enemy hit by friendly projectile
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile && contact.bodyB.categoryBitMask == PhysicsCategory.Enemy) {
             if let projectile = contact.bodyA.node as? Projectile {
-                (contact.bodyB.node as! Enemy).struckByProjectile(projectile)
+                (contact.bodyB.node as? Enemy)?.struckByProjectile(projectile)
                 projectile.struckMapBoundary()
             }
             return
@@ -113,7 +112,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile && contact.bodyA.categoryBitMask == PhysicsCategory.Enemy) {
             if let projectile = contact.bodyB.node as?  Projectile {
-                (contact.bodyA.node as! Enemy).struckByProjectile(projectile)
+                (contact.bodyA.node as? Enemy)?.struckByProjectile(projectile)
                 projectile.struckMapBoundary()
                 return
             }
@@ -158,7 +157,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.removeAllChildren()
         currentLevel = level
         nonCharNodes.addChild(currentLevel!)
-        thisCharacter.position = currentLevel!.tileEdge * currentLevel!.startLoc
+        thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
         cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
         // if (introScreen) {
             //TODO: trigger intro screen
@@ -168,6 +167,17 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.paused = false
     }
     
+    func endLevel() {
+        //TODO: fill out method body
+        //hide character
+        //hide nodes
+        //pause scene (?)
+        //save data
+        //display stats
+        //add level index to completed levels (if not already present)
+        //trigger unlock of other levels
+        //wait for user to click "next" and then move back to level select screen
+    }
     ////////
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000

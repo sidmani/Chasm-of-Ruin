@@ -18,8 +18,8 @@ class PopUp:SKNode {
         let tile = SKShapeNode()
         tile.antialiased = false
         tile.path = CGPathCreateWithRoundedRect(CGRectMake(self.position.x, self.position.y+size.height/2, size.width, size.height), size.width/8, size.height/8, nil)
-        tile.strokeColor = strokeColor
-        tile.fillColor = fillColor
+        tile.strokeColor = ColorScheme.strokeColor
+        tile.fillColor = ColorScheme.fillColor
         tile.userInteractionEnabled = false
         addChild(tile)
         

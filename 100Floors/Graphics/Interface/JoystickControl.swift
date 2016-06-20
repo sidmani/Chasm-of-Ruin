@@ -38,13 +38,13 @@ class JoystickControl:UIControl{
         let ringPath = UIBezierPath(arcCenter: CGPoint(x: center_offset,y: center_offset), radius: ring_size+15, startAngle: 0, endAngle:CGFloat(M_PI) * 2, clockwise: true)
         ringLayer.path = ringPath.CGPath
         ringLayer.fillColor = UIColor.clearColor().CGColor
-        ringLayer.strokeColor = strokeColor.CGColor
+        ringLayer.strokeColor = ColorScheme.strokeColor.CGColor
         ringLayer.lineWidth = 2.0
         
         let stickPath = UIBezierPath(arcCenter: CGPoint(x: center_offset,y: center_offset), radius: ring_size, startAngle: 0, endAngle:CGFloat(M_PI) * 2, clockwise: true)
         stickLayer.path = stickPath.CGPath
-        stickLayer.fillColor = fillColor.CGColor
-        stickLayer.strokeColor = strokeColor.CGColor
+        stickLayer.fillColor = ColorScheme.fillColor.CGColor
+        stickLayer.strokeColor = ColorScheme.strokeColor.CGColor
         stickLayer.lineWidth = 2.0
         //add layer to views
         ringView.layer.addSublayer(ringLayer)
@@ -72,7 +72,7 @@ class JoystickControl:UIControl{
                 stickView.center = CGPointMake(ring_size*currentPoint.x/distance, ring_size*currentPoint.y/distance)
                 distance = ring_size
             }
-            ringLayer.strokeColor = strokeColorSelected.CGColor
+            ringLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
         }
         super.touchesBegan(touches, withEvent: event)
     }
@@ -104,6 +104,6 @@ class JoystickControl:UIControl{
         stickView.center = CGPointZero
         currentPoint = CGPointZero
         distance = 0
-        ringLayer.strokeColor = strokeColor.CGColor
+        ringLayer.strokeColor = ColorScheme.strokeColor.CGColor
     }
 }

@@ -47,9 +47,9 @@ public class VerticalProgressView : UIView {
             self.filledView!.frame.origin.x = self.shouldHavePosition()
 
         }
-        self.layer.borderColor = strokeColor.CGColor
+        self.layer.borderColor = ColorScheme.strokeColor.CGColor
         self.layer.borderWidth = 2.0
-        self.backgroundColor = fillColor
+        self.backgroundColor = ColorScheme.fillColor
     }
     
     public override func prepareForInterfaceBuilder() {

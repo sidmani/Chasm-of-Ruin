@@ -10,24 +10,25 @@
 import UIKit
 import SpriteKit
 import CoreGraphics
+struct ColorScheme {
+    static let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
+    static let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
 
-let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
-let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
-
-let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
-let fillColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5)
-
+    static let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
+    static let fillColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5)
+}
 class ItemContainer:UICollectionViewCell {
     
-    private let containerView:UIView = UIView()
     private let rectangleLayer = CAShapeLayer()
-
+    private var numberLabel = UILabel()
     let itemView = UIImageView()
 
     private var centerPoint = CGPointZero
     
     var item:Item?
+    
     var correspondsToInventoryIndex:Int = -5
+    
     var isEquipped:Bool = false
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,6 +38,7 @@ class ItemContainer:UICollectionViewCell {
         rectangleLayer.path = rectanglePath.CGPath
         setSelectedTo(false)
         rectangleLayer.lineWidth = 2.0
+        let containerView = UIView()
         containerView.layer.addSublayer(rectangleLayer)
         itemView.bounds = self.bounds
         itemView.userInteractionEnabled = false
@@ -44,8 +46,27 @@ class ItemContainer:UICollectionViewCell {
         itemView.contentMode = .ScaleAspectFit
         itemView.layer.magnificationFilter = kCAFilterNearest
         ////////////////////////////
+        numberLabel.text = ""
+        numberLabel.textAlignment = .Right
+        numberLabel.textColor = ColorScheme.strokeColor
+        numberLabel.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width-10, 30)
+        numberLabel.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
+        ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(itemView)
+        self.addSubview(numberLabel)
+
+    }
+
+    func updateIndex(index:Int) {
+        correspondsToInventoryIndex = index
+        if (index == -2) {
+            numberLabel.text = "Ground"
+        }
+        else if (index >= 0) {
+            numberLabel.text = "\(index+1)"
+        }
+
     }
     
     func resetItemView() {
@@ -58,10 +79,12 @@ class ItemContainer:UICollectionViewCell {
             isEquipped = false
         }
         if (val) {
-            rectangleLayer.fillColor = fillColorSelected.CGColor
+            numberLabel.textColor = ColorScheme.strokeColorSelected
+            rectangleLayer.fillColor = ColorScheme.fillColorSelected.CGColor
         }
         else {
-            rectangleLayer.fillColor = fillColor.CGColor
+            numberLabel.textColor = ColorScheme.strokeColor
+            rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
         }
         
         if (isEquipped) { //TODO: nicer colors
@@ -79,10 +102,10 @@ class ItemContainer:UICollectionViewCell {
             }
         }
         else if (val) {
-            rectangleLayer.strokeColor = strokeColorSelected.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
         }
         else {
-            rectangleLayer.strokeColor = strokeColor.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
         }
         
     }

@@ -75,9 +75,9 @@ class Inventory:NSObject, NSCoding {
         }
         let out = inventory[atIndex]
         inventory[atIndex] = toItem
-
         return out
     }
+    
     private func forceEquipItem(atIndex:Int) {
         let item = getItem(atIndex)
         if (item is Weapon) {
@@ -96,6 +96,7 @@ class Inventory:NSObject, NSCoding {
             stats = getEquippedStats()
         }
     }
+    
     func equipItem(atIndex:Int) -> Bool { //equipped -> true, unloaded -> false
         var equipped = false
         switch(atIndex) {
@@ -131,34 +132,33 @@ class Inventory:NSObject, NSCoding {
         }
         return equipped
     }
+    
     func isEquipped(index:Int) -> Bool {
         return (weaponIndex == index || skillIndex == index || shieldIndex == index || enhancerIndex == index) 
     }
-    func dropAllItems() -> [Item?] {
-        let allItems = inventory
-        inventory = [Item?](count:baseSize, repeatedValue: nil)
-        weaponIndex = -1
-        skillIndex = -1
-        shieldIndex = -1
-        enhancerIndex = -1
-        
-        return allItems
-    }
     
-    func dropAllExceptInventory() -> [Item?] {
-        var droppedItems:[Item?] = []
-        for i in 0..<baseSize {
-            if (i != skillIndex && i != weaponIndex && i != enhancerIndex && i != shieldIndex) {
-                droppedItems.append(inventory[i])
-                inventory[i] = nil
-            }
-        }
-        return droppedItems
-    }
+//    func dropAllItems() -> [Item?] {
+//        let allItems = inventory
+//        inventory = [Item?](count:baseSize, repeatedValue: nil)
+//        weaponIndex = -1
+//        skillIndex = -1
+//        shieldIndex = -1
+//        enhancerIndex = -1
+//        return allItems
+//    }
+//    
+//    func dropAllExceptInventory() -> [Item?] {
+//        var droppedItems:[Item?] = []
+//        for i in 0..<baseSize {
+//            if (i != skillIndex && i != weaponIndex && i != enhancerIndex && i != shieldIndex) {
+//                droppedItems.append(inventory[i])
+//                inventory[i] = nil
+//            }
+//        }
+//        return droppedItems
+//    }
     
     private func getEquippedStats() -> Stats {
-        print("stats updated: \(getItem(weaponIndex)?.statMods.speed)")
-        print("\(ignoreStats)")
         return getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
     }
     

@@ -116,6 +116,7 @@ class Entity:SKSpriteNode, Updatable {
         var confused:CGFloat = 1
         var weak:CGFloat = 1
     }
+    
     private var statusFactors = StatusFactors()
     private var textures:[SKTexture] = [] //0 - north, 1 - east, 2 - south, 3 - west
     private var popups = SKNode()
@@ -158,7 +159,6 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func struckByProjectile(p:Projectile) {
-        
         if (self.actionForKey("flash") == nil) {
             self.runAction(SKAction.sequence([SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.125), SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.125)]), withKey:"flash")
         }
@@ -221,7 +221,6 @@ class Entity:SKSpriteNode, Updatable {
         for i in 0..<conditions.count  {
             conditions[i].elapsed += deltaT
             if (conditions[i].elapsed >= conditions[i].condition.rawValue) {
-                conditions.removeAtIndex(i)
                 switch (conditions[i].condition) {
                 case .Confused:
                     addPopup(UIColor.greenColor(), text: "CONFUSED")
@@ -237,6 +236,7 @@ class Entity:SKSpriteNode, Updatable {
                     addPopup(UIColor.purpleColor(), text: "POISONED")
                 default: break
                 }
+                conditions.removeAtIndex(i)
             }
         }
     }
@@ -262,7 +262,7 @@ class ThisCharacter: Entity {
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
-        self.position = CGPoint(x: Int(screenSize.width/2), y: Int(screenSize.height/2))
+        self.position = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
         self.setScale(0.5)
         popups.setScale(2)
     }
@@ -362,8 +362,9 @@ class ThisCharacter: Entity {
 class Enemy:Entity {
 
     private var AI:EnemyAI?
-    private var parentSpawner:Spawner?
+    private weak var parentSpawner:Spawner?
     private var drops:[AEXMLElement] = []
+    
     init(thisEnemy:AEXMLElement, atPosition:CGPoint, spawnedFrom:Spawner?) {
         super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withStats: Stats.statsFrom(thisEnemy), withInventory: Inventory(fromElement: thisEnemy["inventory"], ignoreStats:true))
         name = thisEnemy["name"].stringValue

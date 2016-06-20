@@ -7,10 +7,9 @@
 //
 import UIKit
 
-class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class InventoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var ItemNameLabel: UILabel!
-    @IBOutlet weak var IndexLabel: UILabel!
     
     @IBOutlet weak var inventoryCollection: UICollectionView!
     
@@ -27,7 +26,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     @IBOutlet weak var EquipButton: UIButton!
     
-
     var StatsDisplay:[VerticalProgressView] = []
     
     var inventory:Inventory!
@@ -39,17 +37,19 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     private var rightScrollBound:CGFloat = 0
     
     private var previousSelectedContainer:ItemContainer?
-    private var selectedPath:NSIndexPath?
-
+    
+    private var currentItemIsButton = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       // GameLogic.setGameState(.InventoryMenu)
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
-        
-        let lpgr = UILongPressGestureRecognizer()
-        inventoryCollection.addGestureRecognizer(lpgr)
-        lpgr.addTarget(self, action: #selector(handleLongPress))
+        layout.minimumInteritemSpacing = CGFloat.max
+
+        let longPressGR = UILongPressGestureRecognizer()
+        inventoryCollection.addGestureRecognizer(longPressGR)
+        longPressGR.addTarget(self, action: #selector(handleLongPress))
+        longPressGR.delegate = self
         
         StatsDisplay = [DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView]
 
@@ -65,11 +65,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         currentItemView.layer.magnificationFilter = kCAFilterNearest
         
     }
+    
     override func viewDidAppear(animated: Bool) {
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
         rightScrollBound = layout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
-        print("scroll bounds set")
     }
+    
     func itemDropped(indexA:Int, indexB:Int) {
         if (indexA == indexB) {return}
         if (indexA == -2) {
@@ -171,37 +172,53 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
             }
-            IndexLabel.text = previousSelectedContainer!.correspondsToInventoryIndex == -2 ? "Ground" : "Slot \(previousSelectedContainer!.correspondsToInventoryIndex + 1)"
+        }
+        else if (currentItemIsButton) {
+            for i in 0..<StatsDisplay.count {
+                StatsDisplay[i].setProgress(0, animated: true)
+            }
+            ItemNameLabel.text = "Purchase More Inventory Slots"
+            EquipButton.enabled = false
+            EquipButton.alpha = 0.3
+            
         }
     }
+
     ////////////////////////////
     //UICollectionView handling
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inventory_size + 1
+        return inventory_size + 2
+    }
+    
+    @IBAction func addMoreSlotsButtonPressed() {
+        print("add more slots")
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
-        cell.correspondsToInventoryIndex = (indexPath.item == 0 ? -2 : indexPath.item - 1)
-        if (cell.correspondsToInventoryIndex != currentIndex) {
-            cell.resetItemView()
+        if (indexPath.item == inventoryCollection.numberOfItemsInSection(0)-1) {
+            return collectionView.dequeueReusableCellWithReuseIdentifier("AddSlots", forIndexPath: indexPath)
         }
         else {
-            cell.itemView.hidden = true
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
+            cell.updateIndex((indexPath.item == 0 ? -2 : indexPath.item - 1))
+            if (cell.correspondsToInventoryIndex != currentIndex) {
+                cell.resetItemView()
+            }
+            else {
+                cell.itemView.hidden = true
+            }
+            cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
+            cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
+            if (indexPath.item == 0 && previousSelectedContainer == nil) {
+                previousSelectedContainer = cell
+                cell.setSelectedTo(true)
+                updateInfoDisplay()
+            }
+            else {
+                cell.setSelectedTo(false)
+            }
+            return cell
         }
-        cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
-        cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
-        if (indexPath.item == 0 && previousSelectedContainer == nil) {
-            previousSelectedContainer = cell
-            cell.setSelectedTo(true)
-            updateInfoDisplay()
-        }
-        else {
-            cell.setSelectedTo(false)
-        }
-        cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
-        return cell
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -211,20 +228,37 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func selectCenterCell() -> Bool {
-        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)), container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
-            if (previousSelectedContainer != container) {
-                selectedPath = path
-                previousSelectedContainer?.setSelectedTo(false)
-                container.setSelectedTo(true)
-                previousSelectedContainer = container
-                return true
+        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)) {
+            if let container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
+                if (previousSelectedContainer != container) {
+                    previousSelectedContainer?.setSelectedTo(false)
+                    container.setSelectedTo(true)
+                    previousSelectedContainer = container
+                    return true
+                }
+                currentItemIsButton = false
+            }
+            else if let container = inventoryCollection.cellForItemAtIndexPath(path) {
+                if (!currentItemIsButton) {
+                    previousSelectedContainer?.setSelectedTo(false)
+                    previousSelectedContainer = nil
+                    currentItemIsButton = true
+                    return true
+                }
             }
         }
         return false
     }
 
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view is UIButton) {
+            return false
+        }
+        return true
+    }
+    
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
-
+        
         let loc = recognizer.locationInView(self.inventoryCollection)
         let newLoc = recognizer.locationInView(self.view)
         if (recognizer.state == .Began) {
@@ -239,9 +273,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 currentIndex = currentContainer!.correspondsToInventoryIndex
                 currentItemView.image = currentContainer!.itemView.image
                 let bounds = currentContainer!.itemView.bounds
+                
                 currentItemView.bounds = CGRectMake(bounds.minX, bounds.minY, bounds.width*1.5, bounds.height*1.5)
                 currentItemView.center = newLoc
-                
                 currentContainer!.itemView.hidden = true
         
                 self.view.addSubview(currentItemView)

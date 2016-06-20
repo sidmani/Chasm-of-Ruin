@@ -18,7 +18,8 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         
         let layout = levelCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
-
+        layout.minimumInteritemSpacing = CGFloat.max
+        
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
     }

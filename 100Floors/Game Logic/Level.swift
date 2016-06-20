@@ -20,11 +20,13 @@ extension CGPoint {
         self.init(x: CGFloat(NSNumberFormatter().numberFromString(x)!), y: CGFloat(NSNumberFormatter().numberFromString(y)!))
     }
 }
+
 extension CGFloat {
     init(s:String) {
         self.init(NSNumberFormatter().numberFromString(s)!)
     }
 }
+
 class BaseLevel:SKNode { //TODO: probably merge these two classes together
 
     struct LayerDef {
@@ -41,6 +43,7 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
     enum TerrainType:CGFloat {
         case Road = 1, Grass = 0.8, Dirt = 0.7
     }
+    
     let mapSize:CGSize
     let tileEdge:CGFloat
     let levelName:String
@@ -49,14 +52,17 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
     
     let startLoc:CGPoint
     let objects = SKNode()
-
-    init(_startLoc:CGPoint, _name:String, description: String, _tileEdge:CGFloat, mapSize:CGSize,mapSizeOnScreen:CGSize) {
-        startLoc = _startLoc
+    
+    let keyInLevelDict:Int
+    
+    init(index:Int, startLoc:CGPoint, name:String, description: String, tileEdge:CGFloat, mapSize:CGSize,mapSizeOnScreen:CGSize) {
+        self.startLoc = startLoc
         self.mapSize = mapSize
-        tileEdge = _tileEdge
-        desc = description
-        levelName = _name
+        self.tileEdge = tileEdge
+        self.desc = description
+        self.levelName = name
         self.mapSizeOnScreen = mapSizeOnScreen
+        self.keyInLevelDict = index
         super.init()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -66,9 +72,11 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
     func indexForPoint(p:CGPoint) -> CGPoint {
         fatalError("must be overriden")
     }
+    
     func cull(x:Int, y:Int, width:Int, height:Int) {
         fatalError("must be overriden")
-    }  
+    }
+
 }
 
 class MapLevel:BaseLevel, Updatable {
@@ -81,7 +89,7 @@ class MapLevel:BaseLevel, Updatable {
         let startLocPoint = CGPoint(s: map.mapProperties["StartLoc"] as! String)
         let mapSizeOnScreen = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
         let mapSize = CGSizeMake(CGFloat(map.mapWidth*map.tileWidth), CGFloat(map.mapHeight*map.tileHeight))
-        super.init(_startLoc: startLocPoint, _name: (map.mapProperties["Name"] as! String), description:"", _tileEdge: CGFloat(map.tileWidth), mapSize:mapSize, mapSizeOnScreen: mapSizeOnScreen)
+        super.init(index: index, startLoc: startLocPoint, name: (map.mapProperties["Name"] as! String), description: "", tileEdge: CGFloat(map.tileWidth), mapSize:mapSize, mapSizeOnScreen: mapSizeOnScreen)
         
         for layer in map.objectLayers {
             for obj in layer.objects {

@@ -42,6 +42,8 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var InventoryButton: UIButton!
     @IBOutlet weak var SkillButton: RectButton!
     
+    @IBOutlet weak var InfoDisplay: TextDisplay!
+    
     var level:Int?
     
     private var gameScene:InGameScene!
@@ -54,18 +56,20 @@ class InGameViewController: UIViewController {
         UIElements.MenuButton = MenuButton
         UIElements.InventoryButton = InventoryButton
         UIElements.SkillButton = SkillButton
-        MenuButton.tintColor = strokeColor
+        
+        InfoDisplay.hidden = true
+        
+        MenuButton.tintColor = ColorScheme.strokeColor
        
         //////////
         enemyXML = {
             let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
             let data = NSData(contentsOfFile: xmlPath)!
             do {
-                print("loaded xml")
                 return try AEXMLDocument(xmlData: data)
             }
             catch {
-                return nil
+                fatalError()
             }
             
         }()
@@ -77,7 +81,7 @@ class InGameViewController: UIViewController {
                 return try AEXMLDocument(xmlData: data)
             }
             catch {
-                return nil
+                fatalError()
             }
             
         }()
@@ -96,6 +100,7 @@ class InGameViewController: UIViewController {
 
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
         level = nil
 
         /////////////////////////
@@ -103,6 +108,12 @@ class InGameViewController: UIViewController {
     
     func groundBagTapped(notification: NSNotification) {
         loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:notification.object as? ItemBag)
+    }
+    
+    
+    @objc func setInfoDisplayText(notification:NSNotification) {
+        let text = notification.object as! String
+        InfoDisplay.setText(text, letterDelay: 0.125, hideAfter: 1)
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {
