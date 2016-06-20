@@ -17,12 +17,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     private var currentContainer:ItemContainer?
     private var currentIndex:Int = -1
     ////////
-   // @IBOutlet weak var HPProgressView: VerticalProgressView!
+    @IBOutlet weak var HPProgressView: VerticalProgressView!
     @IBOutlet weak var DEFProgressView: VerticalProgressView!
     @IBOutlet weak var ATKProgressView: VerticalProgressView!
     @IBOutlet weak var SPDProgressView: VerticalProgressView!
     @IBOutlet weak var DEXProgressView: VerticalProgressView!
-   // @IBOutlet weak var WISProgressView: VerticalProgressView!
+    @IBOutlet weak var ManaProgressView: VerticalProgressView!
     
     @IBOutlet weak var EquipButton: UIButton!
     
@@ -51,7 +51,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         longPressGR.addTarget(self, action: #selector(handleLongPress))
         longPressGR.delegate = self
         
-        StatsDisplay = [DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView]
+        StatsDisplay = [HPProgressView, DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView, ManaProgressView]
+        HPProgressView.label.text = "HP"
+        ManaProgressView.label.text = "MANA"
+        DEFProgressView.label.text = "DEF"
+        SPDProgressView.label.text = "SPD"
+        DEXProgressView.label.text = "DEX"
+        ATKProgressView.label.text = "ATK"
 
 
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
@@ -138,11 +144,14 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 //for i in 0..<StatsDisplay.count {
                 //    StatsDisplay[i].setProgress(Float(item.statMods.getIndex(i)/100), animated: true)
                 //}
+              
+                HPProgressView.setProgress(Float(item.statMods.health)/100, animated: true)
+                ManaProgressView.setProgress(Float(item.statMods.mana)/100, animated: true)
                 ATKProgressView.setProgress(Float(item.statMods.attack)/100, animated: true)
                 DEFProgressView.setProgress(Float(item.statMods.defense)/100, animated: true)
                 SPDProgressView.setProgress(Float(item.statMods.speed)/100, animated: true)
                 DEXProgressView.setProgress(Float(item.statMods.dexterity)/100, animated: true)
-
+                
                 if (item is Consumable) {
                     EquipButton.setTitle("Consume", forState: .Normal)
                 

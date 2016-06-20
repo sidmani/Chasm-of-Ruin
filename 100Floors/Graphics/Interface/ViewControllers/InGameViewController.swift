@@ -113,7 +113,8 @@ class InGameViewController: UIViewController {
     
     @objc func setInfoDisplayText(notification:NSNotification) {
         let text = notification.object as! String
-        InfoDisplay.setText(text, letterDelay: 0.125, hideAfter: 1)
+        
+        InfoDisplay.setText(text, letterDelay: 1.5/Double(text.characters.count), hideAfter: 1)
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {

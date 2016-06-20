@@ -18,7 +18,7 @@ public class VerticalProgressView : UIView {
     //@IBInspectable var fillRestColor : UIColor = UIColor.whiteColor()
     @IBInspectable public var animationDuration: Double = 0.5
     @IBInspectable public var vertical:Bool = true
-    
+
     @IBInspectable public var progress: Float {
         get {
             return self.progressPriv
@@ -27,6 +27,8 @@ public class VerticalProgressView : UIView {
             self.setProgress(newValue, animated: self.animationDuration > 0.0)
         }
     }
+    
+    public var label = UILabel()
     
     private var progressPriv: Float = 0.0
     
@@ -46,6 +48,13 @@ public class VerticalProgressView : UIView {
         else {
             self.filledView!.frame.origin.x = self.shouldHavePosition()
 
+        }
+        if (self.vertical) {
+            label.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 10, 30)
+            label.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
+            label.textColor = ColorScheme.strokeColor
+            label.textAlignment = .Right
+            self.addSubview(label)
         }
         self.layer.borderColor = ColorScheme.strokeColor.CGColor
         self.layer.borderWidth = 2.0

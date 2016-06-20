@@ -56,6 +56,8 @@
 		1FDD427E1C4DDD65008C809E /* Projectiles.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FDD427D1C4DDD65008C809E /* Projectiles.atlas */; };
 		1FE667641CAC9FD6003BCE30 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE667631CAC9FD6003BCE30 /* SaveData.swift */; };
 		1FE667661CAE1AA3003BCE30 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE667651CAE1AA3003BCE30 /* Effects.swift */; };
+		1FE77B471D189F8400C5E3A5 /* VictoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE77B461D189F8400C5E3A5 /* VictoryViewController.swift */; };
+		1FE77B491D189FA500C5E3A5 /* DefeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE77B481D189FA500C5E3A5 /* DefeatViewController.swift */; };
 		1FEC7C8C1C7033E0005AEDB3 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */; };
 		1FFC63231D09DD4100074EE0 /* VerticalProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC63221D09DD4100074EE0 /* VerticalProgressView.swift */; };
 		1FFD7EC51D15D11100D034AB /* Wep1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FFD7EBB1D15D11100D034AB /* Wep1.png */; };
@@ -122,6 +124,8 @@
 		1FDD427D1C4DDD65008C809E /* Projectiles.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Projectiles.atlas; sourceTree = "<group>"; };
 		1FE667631CAC9FD6003BCE30 /* SaveData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 		1FE667651CAE1AA3003BCE30 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
+		1FE77B461D189F8400C5E3A5 /* VictoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VictoryViewController.swift; sourceTree = "<group>"; };
+		1FE77B481D189FA500C5E3A5 /* DefeatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefeatViewController.swift; sourceTree = "<group>"; };
 		1FEC7C8B1C7033E0005AEDB3 /* MapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
 		1FFC63221D09DD4100074EE0 /* VerticalProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalProgressView.swift; sourceTree = "<group>"; };
 		1FFD7EBB1D15D11100D034AB /* Wep1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wep1.png; sourceTree = "<group>"; };
@@ -291,7 +295,9 @@
 			children = (
 				1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */,
 				1F2CEE6A1C38B42100E4FB2E /* InGameViewController.swift */,
+				1FE77B461D189F8400C5E3A5 /* VictoryViewController.swift */,
 				1F0428961C8367B400FB4516 /* InventoryViewController.swift */,
+				1FE77B481D189FA500C5E3A5 /* DefeatViewController.swift */,
 				1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */,
 				1F2CEE0E1C387B1F00E4FB2E /* MenuViewController.swift */,
 			);
@@ -465,6 +471,7 @@
 				1FCE14BE1C45F02100112188 /* Item.swift in Sources */,
 				1F2CEE0D1C387B1F00E4FB2E /* MenuScene.swift in Sources */,
 				1FE667641CAC9FD6003BCE30 /* SaveData.swift in Sources */,
+				1FE77B491D189FA500C5E3A5 /* DefeatViewController.swift in Sources */,
 				1F29C0CD1CBC84CA00A2EFEE /* SKATiledMap.swift in Sources */,
 				1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */,
 				1F70894E1D1084EB00F9486F /* EnemyDict.swift in Sources */,
@@ -497,6 +504,7 @@
 				1F724D0C1D0B6EE200984611 /* RectButton.swift in Sources */,
 				1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */,
 				1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */,
+				1FE77B471D189F8400C5E3A5 /* VictoryViewController.swift in Sources */,
 				1FFC63231D09DD4100074EE0 /* VerticalProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

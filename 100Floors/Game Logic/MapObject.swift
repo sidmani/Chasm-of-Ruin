@@ -26,6 +26,10 @@ extension String {
         let decodedData = NSData(base64EncodedString: self, options:NSDataBase64DecodingOptions(rawValue: 0))
         return NSString(data: decodedData!, encoding: NSUTF8StringEncoding)! as String
     }
+    
+    func splitBase64IntoArray() -> [String] {
+        return self.base64Decoded().componentsSeparatedByString(",")
+    }
 }
 
 class MapObject:SKNode {
@@ -100,8 +104,7 @@ class ConstantRateSpawner:Spawner {
     }
     convenience init(fromBase64:String, loc:CGPoint) {
         // "enemyID, threshold, rate"
-        let str = fromBase64.base64Decoded()
-        let optArr = str.componentsSeparatedByString(",")
+        let optArr = fromBase64.splitBase64IntoArray()
         if (optArr.count != 3) {
             fatalError()
         }
@@ -145,8 +148,7 @@ class FixedNumSpawner:Spawner {
     
     convenience init(fromBase64:String, loc:CGPoint) {
         // "enemyID, threshold, rate, maxNumEnemies"
-        let str = fromBase64.base64Decoded()
-        let optArr = str.componentsSeparatedByString(",")
+        let optArr = fromBase64.splitBase64IntoArray()
         if (optArr.count != 4) {
             fatalError()
         }
@@ -188,8 +190,7 @@ class OneTimeSpawner:Spawner {
     
     convenience init(fromBase64:String, loc:CGPoint) {
         // "enemyID, threshold"
-        let str = fromBase64.base64Decoded()
-        let optArr = str.componentsSeparatedByString(",")
+        let optArr = fromBase64.splitBase64IntoArray()
         if (optArr.count != 2) {
             fatalError()
         }
@@ -234,8 +235,7 @@ class Portal:MapObject, Interactive {
     
     convenience init(fromBase64:String, loc:CGPoint) {
         // "destination_index, autotrigger, thumbnailImg"
-        let str = fromBase64.base64Decoded()
-        let optArr = str.componentsSeparatedByString(",")
+        let optArr = fromBase64.splitBase64IntoArray()
         if (optArr.count != 4) {
             fatalError()
         }

@@ -19,6 +19,8 @@
             <projectile-img>000</projectile-img>
             <projectile-speed>200</projectile-speed>
             <projectile-reflects>true</projectile-reflects>
+            <status-condition>2000</status-condition>
+            <status-condition-probability>0.5</status-condition-probability>
             <range>50</range>
         </item>
         <item id="wep2">

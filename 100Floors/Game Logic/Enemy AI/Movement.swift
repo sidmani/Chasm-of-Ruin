@@ -38,13 +38,12 @@ class MaintainDistance:Behavior {
         let dist = parent.distanceToCharacter()
         if (dist > distanceToMaintain) {
             //parent.physicsBody!.velocity = parent.stats.speed * v
-            parent.physicsBody!.velocity = -25 * v
+            parent.setVelocity(v)
             
         }
         else if (dist < distanceToMaintain) {
             //e.physicsBody!.velocity = -parent.stats.speed * v
-            parent.physicsBody!.velocity = 25 * v
-            
+            parent.setVelocity(-1 * v)
         }
     }
     
@@ -74,7 +73,7 @@ class Wander:Behavior {
             if (stateTime <= 0) {
                 currState = .Waiting
                 stateTime = Double(randomBetweenNumbers(200, secondNum: 2000))
-                parent.physicsBody!.velocity = CGVector.zero
+                parent.setVelocity(CGVector.zero)
             }
         }
         else {
@@ -82,10 +81,8 @@ class Wander:Behavior {
             if (stateTime <= 0) {
                 currState = .Moving
                 stateTime = Double(randomBetweenNumbers(200, secondNum: 2000))
-                //let speed = parent.stats.speed
-                let speed:CGFloat = 25
                 let randAngle = randomBetweenNumbers(0, secondNum: 6.28)
-                parent.physicsBody!.velocity = CGVectorMake(speed*cos(randAngle), speed*sin(randAngle))
+                parent.setVelocity(CGVectorMake(cos(randAngle), sin(randAngle)))
             }
         }
     }

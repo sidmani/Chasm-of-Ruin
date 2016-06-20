@@ -69,15 +69,19 @@ class Item:NSObject, NSCoding {
 
 class Weapon: Item {
     let projectile:String
-    let range:CGFloat
+    private let range:CGFloat
     let projectileSpeed:CGFloat
     let projectileReflects:Bool
-    
+    var statusCondition:(condition:StatusCondition,probability:CGFloat)? = nil
+
     required init(thisItem:AEXMLElement) {
         projectile = thisItem["projectile-img"].stringValue
         range = CGFloat(thisItem["range"].doubleValue)
         projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
         projectileReflects = thisItem["projectile-reflects"].boolValue
+        if let cond = StatusCondition(rawValue: thisItem["status-condition"].doubleValue) {
+            statusCondition = (cond, CGFloat(thisItem["status-condition-probability"].doubleValue))
+        }
         let img = thisItem["img"].stringValue
         let description = thisItem["desc"].stringValue
         let name = thisItem["name"].stringValue
@@ -85,25 +89,36 @@ class Weapon: Item {
         super.init(statMods:statMods, name:name, description:description, img:img)
     }
     
-    init(projectile:String, range:CGFloat, projectileSpeed:CGFloat, projectileReflects:Bool, statMods:Stats, name:String, description:String, img:String) {
+    private init(projectile:String, range:CGFloat, projectileSpeed:CGFloat, projectileReflects:Bool, statMods:Stats, name:String, description:String, img:String, statusCondition:(StatusCondition, CGFloat)?) {
         self.projectile = projectile
         self.range = range
         self.projectileSpeed = projectileSpeed
         self.projectileReflects = projectileReflects
+        self.statusCondition = statusCondition
         super.init(statMods:statMods, name: name, description: description, img:img)
     }
+    
+    func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> Projectile {
+        return Projectile(fromImage: self.projectile, fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
+    }
+    
     //NSCoding
     private struct PropertyKey {
         static let projectileKey = "projectile"
         static let rangeKey = "range"
         static let projectileSpeedKey = "projectileSpeed"
         static let projectileReflectsKey = "projectileReflects"
+        static let statusConditionKey = "statCond"
+        static let statusConditionProbKey = "statCondProb"
     }
     required init?(coder aDecoder: NSCoder) {
-         projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! String
-         range = aDecoder.decodeObjectForKey(PropertyKey.rangeKey) as! CGFloat
-         projectileSpeed = aDecoder.decodeObjectForKey(PropertyKey.projectileSpeedKey) as! CGFloat
-         projectileReflects = aDecoder.decodeObjectForKey(PropertyKey.projectileReflectsKey) as! Bool
+        projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! String
+        range = aDecoder.decodeObjectForKey(PropertyKey.rangeKey) as! CGFloat
+        projectileSpeed = aDecoder.decodeObjectForKey(PropertyKey.projectileSpeedKey) as! CGFloat
+        projectileReflects = aDecoder.decodeObjectForKey(PropertyKey.projectileReflectsKey) as! Bool
+        if let val = aDecoder.decodeObjectForKey(PropertyKey.statusConditionKey) as? Double, prob = aDecoder.decodeObjectForKey(PropertyKey.statusConditionProbKey) as? CGFloat {
+            statusCondition = (StatusCondition(rawValue: val)!, prob)
+        }
         super.init(coder: aDecoder)
     }
     override func encodeWithCoder(aCoder: NSCoder) {
@@ -111,6 +126,8 @@ class Weapon: Item {
         aCoder.encodeObject(range, forKey:PropertyKey.rangeKey)
         aCoder.encodeObject(projectileSpeed, forKey:PropertyKey.projectileSpeedKey)
         aCoder.encodeObject(projectileReflects, forKey:PropertyKey.projectileReflectsKey)
+        aCoder.encodeObject(statusCondition?.condition.rawValue, forKey:PropertyKey.statusConditionKey)
+        aCoder.encodeObject(statusCondition?.probability, forKey:PropertyKey.statusConditionProbKey)
         super.encodeWithCoder(aCoder)
     }
 }

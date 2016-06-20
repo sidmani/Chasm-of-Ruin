@@ -79,6 +79,21 @@ struct Stats {
             maxMana: CGFloat(Element["stats"]["maxMana"].doubleValue)
         )
     }
+    
+    static func statsFrom(fromBase64:String) -> Stats {
+        let optArr = fromBase64.splitBase64IntoArray()
+        return Stats(
+            defense: CGFloat(s: optArr[0]),
+            attack: CGFloat(s: optArr[1]),
+            speed: CGFloat(s: optArr[2]),
+            dexterity: CGFloat(s: optArr[3]),
+            health: CGFloat(s: optArr[4]),
+            maxHealth: CGFloat(s: optArr[5]),
+            mana: CGFloat(s: optArr[6]),
+            maxMana: CGFloat(s: optArr[7])
+        )
+    }
+
     func sumStats() -> Int {
         return Int(defense + attack + speed + dexterity)
     }
@@ -134,7 +149,7 @@ class Entity:SKSpriteNode, Updatable {
         return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
     
-    private var conditions:[(condition: StatusCondition, elapsed: Double)] = []
+    private var conditions:[(condition: StatusCondition, timeLeft: Double)] = []
     
     init(fromTexture: SKTexture, withStats:Stats, withInventory:Inventory)
     {
@@ -162,7 +177,14 @@ class Entity:SKSpriteNode, Updatable {
         if (self.actionForKey("flash") == nil) {
             self.runAction(SKAction.sequence([SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.125), SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.125)]), withKey:"flash")
         }
+        if let cond = p.statusCondition {
+            if (randomBetweenNumbers(0, secondNum: 1) <= cond.probability) {
+                enableCondition(cond.condition)
+            }
+        }
     }
+    
+    
     
     private func setImageOrientation(toAngle:CGFloat) {
         let direction = Int((4 / 6.28) * toAngle)
@@ -193,7 +215,7 @@ class Entity:SKSpriteNode, Updatable {
     
     func enableCondition(type:StatusCondition) {
         if (!conditions.contains({$0.condition == type})) {
-            conditions.append((type, 0))
+            conditions.append((type, type.rawValue))
             removeAllPopups()
             switch (type) {
                 case .Confused:
@@ -202,6 +224,7 @@ class Entity:SKSpriteNode, Updatable {
                     //some kind of animation
                 case .Stuck:
                     addPopup(UIColor.yellowColor(), text: "STUCK")
+                    self.physicsBody?.velocity = CGVector.zero
                     statusFactors.stuck = 0
                 case .Weak:
                     addPopup(UIColor.blueColor(), text: "WEAKENED")
@@ -219,21 +242,19 @@ class Entity:SKSpriteNode, Updatable {
     
     func update(deltaT: Double) {
         for i in 0..<conditions.count  {
-            conditions[i].elapsed += deltaT
-            if (conditions[i].elapsed >= conditions[i].condition.rawValue) {
+            conditions[i].timeLeft -= deltaT
+            if (conditions[i].timeLeft <= 0) {
                 switch (conditions[i].condition) {
                 case .Confused:
-                    addPopup(UIColor.greenColor(), text: "CONFUSED")
                     statusFactors.confused = 1
                     //some kind of animation
                 case .Stuck:
-                    addPopup(UIColor.yellowColor(), text: "STUCK")
+                    addPopup(UIColor.greenColor(), text: "FREED")
                     statusFactors.stuck = 1
                 case .Weak:
-                    addPopup(UIColor.blueColor(), text: "WEAKENED")
                     statusFactors.weak = 1
                 case .Poisoned:
-                    addPopup(UIColor.purpleColor(), text: "POISONED")
+                    break
                 default: break
                 }
                 conditions.removeAtIndex(i)
@@ -337,24 +358,31 @@ class ThisCharacter: Entity {
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(fromImage: weapon!.projectile, fromPoint: position, withVelocity: withVelocity, isFriendly: true, withRange: weapon!.range, withAtk: (stats.attack + inventory.stats.attack) * statusFactors.weak, reflects: weapon!.projectileReflects)
-            (self.scene as! InGameScene).addObject(newProjectile)
+            (self.scene as! InGameScene).addObject(weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.weak, fromPoint: position, withVelocity: withVelocity, isFriendly: true))
         }
     }
 
-    
+    private var didNotifyNilWeapon = false
     override func update(deltaT:Double) { //as dex goes from 0-100, time between projectiles goes from 1000 to 20 ms
         super.update(deltaT)
-        
-        if (UIElements.RightJoystick!.currentPoint != CGPointZero && timeSinceProjectile > 1000-9.8*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
-            fireProjectile(weapon!.projectileSpeed * statusFactors.confused * UIElements.RightJoystick!.normalDisplacement)
-            timeSinceProjectile = 0
+        if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
+            if (timeSinceProjectile > 1000-9.8*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
+                fireProjectile(statusFactors.confused * UIElements.RightJoystick!.normalDisplacement)
+                timeSinceProjectile = 0
+            }
+            else if (weapon == nil && !didNotifyNilWeapon) {
+                // post notification
+                NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: "Press Inventory to equip a weapon!")
+                didNotifyNilWeapon = true
+            }
+            else {
+                timeSinceProjectile += deltaT
+            }
         }
         else {
-            timeSinceProjectile += deltaT
+            didNotifyNilWeapon = false
         }
-        
-        self.physicsBody?.velocity =  (stats.speed+inventory.stats.speed) * statusFactors.confused * UIElements.LeftJoystick!.normalDisplacement
+        self.physicsBody?.velocity =  (stats.speed+inventory.stats.speed) * statusFactors.stuck * statusFactors.confused * UIElements.LeftJoystick!.normalDisplacement
     }
 }
 
@@ -388,9 +416,7 @@ class Enemy:Entity {
     
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            let newProjectile = Projectile(fromImage: weapon!.projectile, fromPoint: position, withVelocity: weapon!.projectileSpeed*withVelocity, isFriendly: false, withRange:weapon!.range, withAtk: stats.attack, reflects: weapon!.projectileReflects)
-            //TODO: check if projectiles can be shot etc
-            (thisCharacter.scene as! InGameScene).addObject(newProjectile)
+            (thisCharacter.scene as! InGameScene).addObject(weapon!.getProjectile(statusFactors.weak * stats.attack, fromPoint: position, withVelocity: withVelocity, isFriendly: false))
         }
     }
     
@@ -415,6 +441,11 @@ class Enemy:Entity {
         let dist = distanceToCharacter()
         if (dist == 0) { return CGVector.zero }
         return CGVectorMake((self.position.x - thisCharacter.position.x)/dist, (self.position.y - thisCharacter.position.y)/dist)
+    }
+    
+    func setVelocity(v:CGVector) { //v is unit vector
+        let speed:CGFloat = 25
+        physicsBody?.velocity = speed * statusFactors.stuck * statusFactors.confused * v
     }
     
     override func update(deltaT:Double) {
