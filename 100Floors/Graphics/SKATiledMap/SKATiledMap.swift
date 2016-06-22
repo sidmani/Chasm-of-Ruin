@@ -628,6 +628,9 @@ class SKATiledMap : SKNode{
                                     sprite.position = CGPointMake(CGFloat(x), CGFloat(y))
                                     
                                     sprite.properties = mapTile.properties
+                                    if let speedMod = sprite.properties?["SpeedMod"] as? String {
+                                        sprite.speedMod = CGFloat(s:speedMod)
+                                    }
                                     //creating collision body if special SKACollision type is set
                                     if  let properties = sprite.properties{
                                         if let collisionType = properties["SKACollisionType"] as? String{

@@ -86,6 +86,13 @@ class InGameViewController: UIViewController {
             
         }()
         //////////
+        /////NSNotificationCenter
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(levelEndedDefeat), name: "levelEndedDefeat", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(levelEndedVictory), name: "levelEndedVictory", object: nil)
+        
+        /////////////////////////
         self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
         skView.showsFPS = true
@@ -98,22 +105,30 @@ class InGameViewController: UIViewController {
         skView.presentScene(gameScene)
         gameScene.setLevel(MapLevel(index:level!))
 
-        /////NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
-        level = nil
-
-        /////////////////////////
+        
     }
+    
+    func levelEndedDefeat() {
+        blurView()
+        gameScene.paused = true
+        let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+        presentViewController(dvc, animated: true, completion: nil)
+    }
+    
+    func levelEndedVictory() {
+        blurView()
+        gameScene.paused = true
+        //mark level as completed
+        //save stats
+    }
+    
     
     func groundBagTapped(notification: NSNotification) {
         loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:notification.object as? ItemBag)
     }
     
-    
-    @objc func setInfoDisplayText(notification:NSNotification) {
+    func setInfoDisplayText(notification:NSNotification) {
         let text = notification.object as! String
-        
         InfoDisplay.setText(text, letterDelay: 1.5/Double(text.characters.count), hideAfter: 1)
     }
     
@@ -139,6 +154,8 @@ class InGameViewController: UIViewController {
         presentViewController(inventoryController, animated: true, completion: nil)
     }
     
+    
+    
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
         gameScene.paused = false
         UIElements.setVisible(true)
@@ -161,7 +178,6 @@ class InGameViewController: UIViewController {
                 return
             }
         }
-
     }
     
     private func blurView() {
@@ -171,7 +187,6 @@ class InGameViewController: UIViewController {
         UIView.animateWithDuration(0.5) {
             blurEffectView.effect = UIBlurEffect(style: .Light)
         }
-
     }
    
     

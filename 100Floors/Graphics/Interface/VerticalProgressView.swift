@@ -104,7 +104,7 @@ public class VerticalProgressView : UIView {
         }
     }
     
-    func setFilledPosition(position: CGFloat, animated: Bool) {
+    private func setFilledPosition(position: CGFloat, animated: Bool) {
         if self.filledView == nil { return }
         //animated
         let duration: NSTimeInterval = animated ? self.animationDuration : 0;
@@ -122,15 +122,43 @@ public class VerticalProgressView : UIView {
 
     }
     
+    private func setFilledPosition(color:UIColor, position: CGFloat, animated: Bool) {
+        if self.filledView == nil { return }
+        //animated
+        let duration: NSTimeInterval = animated ? self.animationDuration : 0;
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(duration)
+        
+        if (vertical) {
+            self.filledView!.frame.origin.y = position
+        }
+        else {
+            self.filledView!.frame.origin.x = position
+        }
+        self.filledView!.backgroundColor = color.CGColor
+        
+        CATransaction.commit()
+        
+    }
+    
     public func setProgress(progress: Float, animated: Bool){
         //bounds check
         var val = progress
         if val < 0 { val = 0.0 }
         else if val > 1 { val = 1 }
         self.progressPriv = val
-        
         setFilledPosition(self.shouldHavePosition(), animated: animated)
     }
+    
+    public func setProgress(color:UIColor, progress: Float, animated: Bool){
+        //bounds check
+        var val = progress
+        if val < 0 { val = 0.0 }
+        else if val > 1 { val = 1 }
+        self.progressPriv = val
+        setFilledPosition(color, position: self.shouldHavePosition(), animated: animated)
+    }
+    
     
 
     

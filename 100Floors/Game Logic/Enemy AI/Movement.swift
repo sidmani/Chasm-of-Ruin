@@ -9,6 +9,17 @@
 import Foundation
 import UIKit
 
+extension CGVector {
+    mutating func normalize() {
+        let len = hypot(self.dx, self.dy)
+        if (len == 0) {
+            self = CGVector.zero
+        }
+        self.dx = self.dx/len
+        self.dy = self.dy/len
+    }
+}
+
 /////////////////////////////////
 /////////////////////////////////
 ////////////MOVEMENT/////////////
@@ -37,13 +48,11 @@ class MaintainDistance:Behavior {
         let v = parent.normalVectorToCharacter()
         let dist = parent.distanceToCharacter()
         if (dist > distanceToMaintain) {
-            //parent.physicsBody!.velocity = parent.stats.speed * v
             parent.setVelocity(v)
             
         }
         else if (dist < distanceToMaintain) {
-            //e.physicsBody!.velocity = -parent.stats.speed * v
-            parent.setVelocity(-1 * v)
+            parent.setVelocity(CGVector.zero)
         }
     }
     
@@ -56,7 +65,7 @@ class Wander:Behavior {
     private enum States { case Waiting, Moving }
     private var currState = States.Moving
     
-    private var triggerOutsideOf:CGFloat
+    private let triggerOutsideOf:CGFloat
 
     init(parent:Enemy, triggerOutsideOfDistance:CGFloat, updateRate:Double, priority:Int) {
         self.triggerOutsideOf = triggerOutsideOfDistance
@@ -87,3 +96,73 @@ class Wander:Behavior {
         }
     }
 }
+
+class SmoothWander:Behavior {
+    
+}
+
+class Circle:Behavior {
+    private let triggerInsideOf:CGFloat
+    
+    init(parent: Enemy, triggerInsideOfDistance:CGFloat, updateRate:Double, priority:Int) {
+        self.triggerInsideOf = triggerInsideOfDistance
+        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+        self.priority = priority
+    }
+    
+    override func getConditional() -> Bool {
+        return parent.distanceToCharacter() < triggerInsideOf
+    }
+    
+    override func executeBehavior(timeSinceUpdate: Double) {
+        let v = parent.normalVectorToCharacter()
+        parent.setVelocity(CGVectorMake(-v.dy, v.dx))
+    }
+    
+    
+}
+
+class Flee:Behavior {
+    private let finalDist:CGFloat
+    
+    init(parent:Enemy, finalDist:CGFloat, updateRate:Double, priority:Int) {
+        self.finalDist = finalDist
+        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+        self.priority = priority
+    }
+    
+    override func getConditional() -> Bool {
+        return parent.distanceToCharacter() < finalDist
+    }
+    
+    override func executeBehavior(timeSinceUpdate: Double) {
+        parent.setVelocity(parent.normalVectorToCharacter())
+    }
+}
+
+class ReturnToSpawn:Behavior {
+    init(parent:Enemy, updateRate:Double, priority:Int) {
+        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+        self.priority = priority
+    }
+    
+    override func getConditional() -> Bool {
+        return true
+    }
+    
+    override func executeBehavior(timeSinceUpdate: Double) {
+        if let spawnLoc = parent.parentSpawner?.position {
+            var v = CGVectorMake(spawnLoc.x-parent.position.x, spawnLoc.y-parent.position.y)
+            v.normalize()
+            parent.setVelocity(v)
+        }
+    }
+}
+
+
+
+
+
+
+
+

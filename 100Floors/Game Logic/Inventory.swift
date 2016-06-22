@@ -159,7 +159,9 @@ class Inventory:NSObject, NSCoding {
 //    }
     
     private func getEquippedStats() -> Stats {
-        return getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
+        var newStats = getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
+        newStats.capAt(StatLimits.EQUIP_STAT_MAX)
+        return newStats
     }
     
     /////NSCoding

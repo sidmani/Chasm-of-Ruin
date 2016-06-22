@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1F0428951C835B2200FB4516 /* InGameMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */; };
 		1F0428971C8367B400FB4516 /* InventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0428961C8367B400FB4516 /* InventoryViewController.swift */; };
+		1F07A2C41D19AE2E00A5170D /* Attack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F07A2C31D19AE2E00A5170D /* Attack.swift */; };
+		1F07A2C71D1A153900A5170D /* ProjectileParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1F07A2C51D1A153900A5170D /* ProjectileParticle.sks */; };
+		1F07A2C81D1A153900A5170D /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F07A2C61D1A153900A5170D /* spark.png */; };
 		1F1690CD1D0B233A0006C504 /* LevelSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */; };
 		1F1690CF1D0B250F0006C504 /* LevelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1690CE1D0B250F0006C504 /* LevelContainer.swift */; };
 		1F2220DF1D170E89007F1B56 /* TextDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2220DE1D170E89007F1B56 /* TextDisplay.swift */; };
@@ -34,7 +37,7 @@
 		1F3318311D0E021A0064B569 /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F3318301D0E021A0064B569 /* enemy.png */; };
 		1F457D431C6D009500E0CB37 /* Items.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1F457D421C6D009500E0CB37 /* Items.xml */; };
 		1F4686151C5C50AD004D3F55 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4686141C5C50AD004D3F55 /* Level.swift */; };
-		1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* GameLogic.swift */; };
+		1F48547A1C41853B008DDC8F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4854791C41853B008DDC8F /* Global.swift */; };
 		1F5078381C3C9AEA00EC773E /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078371C3C9AEA00EC773E /* Entity.swift */; };
 		1F50783A1C3CB20600EC773E /* DisplayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078391C3CB20600EC773E /* DisplayBar.swift */; };
 		1F5CF03C1C9262F700B00AB7 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CF03B1C9262F600B00AB7 /* AI.swift */; };
@@ -75,6 +78,9 @@
 /* Begin PBXFileReference section */
 		1F0428941C835B2200FB4516 /* InGameMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InGameMenuViewController.swift; sourceTree = "<group>"; };
 		1F0428961C8367B400FB4516 /* InventoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryViewController.swift; sourceTree = "<group>"; };
+		1F07A2C31D19AE2E00A5170D /* Attack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attack.swift; sourceTree = "<group>"; };
+		1F07A2C51D1A153900A5170D /* ProjectileParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ProjectileParticle.sks; path = "100Floors/Resources/Particle Effects/ProjectileParticle.sks"; sourceTree = SOURCE_ROOT; };
+		1F07A2C61D1A153900A5170D /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spark.png; path = "100Floors/Resources/Particle Effects/spark.png"; sourceTree = SOURCE_ROOT; };
 		1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectViewController.swift; sourceTree = "<group>"; };
 		1F1690CE1D0B250F0006C504 /* LevelContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelContainer.swift; sourceTree = "<group>"; };
 		1F2220DE1D170E89007F1B56 /* TextDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDisplay.swift; sourceTree = "<group>"; };
@@ -101,7 +107,7 @@
 		1F3318301D0E021A0064B569 /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 		1F457D421C6D009500E0CB37 /* Items.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Items.xml; sourceTree = "<group>"; };
 		1F4686141C5C50AD004D3F55 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
-		1F4854791C41853B008DDC8F /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
+		1F4854791C41853B008DDC8F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		1F5078371C3C9AEA00EC773E /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1F5078391C3CB20600EC773E /* DisplayBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayBar.swift; sourceTree = "<group>"; };
 		1F5CF03B1C9262F600B00AB7 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
@@ -155,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				1FC9AC5A1C9E161B00E80D30 /* Behavior.swift */,
+				1F07A2C31D19AE2E00A5170D /* Attack.swift */,
 				1F2761A41D1340B50005D6CC /* Movement.swift */,
 			);
 			name = Behavior;
@@ -221,7 +228,7 @@
 			children = (
 				1FDA717B1CA754BB0064AA8B /* Enemy AI */,
 				1F5078371C3C9AEA00EC773E /* Entity.swift */,
-				1F4854791C41853B008DDC8F /* GameLogic.swift */,
+				1F4854791C41853B008DDC8F /* Global.swift */,
 				1FCE14C11C46080600112188 /* Inventory.swift */,
 				1FCE14BD1C45F02100112188 /* Item.swift */,
 				1F4686141C5C50AD004D3F55 /* Level.swift */,
@@ -263,6 +270,8 @@
 		1F4A47AB1C4B514100813143 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1F07A2C51D1A153900A5170D /* ProjectileParticle.sks */,
+				1F07A2C61D1A153900A5170D /* spark.png */,
 				1FD187631D1207450038192D /* Data */,
 				1F45F9B41C4CAEA400334AB5 /* Levels */,
 				1F45F9B31C4CAE9A00334AB5 /* Tilesets */,
@@ -335,8 +344,8 @@
 			children = (
 				1F70894C1D107ECF00F9486F /* AI Database */,
 				1F5CF03B1C9262F600B00AB7 /* AI.swift */,
-				1F2761A31D1340A70005D6CC /* Behavior */,
 				1F70894F1D10995A00F9486F /* Transition.swift */,
+				1F2761A31D1340A70005D6CC /* Behavior */,
 			);
 			path = "Enemy AI";
 			sourceTree = "<group>";
@@ -394,7 +403,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1F2CEE001C387B1F00E4FB2E /* Build configuration list for PBXProject "100Floors" */;
+			buildConfigurationList = 1F2CEE001C387B1F00E4FB2E /* Build configuration list for PBXProject "Chasm Of Ruin" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -427,6 +436,7 @@
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
 				1F3318311D0E021A0064B569 /* enemy.png in Resources */,
 				1FFD7EC51D15D11100D034AB /* Wep1.png in Resources */,
+				1F07A2C71D1A153900A5170D /* ProjectileParticle.sks in Resources */,
 				1FFD7ECD1D15D11100D034AB /* Wep8.png in Resources */,
 				1FC9AC571C9E08CB00E80D30 /* Enemies.xml in Resources */,
 				1FC40B4F1CB9AF2300AAC096 /* Sprites00.png in Resources */,
@@ -436,6 +446,7 @@
 				1FFD7EC81D15D11100D034AB /* Wep3.png in Resources */,
 				1F979AFE1D10EB49002B45DD /* Character.png in Resources */,
 				1FFD7EC61D15D11100D034AB /* Wep10.png in Resources */,
+				1F07A2C81D1A153900A5170D /* spark.png in Resources */,
 				1FFD7EC71D15D11100D034AB /* Wep2.png in Resources */,
 				1F2761A91D1345F00005D6CC /* Character.png in Resources */,
 				1F737DE51D0C744500605E37 /* menu-512.png in Resources */,
@@ -489,8 +500,9 @@
 				1F7089501D10995A00F9486F /* Transition.swift in Sources */,
 				1F2CEE691C38B38F00E4FB2E /* InGameScene.swift in Sources */,
 				1FCE14C41C475A0400112188 /* ItemContainer.swift in Sources */,
+				1F07A2C41D19AE2E00A5170D /* Attack.swift in Sources */,
 				1F304B2E1C3A33D30069D04D /* Projectile.swift in Sources */,
-				1F48547A1C41853B008DDC8F /* GameLogic.swift in Sources */,
+				1F48547A1C41853B008DDC8F /* Global.swift in Sources */,
 				1F29C0CA1CBC84CA00A2EFEE /* SKAObjectLayer.swift in Sources */,
 				1F29C0CB1CBC84CA00A2EFEE /* SKASprite.swift in Sources */,
 				1F1690CD1D0B233A0006C504 /* LevelSelectViewController.swift in Sources */,
@@ -659,7 +671,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1F2CEE001C387B1F00E4FB2E /* Build configuration list for PBXProject "100Floors" */ = {
+		1F2CEE001C387B1F00E4FB2E /* Build configuration list for PBXProject "Chasm Of Ruin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1F2CEE2F1C387B1F00E4FB2E /* Debug */,

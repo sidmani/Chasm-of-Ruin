@@ -8,7 +8,8 @@
                 <item index="0" equipped="true">wep1</item>
             </inventory>
             <stats>
-                <atk>20</atk>
+                <atk>5</atk>
+                <spd>30</spd>
                 <health>5000</health>
                 <maxHealth>5000</maxHealth>
             </stats>

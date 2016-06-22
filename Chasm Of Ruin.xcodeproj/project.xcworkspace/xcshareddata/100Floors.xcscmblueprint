@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B47C7691E4342DC3AE278582327C06455B20A8D7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B47C7691E4342DC3AE278582327C06455B20A8D7" : 0,
+    "C58344207BE50D7150C3202900F8354B859F18CE" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3648C4BD-68C7-4C9E-B674-EBC4FAC640D5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B47C7691E4342DC3AE278582327C06455B20A8D7" : "100Floors\/",
+    "C58344207BE50D7150C3202900F8354B859F18CE" : "..\/100FloorsAssets"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "100Floors",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "100Floors.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sidmani\/100Floors.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B47C7691E4342DC3AE278582327C06455B20A8D7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sidmani\/100FloorsAssets",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C58344207BE50D7150C3202900F8354B859F18CE"
+    }
+  ]
+}

@@ -76,6 +76,9 @@ class BaseLevel:SKNode { //TODO: probably merge these two classes together
     func cull(x:Int, y:Int, width:Int, height:Int) {
         fatalError("must be overriden")
     }
+    func speedModForIndex(p:CGPoint) -> CGFloat {
+        return 1
+    }
 
 }
 
@@ -131,4 +134,8 @@ class MapLevel:BaseLevel, Updatable {
         }
     }
     
+    override func speedModForIndex(point:CGPoint) -> CGFloat {
+        let sprite = map.spriteFor(0, x: Int(point.x), y: Int(point.y))
+        return sprite.speedMod
+    }
 }

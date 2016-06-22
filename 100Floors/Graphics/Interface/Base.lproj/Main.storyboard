@@ -262,7 +262,7 @@
         <!--Inventory View Controller-->
         <scene sceneID="X8T-87-8dq">
             <objects>
-                <viewController storyboardIdentifier="inventoryView" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inventoryView" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OqS-s8-3dQ"/>
                         <viewControllerLayoutGuide type="bottom" id="CJs-Wc-P5S"/>
@@ -561,6 +561,60 @@
                 <exit id="ATs-Ty-Sgo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1914" y="567"/>
+        </scene>
+        <!--Victory View Controller-->
+        <scene sceneID="SM8-gH-k1Y">
+            <objects>
+                <viewController id="auq-MV-pOY" customClass="VictoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Aai-uw-j9b"/>
+                        <viewControllerLayoutGuide type="bottom" id="nK5-vI-GVs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rpl-iU-8cg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EtA-fR-8Qk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="834" y="-257"/>
+        </scene>
+        <!--Defeat View Controller-->
+        <scene sceneID="L1E-Gz-uaF">
+            <objects>
+                <viewController storyboardIdentifier="DefeatViewController" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wSz-S2-3r0" customClass="DefeatViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uSE-7U-2yu"/>
+                        <viewControllerLayoutGuide type="bottom" id="sqy-0t-rW0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vd7-jD-GjS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFEAT" textAlignment="center" lineBreakMode="clip" minimumFontSize="50" translatesAutoresizingMaskIntoConstraints="NO" id="BQ6-gh-4aD">
+                                <rect key="frame" x="40" y="40" width="520" height="137"/>
+                                <color key="tintColor" red="0.9969833688420604" green="0.45055492442255951" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="100"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.14079212079847458" alpha="0.80417564655172413" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jII-MU-R6g" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                                <rect key="frame" x="277" y="437" width="46" height="30"/>
+                                <state key="normal" title="Revive"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BQ6-gh-4aD" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="20" id="qad-hd-2A2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BQ6-gh-4aD" secondAttribute="trailing" constant="20" id="qdO-vG-U3C"/>
+                            <constraint firstItem="BQ6-gh-4aD" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" constant="20" id="sn0-U2-R3N"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MAS-OS-Enc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1491" y="-249"/>
         </scene>
     </scenes>
     <resources>

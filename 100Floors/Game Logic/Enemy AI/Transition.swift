@@ -24,12 +24,59 @@ class Transition {
 }
 
 class HPLessThan:Transition {
-    private var hpLevel:CGFloat
+    private let hpLevel:CGFloat
     init(parent:Enemy, dest:String, hpLevel:CGFloat) {
         self.hpLevel = hpLevel
         super.init(enemy: parent, dest: dest)
     }
     override func evaluate() -> String {
+        if (parent.stats.health < hpLevel*parent.stats.maxHealth) {
+            return destinationState
+        }
         return ""
     }
 }
+
+class HPMoreThan:Transition {
+    private let hpLevel:CGFloat
+    init(parent:Enemy, dest:String, hpLevel:CGFloat) {
+        self.hpLevel = hpLevel
+        super.init(enemy: parent, dest: dest)
+    }
+    override func evaluate() -> String {
+        if (parent.stats.health > hpLevel*parent.stats.maxHealth) {
+            return destinationState
+        }
+        return ""
+    }
+}
+
+class PlayerFartherThan:Transition {
+    private let distance:CGFloat
+    init(parent:Enemy, dest:String, distance:CGFloat) {
+        self.distance = distance
+        super.init(enemy: parent, dest: dest)
+    }
+    override func evaluate() -> String {
+        if (parent.distanceToCharacter() > distance) {
+            return destinationState
+        }
+        return ""
+    }
+}
+
+class PlayerCloserThan:Transition {
+    private let distance:CGFloat
+    init(parent:Enemy, dest:String, distance:CGFloat) {
+        self.distance = distance
+        super.init(enemy: parent, dest: dest)
+    }
+    override func evaluate() -> String {
+        if (parent.distanceToCharacter() < distance) {
+            return destinationState
+        }
+        return ""
+    }
+}
+
+

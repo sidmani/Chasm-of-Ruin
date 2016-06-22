@@ -39,4 +39,5 @@ class SKASprite : SKSpriteNode {
      */
     var positionOnMap:IntegerPoint?
     var properties : [String : AnyObject]?
+    var speedMod:CGFloat = 1
 }

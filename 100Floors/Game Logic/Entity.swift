@@ -31,7 +31,7 @@ struct Stats {
         case 5: return mana
         case 6: return maxHealth
         case 7: return maxMana
-        default: return 10
+        default: fatalError()
         }
     }
     
@@ -45,7 +45,7 @@ struct Stats {
         case 5: mana = toVal
         case 6: maxHealth = toVal
         case 7: maxMana = toVal
-        default: break
+        default: fatalError()
         }
     }
     
@@ -97,8 +97,24 @@ struct Stats {
     func sumStats() -> Int {
         return Int(defense + attack + speed + dexterity)
     }
+    
     static let nilStats = Stats(defense: 0, attack: 0, speed: 0, dexterity: 0, health: 0, maxHealth: 0, mana: 0, maxMana: 0)
 }
+
+struct StatLimits {
+    static let MAX_LEVEL = 15
+    
+    static let MIN_LVLUP_STAT_GAIN:CGFloat = 10
+    static let MAX_LVLUP_STAT_GAIN:CGFloat = 20
+
+    static let GLOBAL_STAT_MAX:CGFloat = 1000
+    static let GLOBAL_STAT_MIN:CGFloat = 20
+    static let BASE_STAT_MAX:CGFloat = 500
+    static let EQUIP_STAT_MAX:CGFloat = 400
+    
+    static let SINGLE_ITEM_STAT_MAX:CGFloat = 100
+}
+
 
 func +(left:Stats?, right:Stats?) -> Stats{
     if (left != nil && right != nil) {
@@ -193,8 +209,9 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     private func takeDamage(d:CGFloat) {
-        stats.health -= d
-        addPopup(UIColor.redColor(), text: "-\(Int(d))")
+        let damage = max(5,randomBetweenNumbers(0.7, secondNum: 1.2)*d)
+        stats.health -= damage
+        addPopup(UIColor.redColor(), text: "-\(Int(damage))")
         if (stats.health <= 0) {
             stats.health = 0
             die()
@@ -267,7 +284,6 @@ class Entity:SKSpriteNode, Updatable {
 
 class ThisCharacter: Entity {
     private static let expForLevel:[Int] =  [0, 40, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000]
-    private static let max_level = 10
     var level:Int
     var expPoints:Int
 
@@ -294,17 +310,17 @@ class ThisCharacter: Entity {
         self.inventory.setItem(1, toItem: Item.initHandlerID("wep2"))
         self.inventory.setItem(2, toItem: Item.initHandlerID("wep3"))
         
-        stats.maxHealth = 20 + randomBetweenNumbers(0, secondNum: 10)
-        stats.maxMana = 15 + randomBetweenNumbers(0, secondNum: 10)
+        stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
+        stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.health = stats.maxHealth
         stats.mana = stats.maxMana
         
-        stats.defense = 15 + randomBetweenNumbers(0, secondNum: 10)
-        stats.attack = 15 + randomBetweenNumbers(0, secondNum: 10)
-        stats.dexterity = 15 + randomBetweenNumbers(0, secondNum: 10)
-        stats.speed = 15 + randomBetweenNumbers(0, secondNum: 10)
+        stats.defense = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
+        stats.attack = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
+        stats.dexterity = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
+        stats.speed = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         
-        UIElements.HPBar.setProgress(Float(stats.health/stats.maxHealth), animated: true)
+        UIElements.HPBar.setProgress(1, animated: true)
         
     }
     
@@ -318,7 +334,18 @@ class ThisCharacter: Entity {
     ///collision handling
     override func takeDamage(d: CGFloat) {
         super.takeDamage(d)
-        UIElements.HPBar.setProgress(Float(stats.health/stats.maxHealth), animated: true) //div by zero error
+        var color:UIColor
+        let progress = stats.health/stats.maxHealth
+        if progress <= 0.2 {
+            color = UIColor.redColor()
+        }
+        else if progress < 0.7 {
+            color = UIColor(red: 255, green: (progress-0.2)/0.3, blue: 0, alpha: 1.0)
+        }
+        else {
+            color = UIColor(red: CGFloat(2-2*progress), green: 255, blue: 0, alpha: 1.0)
+        }
+        UIElements.HPBar.setProgress(color, progress: Float(progress), animated: true) //div by zero error
     }
     
     override func struckByProjectile(p:Projectile) {
@@ -331,16 +358,23 @@ class ThisCharacter: Entity {
         //let rand = Int(randomBetweenNumbers(0, secondNum: CGFloat(inventory.baseSize)))
         //inventory.setItem(rand, toItem: nil)
         //save game
+        NSNotificationCenter.defaultCenter().postNotificationName("levelEndedDefeat", object: nil)
     }
     
     func killedEnemy(e:Enemy) {
         let newExp = e.stats.sumStats()
         expPoints += newExp
         addPopup(UIColor.greenColor(), text: "+\(newExp)EXP")
-        if (level < ThisCharacter.max_level && expPoints >= ThisCharacter.expForLevel[level+1]) {
+        if (level < StatLimits.MAX_LEVEL && expPoints >= ThisCharacter.expForLevel[level+1]) {
             level += 1
             removeAllPopups()
             addPopup(UIColor.greenColor(), text: "LEVEL UP")
+            for i in 0..<Stats.numStats {
+                stats.setIndex(i, toVal: stats.getIndex(i) + randomBetweenNumbers(StatLimits.MIN_LVLUP_STAT_GAIN, secondNum: StatLimits.MAX_LVLUP_STAT_GAIN))
+            }
+            stats.health = stats.maxHealth
+            stats.mana = stats.maxMana
+            stats.capAt(StatLimits.BASE_STAT_MAX)
             // add some other animation
         }
         //add to kills
@@ -348,6 +382,7 @@ class ThisCharacter: Entity {
 
     func consumeItem(c:Consumable) {
         stats = stats + c.statMods
+        stats.capAt(StatLimits.BASE_STAT_MAX)
         if (stats.health > stats.maxHealth) {
             stats.health = stats.maxHealth
         }
@@ -363,10 +398,10 @@ class ThisCharacter: Entity {
     }
 
     private var didNotifyNilWeapon = false
-    override func update(deltaT:Double) { //as dex goes from 0-100, time between projectiles goes from 1000 to 20 ms
+    override func update(deltaT:Double) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
         super.update(deltaT)
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
-            if (timeSinceProjectile > 1000-9.8*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
+            if (timeSinceProjectile > 500-0.4*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
                 fireProjectile(statusFactors.confused * UIElements.RightJoystick!.normalDisplacement)
                 timeSinceProjectile = 0
             }
@@ -382,7 +417,7 @@ class ThisCharacter: Entity {
         else {
             didNotifyNilWeapon = false
         }
-        self.physicsBody?.velocity =  (stats.speed+inventory.stats.speed) * statusFactors.stuck * statusFactors.confused * UIElements.LeftJoystick!.normalDisplacement
+        self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.stuck * statusFactors.confused * UIElements.LeftJoystick!.normalDisplacement
     }
 }
 
@@ -390,9 +425,9 @@ class ThisCharacter: Entity {
 class Enemy:Entity {
 
     private var AI:EnemyAI?
-    private weak var parentSpawner:Spawner?
     private var drops:[AEXMLElement] = []
-    
+    weak var parentSpawner:Spawner?
+
     init(thisEnemy:AEXMLElement, atPosition:CGPoint, spawnedFrom:Spawner?) {
         super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withStats: Stats.statsFrom(thisEnemy), withInventory: Inventory(fromElement: thisEnemy["inventory"], ignoreStats:true))
         name = thisEnemy["name"].stringValue
@@ -444,8 +479,7 @@ class Enemy:Entity {
     }
     
     func setVelocity(v:CGVector) { //v is unit vector
-        let speed:CGFloat = 25
-        physicsBody?.velocity = speed * statusFactors.stuck * statusFactors.confused * v
+        physicsBody?.velocity = stats.speed * statusFactors.stuck * statusFactors.confused * v
     }
     
     override func update(deltaT:Double) {

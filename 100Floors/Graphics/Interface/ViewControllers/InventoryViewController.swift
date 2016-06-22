@@ -35,6 +35,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     private var leftScrollBound:CGFloat = 0
     private var rightScrollBound:CGFloat = 0
+    private var itemWidth:CGFloat = 0
     
     private var previousSelectedContainer:ItemContainer?
     
@@ -62,7 +63,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
-        
+        itemWidth = layout.itemSize.width
         leftScrollBound = -inventoryCollection.contentInset.left
         inventoryCollection.setContentOffset(CGPointMake(leftScrollBound,0), animated: false)
 
@@ -145,16 +146,15 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 //    StatsDisplay[i].setProgress(Float(item.statMods.getIndex(i)/100), animated: true)
                 //}
               
-                HPProgressView.setProgress(Float(item.statMods.health)/100, animated: true)
-                ManaProgressView.setProgress(Float(item.statMods.mana)/100, animated: true)
-                ATKProgressView.setProgress(Float(item.statMods.attack)/100, animated: true)
-                DEFProgressView.setProgress(Float(item.statMods.defense)/100, animated: true)
-                SPDProgressView.setProgress(Float(item.statMods.speed)/100, animated: true)
-                DEXProgressView.setProgress(Float(item.statMods.dexterity)/100, animated: true)
+                HPProgressView.setProgress(Float(item.statMods.health/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
+                ManaProgressView.setProgress(Float(item.statMods.mana/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
+                ATKProgressView.setProgress(Float(item.statMods.attack/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
+                DEFProgressView.setProgress(Float(item.statMods.defense/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
+                SPDProgressView.setProgress(Float(item.statMods.speed/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
+                DEXProgressView.setProgress(Float(item.statMods.dexterity/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
                 
                 if (item is Consumable) {
-                    EquipButton.setTitle("Consume", forState: .Normal)
-                
+                    EquipButton.setTitle("Eat", forState: .Normal)
                 }
                 else if (item is Usable) {
                     EquipButton.setTitle("Use", forState: .Normal)
@@ -230,6 +230,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth + leftScrollBound, 0), animated: true)
+    }
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (selectCenterCell()) {
             updateInfoDisplay()
@@ -247,7 +251,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
                 currentItemIsButton = false
             }
-            else if let container = inventoryCollection.cellForItemAtIndexPath(path) {
+            else if (inventoryCollection.cellForItemAtIndexPath(path) != nil) {
                 if (!currentItemIsButton) {
                     previousSelectedContainer?.setSelectedTo(false)
                     previousSelectedContainer = nil

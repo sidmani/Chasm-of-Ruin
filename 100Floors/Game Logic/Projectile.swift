@@ -15,16 +15,14 @@ class Projectile:SKSpriteNode, Updatable{
     private var distanceTraveled:CGFloat = 0
     var statusCondition:(condition:StatusCondition,probability:CGFloat)?
 
-    init (fromImage:String, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool, statusInflicted:(StatusCondition, CGFloat)?) {
-        let texture = SKTextureAtlas(named: "Projectiles").textureNamed(fromImage)
-        texture.filteringMode = .Nearest
-        let size = texture.size()
+    init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool, statusInflicted:(StatusCondition, CGFloat)?) {
+        let size = fromTexture.size()
         range = withRange
         attack = withAtk
         _speed = abs(hypot(withVelocity.dx, withVelocity.dy))
         
         self.statusCondition = statusInflicted
-        super.init(texture: texture, color: UIColor.clearColor(), size: size)
+        super.init(texture: fromTexture, color: UIColor.clearColor(), size: size)
         self.zRotation = atan2(withVelocity.dy, withVelocity.dx) - CGFloat(M_PI_4)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) 
         self.physicsBody?.friction = 0

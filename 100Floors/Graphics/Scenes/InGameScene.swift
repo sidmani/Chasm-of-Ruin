@@ -150,8 +150,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     
-    @objc func setLevel(level:BaseLevel)
-    {
+    func setLevel(level:BaseLevel) {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
         nonCharNodes.removeAllChildren()
@@ -159,37 +158,25 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
         cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
-        // if (introScreen) {
-            //TODO: trigger intro screen
-      //  }
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
         self.paused = false
+        NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.levelName)
     }
     
-    func endLevel() {
-        //TODO: fill out method body
-        //hide character
-        //hide nodes
-        //pause scene (?)
-        //save data
-        //display stats
-        //add level index to completed levels (if not already present)
-        //trigger unlock of other levels
-        //wait for user to click "next" and then move back to level select screen
-    }
     ////////
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
         if (deltaT < 100) {
+            thisCharacter.update(deltaT)
             if (currentLevel != nil) {
                 let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)
                 let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale)
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth - 1, height: newHeight - 1) //Remove tiles that are off-screen
+                thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
             }
-            thisCharacter.update(deltaT)
             for node in nonCharNodes.children {
                 if let nodeToUpdate = node as? Updatable {
                     nodeToUpdate.update(deltaT)

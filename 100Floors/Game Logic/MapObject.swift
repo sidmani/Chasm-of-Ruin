@@ -252,7 +252,7 @@ class Portal:MapObject, Interactive {
     
     func trigger() {
         if (endsLevel) {
-            (self.scene as! InGameScene).endLevel()
+            NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
         }
         else {
             (self.scene as! InGameScene).setLevel(MapLevel(index:destinationIndex))
@@ -337,7 +337,7 @@ class UsableItemResponder:MapObject {
 }
 
 class InfoDisplay:MapObject {
-    
+
 }
 
 

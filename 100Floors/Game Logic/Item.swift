@@ -68,14 +68,15 @@ class Item:NSObject, NSCoding {
 }
 
 class Weapon: Item {
-    let projectile:String
+    let projectile:SKTexture
     private let range:CGFloat
     let projectileSpeed:CGFloat
     let projectileReflects:Bool
     var statusCondition:(condition:StatusCondition,probability:CGFloat)? = nil
 
     required init(thisItem:AEXMLElement) {
-        projectile = thisItem["projectile-img"].stringValue
+        projectile = SKTextureAtlas(named: "Projectiles").textureNamed(thisItem["projectile-img"].stringValue)
+        projectile.filteringMode = .Nearest
         range = CGFloat(thisItem["range"].doubleValue)
         projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
         projectileReflects = thisItem["projectile-reflects"].boolValue
@@ -89,8 +90,24 @@ class Weapon: Item {
         super.init(statMods:statMods, name:name, description:description, img:img)
     }
     
+    init(fromBase64:String) {
+        let optArr = fromBase64.splitBase64IntoArray()
+        // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img"
+        projectile = SKTextureAtlas(named: "Projectiles").textureNamed(optArr[0])
+        projectile.filteringMode = .Nearest
+        range = CGFloat(s: optArr[1])
+        projectileSpeed = CGFloat(s: optArr[2])
+        projectileReflects = optArr[3] == "true"
+        if let cond = StatusCondition(rawValue: Double(optArr[4])!) {
+            statusCondition = (cond, CGFloat(s:optArr[5]))
+        }
+        super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9])
+        
+    }
+    
     private init(projectile:String, range:CGFloat, projectileSpeed:CGFloat, projectileReflects:Bool, statMods:Stats, name:String, description:String, img:String, statusCondition:(StatusCondition, CGFloat)?) {
-        self.projectile = projectile
+        self.projectile = SKTextureAtlas(named: "Projectiles").textureNamed(projectile)
+        self.projectile.filteringMode = .Nearest
         self.range = range
         self.projectileSpeed = projectileSpeed
         self.projectileReflects = projectileReflects
@@ -99,7 +116,7 @@ class Weapon: Item {
     }
     
     func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> Projectile {
-        return Projectile(fromImage: self.projectile, fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
+        return Projectile(fromTexture: self.projectile, fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
     }
     
     //NSCoding
@@ -112,7 +129,7 @@ class Weapon: Item {
         static let statusConditionProbKey = "statCondProb"
     }
     required init?(coder aDecoder: NSCoder) {
-        projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! String
+        projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! SKTexture
         range = aDecoder.decodeObjectForKey(PropertyKey.rangeKey) as! CGFloat
         projectileSpeed = aDecoder.decodeObjectForKey(PropertyKey.projectileSpeedKey) as! CGFloat
         projectileReflects = aDecoder.decodeObjectForKey(PropertyKey.projectileReflectsKey) as! Bool

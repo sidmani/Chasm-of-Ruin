@@ -13,9 +13,7 @@
                 <spd>100</spd>
                 <dex>90</dex>
                 <mana>100</mana>
-                <rage>2</rage>
             </stats>
-            <consumable>false</consumable>
             <projectile-img>000</projectile-img>
             <projectile-speed>200</projectile-speed>
             <projectile-reflects>true</projectile-reflects>
@@ -32,14 +30,12 @@
                 <health>50</health>
                 <def>0</def>
                 <atk>50</atk>
-                <spd>0</spd>
+                <spd>40</spd>
                 <dex>50</dex>
                 <mana>50</mana>
-                <rage>0</rage>
             </stats>
-            <consumable>false</consumable>
             <projectile-img>000</projectile-img>
-            <projectile-speed>20</projectile-speed>
+            <projectile-speed>100</projectile-speed>
             <projectile-reflects>false</projectile-reflects>
             <range>25</range>
         </item>
@@ -55,11 +51,9 @@
                 <spd>10</spd>
                 <dex>30</dex>
                 <mana>0</mana>
-                <rage>0</rage>
             </stats>
-            <consumable>false</consumable>
             <projectile-img>000</projectile-img>
-            <projectile-speed>20</projectile-speed>
+            <projectile-speed>100</projectile-speed>
             <projectile-reflects>false</projectile-reflects>
             <range>25</range>
         </item>

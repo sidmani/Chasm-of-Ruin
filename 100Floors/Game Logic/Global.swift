@@ -1,5 +1,5 @@
 //
-//  GameLogic.swift
+//  Global.swift
 //  100Floors
 //
 //  Created by Sid Mani on 1/9/16.
@@ -18,15 +18,14 @@ var thisCharacter:ThisCharacter!
 //Global functions
 //////////////////
 
-//func *(left: CGFloat, right: CGPoint) -> CGPoint {
- //   return CGPoint(x: left*right.x, y: left*right.y)
-//}
 func *(left: CGFloat, right: CGVector) -> CGVector {
     return CGVector(dx: left*right.dx, dy: left*right.dy)
 }
+
 func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
     return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)
 }
+
 // test overloads
 func print(point:CGPoint)
 {
