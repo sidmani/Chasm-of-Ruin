@@ -104,10 +104,10 @@
 </data>
  </layer>
  <objectgroup name="MapObjects">
-  <object id="44" type="ConstantRateSpawner" x="197" y="584" width="20" height="19.5">
+  <object id="44" type="ConstantRateSpawner" x="294.5" y="602.875" width="20" height="19.5">
    <properties>
-    <property name="Data" value="MCwzMCwyMDAw"/>
-    <property name="EnemyID" value="0"/>
+    <property name="Data" value="QmFzaWMgRW5lbXksMzAsMjAwMA=="/>
+    <property name="EnemyID" value="Basic Enemy"/>
     <property name="Rate" value="2000"/>
     <property name="Threshold" value="30"/>
    </properties>

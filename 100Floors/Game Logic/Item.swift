@@ -7,10 +7,10 @@
 //
 
 import SpriteKit
-// 6 basic kinds of item: weapon, skill, shield, enhancer, style, consumable
+// 6 basic kinds of item: weapon, skill, armor, enhancer, style, consumable
 // skill: skill move
 // weapon: fires projectiles
-// shield: boosts DEF and potentially decreases SPD
+// armor: boosts DEF and potentially decreases SPD
 // enhancer: boosts a stat while equipped
 // style: changes appearance
 // consumable: gives temporary or permanent stat changes
@@ -20,7 +20,7 @@ class Item:NSObject, NSCoding {
         "Weapon":Weapon.self,
         "Consumable":Consumable.self,
         "Skill":Skill.self,
-        "Shield":Shield.self,
+        "Armor":Armor.self,
         "Enhancer":Enhancer.self
     ]
     let statMods:Stats
@@ -53,12 +53,14 @@ class Item:NSObject, NSCoding {
         static let descriptionKey = "description"
         static let imgKey = "img"
     }
+    
     required init?(coder aDecoder: NSCoder) {
          statMods = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statModsKey) as! NSArray)
          name = aDecoder.decodeObjectForKey(PropertyKey.nameKey) as! String
          desc = aDecoder.decodeObjectForKey(PropertyKey.descriptionKey) as! String
          img = aDecoder.decodeObjectForKey(PropertyKey.imgKey) as! String
     }
+    
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(statMods.toArray(), forKey: PropertyKey.statModsKey)
         aCoder.encodeObject(name, forKey: PropertyKey.nameKey)
@@ -153,7 +155,7 @@ class Skill: Item {
     
 }
 
-class Shield: Item {
+class Armor: Item {
     
 }
 
@@ -163,11 +165,15 @@ class Enhancer: Item {
 
 class Consumable: Item {
     let permanent:Bool
+    
     required init(thisItem:AEXMLElement) {
         permanent = thisItem["permanent"].boolValue
         super.init(thisItem: thisItem)
     }
     
+  //  init(fromBase64:String) {
+        
+  //  }
     //NSCoding
     private struct PropertyKey {
         static let permanentKey = "permanent"

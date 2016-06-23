@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
 	<enemies>
-		<enemy id="0">
-			<img>enemy</img>
-			<name>Basic Enemy</name>
-            <inventory size="4">
-                <item index="0" equipped="true">wep1</item>
-            </inventory>
+		<enemy id="Basic Enemy">
+            <animation name="default" frames="5">AirA</animation>
+            <begin-texture>default</begin-texture>
             <stats>
                 <atk>5</atk>
                 <spd>30</spd>

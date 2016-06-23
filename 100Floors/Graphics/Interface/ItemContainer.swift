@@ -91,7 +91,7 @@ class ItemContainer:UICollectionViewCell {
             if (item! is Weapon) {
                 rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0, blue: 0, alpha: 1.0).CGColor
             }
-            else if (item! is Shield) {
+            else if (item! is Armor) {
                 rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0, green: 0, blue: 1, alpha: 1.0).CGColor
             }
             else if (item! is Enhancer) {

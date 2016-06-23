@@ -18,7 +18,8 @@ struct EnemyDictionary {
             behaviors: [
                 Wander(parent: parent, triggerOutsideOfDistance: 20, updateRate: 200, priority: 5),
                 Circle(parent: parent, triggerInsideOfDistance: 20, updateRate: 50, priority: 5),
-                MainAttack(parent: parent, error: 1, triggerDistance:20, rateOfFire: 200, priority: 5)
+                MainAttack(parent: parent, error: 1, triggerDistance:20, rateOfFire: 200, priority: 5),
+                RunAnimationSequence(parent: parent, animationName: "default", frameDuration: 0.125, updateRate:300, priority: 5)
             ],
             runOnEndState: [],
             transitions: [

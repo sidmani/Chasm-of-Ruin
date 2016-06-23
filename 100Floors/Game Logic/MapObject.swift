@@ -53,7 +53,7 @@ class MapObject:SKNode {
     init(loc:CGPoint) {
         super.init()
         self.position = loc
-        self.zPosition = BaseLevel.LayerDef.MapObjects
+        self.zPosition = BaseLevel.LayerDef.MapObjects - 0.0001 * (self.position.y - self.frame.height/2)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -63,12 +63,42 @@ class MapObject:SKNode {
 }
 
 class Spawner:MapObject, Updatable {
-    private let enemyID:String
     private var playerIsWithinRadius:Bool = false
-
+    ///enemy data
+    private let enemyID:String
+    private var enemyTextureDict:[String:[SKTexture]] = [:]
+    private var drops:[Enemy.Drop] = []
+    private let stats:Stats
+    private let beginTexture:String
+    
     init(loc: CGPoint, withEnemyID:String, threshold:CGFloat) {
+        let thisEnemy = enemyXML.root["enemies"]["enemy"].allWithAttributes(["id":withEnemyID])!.first!
+
         enemyID = withEnemyID
+        stats = Stats.statsFrom(thisEnemy)
+        beginTexture = thisEnemy["begin-texture"].stringValue
+        // initialize textures/animations
+        if let animations = thisEnemy["animation"].all {
+            for animation in animations {
+                var textArr:[SKTexture] = []
+                let frames = Int(animation.attributes["frames"]!)!
+                for i in 0..<frames {
+                    let newTexture = SKTextureAtlas(named: "Entities").textureNamed("\(animation.stringValue)\(i)")
+                    newTexture.filteringMode = .Nearest
+                    textArr.append(newTexture)
+                }
+                enemyTextureDict[animation.attributes["name"]!] = textArr
+            }
+        }
+        // initalize drops
+        if let enemyDrops =  thisEnemy["drops"]["drop"].all {
+            for drop in enemyDrops {
+                drops.append(Enemy.Drop(type: drop.attributes["type"]!, chance: CGFloat(s: drop.attributes["chance"]!), data: drop.stringValue))
+            }
+        }
+        
         super.init(loc: loc)
+
         physicsBody = SKPhysicsBody(circleOfRadius: threshold)
         physicsBody!.pinned = true
         physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Spawner
@@ -121,7 +151,7 @@ class ConstantRateSpawner:Spawner {
     override func update(deltaT:Double) {
         if (elapsedTime > rateOfSpawning && playerIsWithinRadius) {
             elapsedTime = 0
-            let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
+            let newEnemy = Enemy(name: enemyID, textureDict: enemyTextureDict, beginTexture: beginTexture, drops: drops, stats: stats, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
         }
         else {
@@ -162,7 +192,8 @@ class FixedNumSpawner:Spawner {
 
     override func update(deltaT: Double) {
         if (playerIsWithinRadius && currNumOfEnemies < maxNumOfEnemies && elapsedTime > rateOfSpawning) {
-            let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
+           // let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
+            let newEnemy = Enemy(name: enemyID, textureDict: enemyTextureDict, beginTexture: beginTexture, drops: drops, stats: stats, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
             currNumOfEnemies += 1
             elapsedTime = 0
@@ -205,7 +236,8 @@ class OneTimeSpawner:Spawner {
     
     override func update(deltaT: Double) {
         if (playerIsWithinRadius) {
-            let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
+           // let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
+            let newEnemy = Enemy(name: enemyID, textureDict: enemyTextureDict, beginTexture: beginTexture, drops: drops, stats: stats, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
             self.removeFromParent()
         }

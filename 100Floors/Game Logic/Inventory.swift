@@ -14,7 +14,7 @@ class Inventory:NSObject, NSCoding {
     var stats:Stats = Stats.nilStats
     
     var weaponIndex:Int = -1
-    var shieldIndex:Int = -1
+    var armorIndex:Int = -1
     var skillIndex:Int = -1
     var enhancerIndex:Int = -1
     
@@ -29,19 +29,6 @@ class Inventory:NSObject, NSCoding {
     
     private var ignoreStats = false
     
-    convenience init(fromElement:AEXMLElement, ignoreStats:Bool) {
-        self.init(withSize:Int(fromElement.attributes["size"]!)!)
-        self.ignoreStats = ignoreStats
-        if (fromElement["item"].all != nil) {
-            for item in fromElement["item"].all! {
-                let index = Int(item.attributes["index"]!)!
-                self.setItem(index, toItem: Item.initHandlerID(item.stringValue))
-                if (item.attributes["equipped"] == "true") {
-                    equipItem(index)
-                }
-            }
-        }
-    }
     
     //////////
     func swapItems(atIndexA: Int, atIndexB: Int) {
@@ -83,8 +70,8 @@ class Inventory:NSObject, NSCoding {
         if (item is Weapon) {
             weaponIndex = atIndex
         }
-        else if (item is Shield) {
-            shieldIndex = atIndex
+        else if (item is Armor) {
+            armorIndex = atIndex
         }
         else if (item is Skill) {
             skillIndex = atIndex
@@ -104,8 +91,8 @@ class Inventory:NSObject, NSCoding {
             weaponIndex = -1
         case enhancerIndex:
             enhancerIndex = -1
-        case shieldIndex:
-            shieldIndex = -1
+        case armorIndex:
+            armorIndex = -1
         case skillIndex:
             skillIndex = -1
         default:
@@ -114,8 +101,8 @@ class Inventory:NSObject, NSCoding {
                 weaponIndex = atIndex
                 equipped = true
             }
-            else if (item is Shield) {
-                shieldIndex = atIndex
+            else if (item is Armor) {
+                armorIndex = atIndex
                 equipped = true
             }
             else if (item is Skill) {
@@ -134,7 +121,7 @@ class Inventory:NSObject, NSCoding {
     }
     
     func isEquipped(index:Int) -> Bool {
-        return (weaponIndex == index || skillIndex == index || shieldIndex == index || enhancerIndex == index) 
+        return (weaponIndex == index || skillIndex == index || armorIndex == index || enhancerIndex == index)
     }
     
 //    func dropAllItems() -> [Item?] {
@@ -159,7 +146,7 @@ class Inventory:NSObject, NSCoding {
 //    }
     
     private func getEquippedStats() -> Stats {
-        var newStats = getItem(weaponIndex)?.statMods + getItem(shieldIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
+        var newStats = getItem(weaponIndex)?.statMods + getItem(armorIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods
         newStats.capAt(StatLimits.EQUIP_STAT_MAX)
         return newStats
     }

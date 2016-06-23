@@ -12,7 +12,7 @@ import UIKit
 
 class Behavior: Updatable {
     enum BehaviorIDType {
-        case Movement, Attack
+        case Movement, Attack, Animation
     }
     
     var idType:BehaviorIDType
