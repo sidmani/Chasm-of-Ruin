@@ -142,14 +142,16 @@ class Entity:SKSpriteNode, Updatable {
     
     let inventory:Inventory
     
+    private let textureDict:[String:[SKTexture]]
+    private var currentTextureSet = ""
+    private var currentDirection:Int = 1 // 0-east, 1-south, 2-west, 3-north
+    
     private struct StatusFactors {
-        var stuck:CGFloat = 1
-        var confused:CGFloat = 1
-        var weak:CGFloat = 1
+        var movementMod:CGFloat = 1
+        var atkMod:CGFloat = 1
     }
     
     private var statusFactors = StatusFactors()
-    private var textures:[SKTexture] = [] //0 - north, 1 - east, 2 - south, 3 - west
     private var popups = SKNode()
     
     private var weapon:Weapon? {
@@ -165,14 +167,16 @@ class Entity:SKSpriteNode, Updatable {
         return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
     
-    private var conditions:[(condition: StatusCondition, timeLeft: Double)] = []
+    private var condition:(conditionType: StatusCondition, timeLeft: Double)?
     
-    init(fromTexture: SKTexture, withStats:Stats, withInventory:Inventory)
+    init(fromTextures: [String:[SKTexture]], beginTexture:String, withStats:Stats, withInventory:Inventory)
     {
         inventory = withInventory
-        fromTexture.filteringMode = .Nearest
         stats = withStats
-        super.init(texture: fromTexture, color: UIColor.clearColor(), size: fromTexture.size())
+        currentTextureSet = beginTexture
+        textureDict = fromTextures
+        let firstTexture = fromTextures[beginTexture]![0]
+        super.init(texture: firstTexture, color: UIColor.clearColor(), size: firstTexture.size())
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.allowsRotation = false
@@ -200,16 +204,21 @@ class Entity:SKSpriteNode, Updatable {
         }
     }
     
+    func runAnimation(frameDuration:Double) {
+        self.removeActionForKey("animation")
+        runAction(SKAction.animateWithTextures(textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
+    }
     
+    func isCurrentlyAnimating() -> Bool {
+        return actionForKey("animation") != nil
+    }
     
-    private func setImageOrientation(toAngle:CGFloat) {
-        let direction = Int((4 / 6.28) * toAngle)
-        
-        // change image direction
+    func setCurrentTextures(to:String) {
+        currentTextureSet = to
     }
     
     private func takeDamage(d:CGFloat) {
-        let damage = max(5,randomBetweenNumbers(0.7, secondNum: 1.2)*d)
+        let damage = max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*d)
         stats.health -= damage
         addPopup(UIColor.redColor(), text: "-\(Int(damage))")
         if (stats.health <= 0) {
@@ -231,21 +240,21 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func enableCondition(type:StatusCondition) {
-        if (!conditions.contains({$0.condition == type})) {
-            conditions.append((type, type.rawValue))
+        if (condition == nil) {
             removeAllPopups()
             switch (type) {
                 case .Confused:
                     addPopup(UIColor.greenColor(), text: "CONFUSED")
-                    statusFactors.confused = -1
+                    statusFactors.movementMod = -1
                     //some kind of animation
                 case .Stuck:
                     addPopup(UIColor.yellowColor(), text: "STUCK")
+                    self.paused = true
                     self.physicsBody?.velocity = CGVector.zero
-                    statusFactors.stuck = 0
+                    statusFactors.movementMod = 0
                 case .Weak:
                     addPopup(UIColor.blueColor(), text: "WEAKENED")
-                    statusFactors.weak = 0.5
+                    statusFactors.atkMod = 0.5
                 case .Poisoned:
                     addPopup(UIColor.purpleColor(), text: "POISONED")
                 default: break
@@ -258,26 +267,28 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func update(deltaT: Double) {
-        for i in 0..<conditions.count  {
-            conditions[i].timeLeft -= deltaT
-            if (conditions[i].timeLeft <= 0) {
-                switch (conditions[i].condition) {
+        if (condition != nil) {
+            condition!.timeLeft -= deltaT
+            if (condition!.timeLeft <= 0) {
+                switch (condition!.conditionType) {
                 case .Confused:
-                    statusFactors.confused = 1
+                    statusFactors.movementMod = 1
                     //some kind of animation
                 case .Stuck:
+                    self.paused = false
                     addPopup(UIColor.greenColor(), text: "FREED")
-                    statusFactors.stuck = 1
+                    statusFactors.movementMod = 1
                 case .Weak:
-                    statusFactors.weak = 1
+                    statusFactors.atkMod = 1
                 case .Poisoned:
                     break
                 default: break
                 }
-                conditions.removeAtIndex(i)
             }
         }
     }
+    
+    
 }
 
 //////////////////////
@@ -295,7 +306,25 @@ class ThisCharacter: Entity {
     {
         level = withLevel
         expPoints = withExp
-        super.init(fromTexture: SKTexture(imageNamed: "Character"), withStats: withStats, withInventory: withInventory)
+        var dict = [String:[SKTexture]]()
+        for n in 0...3 {
+            var standingArr:[SKTexture] = []
+            for i in 0...4 {
+                let newTexture = SKTextureAtlas(named: "Entities").textureNamed("Hero\(n)\(i)")
+                newTexture.filteringMode = .Nearest
+                standingArr.append(newTexture)
+            }
+            dict["standing\(n)"] = standingArr
+            var walkingArr:[SKTexture] = []
+            for i in 5...6 {
+                let newTexture = SKTextureAtlas(named: "Entities").textureNamed("Hero\(n)\(i)")
+                newTexture.filteringMode = .Nearest
+                walkingArr.append(newTexture)
+            }
+            dict["walking\(n)"] = walkingArr
+        }
+        super.init(fromTextures: dict, beginTexture:"standing0", withStats: withStats, withInventory: withInventory)
+        
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
@@ -343,9 +372,9 @@ class ThisCharacter: Entity {
             color = UIColor(red: 255, green: (progress-0.2)/0.3, blue: 0, alpha: 1.0)
         }
         else {
-            color = UIColor(red: CGFloat(2-2*progress), green: 255, blue: 0, alpha: 1.0)
+            color = UIColor(red: 2-2*progress, green: 255, blue: 0, alpha: 1.0)
         }
-        UIElements.HPBar.setProgress(color, progress: Float(progress), animated: true) //div by zero error
+        UIElements.HPBar.setProgress(color, progress: progress, animated: true) //div by zero error
     }
     
     override func struckByProjectile(p:Projectile) {
@@ -393,16 +422,17 @@ class ThisCharacter: Entity {
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            (self.scene as! InGameScene).addObject(weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.weak, fromPoint: position, withVelocity: withVelocity, isFriendly: true))
+            (self.scene as! InGameScene).addObject(weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withVelocity: withVelocity, isFriendly: true))
         }
     }
 
     private var didNotifyNilWeapon = false
     override func update(deltaT:Double) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
         super.update(deltaT)
+        
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             if (timeSinceProjectile > 500-0.4*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
-                fireProjectile(statusFactors.confused * UIElements.RightJoystick!.normalDisplacement)
+                fireProjectile(UIElements.RightJoystick!.normalDisplacement)
                 timeSinceProjectile = 0
             }
             else if (weapon == nil && !didNotifyNilWeapon) {
@@ -417,7 +447,25 @@ class ThisCharacter: Entity {
         else {
             didNotifyNilWeapon = false
         }
-        self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.stuck * statusFactors.confused * UIElements.LeftJoystick!.normalDisplacement
+        self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.movementMod * UIElements.LeftJoystick!.normalDisplacement
+        
+        if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
+            let newDir = ((Int((UIElements.LeftJoystick.getAngle() + 3.13) * 8/6.28) + 5) % 8)/2
+            if (newDir != currentDirection) {
+                currentDirection = newDir
+                setCurrentTextures("walking\(newDir)")
+                runAnimation(0.25)
+            }
+            else if (!isCurrentlyAnimating()) {
+                runAnimation(0.25)
+            }
+        }
+        else {
+            if (!isCurrentlyAnimating()) {
+                setCurrentTextures("standing\(currentDirection)")
+                runAnimation(0.25)
+            }
+        }
     }
 }
 
@@ -429,7 +477,16 @@ class Enemy:Entity {
     weak var parentSpawner:Spawner?
 
     init(thisEnemy:AEXMLElement, atPosition:CGPoint, spawnedFrom:Spawner?) {
-        super.init(fromTexture: SKTexture(imageNamed: thisEnemy["img"].stringValue), withStats: Stats.statsFrom(thisEnemy), withInventory: Inventory(fromElement: thisEnemy["inventory"], ignoreStats:true))
+        var dict = [String:[SKTexture]]()
+        let newTexture = SKTextureAtlas(named: "Entities").textureNamed(thisEnemy["img"].stringValue)
+        let numFrames = Int(newTexture.size().width / 16)
+        var standingArr:[SKTexture] = []
+        for i in 0...numFrames {
+            let cutRect = CGRectMake(16*CGFloat(i), 0, 16, 16)
+            standingArr.append(SKTexture(rect: cutRect, inTexture: newTexture))
+        }
+        dict["0"] = standingArr
+        super.init(fromTextures: dict, beginTexture:"0", withStats: Stats.statsFrom(thisEnemy), withInventory: Inventory(fromElement: thisEnemy["inventory"], ignoreStats:true))
         name = thisEnemy["name"].stringValue
         AI = EnemyDictionary.EnemyDictionary[name!]!(parent: self)
         parentSpawner = spawnedFrom
@@ -451,7 +508,7 @@ class Enemy:Entity {
     
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            (thisCharacter.scene as! InGameScene).addObject(weapon!.getProjectile(statusFactors.weak * stats.attack, fromPoint: position, withVelocity: withVelocity, isFriendly: false))
+            (self.scene as? InGameScene)?.addObject(weapon!.getProjectile(statusFactors.atkMod * stats.attack, fromPoint: position, withVelocity: withVelocity, isFriendly: false))
         }
     }
     
@@ -479,14 +536,14 @@ class Enemy:Entity {
     }
     
     func setVelocity(v:CGVector) { //v is unit vector
-        physicsBody?.velocity = stats.speed * statusFactors.stuck * statusFactors.confused * v
+        physicsBody?.velocity = stats.speed * statusFactors.movementMod * v
     }
     
     override func update(deltaT:Double) {
         super.update(deltaT)
         AI?.update(deltaT)
     }
-    
+
     override func die() {
         thisCharacter.killedEnemy(self)
         for drop in drops {

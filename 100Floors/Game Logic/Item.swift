@@ -67,7 +67,7 @@ class Item:NSObject, NSCoding {
     }
 }
 
-class Weapon: Item {
+ class Weapon: Item {
     let projectile:SKTexture
     private let range:CGFloat
     let projectileSpeed:CGFloat

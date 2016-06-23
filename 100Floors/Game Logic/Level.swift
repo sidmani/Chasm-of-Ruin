@@ -27,7 +27,7 @@ extension CGFloat {
     }
 }
 
-class BaseLevel:SKNode { //TODO: probably merge these two classes together
+class BaseLevel:SKNode {
 
     struct LayerDef {
         static let Effects:CGFloat = 100

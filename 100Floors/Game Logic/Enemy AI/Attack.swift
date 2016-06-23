@@ -33,3 +33,16 @@ class MainAttack:Behavior {
         parent.fireProjectileAngle(parent.angleToCharacter() + err)
     }
 }
+
+class SpawnEnemy:Behavior {
+
+}
+
+class Selfdestruct:Behavior {
+    
+}
+
+class FireXProjectilesAtAngle:Behavior {
+    
+}
+

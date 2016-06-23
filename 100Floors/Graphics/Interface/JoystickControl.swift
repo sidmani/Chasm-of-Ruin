@@ -106,4 +106,8 @@ class JoystickControl:UIControl{
         distance = 0
         ringLayer.strokeColor = ColorScheme.strokeColor.CGColor
     }
+    
+    func getAngle() -> CGFloat {
+        return atan2(stickView.center.y, stickView.center.x)
+    }
 }

@@ -69,3 +69,7 @@ class StatUpdatePopup:SKNode {
     }
     
 }
+
+class PixelEffect:SKSpriteNode {
+    
+}

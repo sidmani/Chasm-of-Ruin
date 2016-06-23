@@ -60,7 +60,6 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-       // selectCenterCell() //TODO: fix this, should be select @ point touched
         loadLevel(previousSelectedContainer!.level)
     }
     

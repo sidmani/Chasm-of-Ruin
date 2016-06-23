@@ -10,7 +10,7 @@
         <!--Menu-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" userLabel="Menu" customClass="MenuViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" userLabel="Menu" customClass="MenuViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wrK-6a-TQb"/>
                         <viewControllerLayoutGuide type="bottom" id="0qp-w4-PXh"/>
@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="283" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -30,7 +30,7 @@
                                     <segue destination="ara-Lb-UGj" kind="show" id="eUc-pQ-tDT"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YR-dd-PT4" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YR-dd-PT4" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="332" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Credits"/>
@@ -63,7 +63,7 @@
         <!--Level Select View Controller-->
         <scene sceneID="gGO-1y-Mrc">
             <objects>
-                <viewController id="ara-Lb-UGj" customClass="LevelSelectViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ara-Lb-UGj" customClass="LevelSelectViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="guc-lR-zYp"/>
                         <viewControllerLayoutGuide type="bottom" id="fzh-RF-wm9"/>
@@ -84,7 +84,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="Myp-Ey-TE9" customClass="LevelContainer" customModule="_00Floors" customModuleProvider="target">
+                                    <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="Myp-Ey-TE9" customClass="LevelContainer" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -100,7 +100,7 @@
                                     <outlet property="delegate" destination="ara-Lb-UGj" id="Apg-og-1rV"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmS-qr-sIC" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmS-qr-sIC" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="495" y="30" width="90" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nmS-qr-sIC" secondAttribute="height" multiplier="45:11" id="Tku-Tm-Kck"/>
@@ -140,7 +140,7 @@
         <!--InGame-->
         <scene sceneID="GMw-B6-Bhm">
             <objects>
-                <viewController storyboardIdentifier="igvc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MLO-tX-9Zl" userLabel="InGame" customClass="InGameViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="igvc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MLO-tX-9Zl" userLabel="InGame" customClass="InGameViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ilu-46-eXo"/>
                         <viewControllerLayoutGuide type="bottom" id="f0Y-Qs-o21"/>
@@ -149,7 +149,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="9d2-oo-m9X" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="9d2-oo-m9X" customClass="JoystickControl" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="35" y="485" width="100" height="100"/>
                                 <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -157,7 +157,7 @@
                                     <constraint firstAttribute="height" constant="100" id="6wg-ua-AYI"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="_00Floors" customModuleProvider="target">
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="465" y="485" width="100" height="100"/>
                                 <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -166,7 +166,7 @@
                                     <constraint firstAttribute="height" constant="100" id="NRS-Ss-T4B"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="35" y="436" width="100" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Inventory"/>
@@ -174,18 +174,12 @@
                                     <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rkT-DA-yQp" userLabel="HPBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="30" width="523" height="32"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rkT-DA-yQp" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="20" y="30" width="453" height="32"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                         <color key="value" red="0.0" green="0.90196079019999997" blue="0.088134331740000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                        <real key="value" value="0.25"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="fillUndoneColor">
-                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="vertical" value="NO"/>
                                 </userDefinedRuntimeAttributes>
@@ -204,15 +198,30 @@
                                     <segue destination="vb3-7V-c1Z" kind="presentation" id="JJd-2I-DG8"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-pQ-J3m" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-pQ-J3m" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="465" y="436" width="100" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Skill"/>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LF5-U2-EV1" customClass="TextDisplay" customModule="_00Floors" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LF5-U2-EV1" customClass="TextDisplay" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="140" y="77" width="320" height="32"/>
                                 <color key="backgroundColor" red="0.41559579261380147" green="0.088069058263496508" blue="0.94284855769230769" alpha="0.0" colorSpace="calibratedRGB"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ingot.png" translatesAutoresizingMaskIntoConstraints="NO" id="0i1-qW-Q1v">
+                                <rect key="frame" x="483" y="30" width="60" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="0i1-qW-Q1v" secondAttribute="height" multiplier="15:8" id="cW7-OE-5br"/>
+                                    <constraint firstAttribute="width" constant="60" id="f60-Ul-dWI"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9r-K3-eX4">
+                                <rect key="frame" x="478" y="43" width="70" height="26"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="0.96862745098039216" green="0.95686274509803926" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042764917875" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="2" height="2"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -223,27 +232,26 @@
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="9d2-oo-m9X" secondAttribute="bottom" constant="15" id="64R-gg-7lU"/>
                             <constraint firstAttribute="leadingMargin" secondItem="rkT-DA-yQp" secondAttribute="leading" id="ADd-Oz-oxz"/>
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="leading" secondItem="LF5-U2-EV1" secondAttribute="trailing" constant="5" id="CZm-TY-wDz"/>
-                            <constraint firstItem="7cs-Y9-J62" firstAttribute="leading" secondItem="rkT-DA-yQp" secondAttribute="trailing" constant="10" id="Huq-zq-tm2"/>
+                            <constraint firstItem="0i1-qW-Q1v" firstAttribute="centerY" secondItem="rkT-DA-yQp" secondAttribute="centerY" id="D9y-Tn-uAQ"/>
+                            <constraint firstItem="J9r-K3-eX4" firstAttribute="top" secondItem="0i1-qW-Q1v" secondAttribute="bottom" constant="-19" id="GkF-uJ-0BI"/>
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="width" secondItem="CwZ-pI-Qun" secondAttribute="width" id="L1R-xo-7C4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7cs-Y9-J62" secondAttribute="trailing" constant="-5" id="L5P-S8-35j"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="leading" secondItem="8xQ-dL-goi" secondAttribute="leadingMargin" constant="15" id="MsG-SJ-iba"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CwZ-pI-Qun" secondAttribute="trailing" constant="15" id="OHF-eX-Rs6"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="height" secondItem="rkT-DA-yQp" secondAttribute="height" id="PVQ-xx-r4c"/>
-                            <constraint firstItem="ZZN-eM-M4h" firstAttribute="top" secondItem="LF5-U2-EV1" secondAttribute="bottom" constant="15" id="YF1-yn-8lr"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="CwZ-pI-Qun" secondAttribute="bottom" constant="15" id="ZCJ-Yh-Hov"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="centerX" secondItem="9d2-oo-m9X" secondAttribute="centerX" id="crP-kc-CYA"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="bottom" constant="15" id="eHu-bp-IKn"/>
+                            <constraint firstItem="J9r-K3-eX4" firstAttribute="centerX" secondItem="0i1-qW-Q1v" secondAttribute="centerX" id="fCb-jV-NO8"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="width" secondItem="9d2-oo-m9X" secondAttribute="width" id="gxv-11-VRg"/>
+                            <constraint firstItem="0i1-qW-Q1v" firstAttribute="leading" secondItem="rkT-DA-yQp" secondAttribute="trailing" constant="10" id="i5o-VF-gWA"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="bottom" constant="15" id="iJF-Tb-fsM"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="leading" secondItem="ZZN-eM-M4h" secondAttribute="trailing" constant="5" id="lXN-fo-4bz"/>
+                            <constraint firstItem="7cs-Y9-J62" firstAttribute="leading" secondItem="0i1-qW-Q1v" secondAttribute="trailing" constant="10" id="m93-pP-1Pq"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="height" secondItem="rkT-DA-yQp" secondAttribute="height" id="oFm-N2-L9z"/>
+                            <constraint firstItem="J9r-K3-eX4" firstAttribute="leading" secondItem="rkT-DA-yQp" secondAttribute="trailing" constant="5" id="qCv-Cp-khE"/>
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="top" id="qNK-md-Cbx"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="YF1-yn-8lr"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="HPDisplayBar" destination="rkT-DA-yQp" id="wLp-PG-8A8"/>
@@ -262,7 +270,7 @@
         <!--Inventory View Controller-->
         <scene sceneID="X8T-87-8dq">
             <objects>
-                <viewController storyboardIdentifier="inventoryView" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inventoryView" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CGb-Sh-tvY" customClass="InventoryViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OqS-s8-3dQ"/>
                         <viewControllerLayoutGuide type="bottom" id="CJs-Wc-P5S"/>
@@ -280,73 +288,55 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
                                 <rect key="frame" x="10" y="500" width="475" height="90"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="HPBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="0.0" green="1" blue="0.017656813828499818" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIp-H1-dgf" userLabel="ManaBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIp-H1-dgf" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="80" y="0.0" width="77" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="0.45322716247019557" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dnp-YS-FyF" userLabel="DEFBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dnp-YS-FyF" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="159" y="0.0" width="78" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="0.42229567309999999" green="0.42229567309999999" blue="0.42229567309999999" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOa-EE-equ" userLabel="ATKBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOa-EE-equ" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="239" y="0.0" width="77" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="1" green="0.43441106797142925" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-gq-H6F" userLabel="SPDBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-gq-H6F" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="318" y="0.0" width="78" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="0.0012503010419571137" green="0.47816025913962856" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zt6-Hz-xfa" userLabel="DEXBar" customClass="VerticalProgressView" customModule="_00Floors" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zt6-Hz-xfa" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="398" y="0.0" width="77" height="90"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
                                                 <color key="value" red="1" green="0.90228585023564523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
@@ -354,7 +344,7 @@
                                     </view>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCD-Gl-DCV" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCD-Gl-DCV" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="495" y="500" width="90" height="90"/>
                                 <color key="backgroundColor" red="0.85999263571083484" green="0.70784289739944306" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -368,7 +358,7 @@
                                     <action selector="equipButtonPressed:" destination="CGb-Sh-tvY" eventType="touchUpInside" id="le2-RM-IbW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGy-f6-MZ2" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGy-f6-MZ2" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="495" y="30" width="90" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="mGy-f6-MZ2" secondAttribute="height" multiplier="45:11" id="Okc-ds-i6g"/>
@@ -391,7 +381,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="fOf-0I-yIk" customClass="ItemContainer" customModule="_00Floors" customModuleProvider="target">
+                                    <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="fOf-0I-yIk" customClass="ItemContainer" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -408,7 +398,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                                     <rect key="frame" x="7" y="7" width="110" height="110"/>
                                                     <color key="backgroundColor" red="1" green="0.49196181230329317" blue="0.33186345736402023" alpha="0.0" colorSpace="calibratedRGB"/>
                                                     <color key="tintColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.81568627450980391" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -488,7 +478,7 @@
         <!--In Game Menu View Controller-->
         <scene sceneID="GM0-G2-SZq">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="vb3-7V-c1Z" customClass="InGameMenuViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="vb3-7V-c1Z" customClass="InGameMenuViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Chk-cv-qsX"/>
                         <viewControllerLayoutGuide type="bottom" id="3gB-3g-vgw"/>
@@ -500,7 +490,7 @@
                             <userLayoutGuide location="300" affinity="minY"/>
                         </userGuides>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9n-dR-gDP" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9n-dR-gDP" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="495" y="30" width="90" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="k9n-dR-gDP" secondAttribute="height" multiplier="45:11" id="2jW-mT-Tk0"/>
@@ -516,7 +506,7 @@
                                     <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitMenu:" id="YS3-eL-WRq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL0-vz-VNk" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL0-vz-VNk" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="283" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -524,12 +514,12 @@
                                 </constraints>
                                 <state key="normal" title="Buy Items"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ti9-Gv-vQF" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ti9-Gv-vQF" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="332" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Settings"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blG-tC-wGQ" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blG-tC-wGQ" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="234" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -565,7 +555,7 @@
         <!--Victory View Controller-->
         <scene sceneID="SM8-gH-k1Y">
             <objects>
-                <viewController id="auq-MV-pOY" customClass="VictoryViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="auq-MV-pOY" customClass="VictoryViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Aai-uw-j9b"/>
                         <viewControllerLayoutGuide type="bottom" id="nK5-vI-GVs"/>
@@ -583,7 +573,7 @@
         <!--Defeat View Controller-->
         <scene sceneID="L1E-Gz-uaF">
             <objects>
-                <viewController storyboardIdentifier="DefeatViewController" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wSz-S2-3r0" customClass="DefeatViewController" customModule="_00Floors" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DefeatViewController" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wSz-S2-3r0" customClass="DefeatViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uSE-7U-2yu"/>
                         <viewControllerLayoutGuide type="bottom" id="sqy-0t-rW0"/>
@@ -599,7 +589,7 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.14079212079847458" alpha="0.80417564655172413" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jII-MU-R6g" customClass="RectButton" customModule="_00Floors" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jII-MU-R6g" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="277" y="437" width="46" height="30"/>
                                 <state key="normal" title="Revive"/>
                             </button>
@@ -619,6 +609,7 @@
     </scenes>
     <resources>
         <image name="add.png" width="256" height="256"/>
+        <image name="ingot.png" width="256" height="154"/>
         <image name="menu-512.png" width="512" height="512"/>
     </resources>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>

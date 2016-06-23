@@ -146,12 +146,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 //    StatsDisplay[i].setProgress(Float(item.statMods.getIndex(i)/100), animated: true)
                 //}
               
-                HPProgressView.setProgress(Float(item.statMods.health/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
-                ManaProgressView.setProgress(Float(item.statMods.mana/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
-                ATKProgressView.setProgress(Float(item.statMods.attack/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
-                DEFProgressView.setProgress(Float(item.statMods.defense/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
-                SPDProgressView.setProgress(Float(item.statMods.speed/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
-                DEXProgressView.setProgress(Float(item.statMods.dexterity/StatLimits.SINGLE_ITEM_STAT_MAX), animated: true)
+                HPProgressView.setProgress(item.statMods.health/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
+                ManaProgressView.setProgress(item.statMods.mana/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
+                ATKProgressView.setProgress(item.statMods.attack/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
+                DEFProgressView.setProgress(item.statMods.defense/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
+                SPDProgressView.setProgress(item.statMods.speed/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
+                DEXProgressView.setProgress(item.statMods.dexterity/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 
                 if (item is Consumable) {
                     EquipButton.setTitle("Eat", forState: .Normal)

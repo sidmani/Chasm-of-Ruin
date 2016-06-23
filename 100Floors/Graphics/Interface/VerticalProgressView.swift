@@ -12,41 +12,26 @@ import UIKit
 @IBDesignable
 public class VerticalProgressView : UIView {
     
-    @IBInspectable public var cornerRadius: CGFloat = 12;
     @IBInspectable public var fillDoneColor : UIColor = UIColor.blueColor()
-    @IBInspectable public var fillUndoneColor: UIColor = UIColor(red: 0, green: 0, blue: 1, alpha: 0.1)
-    //@IBInspectable var fillRestColor : UIColor = UIColor.whiteColor()
-    @IBInspectable public var animationDuration: Double = 0.5
     @IBInspectable public var vertical:Bool = true
 
-    @IBInspectable public var progress: Float {
-        get {
-            return self.progressPriv
-        }
-        set{
-            self.setProgress(newValue, animated: self.animationDuration > 0.0)
-        }
-    }
+    private var progress: CGFloat = 0
     
-    public var label = UILabel()
-    
-    private var progressPriv: Float = 0.0
-    
-    public var filledView: CALayer?
+    public let label = UILabel()
+    private let animationDuration: Double = 0.5
+    public let filledView = CALayer()
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        if self.filledView == nil {
-            self.filledView = CALayer()
-            self.filledView!.backgroundColor = self.fillDoneColor.CGColor
-            self.layer.addSublayer(filledView!)
-        }
-        self.filledView!.frame = self.bounds
+        self.filledView.backgroundColor = self.fillDoneColor.CGColor
+        self.filledView.frame = self.bounds
+
+        self.layer.addSublayer(filledView)
         if (vertical) {
-            self.filledView!.frame.origin.y = self.shouldHavePosition()
+            self.filledView.frame.origin.y = self.shouldHavePosition()
         }
         else {
-            self.filledView!.frame.origin.x = self.shouldHavePosition()
+            self.filledView.frame.origin.x = self.shouldHavePosition()
 
         }
         if (self.vertical) {
@@ -59,63 +44,55 @@ public class VerticalProgressView : UIView {
         self.layer.borderColor = ColorScheme.strokeColor.CGColor
         self.layer.borderWidth = 2.0
         self.backgroundColor = ColorScheme.fillColor
-    }
-    
-    public override func prepareForInterfaceBuilder() {
-        self.progressPriv = progress
-        if self.progressPriv < 0 { progressPriv = 0 }
-        else if(self.progressPriv > 1) { progressPriv = 1}
+        self.layer.cornerRadius = 12
+        self.layer.masksToBounds = true
+
     }
     
     override public func drawRect(rect: CGRect) {
         super.drawRect(rect)
         if (vertical) {
-            let filledHeight = rect.size.height * CGFloat(self.progressPriv)
-            self.setLayerProperties()
+            let filledHeight = rect.size.height * progress
             let y = self.frame.size.height - filledHeight
-            self.filledView!.frame = CGRectMake(0, y, rect.size.width, rect.size.height)
+            self.filledView.frame = CGRectMake(0, y, rect.size.width, rect.size.height)
 
         }
         else {
-            let filledWidth = rect.size.width * CGFloat(self.progressPriv)
-            self.setLayerProperties()
+            let filledWidth = rect.size.width * progress
             let x = filledWidth - self.frame.size.width
-            self.filledView!.frame = CGRectMake(x, 0, rect.size.width, rect.size.height)
+            self.filledView.frame = CGRectMake(x, 0, rect.size.width, rect.size.height)
         }
         
     }
     
     //public - for possible inheritance and customization
-    public func setLayerProperties(){
-        self.layer.cornerRadius = self.cornerRadius
-        self.layer.masksToBounds = true
-    }
+   // public func setLayerProperties(){
+   // }
     
     private func shouldHavePosition() -> CGFloat {
         if (vertical) {
-            let filledHeight = self.frame.size.height * CGFloat(self.progressPriv)
+            let filledHeight = self.frame.size.height * progress
             let position = self.frame.size.height - filledHeight
             return position
         }
         else {
-            let filledWidth = self.frame.size.width * CGFloat(self.progressPriv)
+            let filledWidth = self.frame.size.width * progress
             let position = filledWidth - self.frame.size.width
             return position
         }
     }
     
     private func setFilledPosition(position: CGFloat, animated: Bool) {
-        if self.filledView == nil { return }
         //animated
         let duration: NSTimeInterval = animated ? self.animationDuration : 0;
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
 
         if (vertical) {
-            self.filledView!.frame.origin.y = position
+            self.filledView.frame.origin.y = position
         }
         else {
-            self.filledView!.frame.origin.x = position
+            self.filledView.frame.origin.x = position
         }
         
         CATransaction.commit()
@@ -123,39 +100,32 @@ public class VerticalProgressView : UIView {
     }
     
     private func setFilledPosition(color:UIColor, position: CGFloat, animated: Bool) {
-        if self.filledView == nil { return }
         //animated
         let duration: NSTimeInterval = animated ? self.animationDuration : 0;
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
         
         if (vertical) {
-            self.filledView!.frame.origin.y = position
+            self.filledView.frame.origin.y = position
         }
         else {
-            self.filledView!.frame.origin.x = position
+            self.filledView.frame.origin.x = position
         }
-        self.filledView!.backgroundColor = color.CGColor
+        self.filledView.backgroundColor = color.CGColor
         
         CATransaction.commit()
         
     }
     
-    public func setProgress(progress: Float, animated: Bool){
+    public func setProgress(progress: CGFloat, animated: Bool){
         //bounds check
-        var val = progress
-        if val < 0 { val = 0.0 }
-        else if val > 1 { val = 1 }
-        self.progressPriv = val
+        self.progress = max(0, min(progress, 1))
         setFilledPosition(self.shouldHavePosition(), animated: animated)
     }
     
-    public func setProgress(color:UIColor, progress: Float, animated: Bool){
+    public func setProgress(color:UIColor, progress: CGFloat, animated: Bool){
         //bounds check
-        var val = progress
-        if val < 0 { val = 0.0 }
-        else if val > 1 { val = 1 }
-        self.progressPriv = val
+        self.progress = max(0, min(progress, 1))
         setFilledPosition(color, position: self.shouldHavePosition(), animated: animated)
     }
     
