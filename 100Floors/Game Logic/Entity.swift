@@ -300,6 +300,7 @@ class ThisCharacter: Entity {
     private var enhancer:Item? {
         return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
+    
     private var timeSinceProjectile:Double = 0
     var totalDamageInflicted:Int = 0
     //////////////
@@ -350,17 +351,32 @@ class ThisCharacter: Entity {
         stats.dexterity = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.speed = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         
-        UIElements.HPBar.setProgress(1, animated: true)
+        //UIElements.HPBar.setProgress(1, animated: true)
         
     }
     
-    convenience init(fromSaveData:SaveData) {
-        self.init(withStats: fromSaveData.stats, withInventory: fromSaveData.inventory, withLevel: fromSaveData.level, withExp: fromSaveData.exp)
+    /////////NSCoding
+    private struct PropertyKey {
+        static let levelKey = "level"
+        static let inventoryKey = "inventory"
+        static let expKey = "exp"
+        static let statsKey = "stats"
+    }
+    required convenience init?(coder aDecoder: NSCoder) {
+        let stats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statsKey) as! NSArray)
+        let level = aDecoder.decodeObjectForKey(PropertyKey.levelKey) as! Int
+        let exp = aDecoder.decodeObjectForKey(PropertyKey.expKey) as! Int
+        let inv = aDecoder.decodeObjectForKey(PropertyKey.inventoryKey) as! Inventory
+        self.init(withStats: stats, withInventory: inv, withLevel: level, withExp: exp)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(inventory, forKey: PropertyKey.inventoryKey)
+        aCoder.encodeObject(stats.toArray(), forKey: PropertyKey.statsKey)
+        aCoder.encodeObject(expPoints, forKey: PropertyKey.expKey)
+        aCoder.encodeObject(level, forKey: PropertyKey.levelKey)
     }
+    
     ///collision handling
     override func takeDamage(d: CGFloat) {
         super.takeDamage(d)
@@ -458,6 +474,7 @@ class ThisCharacter: Entity {
                 runAnimation(0.25)
             }
             else if (!isCurrentlyAnimating()) {
+                setCurrentTextures("walking\(newDir)")
                 runAnimation(0.25)
             }
         }

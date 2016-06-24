@@ -7,9 +7,6 @@
 //
 import SpriteKit
 import UIKit
-let LevelDict:[Int:(fileName:String,mapName:String,desc:String,thumbnail:String)] = [
-    0:(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumbnail:"thumbnail")
-]
 extension CGPoint {
     init(s:String) {
         let stringArr = s.componentsSeparatedByString(",")
@@ -47,22 +44,19 @@ class BaseLevel:SKNode {
     let mapSize:CGSize
     let tileEdge:CGFloat
     let levelName:String
-    let desc:String
     let mapSizeOnScreen: CGSize
     
     let startLoc:CGPoint
     let objects = SKNode()
     
-    let keyInLevelDict:Int
+//    let keyInLevelDict:Int
     
-    init(index:Int, startLoc:CGPoint, name:String, description: String, tileEdge:CGFloat, mapSize:CGSize,mapSizeOnScreen:CGSize) {
+    init(startLoc:CGPoint, name:String, tileEdge:CGFloat, mapSize:CGSize,mapSizeOnScreen:CGSize) {
         self.startLoc = startLoc
         self.mapSize = mapSize
         self.tileEdge = tileEdge
-        self.desc = description
         self.levelName = name
         self.mapSizeOnScreen = mapSizeOnScreen
-        self.keyInLevelDict = index
         super.init()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -85,14 +79,14 @@ class BaseLevel:SKNode {
 class MapLevel:BaseLevel, Updatable {
     private let map:SKATiledMap
     
-    init(index:Int) {
+    init(level: LevelHandler.LevelDefinition) {
         
-        map = SKATiledMap(mapName: LevelDict[index]!.fileName)
+        map = SKATiledMap(mapName: level.fileName)
         
         let startLocPoint = CGPoint(s: map.mapProperties["StartLoc"] as! String)
         let mapSizeOnScreen = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
         let mapSize = CGSizeMake(CGFloat(map.mapWidth*map.tileWidth), CGFloat(map.mapHeight*map.tileHeight))
-        super.init(index: index, startLoc: startLocPoint, name: (map.mapProperties["Name"] as! String), description: "", tileEdge: CGFloat(map.tileWidth), mapSize:mapSize, mapSizeOnScreen: mapSizeOnScreen)
+        super.init(startLoc: startLocPoint, name: (map.mapProperties["Name"] as! String), tileEdge: CGFloat(map.tileWidth), mapSize:mapSize, mapSizeOnScreen: mapSizeOnScreen)
         
         for layer in map.objectLayers {
             for obj in layer.objects {

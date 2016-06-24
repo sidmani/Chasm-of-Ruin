@@ -16,6 +16,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        enemyXML = {
+            let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
+            let data = NSData(contentsOfFile: xmlPath)!
+            do {
+                return try AEXMLDocument(xmlData: data)
+            }
+            catch {
+                fatalError()
+            }
+            
+        }()
+        
+        itemXML = {
+            let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
+            let data = NSData(contentsOfFile: xmlPath!)!
+            do {
+                return try AEXMLDocument(xmlData: data)
+            }
+            catch {
+                fatalError()
+            }
+            
+        }()
+
+        SaveData.loadSaveGame()
         return true
     }
 

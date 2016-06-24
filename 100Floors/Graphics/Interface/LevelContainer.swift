@@ -22,7 +22,7 @@ class LevelContainer:UICollectionViewCell {
     private let rectangleLayer = CAShapeLayer()
     
     private let levelView = UIImageView()
-    var level:Int = -10
+    var level:LevelHandler.LevelDefinition?
     private var centerPoint = CGPointZero
     
     
@@ -57,7 +57,7 @@ class LevelContainer:UICollectionViewCell {
         }
     }
     
-    func setLevelTo(l:Int) {
+    func setLevelTo(l:LevelHandler.LevelDefinition) {
         level = l
         //TODO: somehow get level thumbnail from level name
         //then add it to the UIImageView

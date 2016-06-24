@@ -9,17 +9,22 @@
 import UIKit
 import SpriteKit
 
+var thisCharacter:ThisCharacter!
+var levelHandler:LevelHandler!
+
 class MenuViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var SettingsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SettingsButton.tintColor = ColorScheme.strokeColor
+        
+        thisCharacter = SaveData.currentSave.character
+        levelHandler = SaveData.currentSave.levelHandler
     }
   
     @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
-     //   GameLogic.resetEverything()
-     //   GameLogic.setGameState(.MainMenu)
-
 
     }
     

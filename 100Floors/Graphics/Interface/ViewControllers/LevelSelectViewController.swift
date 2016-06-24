@@ -11,15 +11,17 @@ import SpriteKit
 
 class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     private var previousSelectedContainer:LevelContainer?
-
+    private var itemWidth:CGFloat = 0
     @IBOutlet weak var levelCollection: UICollectionView!
+    @IBOutlet weak var NameLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let layout = levelCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
         layout.minimumInteritemSpacing = CGFloat.max
-        
+        itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
     }
@@ -28,12 +30,12 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     //Collection View
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return LevelDict.count
+        return levelHandler.levelDict.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! LevelContainer
-        cell.setLevelTo(indexPath.item)
+        cell.setLevelTo(levelHandler.levelDict[indexPath.item]!)
         if (indexPath.item == 0 && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
@@ -47,9 +49,9 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
                 previousSelectedContainer?.setSelectedTo(false)
                 container.setSelectedTo(true)
                 previousSelectedContainer = container
-                return true
                 //set name, description, etc labels
                 //set bg image
+                return true
             }
         }
         return false
@@ -60,12 +62,17 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        loadLevel(previousSelectedContainer!.level)
+        if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer) {
+            loadLevel(previousSelectedContainer!.level!)
+        }
+        else {
+            collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth - collectionView.contentInset.left, 0), animated: true)
+        }
     }
     
-    func loadLevel(index:Int) {
+    func loadLevel(level:LevelHandler.LevelDefinition) {
         let igvc = storyboard?.instantiateViewControllerWithIdentifier("igvc") as! InGameViewController
-        igvc.level = index
+        igvc.level = level
         igvc.modalTransitionStyle = .CrossDissolve
         presentViewController(igvc, animated: true, completion:nil)
     }

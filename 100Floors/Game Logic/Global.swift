@@ -12,8 +12,6 @@ protocol Updatable {
     func update(deltaT:Double)
 }
 
-var thisCharacter:ThisCharacter!
-
 //////////////////
 //Global functions
 //////////////////

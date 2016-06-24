@@ -204,7 +204,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if (indexPath.item == inventoryCollection.numberOfItemsInSection(0)-1) {
+        if (indexPath.item == collectionView.numberOfItemsInSection(0)-1) {
             return collectionView.dequeueReusableCellWithReuseIdentifier("AddSlots", forIndexPath: indexPath)
         }
         else {

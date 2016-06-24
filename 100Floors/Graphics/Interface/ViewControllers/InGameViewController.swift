@@ -44,7 +44,7 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
     
-    var level:Int?
+    var level:LevelHandler.LevelDefinition?
     
     private var gameScene:InGameScene!
     override func viewDidLoad() {
@@ -62,29 +62,7 @@ class InGameViewController: UIViewController {
         MenuButton.tintColor = ColorScheme.strokeColor
        
         //////////
-        enemyXML = {
-            let xmlPath = NSBundle.mainBundle().pathForResource("Enemies", ofType: "xml")!
-            let data = NSData(contentsOfFile: xmlPath)!
-            do {
-                return try AEXMLDocument(xmlData: data)
-            }
-            catch {
-                fatalError()
-            }
-            
-        }()
-        
-        itemXML = {
-            let xmlPath = NSBundle.mainBundle().pathForResource("Items", ofType: "xml")
-            let data = NSData(contentsOfFile: xmlPath!)!
-            do {
-                return try AEXMLDocument(xmlData: data)
-            }
-            catch {
-                fatalError()
-            }
-            
-        }()
+      
         //////////
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
@@ -99,13 +77,11 @@ class InGameViewController: UIViewController {
         skView.showsNodeCount = true
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
-        thisCharacter = SaveData.loadCharacter()
-
+        
         gameScene = InGameScene(size:skView.bounds.size)
         skView.presentScene(gameScene)
-        gameScene.setLevel(MapLevel(index:level!))
+        gameScene.setLevel(MapLevel(level:level!))
 
-        
     }
     
     func levelEndedDefeat() {

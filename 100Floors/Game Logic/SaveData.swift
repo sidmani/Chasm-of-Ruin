@@ -7,66 +7,128 @@
 //
 
 import Foundation
+import GameKit
 //autosave
 //things to save:
-// equipment + inventory
-// base stats
+// character
 // char customization, if that's implemented
-// 
+// unlocked levels
+//
 class SaveData:NSObject, NSCoding {
     static let SaveDir = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     static let SaveURL = SaveDir.URLByAppendingPathComponent("SaveGame")
     
-    static func loadCharacter() -> ThisCharacter {
-        let currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  //load save
-        if (currentSave != nil) {
-            return ThisCharacter(fromSaveData: currentSave!)
-        }
-        else {
-            return ThisCharacter()
-        }
-        
-    }
+    static var currentSave:SaveData!
     
+    static func loadSaveGame() -> Bool {
+        if let currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  {
+            SaveData.currentSave = currentSave
+            return true
+        }//load save
+        else {
+            SaveData.currentSave = SaveData()
+            return false
+        }
+    }
+
     static func saveGame() -> Bool {
-        return NSKeyedArchiver.archiveRootObject(SaveData(fromCharacter: thisCharacter), toFile: SaveData.SaveURL.path!)
+       return NSKeyedArchiver.archiveRootObject(SaveData.currentSave, toFile: SaveData.SaveURL.path!)
     }
     
     private struct PropertyKey {
-        static let statsKey = "stats"
-        static let inventoryKey = "inventory"
-        static let expKey = "exp"
-        static let levelKey = "level"
-        static let totalDamageKey = "totalDamage"
+        static let charKey = "char"
+        static let levelHandlerKey = "lvl"
     }
 
-    let stats:Stats
-    let inventory:Inventory
-    let level:Int
-    let exp:Int
-    let totalDamageInflicted:Int
-    init (stats:Stats, inventory:Inventory, totalDamageInflicted:Int, level:Int, expPoints:Int) {
-        self.stats = stats
-        self.level = level
-        self.exp = expPoints
-        self.inventory = inventory
-        self.totalDamageInflicted = totalDamageInflicted
+    let character:ThisCharacter
+    let levelHandler:LevelHandler
+    
+    init (char:ThisCharacter, lvlHandler:LevelHandler) {
+        character = char
+        levelHandler = lvlHandler
     }
-    convenience init (fromCharacter:ThisCharacter) {
-        self.init(stats: fromCharacter.stats, inventory: fromCharacter.inventory, totalDamageInflicted: fromCharacter.totalDamageInflicted, level: fromCharacter.level, expPoints: fromCharacter.expPoints)
+
+    override init() {
+        character = ThisCharacter()
+        levelHandler = LevelHandler()
     }
+    
     required convenience init?(coder aDecoder: NSCoder) {
-        let stats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statsKey) as! NSArray)
-        let inventory = aDecoder.decodeObjectForKey(PropertyKey.inventoryKey) as! Inventory
-        let totalDamageInflicted = aDecoder.decodeObjectForKey(PropertyKey.totalDamageKey) as! Int
-        let exp = aDecoder.decodeObjectForKey(PropertyKey.expKey) as! Int
-        let level = aDecoder.decodeObjectForKey(PropertyKey.levelKey) as! Int
-        self.init(stats: stats, inventory: inventory, totalDamageInflicted: totalDamageInflicted, level: level, expPoints: exp)
+        self.init(char: aDecoder.decodeObjectForKey(PropertyKey.charKey) as! ThisCharacter, lvlHandler: aDecoder.decodeObjectForKey(PropertyKey.levelHandlerKey) as! LevelHandler)
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(inventory, forKey: PropertyKey.inventoryKey)
-        aCoder.encodeObject(stats.toArray(), forKey: PropertyKey.statsKey)
-        aCoder.encodeObject(totalDamageInflicted, forKey: PropertyKey.totalDamageKey)
+        aCoder.encodeObject(character, forKey: PropertyKey.charKey)
+        aCoder.encodeObject(levelHandler, forKey: PropertyKey.levelHandlerKey)
+    }
+}
+
+class LevelHandler:NSCoding {
+   
+    class LevelDefinition:NSCoding {
+        let fileName:String
+        let mapName:String
+        let desc:String
+        let thumb:String
+        var unlocked:Bool
+        let free:Bool
+        
+        init(fileName:String, mapName:String, desc:String, thumb:String, unlocked:Bool, free:Bool) {
+            self.fileName = fileName
+            self.mapName = mapName
+            self.desc = desc
+            self.thumb = thumb
+            self.unlocked = unlocked
+            self.free = free
+        }
+        
+        @objc required convenience init?(coder aDecoder: NSCoder) {
+            let fileName = aDecoder.decodeObjectForKey("fileName") as! String
+            let mapName = aDecoder.decodeObjectForKey("mapName") as! String
+            let desc = aDecoder.decodeObjectForKey("desc") as! String
+            let thumb = aDecoder.decodeObjectForKey("thumb") as! String
+            let unlocked = aDecoder.decodeObjectForKey("unlocked") as! Bool
+            let free = aDecoder.decodeObjectForKey("free") as! Bool
+            self.init(fileName: fileName, mapName: mapName, desc: desc, thumb: thumb, unlocked: unlocked, free: free)
+        }
+        
+        @objc func encodeWithCoder(aCoder: NSCoder) {
+            aCoder.encodeObject(fileName, forKey: "fileName")
+            aCoder.encodeObject(mapName, forKey: "mapName")
+            aCoder.encodeObject(desc, forKey: "desc")
+            aCoder.encodeObject(thumb, forKey: "thumb")
+            aCoder.encodeObject(unlocked, forKey: "unlocked")
+            aCoder.encodeObject(free, forKey: "free")
+        }
+    }
+    
+    var levelDict:[Int:LevelDefinition] = [
+        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumb:"thumbnail", unlocked:true, free:true)
+    ]
+    
+    init() {
+        
+    }
+    
+    @objc required init?(coder aDecoder: NSCoder) {
+        levelDict = aDecoder.decodeObjectForKey("levelDict") as! [Int:LevelDefinition]
+        for (key, value) in levelDict {
+            if (!value.free) {
+                //verify purchases
+            }
+        }
+    }
+    
+    @objc func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(levelDict, forKey: "levelDict")
+    }
+    
+   
+    func getAllLevels() -> [LevelDefinition] {
+        return Array(levelDict.values)
+    }
+    
+    func setLevelUnlocked(index:Int) {
+        levelDict[index]?.unlocked = true
     }
 }

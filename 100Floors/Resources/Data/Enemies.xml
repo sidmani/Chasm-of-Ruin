@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<root>
-	<enemies>
-		<enemy id="Basic Enemy">
-            <animation name="default" frames="5">AirA</animation>
-            <begin-texture>default</begin-texture>
-            <stats>
-                <atk>5</atk>
-                <spd>30</spd>
-                <health>5000</health>
-                <maxHealth>5000</maxHealth>
-            </stats>
-            <drops>
-                <drop chance="0.5" type="ItemBag">wep1</drop>
-            </drops>
-		</enemy>
-	</enemies>
-</root>
+<enemies>
+    <enemy id="Basic Enemy">
+        <animation name="default" frames="5">AirA</animation>
+        <stats>
+            <atk>5</atk>
+            <spd>30</spd>
+            <health>5000</health>
+            <maxHealth>5000</maxHealth>
+        </stats>
+        <drop chance="0.5" type="ItemBag">wep1</drop>
+    </enemy>
+</enemies>

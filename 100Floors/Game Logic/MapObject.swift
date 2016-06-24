@@ -69,14 +69,13 @@ class Spawner:MapObject, Updatable {
     private var enemyTextureDict:[String:[SKTexture]] = [:]
     private var drops:[Enemy.Drop] = []
     private let stats:Stats
-    private let beginTexture:String
+    private var beginTexture:String = ""
     
     init(loc: CGPoint, withEnemyID:String, threshold:CGFloat) {
-        let thisEnemy = enemyXML.root["enemies"]["enemy"].allWithAttributes(["id":withEnemyID])!.first!
+        let thisEnemy = enemyXML.root["enemy"].allWithAttributes(["id":withEnemyID])!.first!
 
         enemyID = withEnemyID
         stats = Stats.statsFrom(thisEnemy)
-        beginTexture = thisEnemy["begin-texture"].stringValue
         // initialize textures/animations
         if let animations = thisEnemy["animation"].all {
             for animation in animations {
@@ -88,10 +87,13 @@ class Spawner:MapObject, Updatable {
                     textArr.append(newTexture)
                 }
                 enemyTextureDict[animation.attributes["name"]!] = textArr
+                if (beginTexture == "") {
+                    beginTexture = animation.attributes["name"]!
+                }
             }
         }
         // initalize drops
-        if let enemyDrops =  thisEnemy["drops"]["drop"].all {
+        if let enemyDrops =  thisEnemy["drop"].all {
             for drop in enemyDrops {
                 drops.append(Enemy.Drop(type: drop.attributes["type"]!, chance: CGFloat(s: drop.attributes["chance"]!), data: drop.stringValue))
             }
@@ -249,10 +251,10 @@ class Portal:MapObject, Interactive {
     let thumbnailImg:String
     let autotrigger:Bool
 
-    private let destinationIndex:Int
+    private let destinationLevel:LevelHandler.LevelDefinition
     private let endsLevel:Bool
     init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, thumbnailImg:String, endsLevel:Bool) {
-        self.destinationIndex = destinationIndex
+        self.destinationLevel = levelHandler.levelDict[destinationIndex]!
         self.autotrigger = autotrigger
         self.thumbnailImg = thumbnailImg
         self.endsLevel = endsLevel
@@ -287,7 +289,7 @@ class Portal:MapObject, Interactive {
             NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
         }
         else {
-            (self.scene as! InGameScene).setLevel(MapLevel(index:destinationIndex))
+            (self.scene as! InGameScene).setLevel(MapLevel(level: destinationLevel))
         }
     }
     
