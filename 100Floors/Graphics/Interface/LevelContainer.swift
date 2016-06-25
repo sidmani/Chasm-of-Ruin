@@ -24,12 +24,12 @@ class LevelContainer:UICollectionViewCell {
     private let levelView = UIImageView()
     var level:LevelHandler.LevelDefinition?
     private var centerPoint = CGPointZero
-    
+    private let lockView = UIImageView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
-        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.width), cornerRadius: 12)
+        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
         rectangleLayer.path = rectanglePath.CGPath
         setSelectedTo(false)
         rectangleLayer.lineWidth = 2.0
@@ -40,9 +40,14 @@ class LevelContainer:UICollectionViewCell {
         levelView.contentMode = .ScaleAspectFit
         levelView.layer.magnificationFilter = kCAFilterNearest
         
+        lockView.bounds = self.bounds
+        lockView.center = centerPoint
+        lockView.image = UIImage(named: "lock")
+        lockView.tintColor = ColorScheme.strokeColor
         ////////////////////////////
         self.addSubview(containerView)
         self.addSubview(levelView)
+        self.addSubview(lockView)
     }
     
     
@@ -59,6 +64,7 @@ class LevelContainer:UICollectionViewCell {
     
     func setLevelTo(l:LevelHandler.LevelDefinition) {
         level = l
+        lockView.hidden = level!.unlocked
         //TODO: somehow get level thumbnail from level name
         //then add it to the UIImageView
         

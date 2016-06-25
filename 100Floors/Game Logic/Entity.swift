@@ -67,7 +67,7 @@ struct Stats {
         return out
     }
     
-    static func statsFrom(Element:AEXMLElement) -> Stats {
+    static func statsFrom(Element:AEXMLElement) -> Stats { //TODO: delete
         return Stats(
             defense: CGFloat(Element["stats"]["def"].doubleValue),
             attack: CGFloat(Element["stats"]["atk"].doubleValue),
@@ -193,7 +193,7 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func runAnimation(frameDuration:Double) {
-        self.removeActionForKey("animation")
+        //self.removeActionForKey("animation")
         runAction(SKAction.animateWithTextures(textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
     }
     
@@ -363,11 +363,13 @@ class ThisCharacter: Entity {
         static let statsKey = "stats"
     }
     required convenience init?(coder aDecoder: NSCoder) {
-        let stats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statsKey) as! NSArray)
+        var newStats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statsKey) as! NSArray)
+        newStats.health = newStats.maxHealth
+        newStats.mana = newStats.maxMana
         let level = aDecoder.decodeObjectForKey(PropertyKey.levelKey) as! Int
         let exp = aDecoder.decodeObjectForKey(PropertyKey.expKey) as! Int
         let inv = aDecoder.decodeObjectForKey(PropertyKey.inventoryKey) as! Inventory
-        self.init(withStats: stats, withInventory: inv, withLevel: level, withExp: exp)
+        self.init(withStats: newStats, withInventory: inv, withLevel: level, withExp: exp)
     }
     
     override func encodeWithCoder(aCoder: NSCoder) {
@@ -473,13 +475,13 @@ class ThisCharacter: Entity {
                 setCurrentTextures("walking\(newDir)")
                 runAnimation(0.25)
             }
-            else if (!isCurrentlyAnimating()) {
+            else if (!isCurrentlyAnimating() || currentTextureSet == "standing\(currentDirection)") {
                 setCurrentTextures("walking\(newDir)")
                 runAnimation(0.25)
             }
         }
         else {
-            if (!isCurrentlyAnimating()) {
+            if (!isCurrentlyAnimating() || currentTextureSet == "walking\(currentDirection)") {
                 setCurrentTextures("standing\(currentDirection)")
                 runAnimation(0.25)
             }

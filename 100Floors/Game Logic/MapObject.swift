@@ -254,7 +254,7 @@ class Portal:MapObject, Interactive {
     private let destinationLevel:LevelHandler.LevelDefinition
     private let endsLevel:Bool
     init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, thumbnailImg:String, endsLevel:Bool) {
-        self.destinationLevel = levelHandler.levelDict[destinationIndex]!
+        self.destinationLevel = defaultLevelHandler.levelDict[destinationIndex]!
         self.autotrigger = autotrigger
         self.thumbnailImg = thumbnailImg
         self.endsLevel = endsLevel

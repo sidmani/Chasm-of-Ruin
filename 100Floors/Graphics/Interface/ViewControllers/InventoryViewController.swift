@@ -189,18 +189,25 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             ItemNameLabel.text = "Purchase More Inventory Slots"
             EquipButton.enabled = false
             EquipButton.alpha = 0.3
-            
         }
     }
 
     ////////////////////////////
     //UICollectionView handling
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inventory_size + 2
+        return inventory_size + 2 + defaultPurchaseHandler.checkPurchase("addInventorySlot")
     }
     
-    @IBAction func addMoreSlotsButtonPressed() {
+    @IBAction func addMoreSlotsButtonPressed(sender:UIButton) {
         print("add more slots")
+        if (defaultPurchaseHandler.checkPurchase("addInventorySlot") < 4) {
+            if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
+                inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
+                //if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
+                //    inventoryCollection.deleteItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
+                //}
+            }
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

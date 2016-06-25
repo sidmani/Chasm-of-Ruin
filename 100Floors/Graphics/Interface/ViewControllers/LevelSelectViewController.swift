@@ -14,6 +14,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     private var itemWidth:CGFloat = 0
     @IBOutlet weak var levelCollection: UICollectionView!
     @IBOutlet weak var NameLabel: UILabel!
+    @IBOutlet weak var DescLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,21 +25,25 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
+        selectCenterCell()
     }
     
     ///////////////
     //Collection View
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return levelHandler.levelDict.count
+        return defaultLevelHandler.levelDict.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! LevelContainer
-        cell.setLevelTo(levelHandler.levelDict[indexPath.item]!)
+        cell.setLevelTo(defaultLevelHandler.levelDict[indexPath.item]!)
         if (indexPath.item == 0 && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
+            NameLabel.text = cell.level!.mapName
+            DescLabel.text = cell.level!.desc
+            
         }
         return cell
     }
@@ -49,6 +54,9 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
                 previousSelectedContainer?.setSelectedTo(false)
                 container.setSelectedTo(true)
                 previousSelectedContainer = container
+                NameLabel.text = container.level!.mapName
+                DescLabel.text = container.level!.desc
+                
                 //set name, description, etc labels
                 //set bg image
                 return true
@@ -72,9 +80,9 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func loadLevel(level:LevelHandler.LevelDefinition) {
         let igvc = storyboard?.instantiateViewControllerWithIdentifier("igvc") as! InGameViewController
-        igvc.level = level
         igvc.modalTransitionStyle = .CrossDissolve
         presentViewController(igvc, animated: true, completion:nil)
+        igvc.loadLevel(level)
     }
     
     override func shouldAutorotate() -> Bool {

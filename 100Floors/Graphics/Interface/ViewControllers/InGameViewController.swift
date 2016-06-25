@@ -44,8 +44,6 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
     
-    var level:LevelHandler.LevelDefinition?
-    
     private var gameScene:InGameScene!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,12 +78,18 @@ class InGameViewController: UIViewController {
         
         gameScene = InGameScene(size:skView.bounds.size)
         skView.presentScene(gameScene)
-        gameScene.setLevel(MapLevel(level:level!))
 
+    }
+    
+    func loadLevel(level:LevelHandler.LevelDefinition) {
+        
+        gameScene.setLevel(MapLevel(level:level))
+        UIElements.HPBar.setProgress(1, animated: true)
     }
     
     func levelEndedDefeat() {
         blurView()
+        UIElements.setVisible(false)
         gameScene.paused = true
         let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
         presentViewController(dvc, animated: true, completion: nil)
@@ -93,6 +97,7 @@ class InGameViewController: UIViewController {
     
     func levelEndedVictory() {
         blurView()
+        UIElements.setVisible(false)
         gameScene.paused = true
         //mark level as completed
         //save stats

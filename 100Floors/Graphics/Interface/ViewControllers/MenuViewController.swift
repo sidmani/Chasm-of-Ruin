@@ -10,7 +10,9 @@ import UIKit
 import SpriteKit
 
 var thisCharacter:ThisCharacter!
-var levelHandler:LevelHandler!
+var defaultLevelHandler:LevelHandler!
+var defaultMoneyHandler:MoneyHandler!
+var defaultPurchaseHandler:InternalPurchaseHandler!
 
 class MenuViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
@@ -21,7 +23,9 @@ class MenuViewController: UIViewController {
         SettingsButton.tintColor = ColorScheme.strokeColor
         
         thisCharacter = SaveData.currentSave.character
-        levelHandler = SaveData.currentSave.levelHandler
+        defaultLevelHandler = SaveData.currentSave.levelHandler
+        defaultMoneyHandler = SaveData.currentSave.moneyHandler
+        defaultPurchaseHandler = SaveData.currentSave.purchaseHandler
     }
   
     @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
