@@ -1,30 +1,102 @@
 //
+//  LevelContainer.swift
+//  100Floors
+//
+//  Created by Sid Mani on 6/10/16.
+//
+//
+
+import Foundation
+//
 //  ItemContainer.swift
 //  100Floors
 //
 //  Created by Sid Mani on 1/13/16.
 //
 //
-
-
 import UIKit
-import SpriteKit
-import CoreGraphics
+
 struct ColorScheme {
     static let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
     static let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
-
+    
     static let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
     static let fillColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5)
 }
-class ItemContainer:UICollectionViewCell {
-    
+
+class Container:UICollectionViewCell {
+    private var centerPoint = CGPointZero
     private let rectangleLayer = CAShapeLayer()
+    private let containerView:UIView = UIView()
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
+        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
+        rectangleLayer.path = rectanglePath.CGPath
+        rectangleLayer.lineWidth = 2.0
+        containerView.layer.addSublayer(rectangleLayer)
+        setSelectedTo(false)
+        ////////////////////////////
+        self.addSubview(containerView)
+    }
+    
+    func setSelectedTo(val:Bool) {
+        if (val) {
+            rectangleLayer.fillColor = ColorScheme.fillColorSelected.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
+        }
+        else {
+            rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
+        }
+    }
+    
+    
+}
+class LevelContainer:Container {
+    
+    
+    
+    private let levelView = UIImageView()
+    var level:LevelHandler.LevelDefinition?
+    private let lockView = UIImageView()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        levelView.bounds = self.bounds
+        levelView.userInteractionEnabled = false
+        levelView.center = centerPoint
+        levelView.contentMode = .ScaleAspectFit
+        levelView.layer.magnificationFilter = kCAFilterNearest
+        
+        lockView.bounds = self.bounds
+        lockView.center = centerPoint
+        lockView.image = UIImage(named: "lock")
+        lockView.tintColor = ColorScheme.strokeColor
+        ////////////////////////////
+        self.addSubview(containerView)
+        self.addSubview(levelView)
+        self.addSubview(lockView)
+    }
+    
+    
+    
+    func setLevelTo(l:LevelHandler.LevelDefinition) {
+        level = l
+        lockView.hidden = level!.unlocked
+        //TODO: somehow get level thumbnail from level name
+        //then add it to the UIImageView
+    }
+
+    
+}
+
+class ItemContainer:Container {
+    
     private var numberLabel = UILabel()
     let itemView = UIImageView()
-
-    private var centerPoint = CGPointZero
-    
     var item:Item?
     
     var correspondsToInventoryIndex:Int = -5
@@ -33,13 +105,6 @@ class ItemContainer:UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
-        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
-        rectangleLayer.path = rectanglePath.CGPath
-        setSelectedTo(false)
-        rectangleLayer.lineWidth = 2.0
-        let containerView = UIView()
-        containerView.layer.addSublayer(rectangleLayer)
         itemView.bounds = self.bounds
         itemView.userInteractionEnabled = false
         itemView.center = centerPoint
@@ -55,9 +120,9 @@ class ItemContainer:UICollectionViewCell {
         self.addSubview(containerView)
         self.addSubview(itemView)
         self.addSubview(numberLabel)
-
+        
     }
-
+    
     func updateIndex(index:Int) {
         correspondsToInventoryIndex = index
         if (index == -2) {
@@ -66,7 +131,7 @@ class ItemContainer:UICollectionViewCell {
         else if (index >= 0) {
             numberLabel.text = "\(index+1)"
         }
-
+        
     }
     
     func resetItemView() {
@@ -74,7 +139,7 @@ class ItemContainer:UICollectionViewCell {
         itemView.hidden = false
     }
     
-    func setSelectedTo(val:Bool) {
+    override func setSelectedTo(val:Bool) {
         if (item == nil) {
             isEquipped = false
         }

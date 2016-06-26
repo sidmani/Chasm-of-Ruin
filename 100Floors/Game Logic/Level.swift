@@ -37,10 +37,6 @@ class BaseLevel:SKNode {
         static let MapTop:CGFloat = 3
     }
     
-    enum TerrainType:CGFloat {
-        case Road = 1, Grass = 0.8, Dirt = 0.7
-    }
-    
     let mapSize:CGSize
     let tileEdge:CGFloat
     let levelName:String
@@ -49,7 +45,6 @@ class BaseLevel:SKNode {
     let startLoc:CGPoint
     let objects = SKNode()
     
-//    let keyInLevelDict:Int
     
     init(startLoc:CGPoint, name:String, tileEdge:CGFloat, mapSize:CGSize,mapSizeOnScreen:CGSize) {
         self.startLoc = startLoc
@@ -97,6 +92,9 @@ class MapLevel:BaseLevel, Updatable {
         for i in 0..<map.spriteLayers.count {
             if let isAbovePlayer = (map.spriteLayers[i].properties["AbovePlayer"] as? String) where isAbovePlayer == "true" {
                 map.spriteLayers[i].zPosition = LayerDef.MapAbovePlayer + 0.001 * CGFloat(i)
+            }
+            else if let animationLayer = (map.spriteLayers[i].properties["AnimationLayer"] as? String) where animationLayer == "true" {
+                SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock() { [unowned self] in self.map.spriteLayers[i].hidden = !self.map.spriteLayers[i].hidden }, SKAction.waitForDuration(0.5)]))
             }
             else {
                 map.spriteLayers[i].zPosition = LayerDef.MapTop + 0.001 * CGFloat(i)

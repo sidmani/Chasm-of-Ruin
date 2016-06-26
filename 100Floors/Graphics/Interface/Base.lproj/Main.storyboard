@@ -425,11 +425,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                                     <rect key="frame" x="7" y="7" width="110" height="110"/>
                                                     <color key="backgroundColor" red="1" green="0.49196181230329317" blue="0.33186345736402023" alpha="0.0" colorSpace="calibratedRGB"/>
-                                                    <color key="tintColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.81568627450980391" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
-                                                    <state key="normal" image="add"/>
+                                                    <color key="tintColor" red="0.95921474358974357" green="0.95921474358974357" blue="0.95921474358974357" alpha="0.79665948275862064" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" backgroundImage="add"/>
                                                     <connections>
                                                         <action selector="addMoreSlotsButtonPressed:" destination="CGb-Sh-tvY" eventType="touchUpInside" id="Ero-ON-kf5"/>
                                                     </connections>
@@ -606,16 +606,42 @@
                                 <rect key="frame" x="277" y="437" width="46" height="30"/>
                                 <state key="normal" title="Revive"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8Z-2c-3ld" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="20" y="296" width="230" height="230"/>
+                                <state key="normal" title="Respawn" image="retry"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYa-vp-9yB">
+                                <rect key="frame" x="553" y="30" width="32" height="32"/>
+                                <color key="backgroundColor" red="0.85537391740000002" green="1" blue="0.99407375580000001" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="FYa-vp-9yB" secondAttribute="height" multiplier="1:1" id="eWk-3Z-hDS"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="gCr-iB-U2Y"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="0.18183589380000001" blue="0.86308780709999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="menu"/>
+                                <connections>
+                                    <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="leJ-Vx-ltS"/>
+                                    <segue destination="L2j-0g-cSK" kind="unwind" unwindAction="exitToMainMenu:" id="wGv-x0-uby"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="FYa-vp-9yB" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="10" id="1By-j6-V7f"/>
+                            <constraint firstItem="FYa-vp-9yB" firstAttribute="width" secondItem="FYa-vp-9yB" secondAttribute="height" multiplier="1:1" id="9Nt-Ad-DWJ"/>
+                            <constraint firstItem="Q8Z-2c-3ld" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" id="Cdx-CZ-dXN"/>
                             <constraint firstItem="BQ6-gh-4aD" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="20" id="qad-hd-2A2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BQ6-gh-4aD" secondAttribute="trailing" constant="20" id="qdO-vG-U3C"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FYa-vp-9yB" secondAttribute="trailing" constant="-5" id="qs8-ct-FAY"/>
                             <constraint firstItem="BQ6-gh-4aD" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" constant="20" id="sn0-U2-R3N"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="MenuButton" destination="FYa-vp-9yB" id="gPo-1B-Qqc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MAS-OS-Enc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="L2j-0g-cSK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1491" y="-249"/>
         </scene>
@@ -624,6 +650,7 @@
         <image name="ChasmCrystal" width="15" height="13"/>
         <image name="add" width="256" height="256"/>
         <image name="menu" width="512" height="512"/>
+        <image name="retry" width="512" height="512"/>
         <image name="settings_gear.png" width="512" height="512"/>
     </resources>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>

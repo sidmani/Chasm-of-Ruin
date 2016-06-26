@@ -15,7 +15,7 @@ import SpriteKit
 // style: changes appearance
 // consumable: gives temporary or permanent stat changes
 
-class Item:NSObject, NSCoding {
+class Item:NSObject, NSCoding, Purchasable {
     private static let ItemTypeDict:[String:Item.Type] = [
         "Weapon":Weapon.self,
         "Consumable":Consumable.self,
@@ -28,23 +28,28 @@ class Item:NSObject, NSCoding {
     let desc:String
     let img: String
     
-    required init(thisItem: AEXMLElement) {
-        img = thisItem["img"].stringValue
-        desc = thisItem["desc"].stringValue
-        name = thisItem["name"].stringValue
-        statMods = Stats.statsFrom(thisItem)
+    var priceCoins: Int? = nil
+    var priceCrystals: Int? = nil
+    var designatedCurrencyType: CurrencyType? = nil
+    
+    required init(fromBase64:String) {
+        fatalError()
     }
     
-    init(statMods:Stats, name:String, description:String, img:String) {
+    init(statMods:Stats, name:String, description:String, img:String, priceCrystals:Int?, priceCoins:Int?, designatedCurrencyType:CurrencyType?) {
         self.statMods = statMods
         self.desc = description
         self.name = name
         self.img = img
+        self.priceCoins = priceCoins
+        self.priceCrystals = priceCrystals
+        self.designatedCurrencyType = designatedCurrencyType
     }
     
     static func initHandlerID(withID:String) -> Item {
-        let thisItem = itemXML.root["items"]["item"].allWithAttributes(["id":withID])!.first!
-        return ItemTypeDict[thisItem["type"].stringValue]!.init(thisItem: thisItem)
+        let thisItem = itemXML.root["item"].allWithAttributes(["id":withID])!.first!
+        return ItemTypeDict[thisItem.attributes["type"]!]!.init(fromBase64: thisItem.stringValue)
+        
     }
     //NSCoding
     private struct PropertyKey {
@@ -52,13 +57,21 @@ class Item:NSObject, NSCoding {
         static let nameKey = "name"
         static let descriptionKey = "description"
         static let imgKey = "img"
+        static let priceCoinsKey = "pricecoins"
+        static let priceCrystalsKey = "pricecrystals"
+        static let designatedTypeKey = "desigtype"
     }
     
     required init?(coder aDecoder: NSCoder) {
-         statMods = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statModsKey) as! NSArray)
-         name = aDecoder.decodeObjectForKey(PropertyKey.nameKey) as! String
-         desc = aDecoder.decodeObjectForKey(PropertyKey.descriptionKey) as! String
-         img = aDecoder.decodeObjectForKey(PropertyKey.imgKey) as! String
+        statMods = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statModsKey) as! NSArray)
+        name = aDecoder.decodeObjectForKey(PropertyKey.nameKey) as! String
+        desc = aDecoder.decodeObjectForKey(PropertyKey.descriptionKey) as! String
+        img = aDecoder.decodeObjectForKey(PropertyKey.imgKey) as! String
+        priceCoins = aDecoder.decodeObjectForKey(PropertyKey.priceCoinsKey) as? Int
+        priceCrystals = aDecoder.decodeObjectForKey(PropertyKey.priceCrystalsKey) as? Int
+        if let rawVal = aDecoder.decodeObjectForKey(PropertyKey.designatedTypeKey) as? Int {
+            designatedCurrencyType = CurrencyType(rawValue: rawVal)
+        }
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -66,6 +79,9 @@ class Item:NSObject, NSCoding {
         aCoder.encodeObject(name, forKey: PropertyKey.nameKey)
         aCoder.encodeObject(description, forKey: PropertyKey.descriptionKey)
         aCoder.encodeObject(img, forKey: PropertyKey.imgKey)
+        aCoder.encodeObject(priceCrystals, forKey: PropertyKey.priceCrystalsKey)
+        aCoder.encodeObject(priceCoins, forKey: PropertyKey.priceCoinsKey)
+        aCoder.encodeObject(designatedCurrencyType?.rawValue, forKey: PropertyKey.designatedTypeKey)
     }
 }
 
@@ -75,26 +91,10 @@ class Item:NSObject, NSCoding {
     let projectileSpeed:CGFloat
     let projectileReflects:Bool
     var statusCondition:(condition:StatusCondition,probability:CGFloat)? = nil
-
-    required init(thisItem:AEXMLElement) {
-        projectile = SKTextureAtlas(named: "Projectiles").textureNamed(thisItem["projectile-img"].stringValue)
-        projectile.filteringMode = .Nearest
-        range = CGFloat(thisItem["range"].doubleValue)
-        projectileSpeed = CGFloat(thisItem["projectile-speed"].doubleValue)
-        projectileReflects = thisItem["projectile-reflects"].boolValue
-        if let cond = StatusCondition(rawValue: thisItem["status-condition"].doubleValue) {
-            statusCondition = (cond, CGFloat(thisItem["status-condition-probability"].doubleValue))
-        }
-        let img = thisItem["img"].stringValue
-        let description = thisItem["desc"].stringValue
-        let name = thisItem["name"].stringValue
-        let statMods = Stats.statsFrom(thisItem)
-        super.init(statMods:statMods, name:name, description:description, img:img)
-    }
     
-    init(fromBase64:String) {
+    required init(fromBase64:String) {
         let optArr = fromBase64.splitBase64IntoArray()
-        // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img"
+        // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType"
         projectile = SKTextureAtlas(named: "Projectiles").textureNamed(optArr[0])
         projectile.filteringMode = .Nearest
         range = CGFloat(s: optArr[1])
@@ -103,11 +103,11 @@ class Item:NSObject, NSCoding {
         if let cond = StatusCondition(rawValue: Double(optArr[4])!) {
             statusCondition = (cond, CGFloat(s:optArr[5]))
         }
-        super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9])
+        super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9], priceCrystals: Int(optArr[10])!, priceCoins: Int(optArr[11])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[12])!))
         
     }
     
-    private init(projectile:String, range:CGFloat, projectileSpeed:CGFloat, projectileReflects:Bool, statMods:Stats, name:String, description:String, img:String, statusCondition:(StatusCondition, CGFloat)?) {
+  /*  private init(projectile:String, range:CGFloat, projectileSpeed:CGFloat, projectileReflects:Bool, statMods:Stats, name:String, description:String, img:String, statusCondition:(StatusCondition, CGFloat)?) {
         self.projectile = SKTextureAtlas(named: "Projectiles").textureNamed(projectile)
         self.projectile.filteringMode = .Nearest
         self.range = range
@@ -115,7 +115,7 @@ class Item:NSObject, NSCoding {
         self.projectileReflects = projectileReflects
         self.statusCondition = statusCondition
         super.init(statMods:statMods, name: name, description: description, img:img)
-    }
+    }*/
     
     func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> Projectile {
         return Projectile(fromTexture: self.projectile, fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
@@ -156,7 +156,7 @@ class Skill: Item {
 }
 
 class Armor: Item {
-    
+    //protects against certain status effects
 }
 
 class Enhancer: Item {
@@ -165,15 +165,13 @@ class Enhancer: Item {
 
 class Consumable: Item {
     let permanent:Bool
-    
-    required init(thisItem:AEXMLElement) {
-        permanent = thisItem["permanent"].boolValue
-        super.init(thisItem: thisItem)
+    required init(fromBase64:String) {
+        //permanent, statMods, name, desc, img
+        let optArr = fromBase64.splitBase64IntoArray()
+        permanent = optArr[0] == "true"
+        super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: optArr[3], img: optArr[4], priceCrystals: Int(optArr[5])!, priceCoins: Int(optArr[6])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[7])!))
     }
     
-  //  init(fromBase64:String) {
-        
-  //  }
     //NSCoding
     private struct PropertyKey {
         static let permanentKey = "permanent"
@@ -189,6 +187,20 @@ class Consumable: Item {
 }
 
 class Usable:Item {
-//    let eventKey:String
-//    send NSNotifications 
+    let eventKey:String
+    required init(fromBase64: String) {
+        //eventKey, statMods, name, desc, img
+        let optArr = fromBase64.splitBase64IntoArray()
+        eventKey = optArr[0]
+        super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: optArr[3], img: optArr[4], priceCrystals: Int(optArr[5])!, priceCoins: Int(optArr[6])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[7])!))
+
+    }
+    
+    func use() {
+        NSNotificationCenter.defaultCenter().postNotificationName("UsableItemUsed", object: eventKey)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

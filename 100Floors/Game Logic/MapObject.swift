@@ -45,6 +45,10 @@ class MapObject:SKNode {
             return FixedNumSpawner(fromBase64: fromBase64, loc: loc)
         case "OneTimeSpawner":
             return OneTimeSpawner(fromBase64: fromBase64, loc: loc)
+        case "UsableItemResponder":
+            return UsableItemResponder(loc: loc, eventKey: fromBase64)
+        case "InfoDisplay":
+            return InfoDisplay(fromBase64: fromBase64, loc: loc)
         default:
             fatalError()
         }
@@ -371,7 +375,45 @@ class UsableItemResponder:MapObject {
 }
 
 class InfoDisplay:MapObject {
+    private let infoToDisplay:String
+    private let triggerDistance:CGFloat
 
+    init (fromBase64:String, loc:CGPoint) {
+        let optArr = fromBase64.splitBase64IntoArray()
+        infoToDisplay = optArr[0]
+        triggerDistance = CGFloat(s: optArr[1])
+        super.init(loc: loc)
+        physicsBody = SKPhysicsBody(circleOfRadius: triggerDistance)
+        physicsBody!.pinned = true
+        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.InfoDisplay
+        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
+        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func postInfo() {
+        NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: infoToDisplay)
+    }
 }
+
+/*class Trap:MapObject { //TODO: finish this
+    private let triggerDistance:CGFloat
+    let damage:CGFloat
+    private let node:SKSpriteNode
+    private let statusInflicted:StatusCondition?
+    init(fromBase64:String, loc:CGPoint) {
+    //texture name, damage, side effect rawvalue
+        let optArr = fromBase64.splitBase64IntoArray()
+        node = SKSpriteNode(imageNamed: optArr[0])
+        node.texture?.filteringMode = .Nearest
+        node.hidden = true
+        self.addChild(node)
+        
+        
+    }
+}*/
 
 

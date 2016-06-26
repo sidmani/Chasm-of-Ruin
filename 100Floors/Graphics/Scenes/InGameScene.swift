@@ -23,6 +23,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         static let EnemyProjectile: UInt32 = 0b10000
         static let MapBoundary:UInt32 = 0b100000
         static let Spawner:UInt32 = 0b1000000
+        static let InfoDisplay:UInt32 = 0b10000000
     }
     
     private var currentLevel:BaseLevel?
@@ -114,8 +115,16 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             if let projectile = contact.bodyB.node as?  Projectile {
                 (contact.bodyA.node as? Enemy)?.struckByProjectile(projectile)
                 projectile.struckMapBoundary()
-                return
             }
+            return
+        }
+        /////// character entered info display
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.InfoDisplay && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            (contact.bodyA.node as! InfoDisplay).postInfo()
+        }
+            
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.InfoDisplay && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
+            (contact.bodyB.node as! InfoDisplay).postInfo()
         }
     }
     

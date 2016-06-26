@@ -17,18 +17,19 @@ class Projectile:SKSpriteNode, Updatable{
 
     init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool, statusInflicted:(StatusCondition, CGFloat)?) {
         let size = fromTexture.size()
+        fromTexture.filteringMode = .Nearest
         range = withRange
         attack = withAtk
         _speed = abs(hypot(withVelocity.dx, withVelocity.dy))
         
         self.statusCondition = statusInflicted
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: size)
-        self.zRotation = atan2(withVelocity.dy, withVelocity.dx) - CGFloat(M_PI_4)
+        self.zRotation = atan2(withVelocity.dy, withVelocity.dx) + 5*CGFloat(M_PI_4)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) 
         self.physicsBody?.friction = 0
         self.physicsBody?.velocity = withVelocity
         self.position = fromPoint
-
+        self.setScale(0.5)
         if (isFriendly) {
             self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         }

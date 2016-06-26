@@ -132,16 +132,24 @@ func +(left:Stats?, right:Stats?) -> Stats{
 }
 //////////////////////
 enum StatusCondition:Double {
+    // Stuck - immobilized. Confused - actions reversed. Weak - atk halved. Poisoned - lose hp every second.
+    // Blinded - (player -> screen black) (enemy -> cannot see player location)
+    // Disturbed - fails to shoot 1/2 of the time, cannot use skill, accuracy drops 1/2
+    // Chilled - speed halved
+    // Cursed - attack causes recoil damage
+    // Bleeding - same as poisoned, but stats drop by half
+    //
     case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500
 }
 
 //////////////////////
 class Entity:SKSpriteNode, Updatable {
 
-    var stats:Stats
+    private var stats:Stats
     
     
     private let textureDict:[String:[SKTexture]]
+    private var beginTexture = ""
     private var currentTextureSet = ""
     private var currentDirection:Int = 1 // 0-east, 1-south, 2-west, 3-north
     
@@ -160,6 +168,7 @@ class Entity:SKSpriteNode, Updatable {
     init(fromTextures: [String:[SKTexture]], beginTexture:String, withStats:Stats)
     {
         stats = withStats
+        self.beginTexture = beginTexture
         currentTextureSet = beginTexture
         textureDict = fromTextures
         let firstTexture = fromTextures[beginTexture]![0]
@@ -402,11 +411,21 @@ class ThisCharacter: Entity {
     }
 
     override func die() {
-        //inventory.dropAllExceptInventory()
-        //let rand = Int(randomBetweenNumbers(0, secondNum: CGFloat(inventory.baseSize)))
-        //inventory.setItem(rand, toItem: nil)
-        //save game
         NSNotificationCenter.defaultCenter().postNotificationName("levelEndedDefeat", object: nil)
+    }
+    
+    func confirmDeath() {
+        //delete random items
+        //go back to main menu
+    }
+    
+    func respawn() {
+        stats.health = stats.maxHealth
+        stats.mana = stats.maxMana
+        condition = nil
+        timeSinceProjectile = 0
+        currentTextureSet = beginTexture
+        UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
     }
     
     func killedEnemy(e:Enemy) {
@@ -493,7 +512,6 @@ class ThisCharacter: Entity {
 class Enemy:Entity {
 
     private var AI:EnemyAI?
-    
     struct Drop {
         let type:String
         let chance:CGFloat
@@ -520,17 +538,15 @@ class Enemy:Entity {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func fireProjectile(withVelocity:CGVector, projectile:Projectile) {
-        //if (weapon != nil) {
-         //   (self.scene as? InGameScene)?.addObject(weapon!.getProjectile(statusFactors.atkMod * stats.attack, fromPoint: position, withVelocity: withVelocity, isFriendly: false))
-        //}
-         (self.scene as? InGameScene)?.addObject(projectile)
+    func getStats() -> Stats {
+        return stats
     }
     
-    func fireProjectileAngle(atAngle:CGFloat) {
-   //     fireProjectile(CGVectorMake(cos(atAngle), sin(atAngle)))
+    func fireProjectile(texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
+        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
+         (self.scene as? InGameScene)?.addObject(newProjectile)
     }
-    
+        
     override func struckByProjectile(p:Projectile) {
         super.struckByProjectile(p)
         takeDamage(p.attack - stats.defense)

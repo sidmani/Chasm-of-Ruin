@@ -30,7 +30,7 @@ class HPLessThan:Transition {
         super.init(enemy: parent, dest: dest)
     }
     override func evaluate() -> String {
-        if (parent.stats.health < hpLevel*parent.stats.maxHealth) {
+        if (parent.getStats().health < hpLevel*parent.getStats().maxHealth) {
             return destinationState
         }
         return ""
@@ -44,7 +44,7 @@ class HPMoreThan:Transition {
         super.init(enemy: parent, dest: dest)
     }
     override func evaluate() -> String {
-        if (parent.stats.health > hpLevel*parent.stats.maxHealth) {
+        if (parent.getStats().health > hpLevel*parent.getStats().maxHealth) {
             return destinationState
         }
         return ""

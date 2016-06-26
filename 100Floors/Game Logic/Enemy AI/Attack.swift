@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SpriteKit
 /////////////////////////////////
 /////////////////////////////////
 /////////////ATTACK//////////////
@@ -17,9 +18,20 @@ import UIKit
 class MainAttack:Behavior {
     private let maxError:CGFloat
     private let triggerDistance:CGFloat
-    init(parent:Enemy, error:CGFloat, triggerDistance:CGFloat, rateOfFire:Double, priority:Int) {
+    private let projectileTexture:SKTexture
+    private let projectileSpeed:CGFloat
+    private let projectileReflects:Bool
+    private let range:CGFloat
+    private let statusInflicted: (StatusCondition, CGFloat)?
+    
+    init(parent:Enemy, error:CGFloat, triggerDistance:CGFloat, rateOfFire:Double, projectileTexture:SKTexture, projectileSpeed:CGFloat, projectileReflects:Bool = false, range:CGFloat, priority:Int, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         maxError = error
         self.triggerDistance = triggerDistance
+        self.projectileTexture = projectileTexture
+        self.projectileSpeed = projectileSpeed
+        self.projectileReflects = projectileReflects
+        self.statusInflicted = statusInflicted
+        self.range = range
         super.init(parent: parent, idType: .Attack, updateRate: rateOfFire)
         self.priority = priority
     }
@@ -29,8 +41,9 @@ class MainAttack:Behavior {
     }
     
     override func executeBehavior(timeSinceUpdate: Double) {
-        let err = randomBetweenNumbers(-maxError, secondNum: maxError)
-        parent.fireProjectileAngle(parent.angleToCharacter() + err)
+        let angle = parent.angleToCharacter() + randomBetweenNumbers(-maxError, secondNum: maxError)
+        let velocity = projectileSpeed * CGVectorMake(cos(angle), sin(angle))
+        parent.fireProjectile(projectileTexture, range: range, reflects: projectileReflects, withVelocity: velocity, status: statusInflicted)
     }
 }
 

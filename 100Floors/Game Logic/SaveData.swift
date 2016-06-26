@@ -24,7 +24,7 @@ class SaveData:NSObject, NSCoding {
         if let currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  {
             SaveData.currentSave = currentSave
             return true
-        }//load save
+        }
         else {
             SaveData.currentSave = SaveData()
             return false
@@ -47,12 +47,6 @@ class SaveData:NSObject, NSCoding {
     let moneyHandler:MoneyHandler
     let purchaseHandler:InternalPurchaseHandler
     
-    //init (char:ThisCharacter, lvlHandler:LevelHandler, moneyHandler:MoneyHandler, purchaseHandler) {
-    //    character = char
-    //    levelHandler = lvlHandler
-    //    self.moneyHandler = moneyHandler
-    //}
-
     override init() {
         character = ThisCharacter()
         levelHandler = LevelHandler()
@@ -61,7 +55,6 @@ class SaveData:NSObject, NSCoding {
     }
     
     required init?(coder aDecoder: NSCoder) {
-   //     self.init(char: aDecoder.decodeObjectForKey(PropertyKey.charKey) as! ThisCharacter, lvlHandler: aDecoder.decodeObjectForKey(PropertyKey.levelHandlerKey) as! LevelHandler, moneyHandler: aDecoder.decodeObjectForKey(PropertyKey.moneyHandlerKey) as! MoneyHandler)
         character = aDecoder.decodeObjectForKey(PropertyKey.charKey) as! ThisCharacter
         levelHandler = aDecoder.decodeObjectForKey(PropertyKey.levelHandlerKey) as! LevelHandler
         moneyHandler = aDecoder.decodeObjectForKey(PropertyKey.moneyHandlerKey) as! MoneyHandler
@@ -147,8 +140,8 @@ class MoneyHandler:NSCoding {
     }
 }
 
-enum CurrencyType {
-    case ChasmCrystal, Coin
+enum CurrencyType:Int {
+    case ChasmCrystal = 0, Coin = 1
 }
 
 protocol Purchasable {

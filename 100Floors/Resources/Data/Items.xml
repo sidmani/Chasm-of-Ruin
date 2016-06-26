@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<root>
     <items>
-        <item id="wep1">
-            <type>Weapon</type>
+        <item id="wep1" type="weapon">
             <name>Dragonsword</name>
             <desc>This sword was forged from the scales of a dragon.</desc>
             <img>Wep10</img>
@@ -22,7 +20,6 @@
             <range>50</range>
         </item>
         <item id="wep2">
-            <type>Weapon</type>
             <name>Sword-T6</name>
             <desc>test description</desc>
             <img>Wep5</img>
@@ -40,7 +37,6 @@
             <range>25</range>
         </item>
         <item id="wep3">
-            <type>Weapon</type>
             <name>Sword-T1</name>
             <desc>test description sword t1</desc>
             <img>Wep7</img>
@@ -58,4 +54,3 @@
             <range>25</range>
         </item>
     </items>
-</root>
