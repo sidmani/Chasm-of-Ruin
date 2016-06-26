@@ -22,8 +22,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         static let Interactive: UInt32 = 0b01000
         static let EnemyProjectile: UInt32 = 0b10000
         static let MapBoundary:UInt32 = 0b100000
-        static let Spawner:UInt32 = 0b1000000
-        static let InfoDisplay:UInt32 = 0b10000000
+        static let Activate:UInt32 = 0b1000000
     }
     
     private var currentLevel:BaseLevel?
@@ -96,11 +95,18 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         ////// character enters spawner radius
-        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Spawner) {
-            (contact.bodyA.node as! Spawner).playerIsInRadius(true)
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Activate) {
+            (contact.bodyA.node as! Activate).activate()
+            if let trap = contact.bodyA.node as? Trap {
+               (contact.bodyB.node as! ThisCharacter).takeDamage(trap.damage)
+            }
         }
-        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Spawner) {
-            (contact.bodyB.node as! Spawner).playerIsInRadius(true)
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Activate) {
+            (contact.bodyB.node as! Activate).activate()
+            if let trap = contact.bodyB.node as? Trap {
+                (contact.bodyA.node as! ThisCharacter).takeDamage(trap.damage)
+            }
+
         }
         ////// enemy hit by friendly projectile
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.FriendlyProjectile && contact.bodyB.categoryBitMask == PhysicsCategory.Enemy) {
@@ -119,13 +125,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         /////// character entered info display
-        else if (contact.bodyA.categoryBitMask == PhysicsCategory.InfoDisplay && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            (contact.bodyA.node as! InfoDisplay).postInfo()
-        }
-            
-        else if (contact.bodyB.categoryBitMask == PhysicsCategory.InfoDisplay && contact.bodyA.categoryBitMask == PhysicsCategory.ThisPlayer) {
-            (contact.bodyB.node as! InfoDisplay).postInfo()
-        }
     }
     
     func didEndContact(contact: SKPhysicsContact) {
@@ -140,11 +139,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             if (object is ItemBag && (object as! ItemBag) == currentGroundBag) { currentGroundBag = nil }
         }
         ////// character exits spawner radius
-        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Spawner) {
-            (contact.bodyA.node as! Spawner).playerIsInRadius(false)
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Activate) {
+            (contact.bodyA.node as! Activate).deactivate()
         }
-        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Spawner) {
-            (contact.bodyB.node as! Spawner).playerIsInRadius(false)
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Activate) {
+            (contact.bodyB.node as! Activate).deactivate()
         }
     }
     
@@ -163,10 +162,14 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
         nonCharNodes.removeAllChildren()
+        ///////////////////////////
         currentLevel = level
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
+        thisCharacter.setTextureDict()
         cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
+        
+        ///////////////////////////
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
         self.paused = false

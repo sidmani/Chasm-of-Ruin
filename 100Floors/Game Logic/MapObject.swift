@@ -14,6 +14,11 @@ protocol Interactive {
     func trigger()
     func displayPopup(state:Bool)
 }
+protocol Activate {
+    func activate()
+    func deactivate()
+}
+
 
 extension String {
     func base64Encoded() -> String {
@@ -49,6 +54,8 @@ class MapObject:SKNode {
             return UsableItemResponder(loc: loc, eventKey: fromBase64)
         case "InfoDisplay":
             return InfoDisplay(fromBase64: fromBase64, loc: loc)
+        case "Trap":
+            return Trap(fromBase64: fromBase64, loc: loc)
         default:
             fatalError()
         }
@@ -66,7 +73,7 @@ class MapObject:SKNode {
     
 }
 
-class Spawner:MapObject, Updatable {
+class Spawner:MapObject, Updatable, Activate {
     private var playerIsWithinRadius:Bool = false
     ///enemy data
     private let enemyID:String
@@ -79,14 +86,14 @@ class Spawner:MapObject, Updatable {
         let thisEnemy = enemyXML.root["enemy"].allWithAttributes(["id":withEnemyID])!.first!
 
         enemyID = withEnemyID
-        stats = Stats.statsFrom(thisEnemy)
+        stats = Stats.statsFrom(thisEnemy["stats"].stringValue)
         // initialize textures/animations
         if let animations = thisEnemy["animation"].all {
             for animation in animations {
                 var textArr:[SKTexture] = []
                 let frames = Int(animation.attributes["frames"]!)!
                 for i in 0..<frames {
-                    let newTexture = SKTextureAtlas(named: "Entities").textureNamed("\(animation.stringValue)\(i)")
+                    let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("\(animation.stringValue)\(i)")
                     newTexture.filteringMode = .Nearest
                     textArr.append(newTexture)
                 }
@@ -107,7 +114,7 @@ class Spawner:MapObject, Updatable {
 
         physicsBody = SKPhysicsBody(circleOfRadius: threshold)
         physicsBody!.pinned = true
-        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Spawner
+        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Activate
         physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
         physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
 
@@ -125,9 +132,14 @@ class Spawner:MapObject, Updatable {
         //nothing here either
     }
     
-    func playerIsInRadius(val:Bool) {
-        playerIsWithinRadius = val
+    func activate() {
+        playerIsWithinRadius = true
     }
+    
+    func deactivate() {
+        playerIsWithinRadius = false
+    }
+    
 }
 
 class ConstantRateSpawner:Spawner {
@@ -164,11 +176,6 @@ class ConstantRateSpawner:Spawner {
             elapsedTime += deltaT
         }
     }
-    
-    func setEnabled(toVal:Bool) {
-        
-    }
-    
 }
 
 class FixedNumSpawner:Spawner {
@@ -352,6 +359,71 @@ class ItemBag:MapObject, Interactive {
     }
 }
 
+class InfoDisplay:MapObject, Activate {
+    private let infoToDisplay:String
+    private let triggerDistance:CGFloat
+
+    init (fromBase64:String, loc:CGPoint) {
+        let optArr = fromBase64.splitBase64IntoArray()
+        infoToDisplay = optArr[0]
+        triggerDistance = CGFloat(s: optArr[1])
+        super.init(loc: loc)
+        physicsBody = SKPhysicsBody(circleOfRadius: triggerDistance)
+        physicsBody!.pinned = true
+        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Activate
+        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
+        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func activate() {
+        NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: infoToDisplay)
+    }
+    func deactivate() {
+        
+    }
+}
+
+class Trap:MapObject, Activate {
+    private let triggerDistance:CGFloat
+    let damage:CGFloat
+    private let node:SKSpriteNode
+    private let statusInflicted:StatusCondition?
+    
+    init(fromBase64:String, loc:CGPoint) {
+        //texture name, damage, trigger distance, side effect rawvalue
+        let optArr = fromBase64.splitBase64IntoArray()
+        node = SKSpriteNode(imageNamed: optArr[0])
+        node.texture?.filteringMode = .Nearest
+        node.hidden = true
+        damage = CGFloat(s:optArr[1])
+        triggerDistance = CGFloat(s:optArr[2])
+        statusInflicted = StatusCondition(rawValue: Double(optArr[3])!)
+        super.init(loc: loc)
+        self.addChild(node)
+        physicsBody = SKPhysicsBody(circleOfRadius: triggerDistance)
+        physicsBody!.pinned = true
+        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Activate
+        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
+        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func activate() {
+        node.hidden = false
+    }
+    func deactivate() {
+        
+    }
+}
+
 class UsableItemResponder:MapObject {
     private let eventKey:String
     
@@ -374,46 +446,30 @@ class UsableItemResponder:MapObject {
     }
 }
 
-class InfoDisplay:MapObject {
-    private let infoToDisplay:String
-    private let triggerDistance:CGFloat
-
+class Gate:UsableItemResponder {
+    private let node:SKSpriteNode
     init (fromBase64:String, loc:CGPoint) {
+        // texture name, event key
         let optArr = fromBase64.splitBase64IntoArray()
-        infoToDisplay = optArr[0]
-        triggerDistance = CGFloat(s: optArr[1])
-        super.init(loc: loc)
-        physicsBody = SKPhysicsBody(circleOfRadius: triggerDistance)
+        node = SKSpriteNode(imageNamed: optArr[0])
+        super.init(loc: loc, eventKey: optArr[1])
+        self.addChild(node)
+        
+        physicsBody = SKPhysicsBody(rectangleOfSize: node.texture!.size())
         physicsBody!.pinned = true
-        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.InfoDisplay
-        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.ThisPlayer
-        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
+        physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
+        physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
+        physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.ThisPlayer
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func postInfo() {
-        NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: infoToDisplay)
+    override func triggerAction() {
+        physicsBody = nil
+        node.removeFromParent()
     }
 }
-
-/*class Trap:MapObject { //TODO: finish this
-    private let triggerDistance:CGFloat
-    let damage:CGFloat
-    private let node:SKSpriteNode
-    private let statusInflicted:StatusCondition?
-    init(fromBase64:String, loc:CGPoint) {
-    //texture name, damage, side effect rawvalue
-        let optArr = fromBase64.splitBase64IntoArray()
-        node = SKSpriteNode(imageNamed: optArr[0])
-        node.texture?.filteringMode = .Nearest
-        node.hidden = true
-        self.addChild(node)
-        
-        
-    }
-}*/
-
 

@@ -95,7 +95,7 @@ class Item:NSObject, NSCoding, Purchasable {
     required init(fromBase64:String) {
         let optArr = fromBase64.splitBase64IntoArray()
         // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType"
-        projectile = SKTextureAtlas(named: "Projectiles").textureNamed(optArr[0])
+        projectile = defaultLevelHandler.getCurrentLevelAtlas().textureNamed(optArr[0])
         projectile.filteringMode = .Nearest
         range = CGFloat(s: optArr[1])
         projectileSpeed = CGFloat(s: optArr[2])
@@ -106,17 +106,7 @@ class Item:NSObject, NSCoding, Purchasable {
         super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9], priceCrystals: Int(optArr[10])!, priceCoins: Int(optArr[11])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[12])!))
         
     }
-    
-  /*  private init(projectile:String, range:CGFloat, projectileSpeed:CGFloat, projectileReflects:Bool, statMods:Stats, name:String, description:String, img:String, statusCondition:(StatusCondition, CGFloat)?) {
-        self.projectile = SKTextureAtlas(named: "Projectiles").textureNamed(projectile)
-        self.projectile.filteringMode = .Nearest
-        self.range = range
-        self.projectileSpeed = projectileSpeed
-        self.projectileReflects = projectileReflects
-        self.statusCondition = statusCondition
-        super.init(statMods:statMods, name: name, description: description, img:img)
-    }*/
-    
+        
     func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> Projectile {
         return Projectile(fromTexture: self.projectile, fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
     }

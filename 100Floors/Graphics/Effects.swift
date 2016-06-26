@@ -71,26 +71,22 @@ class StatUpdatePopup:SKNode {
 }
 
 class PixelEffect:SKSpriteNode { //TODO: Finish this
-    enum EffectType {
-        case Type1
-    }
-    private enum Alignment {
-        case Bottom, Center
-    }
-    static private let EffectDict:[EffectType:(fileName: String, numFrames:Int, position:Alignment)] = [:]
     private var textureArray:[SKTexture] = []
     
-    init(type:EffectType) {
-        let effect = PixelEffect.EffectDict[type]!
-        for i in 0...4 {
-            let newTexture = SKTextureAtlas(named: "Entities").textureNamed("\(effect.fileName)\(i)")
+    init(baseFilename:String, numFrames:Int) {
+        for i in 0...numFrames {
+            let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("\(baseFilename)\(i)")
             newTexture.filteringMode = .Nearest
             textureArray.append(newTexture)
         }
         super.init(texture: textureArray[0], color: UIColor.clearColor(), size: textureArray[0].size())
+        self.hidden = true
     }
     
-    
+    func runAnimation() {
+        self.hidden = false
+        runAction(SKAction.animateWithTextures(textureArray, timePerFrame: 0.125))
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()

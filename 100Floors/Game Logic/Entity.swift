@@ -67,19 +67,6 @@ struct Stats {
         return out
     }
     
-    static func statsFrom(Element:AEXMLElement) -> Stats { //TODO: delete
-        return Stats(
-            defense: CGFloat(Element["stats"]["def"].doubleValue),
-            attack: CGFloat(Element["stats"]["atk"].doubleValue),
-            speed: CGFloat(Element["stats"]["spd"].doubleValue),
-            dexterity: CGFloat(Element["stats"]["dex"].doubleValue),
-            health: CGFloat(Element["stats"]["health"].doubleValue),
-            maxHealth: CGFloat(Element["stats"]["maxHealth"].doubleValue),
-            mana: CGFloat(Element["stats"]["mana"].doubleValue),
-            maxMana: CGFloat(Element["stats"]["maxMana"].doubleValue)
-        )
-    }
-    
     static func statsFrom(fromBase64:String) -> Stats {
         let optArr = fromBase64.splitBase64IntoArray()
         return Stats(
@@ -132,13 +119,15 @@ func +(left:Stats?, right:Stats?) -> Stats{
 }
 //////////////////////
 enum StatusCondition:Double {
-    // Stuck - immobilized. Confused - actions reversed. Weak - atk halved. Poisoned - lose hp every second.
+    // Stuck - immobilized. 
+    // Confused - actions reversed. 
+    // Weak - atk halved. 
+    // Poisoned - lose hp every second.
     // Blinded - (player -> screen black) (enemy -> cannot see player location)
     // Disturbed - fails to shoot 1/2 of the time, cannot use skill, accuracy drops 1/2
     // Chilled - speed halved
     // Cursed - attack causes recoil damage
     // Bleeding - same as poisoned, but stats drop by half
-    //
     case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500
 }
 
@@ -148,8 +137,7 @@ class Entity:SKSpriteNode, Updatable {
     private var stats:Stats
     
     
-    private let textureDict:[String:[SKTexture]]
-    private var beginTexture = ""
+    private var textureDict:[String:[SKTexture]] = [:]
     private var currentTextureSet = ""
     private var currentDirection:Int = 1 // 0-east, 1-south, 2-west, 3-north
     
@@ -161,18 +149,12 @@ class Entity:SKSpriteNode, Updatable {
     private var statusFactors = StatusFactors()
     private var popups = SKNode()
     
-   
-    
     var condition:(conditionType: StatusCondition, timeLeft: Double)?
     
-    init(fromTextures: [String:[SKTexture]], beginTexture:String, withStats:Stats)
+    init(withStats:Stats)
     {
         stats = withStats
-        self.beginTexture = beginTexture
-        currentTextureSet = beginTexture
-        textureDict = fromTextures
-        let firstTexture = fromTextures[beginTexture]![0]
-        super.init(texture: firstTexture, color: UIColor.clearColor(), size: firstTexture.size())
+        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeZero)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
         self.physicsBody!.allowsRotation = false
@@ -183,7 +165,13 @@ class Entity:SKSpriteNode, Updatable {
         self.addChild(popups)
         self.setScale(0.5)
         popups.setScale(2)
-
+    }
+    
+    func setTextureDict(to:[String:[SKTexture]], beginTexture:String) {
+        currentTextureSet = beginTexture
+        textureDict = to
+        self.texture = textureDict[beginTexture]![0]
+        self.size = self.texture!.size()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -202,7 +190,6 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func runAnimation(frameDuration:Double) {
-        //self.removeActionForKey("animation")
         runAction(SKAction.animateWithTextures(textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
     }
     
@@ -267,6 +254,7 @@ class Entity:SKSpriteNode, Updatable {
         if (condition != nil) {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
+                removeAllPopups()
                 switch (condition!.conditionType) {
                 case .Confused:
                     statusFactors.movementMod = 1
@@ -319,37 +307,37 @@ class ThisCharacter: Entity {
         level = withLevel
         expPoints = withExp
         inventory = withInventory
-        var dict = [String:[SKTexture]]()
-        for n in 0...3 {
-            var standingArr:[SKTexture] = []
-            for i in 0...4 {
-                let newTexture = SKTextureAtlas(named: "Entities").textureNamed("Hero\(n)\(i)")
-                newTexture.filteringMode = .Nearest
-                standingArr.append(newTexture)
-            }
-            dict["standing\(n)"] = standingArr
-            var walkingArr:[SKTexture] = []
-            for i in 5...6 {
-                let newTexture = SKTextureAtlas(named: "Entities").textureNamed("Hero\(n)\(i)")
-                newTexture.filteringMode = .Nearest
-                walkingArr.append(newTexture)
-            }
-            dict["walking\(n)"] = walkingArr
-        }
-        super.init(fromTextures: dict, beginTexture:"standing0", withStats: withStats)
-        
+        super.init(withStats: withStats)
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.ThisPlayer
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         self.position = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
     }
     
+    func setTextureDict() {
+        var dict = [String:[SKTexture]]()
+        for n in 0...3 {
+            var standingArr:[SKTexture] = []
+            for i in 0...4 {
+                let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Hero\(n)\(i)")
+                newTexture.filteringMode = .Nearest
+                standingArr.append(newTexture)
+            }
+            dict["standing\(n)"] = standingArr
+            var walkingArr:[SKTexture] = []
+            for i in 5...6 {
+                let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Hero\(n)\(i)")
+                newTexture.filteringMode = .Nearest
+                walkingArr.append(newTexture)
+            }
+            dict["walking\(n)"] = walkingArr
+        }
+        super.setTextureDict(dict, beginTexture: "standing0")
+    }
+    
     convenience init() {
         self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventory_size), withLevel: 1, withExp: 0)
-        self.inventory.setItem(0, toItem: Item.initHandlerID("wep1")) //TODO: make these starting items
-        self.inventory.setItem(1, toItem: Item.initHandlerID("wep2"))
-        self.inventory.setItem(2, toItem: Item.initHandlerID("wep3"))
-        
+
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.health = stats.maxHealth
@@ -361,7 +349,6 @@ class ThisCharacter: Entity {
         stats.speed = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         
         //UIElements.HPBar.setProgress(1, animated: true)
-        
     }
     
     /////////NSCoding
@@ -424,7 +411,7 @@ class ThisCharacter: Entity {
         stats.mana = stats.maxMana
         condition = nil
         timeSinceProjectile = 0
-        currentTextureSet = beginTexture
+        currentTextureSet = "standing0"
         UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
     }
     
@@ -522,7 +509,8 @@ class Enemy:Entity {
     weak var parentSpawner:Spawner?
 
     init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:Spawner?) {
-        super.init(fromTextures: textureDict, beginTexture:beginTexture, withStats: stats)
+        super.init(withStats: stats)
+        setTextureDict(textureDict, beginTexture: beginTexture)
         self.name = name
         AI = EnemyDictionary.EnemyDictionary[name]!(parent: self)
         parentSpawner = spawnedFrom

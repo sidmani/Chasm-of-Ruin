@@ -71,6 +71,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer) {
+            defaultLevelHandler.currentLevel = indexPath.item
             loadLevel(previousSelectedContainer!.level!)
         }
         else {

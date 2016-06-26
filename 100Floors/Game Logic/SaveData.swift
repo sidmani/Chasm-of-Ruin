@@ -267,6 +267,12 @@ class LevelHandler:NSCoding {
         1:LevelDefinition(fileName:"Tutorial", mapName:"Level 1", desc:"Description 2", thumb:"thumbnail", unlocked:false, free:true)
     ]
     
+    var currentLevel:Int!
+    
+    func getCurrentLevelAtlas() -> SKTextureAtlas {
+        return SKTextureAtlas(named: "Level\(currentLevel)")
+    }
+    
     init() {
         
     }
