@@ -32,7 +32,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     private var nonCharNodes = SKNode()
     
-    private var cameraBounds:(left:CGFloat, right:CGFloat, top:CGFloat, bottom:CGFloat) = (left:0, right:0, top:0 ,bottom:0)
+    //private var cameraBounds:(left:CGFloat, right:CGFloat, top:CGFloat, bottom:CGFloat) = (left:0, right:0, top:0 ,bottom:0)
+    private var cameraBounds:CGRect = CGRectZero
     var currentGroundBag:ItemBag?
     
     override func didMoveToView(view: SKView) {
@@ -98,13 +99,13 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.Activate) {
             (contact.bodyA.node as! Activate).activate()
             if let trap = contact.bodyA.node as? Trap {
-               (contact.bodyB.node as! ThisCharacter).takeDamage(trap.damage)
+                (contact.bodyB.node as! ThisCharacter).adjustHealth(trap.damage, withPopup: true)
             }
         }
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Activate) {
             (contact.bodyB.node as! Activate).activate()
             if let trap = contact.bodyB.node as? Trap {
-                (contact.bodyA.node as! ThisCharacter).takeDamage(trap.damage)
+                (contact.bodyA.node as! ThisCharacter).adjustHealth(trap.damage, withPopup: true)
             }
 
         }
@@ -149,10 +150,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didFinishUpdate() {
         var newLoc = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
-        newLoc.x = min(cameraBounds.right, newLoc.x)
-        newLoc.x = max(cameraBounds.left, newLoc.x)
-        newLoc.y = min(cameraBounds.top, newLoc.y)
-        newLoc.y = max(cameraBounds.bottom, newLoc.y)
+        newLoc.x = min(cameraBounds.maxX, newLoc.x)
+        newLoc.x = max(cameraBounds.minX, newLoc.x)
+        newLoc.y = min(cameraBounds.maxY, newLoc.y)
+        newLoc.y = max(cameraBounds.minY, newLoc.y)
         camera!.position = newLoc
 
     }
@@ -167,8 +168,9 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
         thisCharacter.setTextureDict()
-        cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
-        
+       // cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
+        cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
+
         ///////////////////////////
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
@@ -206,6 +208,17 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 nonCharNodes.addChild(node)
             }
         }
+    }
+    
+    func enemiesOnScreen() -> [Enemy] {
+        var arr = [Enemy]()
+        let rect = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.width*camera!.yScale)
+        for node in nonCharNodes.children where node is Enemy {
+            if (rect.contains(node.position)) {
+                arr.append(node as! Enemy)
+            }
+        }
+        return arr
     }
     
 }

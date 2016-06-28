@@ -26,10 +26,20 @@ class MenuViewController: UIViewController {
         defaultLevelHandler = SaveData.currentSave.levelHandler
         defaultMoneyHandler = SaveData.currentSave.moneyHandler
         defaultPurchaseHandler = SaveData.currentSave.purchaseHandler
-    }
-  
-    @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
+        
+        let skView = view as! SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.showsDrawCount = true
+        skView.ignoresSiblingOrder = true
 
+        let scene = MenuScene(size: skView.bounds.size)
+        skView.presentScene(scene)
+        
+    }
+    
+    @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
+         (view as! SKView).scene?.paused = false
     }
     
     override func shouldAutorotate() -> Bool {

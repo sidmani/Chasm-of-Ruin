@@ -102,6 +102,7 @@ class Spawner:MapObject, Updatable, Activate {
                     beginTexture = animation.attributes["name"]!
                 }
             }
+            SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "WarpB")], withCompletionHandler: {})
         }
         // initalize drops
         if let enemyDrops =  thisEnemy["drop"].all {

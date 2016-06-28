@@ -195,7 +195,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     ////////////////////////////
     //UICollectionView handling
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inventory_size + 2 + defaultPurchaseHandler.checkPurchase("addInventorySlot")
+        return 10 + defaultPurchaseHandler.checkPurchase("addInventorySlot")
     }
     
     @IBAction func addMoreSlotsButtonPressed(sender:UIButton) {

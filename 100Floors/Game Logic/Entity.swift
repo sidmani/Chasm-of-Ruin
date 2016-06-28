@@ -128,6 +128,8 @@ enum StatusCondition:Double {
     // Chilled - speed halved
     // Cursed - attack causes recoil damage
     // Bleeding - same as poisoned, but stats drop by half
+    // Invincible - cannot be affected by anything
+    //
     case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500
 }
 
@@ -156,22 +158,20 @@ class Entity:SKSpriteNode, Updatable {
         stats = withStats
         super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeZero)
         
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 10.0) //TODO: fix this
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 6) //TODO: fix this
         self.physicsBody!.allowsRotation = false
         self.physicsBody!.friction = 0
         self.physicsBody!.restitution = 0
-        
         self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
         self.addChild(popups)
-        self.setScale(0.5)
-        popups.setScale(2)
+        popups.zPosition = 50
     }
     
     func setTextureDict(to:[String:[SKTexture]], beginTexture:String) {
         currentTextureSet = beginTexture
         textureDict = to
         self.texture = textureDict[beginTexture]![0]
-        self.size = self.texture!.size()
+        self.size = CGSize(width: self.texture!.size().width/2, height: self.texture!.size().height/2)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -187,42 +187,40 @@ class Entity:SKSpriteNode, Updatable {
                 enableCondition(cond.condition)
             }
         }
+        let damage = getDamage(p.attack)
+        adjustHealth(-damage, withPopup: true)
     }
-    
-    func runAnimation(frameDuration:Double) {
-        runAction(SKAction.animateWithTextures(textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
-    }
-    
-    func isCurrentlyAnimating() -> Bool {
-        return actionForKey("animation") != nil
-    }
-    
-    func setCurrentTextures(to:String) {
-        currentTextureSet = to
-    }
-    
-    private func takeDamage(d:CGFloat) {
-        let damage = max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*d)
-        stats.health -= damage
-        addPopup(UIColor.redColor(), text: "-\(Int(damage))")
+
+    func adjustHealth(amount:CGFloat, withPopup:Bool) {
+        if (amount == 0) {
+            return
+        }
+        stats.health += amount
+        if (withPopup) {
+            if (amount < 0) {
+                addPopup(UIColor.redColor(), text: "\(Int(amount))")
+            }
+            else {
+                addPopup(UIColor.greenColor(), text: "+\(Int(amount))")
+            }
+        }
         if (stats.health <= 0) {
             stats.health = 0
             die()
         }
-    }
-    
-    private func removeAllPopups() {
-        popups.removeAllChildren()
-    }
-    
-    private func addPopup(color:UIColor, text:String) {
-        if (popups.children.count > 5){
-            popups.children.first?.removeFromParent()
+        else if (stats.health >= stats.maxHealth) {
+            stats.health = stats.maxHealth
         }
-        let newPopup = StatUpdatePopup(color: color, text: text, velocity: CGVectorMake(5, 5), zoomRate: 1.2)
-        popups.addChild(newPopup)
     }
     
+    func getDamage(attack: CGFloat) -> CGFloat {
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense)))
+    }
+    
+    func die() {
+        
+    }
+    /////////////////////
     func enableCondition(type:StatusCondition) {
         if (condition == nil) {
             removeAllPopups()
@@ -245,10 +243,54 @@ class Entity:SKSpriteNode, Updatable {
             }
         }
     }
+   
+    ////////////////
+    ////ANIMATIONS
     
-    func die() {
-        
+    private var effectNode:PixelEffect?
+    
+    func runEffect(name:String, completion:() -> () = {}) {
+        if (effectNode?.parent != nil) {
+            effectNode?.completion()
+            effectNode?.removeFromParent()
+        }
+        effectNode = PixelEffect(name:name, completion: completion)
+        effectNode!.setScale(0.5)
+        switch (effectNode!.alignment) {
+        case .Bottom:
+        effectNode!.position.y = (effectNode!.size.height*effectNode!.xScale)-self.size.height/2
+        default: break
+        }
+        self.addChild(effectNode!)
+        effectNode!.runAnimation()
     }
+    
+    private func removeAllPopups() {
+        popups.removeAllChildren()
+    }
+    
+    private func addPopup(color:UIColor, text:String) {
+        if (popups.children.count > 5){
+            popups.children.first?.removeFromParent()
+        }
+        let newPopup = StatUpdatePopup(color: color, text: text, velocity: CGVectorMake(5, 5), zoomRate: 1.2)
+        popups.addChild(newPopup)
+    }
+    
+    func runAnimation(frameDuration:Double) {
+        runAction(SKAction.animateWithTextures(textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
+    }
+    
+    func isCurrentlyAnimating() -> Bool {
+        return actionForKey("animation") != nil
+    }
+    
+    func setCurrentTextures(to:String) {
+        currentTextureSet = to
+    }
+    
+    ////////////////
+   
     
     func update(deltaT: Double) {
         if (condition != nil) {
@@ -288,13 +330,13 @@ class ThisCharacter: Entity {
     private var weapon:Weapon? {
         return inventory.getItem(inventory.weaponIndex) as? Weapon
     }
-    private var skill:Item? {
+    private var skill:Skill? {
         return inventory.getItem(inventory.skillIndex) as? Skill
     }
-    private var armor:Item? {
+    private var armor:Armor? {
         return inventory.getItem(inventory.armorIndex) as? Armor
     }
-    private var enhancer:Item? {
+    private var enhancer:Enhancer? {
         return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
     
@@ -332,12 +374,16 @@ class ThisCharacter: Entity {
             }
             dict["walking\(n)"] = walkingArr
         }
-        super.setTextureDict(dict, beginTexture: "standing0")
+        super.setTextureDict(dict, beginTexture: "standing3")
+        self.size = CGSizeMake(8, 8)
+        SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "Heal1")], withCompletionHandler: {})
     }
     
-    convenience init() {
-        self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventory_size), withLevel: 1, withExp: 0)
+    convenience init(inventorySize:Int) {
+        self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventorySize), withLevel: 1, withExp: 0)
 
+        inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
+        inventory.setItem(1, toItem: Scroll(fromBase64: "NTAsdGVzdHNraWxsLHRlc3RkZXNjLG5vbmUsMTAsMTAsMCxFYXJ0aEMsMC41LDIwMDAsMC41"))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.health = stats.maxHealth
@@ -347,8 +393,6 @@ class ThisCharacter: Entity {
         stats.attack = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.dexterity = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.speed = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
-        
-        //UIElements.HPBar.setProgress(1, animated: true)
     }
     
     /////////NSCoding
@@ -376,8 +420,8 @@ class ThisCharacter: Entity {
     }
     
     ///collision handling
-    override func takeDamage(d: CGFloat) {
-        super.takeDamage(d)
+    override func adjustHealth(amount: CGFloat, withPopup: Bool) {
+        super.adjustHealth(amount, withPopup: withPopup)
         var color:UIColor
         let progress = stats.health/stats.maxHealth
         if progress <= 0.2 {
@@ -392,26 +436,39 @@ class ThisCharacter: Entity {
         UIElements.HPBar.setProgress(color, progress: progress, animated: true) //div by zero error
     }
     
-    override func struckByProjectile(p:Projectile) {
-        super.struckByProjectile(p)
-        takeDamage(p.attack - (stats.defense + inventory.stats.defense))
+    func setHealth(to:CGFloat, withPopup:Bool) {
+        let amount = to*(stats.maxHealth) - stats.health
+        adjustHealth(amount, withPopup: withPopup)
+    }
+    
+    override func getDamage(attack: CGFloat) -> CGFloat {
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense)))
     }
 
     override func die() {
         NSNotificationCenter.defaultCenter().postNotificationName("levelEndedDefeat", object: nil)
+        reset()
+    }
+    
+    func reset() {
+        stats.health = stats.maxHealth
+        stats.mana = stats.maxMana
+        condition = nil
+        removeAllPopups()
+        removeAllActions()
+        runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0))
+        timeSinceProjectile = 0
+        currentTextureSet = "standing3"
     }
     
     func confirmDeath() {
+       // reset()
         //delete random items
         //go back to main menu
     }
     
     func respawn() {
-        stats.health = stats.maxHealth
-        stats.mana = stats.maxMana
-        condition = nil
-        timeSinceProjectile = 0
-        currentTextureSet = "standing0"
+       // reset()
         UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
     }
     
@@ -423,12 +480,15 @@ class ThisCharacter: Entity {
             level += 1
             removeAllPopups()
             addPopup(UIColor.greenColor(), text: "LEVEL UP")
+            runEffect("Heal1")
             for i in 0..<Stats.numStats {
                 stats.setIndex(i, toVal: stats.getIndex(i) + randomBetweenNumbers(StatLimits.MIN_LVLUP_STAT_GAIN, secondNum: StatLimits.MAX_LVLUP_STAT_GAIN))
             }
             stats.health = stats.maxHealth
             stats.mana = stats.maxMana
             stats.capAt(StatLimits.BASE_STAT_MAX)
+            UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
+
             // add some other animation
         }
         //add to kills
@@ -449,6 +509,11 @@ class ThisCharacter: Entity {
         if (weapon != nil) {
             (self.scene as! InGameScene).addObject(weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withVelocity: withVelocity, isFriendly: true))
         }
+    }
+    
+    @objc func useSkill() {
+        print("skill used")
+        skill?.execute(self)
     }
 
     private var didNotifyNilWeapon = false
@@ -475,7 +540,7 @@ class ThisCharacter: Entity {
         self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.movementMod * UIElements.LeftJoystick!.normalDisplacement
         
         if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
-            let newDir = ((Int((UIElements.LeftJoystick.getAngle() + 3.13) * 8/6.28) + 5) % 8)/2
+            let newDir = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
             if (newDir != currentDirection) {
                 currentDirection = newDir
                 setCurrentTextures("walking\(newDir)")
@@ -515,11 +580,11 @@ class Enemy:Entity {
         AI = EnemyDictionary.EnemyDictionary[name]!(parent: self)
         parentSpawner = spawnedFrom
         self.drops = drops
-        
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
         physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         position = atPosition
+        self.runEffect("WarpB")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -532,12 +597,7 @@ class Enemy:Entity {
     
     func fireProjectile(texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
         let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
-         (self.scene as? InGameScene)?.addObject(newProjectile)
-    }
-        
-    override func struckByProjectile(p:Projectile) {
-        super.struckByProjectile(p)
-        takeDamage(p.attack - stats.defense)
+        (self.scene as? InGameScene)?.addObject(newProjectile)
     }
     
     func distanceToCharacter() -> CGFloat {
@@ -545,7 +605,14 @@ class Enemy:Entity {
     }
     
     func angleToCharacter() -> CGFloat {
-        return atan2(thisCharacter.position.y - self.position.y, thisCharacter.position.x - self.position.x)
+        var loc:CGPoint
+        if (condition?.conditionType == .Blinded) {
+            loc = CGPointMake(randomBetweenNumbers(position.x-20, secondNum: position.x+20), randomBetweenNumbers(position.y-20, secondNum: position.y+20))
+        }
+        else {
+            loc = thisCharacter.position
+        }
+        return atan2(loc.y - self.position.y, loc.x - self.position.x)
     }
     
     func normalVectorToCharacter() -> CGVector {
@@ -555,7 +622,7 @@ class Enemy:Entity {
     }
     
     func setVelocity(v:CGVector) { //v is unit vector
-        physicsBody?.velocity = stats.speed * statusFactors.movementMod * v
+        physicsBody?.velocity = (0.03 * (stats.speed) + 30) * statusFactors.movementMod * v
     }
     
     override func update(deltaT:Double) {
@@ -574,6 +641,36 @@ class Enemy:Entity {
             }
         }
         parentSpawner?.childDied()
+        removeFromParent()
+    }
+    
+}
+
+class DisplayEnemy:Enemy {
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+    
+    override func distanceToCharacter() -> CGFloat {
+        return randomBetweenNumbers(0, secondNum: 100)
+    }
+    
+    override func angleToCharacter() -> CGFloat {
+        return randomBetweenNumbers(0, secondNum: 6.28)
+    }
+    
+    override func normalVectorToCharacter() -> CGVector {
+        let angle = angleToCharacter()
+        return CGVectorMake(cos(angle), sin(angle))
+    }
+    
+    override func fireProjectile(texture: SKTexture, range: CGFloat, reflects: Bool, withVelocity: CGVector, status: (StatusCondition, CGFloat)?) {
+        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
+        parent?.addChild(newProjectile)
+    }
+    
+    override func die() {
         removeFromParent()
     }
     

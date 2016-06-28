@@ -48,10 +48,10 @@ class SaveData:NSObject, NSCoding {
     let purchaseHandler:InternalPurchaseHandler
     
     override init() {
-        character = ThisCharacter()
         levelHandler = LevelHandler()
         moneyHandler = MoneyHandler()
         purchaseHandler = InternalPurchaseHandler()
+        character = ThisCharacter(inventorySize: 8 + purchaseHandler.checkPurchase("addInventorySlot"))
     }
     
     required init?(coder aDecoder: NSCoder) {

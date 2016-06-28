@@ -75,7 +75,7 @@ class InGameViewController: UIViewController {
         skView.showsNodeCount = true
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
-        
+        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
         gameScene = InGameScene(size:skView.bounds.size)
         skView.presentScene(gameScene)
 

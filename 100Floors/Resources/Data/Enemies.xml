@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <enemies>
     <enemy id="Basic Enemy">
-        <animation name="default" frames="5">AirA</animation>
-        <stats>
-            <atk>5</atk>
-            <spd>30</spd>
-            <health>5000</health>
-            <maxHealth>5000</maxHealth>
-        </stats>
+        <animation name="default" frames="5">SlimeSquareE</animation>
+        <stats>MTAsMTAsNTAwLDIwMCw1MDAsNTAwLDQwMCw0MDA=</stats>
         <drop chance="0.5" type="ItemBag">wep1</drop>
     </enemy>
 </enemies>

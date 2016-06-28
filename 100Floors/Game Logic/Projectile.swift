@@ -25,11 +25,11 @@ class Projectile:SKSpriteNode, Updatable{
         self.statusCondition = statusInflicted
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: size)
         self.zRotation = atan2(withVelocity.dy, withVelocity.dx) + 5*CGFloat(M_PI_4)
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 5.0) 
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 2)
         self.physicsBody?.friction = 0
         self.physicsBody?.velocity = withVelocity
         self.position = fromPoint
-        self.setScale(0.5)
+        self.setScale(0.25)
         if (isFriendly) {
             self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         }

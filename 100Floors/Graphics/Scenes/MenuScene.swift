@@ -9,8 +9,11 @@
 import SpriteKit
 
 class MenuScene: SKScene {
-
+    private var oldTime:Double = 0
     override func didMoveToView(view: SKView) {
+        //add random display enemies
+        //add map
+        
         
     }
     
@@ -19,6 +22,11 @@ class MenuScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        
+        let deltaT = (currentTime-oldTime)*1000
+        oldTime = currentTime
+
+        for child in children {
+            (child as? Updatable)?.update(deltaT)
+        }
     }
 }

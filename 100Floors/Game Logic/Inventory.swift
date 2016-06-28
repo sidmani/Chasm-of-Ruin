@@ -7,7 +7,6 @@
 //
 import Foundation
 
-let inventory_size = 8 // TODO: fix this (IAP)
 
 class Inventory:NSObject, NSCoding {
     

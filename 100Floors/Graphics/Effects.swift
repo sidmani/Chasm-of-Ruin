@@ -70,22 +70,91 @@ class StatUpdatePopup:SKNode {
     
 }
 
-class PixelEffect:SKSpriteNode { //TODO: Finish this
-    private var textureArray:[SKTexture] = []
+class PixelEffect:SKSpriteNode {
+    enum Alignment:Int {
+        case Bottom=0, Center=1
+    }
     
-    init(baseFilename:String, numFrames:Int) {
-        for i in 0...numFrames {
-            let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("\(baseFilename)\(i)")
-            newTexture.filteringMode = .Nearest
-            textureArray.append(newTexture)
+    private static let EffectDict:[String:(numFrames:Int, surround:Bool, onTop:Bool, alignment:Alignment)] = [
+        "Block" : (11, false, true, .Center),
+        "BloodSplatterA" : (9, false, true, .Center),
+        "BloodSplatterB" : (9, false, true, .Center),
+        "BloodSplatterC" : (7, false, true, .Center),
+        "BloodSplatterD" : (7, false, true, .Center),
+        "Heal1" : (11, true, false, .Bottom),
+        "WarpB" : (9, false, true, .Bottom),
+        "EarthC" : (8, false, true, .Bottom)
+    ]
+    
+    private var textureArray:[SKTexture] = []
+    private let surround:Bool
+    private let numFrames:Int
+    private let onTop:Bool
+     let completion:() -> ()
+    let alignment: Alignment
+    
+    init(baseFilename:String, numFrames:Int, surround:Bool = false, onTop:Bool = false, alignment: Alignment = .Bottom, completion:()->() = {}) {
+        self.surround = surround
+        self.completion = completion
+        self.onTop = onTop
+        self.numFrames = numFrames
+        self.alignment = alignment
+        if (!surround) {
+            for i in 0..<numFrames {
+                let newTexture = SKTextureAtlas(named: "\(baseFilename)").textureNamed("\(baseFilename)\(i)")
+                newTexture.filteringMode = .Nearest
+                textureArray.append(newTexture)
+            }
+            super.init(texture: textureArray[0], color: UIColor.clearColor(), size: textureArray[0].size())
         }
-        super.init(texture: textureArray[0], color: UIColor.clearColor(), size: textureArray[0].size())
+        else {
+            for i in 0..<numFrames {
+                let newTexture = SKTextureAtlas(named: "\(baseFilename)").textureNamed("\(baseFilename)Back\(i)")
+                newTexture.filteringMode = .Nearest
+                textureArray.append(newTexture)
+            }
+            for i in 0..<numFrames {
+                let newTexture = SKTextureAtlas(named: "\(baseFilename)").textureNamed("\(baseFilename)Fore\(i)")
+                newTexture.filteringMode = .Nearest
+                textureArray.append(newTexture)
+            }
+            super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeZero)
+        }
         self.hidden = true
+    }
+    
+    convenience init(name:String, completion:() -> () = {}) {
+        let def = PixelEffect.EffectDict[name]!
+        self.init(baseFilename:name, numFrames: def.numFrames, surround: def.surround, onTop: def.onTop, alignment: def.alignment, completion: completion)
     }
     
     func runAnimation() {
         self.hidden = false
-        runAction(SKAction.animateWithTextures(textureArray, timePerFrame: 0.125))
+        if (!surround) {
+            self.zPosition = (onTop ? 0.01 : -0.01)
+            runAction(SKAction.animateWithTextures(textureArray, timePerFrame: 0.05), completion: {[unowned self] in
+                self.completion()
+                self.removeFromParent()})
+        }
+        else {
+            let belowNode = SKSpriteNode(texture: textureArray[0], color: UIColor.clearColor(), size: textureArray[0].size())
+            let aboveNode = SKSpriteNode(texture: textureArray[numFrames], color: UIColor.clearColor(), size: textureArray[numFrames].size())
+            switch (alignment) {
+            case .Bottom:
+                aboveNode.position.y = aboveNode.size.height/2
+                belowNode.position.y = belowNode.size.height/2
+            default: break
+            }
+            aboveNode.zPosition = 0.51
+            belowNode.zPosition = -0.51
+            self.addChild(aboveNode)
+            self.addChild(belowNode)
+            aboveNode.runAction(SKAction.animateWithTextures(Array(textureArray[numFrames..<2*numFrames]), timePerFrame: 0.05))
+            belowNode.runAction(SKAction.animateWithTextures(Array(textureArray[0..<numFrames]), timePerFrame: 0.05), completion: {[unowned self] in
+                self.completion()
+                self.removeFromParent()})
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

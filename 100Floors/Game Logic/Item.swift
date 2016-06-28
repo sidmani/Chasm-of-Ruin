@@ -86,7 +86,7 @@ class Item:NSObject, NSCoding, Purchasable {
 }
 
  class Weapon: Item {
-    let projectile:SKTexture
+    let projectile:String
     private let range:CGFloat
     let projectileSpeed:CGFloat
     let projectileReflects:Bool
@@ -95,8 +95,8 @@ class Item:NSObject, NSCoding, Purchasable {
     required init(fromBase64:String) {
         let optArr = fromBase64.splitBase64IntoArray()
         // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType"
-        projectile = defaultLevelHandler.getCurrentLevelAtlas().textureNamed(optArr[0])
-        projectile.filteringMode = .Nearest
+        projectile = optArr[0]
+       // projectile.filteringMode = .Nearest
         range = CGFloat(s: optArr[1])
         projectileSpeed = CGFloat(s: optArr[2])
         projectileReflects = optArr[3] == "true"
@@ -108,7 +108,7 @@ class Item:NSObject, NSCoding, Purchasable {
     }
         
     func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> Projectile {
-        return Projectile(fromTexture: self.projectile, fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
+        return Projectile(fromTexture: defaultLevelHandler.getCurrentLevelAtlas().textureNamed(projectile), fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
     }
     
     //NSCoding
@@ -121,7 +121,7 @@ class Item:NSObject, NSCoding, Purchasable {
         static let statusConditionProbKey = "statCondProb"
     }
     required init?(coder aDecoder: NSCoder) {
-        projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! SKTexture
+        projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! String
         range = aDecoder.decodeObjectForKey(PropertyKey.rangeKey) as! CGFloat
         projectileSpeed = aDecoder.decodeObjectForKey(PropertyKey.projectileSpeedKey) as! CGFloat
         projectileReflects = aDecoder.decodeObjectForKey(PropertyKey.projectileReflectsKey) as! Bool
@@ -139,10 +139,6 @@ class Item:NSObject, NSCoding, Purchasable {
         aCoder.encodeObject(statusCondition?.probability, forKey:PropertyKey.statusConditionProbKey)
         super.encodeWithCoder(aCoder)
     }
-}
-
-class Skill: Item {
-    
 }
 
 class Armor: Item {
