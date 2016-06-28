@@ -13,30 +13,27 @@ class RectButton:UIButton {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2.5, y: 2.5, width: self.bounds.width-5, height: self.bounds.height-5), cornerRadius: 10)
+        let rectanglePath = UIBezierPath(rect: self.bounds)
         rectangleLayer.path = rectanglePath.CGPath
         rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
-
-        let rectangleView = UIView()
-        rectangleView.layer.addSublayer(rectangleLayer)
-        rectangleView.center = CGPointZero
-        
-        let outerRectPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height), cornerRadius: 12)
-        let outerRectLayer = CAShapeLayer()
-        outerRectLayer.path = outerRectPath.CGPath
-        outerRectLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
-        outerRectLayer.fillColor = UIColor.clearColor().CGColor
-        outerRectLayer.lineWidth = 2
-        let outerRectView = UIView()
-        outerRectView.layer.addSublayer(outerRectLayer)
-        outerRectView.center = CGPointZero
-        
-        self.addSubview(rectangleView)
-        self.addSubview(outerRectView)
+        rectangleLayer.masksToBounds = true
+    
+        self.layer.cornerRadius = 14
+        self.layer.borderColor = ColorScheme.strokeColorSelected.CGColor
+        self.layer.borderWidth = 2.0
+        self.layer.addSublayer(rectangleLayer)
         
         self.addTarget(self, action: #selector(touchDown), forControlEvents: .TouchDown)
         self.addTarget(self, action: #selector(touchUp), forControlEvents: .TouchUpInside)
         self.addTarget(self, action: #selector(touchUp), forControlEvents: .TouchUpOutside)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = min(self.bounds.height/2, 14)
+        rectangleLayer.cornerRadius = min(self.bounds.height/2 - 4, 10)
+        rectangleLayer.bounds = CGRectMake(4, 4, self.bounds.width-8, self.bounds.height-8)
+        rectangleLayer.position = CGPointMake(self.bounds.midX, self.bounds.midY)
     }
     
     @objc private func touchDown() {
@@ -47,4 +44,45 @@ class RectButton:UIButton {
         rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
     }
     
+}
+
+class ProgressRectButton:RectButton {
+    private let progressFillLayer = CAShapeLayer()
+    private var progress:CGFloat = 1
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        progressFillLayer.position.y = self.bounds.midY
+        setProgress(1)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    
+        progressFillLayer.path = UIBezierPath(rect: self.bounds).CGPath
+        progressFillLayer.bounds = self.bounds
+        progressFillLayer.fillColor = UIColor.greenColor().CGColor
+        rectangleLayer.mask = progressFillLayer
+        
+    }
+    
+    func setProgress(to: CGFloat) {
+        print("progress set to: \(to)")
+        print(progressFillLayer.position)
+        progress = to
+        CATransaction.begin()
+        progressFillLayer.position.x = progress * self.bounds.width - self.bounds.midX
+        CATransaction.commit()
+    }
+    
+    func setEnabledTo(to:Bool) {
+        self.enabled = to
+       // self.userInteractionEnabled = to
+        if (to) {
+            self.alpha = 1
+        }
+        else {
+            self.alpha = 0.3
+        }
+    }
 }

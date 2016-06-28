@@ -377,13 +377,14 @@ class ThisCharacter: Entity {
         super.setTextureDict(dict, beginTexture: "standing3")
         self.size = CGSizeMake(8, 8)
         SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "Heal1")], withCompletionHandler: {})
+        self.reset()
     }
     
     convenience init(inventorySize:Int) {
         self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventorySize), withLevel: 1, withExp: 0)
 
         inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
-        inventory.setItem(1, toItem: Scroll(fromBase64: "NTAsdGVzdHNraWxsLHRlc3RkZXNjLG5vbmUsMTAsMTAsMCxFYXJ0aEMsMC41LDIwMDAsMC41"))
+        inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.health = stats.maxHealth
@@ -434,6 +435,20 @@ class ThisCharacter: Entity {
             color = UIColor(red: 2-2*progress, green: 255, blue: 0, alpha: 1.0)
         }
         UIElements.HPBar.setProgress(color, progress: progress, animated: true) //div by zero error
+    }
+    
+    func adjustMana(amount:CGFloat) {
+        if (amount == 0) {
+            return
+        }
+        stats.mana += amount
+        if (stats.mana < 0) {
+            stats.mana = 0
+        }
+        else if (stats.mana > stats.maxMana) {
+            stats.mana = stats.maxMana
+        }
+        UIElements.SkillButton.setProgress(stats.mana/stats.maxMana)
     }
     
     func setHealth(to:CGFloat, withPopup:Bool) {
@@ -511,14 +526,39 @@ class ThisCharacter: Entity {
         }
     }
     
-    @objc func useSkill() {
-        print("skill used")
-        skill?.execute(self)
+    @objc func useSkill(sender:UIButton) {
+        if let skill = skill {
+            if (stats.mana >= skill.mana) {
+                print("skill executed")
+                skill.execute(self)
+                adjustMana(-skill.mana)
+                print("lost \(skill.mana)")
+                if (skill.mana > stats.mana) {
+                    (sender as! ProgressRectButton).setEnabledTo(false)
+                }
+            }
+        }
+        else {
+            NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: "Press Inventory to equip a skill!")
+        }
     }
 
     private var didNotifyNilWeapon = false
+    private var statRegenTimeElapsed:Double = 0
+    private let statRegenInterval:Double = 1000
     override func update(deltaT:Double) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
         super.update(deltaT)
+        if (statRegenTimeElapsed >= statRegenInterval) {
+            statRegenTimeElapsed = 0
+            adjustHealth(0.02*stats.maxHealth, withPopup: false)
+            adjustMana(0.02*stats.maxMana)
+            if (skill != nil && skill!.mana <= stats.mana) {
+                UIElements.SkillButton.setEnabledTo(true)
+            }
+        }
+        else {
+            statRegenTimeElapsed += deltaT
+        }
         
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             if (timeSinceProjectile > 500-0.4*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {

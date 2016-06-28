@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class Skill: Item {
-    private let mana:CGFloat
+    let mana:CGFloat
     
     required init(fromBase64: String) {
         //requiredMana, name, desc, img, priceCC, priceCoins, designatedCurrency

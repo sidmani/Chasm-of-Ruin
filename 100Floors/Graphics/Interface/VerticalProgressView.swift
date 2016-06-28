@@ -21,7 +21,7 @@ public class VerticalProgressView : UIView {
     private let animationDuration: Double = 0.5
     public let filledView = CALayer()
     
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         self.filledView.backgroundColor = self.fillDoneColor.CGColor
         self.filledView.frame = self.bounds
@@ -64,10 +64,6 @@ public class VerticalProgressView : UIView {
         }
         
     }
-    
-    //public - for possible inheritance and customization
-   // public func setLayerProperties(){
-   // }
     
     private func shouldHavePosition() -> CGFloat {
         if (vertical) {

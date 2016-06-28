@@ -15,7 +15,7 @@ struct UIElements {
     static var HPBar:VerticalProgressView!
     static var InventoryButton:UIButton!
     static var MenuButton:UIButton!
-    static var SkillButton:UIButton!
+    static var SkillButton:ProgressRectButton!
     
     static func setVisible(toState:Bool) {
         let _toState = !toState
@@ -40,7 +40,7 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var MenuButton: UIButton!
     @IBOutlet weak var InventoryButton: UIButton!
-    @IBOutlet weak var SkillButton: RectButton!
+    @IBOutlet weak var SkillButton: ProgressRectButton!
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
     
