@@ -24,6 +24,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     @IBOutlet weak var DEXProgressView: VerticalProgressView!
     @IBOutlet weak var ManaProgressView: VerticalProgressView!
     
+    @IBOutlet weak var DescriptionLabel: UILabel!
+    @IBOutlet weak var TypeLabel: UILabel!
+    
     @IBOutlet weak var EquipButton: UIButton!
     
     var StatsDisplay:[VerticalProgressView] = []
@@ -53,6 +56,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         longPressGR.delegate = self
         
         StatsDisplay = [HPProgressView, DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView, ManaProgressView]
+        DescriptionLabel.text = ""
+        
         HPProgressView.label.text = "HP"
         ManaProgressView.label.text = "MANA"
         DEFProgressView.label.text = "DEF"
@@ -60,6 +65,17 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         DEXProgressView.label.text = "DEX"
         ATKProgressView.label.text = "ATK"
 
+        HPProgressView.fillDoneColor = ColorScheme.HPColor
+        ATKProgressView.fillDoneColor = ColorScheme.ATKColor
+        DEFProgressView.fillDoneColor = ColorScheme.DEFColor
+        ManaProgressView.fillDoneColor = ColorScheme.MANAColor
+        DEXProgressView.fillDoneColor = ColorScheme.DEXColor
+        SPDProgressView.fillDoneColor = ColorScheme.SPDColor
+
+        for view in StatsDisplay {
+            view.alpha = 0
+        }
+        DescriptionLabel.alpha = 0
 
         inventoryCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
@@ -136,44 +152,102 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             selectCenterCell()
         }
     }
-
+    
     
     func updateInfoDisplay() {
         if (previousSelectedContainer != nil) {
             if let item = previousSelectedContainer!.item {
                 ItemNameLabel.text = item.name
-                //for i in 0..<StatsDisplay.count {
-                //    StatsDisplay[i].setProgress(Float(item.statMods.getIndex(i)/100), animated: true)
-                //}
-              
+                TypeLabel.text = item.getType()
                 HPProgressView.setProgress(item.statMods.health/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 ManaProgressView.setProgress(item.statMods.mana/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 ATKProgressView.setProgress(item.statMods.attack/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 DEFProgressView.setProgress(item.statMods.defense/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 SPDProgressView.setProgress(item.statMods.speed/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 DEXProgressView.setProgress(item.statMods.dexterity/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
-                
+                for view in StatsDisplay {
+                    view.modifierLabel.text = ""
+                }
                 if (item is Consumable) {
+//                    HPProgressView.alpha = 1
+//                    ManaProgressView.alpha = 1
+//                    ATKProgressView.alpha = 1
+//                    DEFProgressView.alpha = 1
+//                    SPDProgressView.alpha = 1
+//                    DEXProgressView.alpha = 1
+                    for view in StatsDisplay {
+                        view.alpha = 1
+                    }
+                    DescriptionLabel.alpha = 0
+                    if ((item as! Consumable).permanent) {
+                        for view in StatsDisplay {
+                            view.modifierLabel.text = "🔒"
+                        }
+                    }
+                    else {
+                        for view in StatsDisplay {
+                            view.modifierLabel.text = "⏱"
+                        }
+                    }
                     EquipButton.setTitle("Eat", forState: .Normal)
                 }
                 else if (item is Usable) {
+//                    HPProgressView.alpha = 0
+//                    ManaProgressView.alpha = 0
+//                    ATKProgressView.alpha = 0
+//                    DEFProgressView.alpha = 0
+//                    SPDProgressView.alpha = 0
+//                    DEXProgressView.alpha = 0
+                    for view in StatsDisplay {
+                        view.alpha = 0
+                    }
+                    DescriptionLabel.alpha = 1
                     EquipButton.setTitle("Use", forState: .Normal)
                 }
-                else if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
+                else if (item is Weapon || item is Armor || item is Enhancer) {
+                    HPProgressView.alpha = 0
+                    ManaProgressView.alpha = 0
+                    ATKProgressView.alpha = 1
+                    DEFProgressView.alpha = 1
+                    SPDProgressView.alpha = 1
+                    DEXProgressView.alpha = 1
+                    DescriptionLabel.alpha = 1
+                }
+                else if item is Skill {
+//                    HPProgressView.alpha = 0
+//                    ManaProgressView.alpha = 0
+//                    ATKProgressView.alpha = 0
+//                    DEFProgressView.alpha = 0
+//                    SPDProgressView.alpha = 0
+//                    DEXProgressView.alpha = 0
+                    for view in StatsDisplay {
+                        view.alpha = 0
+                    }
+                    DescriptionLabel.alpha = 1
+                }
+                
+                DescriptionLabel.text = item.desc
+                
+                
+                if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
                     EquipButton.setTitle("Unload", forState: .Normal)
                 }
                 else {
                     EquipButton.setTitle("Equip", forState: .Normal)
                 }
+                
                 EquipButton.enabled = true
                 EquipButton.alpha = 1
 
             }
             else {
                 ItemNameLabel.text = "---"
-                for i in 0..<StatsDisplay.count {
-                    StatsDisplay[i].setProgress(0, animated: true)
+                for view in StatsDisplay {
+                    view.alpha = 0
                 }
+                DescriptionLabel.alpha = 0
+                DescriptionLabel.text = ""
+                TypeLabel.text = ""
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
             }
@@ -183,9 +257,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
         }
         else if (currentItemIsButton) {
-            for i in 0..<StatsDisplay.count {
-                StatsDisplay[i].setProgress(0, animated: true)
+            for view in StatsDisplay {
+                view.alpha = 0
             }
+            DescriptionLabel.alpha = 0
+            DescriptionLabel.text = ""
+            TypeLabel.text = ""
             ItemNameLabel.text = "Purchase More Inventory Slots"
             EquipButton.enabled = false
             EquipButton.alpha = 0.3
@@ -199,7 +276,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     @IBAction func addMoreSlotsButtonPressed(sender:UIButton) {
-        print("add more slots")
         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") < 4) {
             if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
                 inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])

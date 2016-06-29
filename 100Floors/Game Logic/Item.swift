@@ -23,6 +23,7 @@ class Item:NSObject, NSCoding, Purchasable {
         "Armor":Armor.self,
         "Enhancer":Enhancer.self
     ]
+
     let statMods:Stats
     let name:String
     let desc:String
@@ -83,9 +84,13 @@ class Item:NSObject, NSCoding, Purchasable {
         aCoder.encodeObject(priceCoins, forKey: PropertyKey.priceCoinsKey)
         aCoder.encodeObject(designatedCurrencyType?.rawValue, forKey: PropertyKey.designatedTypeKey)
     }
+    func getType() -> String {
+        return ""
+    }
 }
 
  class Weapon: Item {
+    
     let projectile:String
     private let range:CGFloat
     let projectileSpeed:CGFloat
@@ -139,14 +144,22 @@ class Item:NSObject, NSCoding, Purchasable {
         aCoder.encodeObject(statusCondition?.probability, forKey:PropertyKey.statusConditionProbKey)
         super.encodeWithCoder(aCoder)
     }
+    override func getType() -> String {
+        return "Weapon"
+    }
 }
 
 class Armor: Item {
     //protects against certain status effects
+    override func getType() -> String {
+        return "Armor"
+    }
 }
 
 class Enhancer: Item {
-
+    override func getType() -> String {
+        return "Enhancer"
+    }
 }
 
 class Consumable: Item {
@@ -170,6 +183,9 @@ class Consumable: Item {
         aCoder.encodeObject(permanent, forKey: PropertyKey.permanentKey)
         super.encodeWithCoder(aCoder)
     }
+    override func getType() -> String {
+        return "Consumable"
+    }
 }
 
 class Usable:Item {
@@ -182,11 +198,16 @@ class Usable:Item {
 
     }
     
-    func use() {
-        NSNotificationCenter.defaultCenter().postNotificationName("UsableItemUsed", object: eventKey)
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func use() {
+        NSNotificationCenter.defaultCenter().postNotificationName("UsableItemUsed", object: eventKey)
+    }
+   
+    override func getType() -> String {
+        return "Tool"
+    }
+
 }

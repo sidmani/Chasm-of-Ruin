@@ -89,6 +89,7 @@ struct Stats {
 }
 
 struct StatLimits {
+    static let expForLevel:[Int] =  [0, 40, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000]
     static let MAX_LEVEL = 15
     
     static let MIN_LVLUP_STAT_GAIN:CGFloat = 10
@@ -322,7 +323,6 @@ class Entity:SKSpriteNode, Updatable {
 //////////////////////
 
 class ThisCharacter: Entity {
-    private static let expForLevel:[Int] =  [0, 40, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000]
     var level:Int
     var expPoints:Int
     
@@ -491,7 +491,7 @@ class ThisCharacter: Entity {
         let newExp = e.stats.sumStats()
         expPoints += newExp
         addPopup(UIColor.greenColor(), text: "+\(newExp)EXP")
-        if (level < StatLimits.MAX_LEVEL && expPoints >= ThisCharacter.expForLevel[level+1]) {
+        if (level < StatLimits.MAX_LEVEL && expPoints >= StatLimits.expForLevel[level+1]) {
             level += 1
             removeAllPopups()
             addPopup(UIColor.greenColor(), text: "LEVEL UP")
@@ -503,8 +503,14 @@ class ThisCharacter: Entity {
             stats.mana = stats.maxMana
             stats.capAt(StatLimits.BASE_STAT_MAX)
             UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
-
+            UIElements.EXPBar.setProgress(0, animated: false)
             // add some other animation
+        }
+        if (level < StatLimits.MAX_LEVEL) {
+            UIElements.EXPBar.setProgress(Float(expPoints - StatLimits.expForLevel[level])/Float(StatLimits.expForLevel[level+1] - StatLimits.expForLevel[level]), animated: true)
+        }
+        else {
+            UIElements.EXPBar.setProgress(1, animated: false)
         }
         //add to kills
     }

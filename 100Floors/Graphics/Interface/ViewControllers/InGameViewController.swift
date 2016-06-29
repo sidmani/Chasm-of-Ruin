@@ -13,6 +13,7 @@ struct UIElements {
     static var LeftJoystick:JoystickControl!
     static var RightJoystick:JoystickControl!
     static var HPBar:VerticalProgressView!
+    static var EXPBar:UIProgressView!
     static var InventoryButton:UIButton!
     static var MenuButton:UIButton!
     static var SkillButton:ProgressRectButton!
@@ -38,6 +39,8 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var HPDisplayBar: VerticalProgressView!
     
+    @IBOutlet weak var EXPBar: UIProgressView!
+    
     @IBOutlet weak var MenuButton: UIButton!
     @IBOutlet weak var InventoryButton: UIButton!
     @IBOutlet weak var SkillButton: ProgressRectButton!
@@ -54,9 +57,13 @@ class InGameViewController: UIViewController {
         UIElements.MenuButton = MenuButton
         UIElements.InventoryButton = InventoryButton
         UIElements.SkillButton = SkillButton
+        UIElements.EXPBar = EXPBar
         
         InfoDisplay.hidden = true
         
+        EXPBar.trackTintColor = ColorScheme.strokeColor
+        EXPBar.progressTintColor = ColorScheme.EXPColor
+
         MenuButton.tintColor = ColorScheme.strokeColor
        
         //////////

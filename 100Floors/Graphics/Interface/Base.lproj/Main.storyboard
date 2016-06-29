@@ -249,6 +249,9 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="2" height="2"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67Y-lJ-ZEt" userLabel="EXPBar">
+                                <rect key="frame" x="32" y="62" width="449" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -256,6 +259,7 @@
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="centerX" secondItem="CwZ-pI-Qun" secondAttribute="centerX" id="1aZ-i5-fVQ"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="top" secondItem="ilu-46-eXo" secondAttribute="bottom" constant="10" id="2YI-a9-KIN"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="centerX" secondItem="8xQ-dL-goi" secondAttribute="centerX" id="380-8w-jl6"/>
+                            <constraint firstItem="67Y-lJ-ZEt" firstAttribute="leading" secondItem="rkT-DA-yQp" secondAttribute="leading" constant="12" id="5Jo-dM-7yF"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="9d2-oo-m9X" secondAttribute="bottom" constant="15" id="64R-gg-7lU"/>
                             <constraint firstAttribute="leadingMargin" secondItem="rkT-DA-yQp" secondAttribute="leading" id="ADd-Oz-oxz"/>
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="leading" secondItem="LF5-U2-EV1" secondAttribute="trailing" constant="5" id="CZm-TY-wDz"/>
@@ -269,9 +273,11 @@
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="CwZ-pI-Qun" secondAttribute="bottom" constant="15" id="ZCJ-Yh-Hov"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="centerX" secondItem="9d2-oo-m9X" secondAttribute="centerX" id="crP-kc-CYA"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="bottom" constant="15" id="eHu-bp-IKn"/>
+                            <constraint firstItem="67Y-lJ-ZEt" firstAttribute="width" secondItem="rkT-DA-yQp" secondAttribute="width" constant="-24" id="ews-KC-uTi"/>
                             <constraint firstItem="J9r-K3-eX4" firstAttribute="centerX" secondItem="0i1-qW-Q1v" secondAttribute="centerX" id="fCb-jV-NO8"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="width" secondItem="9d2-oo-m9X" secondAttribute="width" id="gxv-11-VRg"/>
                             <constraint firstItem="0i1-qW-Q1v" firstAttribute="leading" secondItem="rkT-DA-yQp" secondAttribute="trailing" constant="10" id="i5o-VF-gWA"/>
+                            <constraint firstItem="67Y-lJ-ZEt" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="bottom" id="iB8-Ju-USD"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="bottom" constant="15" id="iJF-Tb-fsM"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="leading" secondItem="ZZN-eM-M4h" secondAttribute="trailing" constant="5" id="lXN-fo-4bz"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="leading" secondItem="0i1-qW-Q1v" secondAttribute="trailing" constant="10" id="m93-pP-1Pq"/>
@@ -281,6 +287,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="EXPBar" destination="67Y-lJ-ZEt" id="9yF-s7-g7I"/>
                         <outlet property="HPDisplayBar" destination="rkT-DA-yQp" id="wLp-PG-8A8"/>
                         <outlet property="InfoDisplay" destination="LF5-U2-EV1" id="biK-Wa-Xgn"/>
                         <outlet property="InventoryButton" destination="ZZN-eM-M4h" id="u2l-8i-1mS"/>
@@ -312,7 +319,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
                                 <rect key="frame" x="10" y="500" width="475" height="90"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
@@ -450,6 +457,18 @@
                                     <outlet property="delegate" destination="CGb-Sh-tvY" id="uND-iA-mpe"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-lQ-SdJ">
+                                <rect key="frame" x="40" y="500" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehR-ek-g3c">
+                                <rect key="frame" x="30" y="40" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -457,6 +476,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="P64-Qm-GHx" secondAttribute="trailing" constant="-20" id="3SA-C9-WQf"/>
                             <constraint firstItem="mGy-f6-MZ2" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="10" id="L0m-YU-d2g"/>
                             <constraint firstItem="BCD-Gl-DCV" firstAttribute="height" secondItem="BDp-lX-aON" secondAttribute="height" id="Mpr-oz-lv2"/>
+                            <constraint firstItem="ehR-ek-g3c" firstAttribute="top" secondItem="IGa-Ja-NoJ" secondAttribute="top" id="PYr-Rz-YEu"/>
                             <constraint firstItem="IGa-Ja-NoJ" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="QAL-0w-0jF"/>
                             <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" relation="greaterThanOrEqual" secondItem="P64-Qm-GHx" secondAttribute="bottom" constant="100" id="Tlw-du-hmO"/>
                             <constraint firstItem="BDp-lX-aON" firstAttribute="top" secondItem="P64-Qm-GHx" secondAttribute="bottom" id="Tm9-6G-HAl"/>
@@ -467,6 +487,9 @@
                             <constraint firstItem="BCD-Gl-DCV" firstAttribute="leading" secondItem="BDp-lX-aON" secondAttribute="trailing" constant="10" id="ghp-Lv-4L2"/>
                             <constraint firstItem="BCD-Gl-DCV" firstAttribute="top" secondItem="P64-Qm-GHx" secondAttribute="bottom" id="oyp-Hd-ush"/>
                             <constraint firstItem="P64-Qm-GHx" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="-20" id="rpz-3C-tf1"/>
+                            <constraint firstItem="ehR-ek-g3c" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="10" id="tu7-dZ-gwU"/>
+                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="top" secondItem="BDp-lX-aON" secondAttribute="top" id="vMp-Uo-HXR"/>
+                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="20" id="w5k-Dn-km3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mGy-f6-MZ2" secondAttribute="trailing" constant="-5" id="znv-qm-FiA"/>
                             <constraint firstItem="IGa-Ja-NoJ" firstAttribute="centerX" secondItem="Eyw-Cl-2hO" secondAttribute="centerX" id="zsm-8P-Ke4"/>
                         </constraints>
@@ -475,11 +498,13 @@
                         <outlet property="ATKProgressView" destination="BOa-EE-equ" id="4vo-iv-5Cg"/>
                         <outlet property="DEFProgressView" destination="Dnp-YS-FyF" id="ADU-Ua-MCn"/>
                         <outlet property="DEXProgressView" destination="zt6-Hz-xfa" id="fSN-rd-4CU"/>
+                        <outlet property="DescriptionLabel" destination="yI7-lQ-SdJ" id="9yk-Z7-Mdc"/>
                         <outlet property="EquipButton" destination="BCD-Gl-DCV" id="gu6-2S-1Rz"/>
                         <outlet property="HPProgressView" destination="T32-LU-H58" id="SfK-a9-0LI"/>
                         <outlet property="ItemNameLabel" destination="IGa-Ja-NoJ" id="zE6-Gx-Zb8"/>
                         <outlet property="ManaProgressView" destination="jIp-H1-dgf" id="Ncp-Dk-ptX"/>
                         <outlet property="SPDProgressView" destination="VQ3-gq-H6F" id="Oc0-Ch-HKW"/>
+                        <outlet property="TypeLabel" destination="ehR-ek-g3c" id="v69-ue-saA"/>
                         <outlet property="inventoryCollection" destination="P64-Qm-GHx" id="bT3-zB-XJv"/>
                     </connections>
                 </viewController>

@@ -27,6 +27,9 @@ class Skill: Item {
         //override me
     }
     
+    override func getType() -> String {
+        return "Skill"
+    }
 }
 
 

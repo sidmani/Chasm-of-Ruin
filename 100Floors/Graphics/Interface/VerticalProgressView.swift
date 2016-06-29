@@ -12,12 +12,13 @@ import UIKit
 @IBDesignable
 public class VerticalProgressView : UIView {
     
-    @IBInspectable public var fillDoneColor : UIColor = UIColor.blueColor()
+    public var fillDoneColor : UIColor = UIColor.blueColor()
     @IBInspectable public var vertical:Bool = true
 
-    private var progress: CGFloat = 0
+    var progress: CGFloat = 0
     
-    public let label = UILabel()
+    let label = UILabel()
+    let modifierLabel = UILabel()
     private let animationDuration: Double = 0.5
     public let filledView = CALayer()
     
@@ -27,26 +28,27 @@ public class VerticalProgressView : UIView {
         self.filledView.frame = self.bounds
 
         self.layer.addSublayer(filledView)
-        if (vertical) {
-            self.filledView.frame.origin.y = self.shouldHavePosition()
-        }
-        else {
-            self.filledView.frame.origin.x = self.shouldHavePosition()
 
-        }
         if (self.vertical) {
             label.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 10, 30)
             label.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
             label.textColor = ColorScheme.strokeColor
             label.textAlignment = .Right
             self.addSubview(label)
+            
+            modifierLabel.bounds = CGRectMake(10, 30, self.bounds.width, 30)
+            modifierLabel.center = CGPointMake(self.bounds.width/2 + 2.5, 15)
+            modifierLabel.textColor = ColorScheme.strokeColor
+            modifierLabel.textAlignment = .Left
+            self.addSubview(modifierLabel)
+            
         }
         self.layer.borderColor = ColorScheme.strokeColor.CGColor
         self.layer.borderWidth = 2.0
         self.backgroundColor = ColorScheme.fillColor
         self.layer.cornerRadius = 12
         self.layer.masksToBounds = true
-
+        
     }
     
     override public func drawRect(rect: CGRect) {
@@ -67,14 +69,10 @@ public class VerticalProgressView : UIView {
     
     private func shouldHavePosition() -> CGFloat {
         if (vertical) {
-            let filledHeight = self.frame.size.height * progress
-            let position = self.frame.size.height - filledHeight
-            return position
+            return self.frame.size.height - self.frame.size.height * progress
         }
         else {
-            let filledWidth = self.frame.size.width * progress
-            let position = filledWidth - self.frame.size.width
-            return position
+            return self.frame.size.width * progress - self.frame.size.width
         }
     }
     

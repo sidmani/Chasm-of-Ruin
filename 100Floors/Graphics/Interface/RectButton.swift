@@ -67,8 +67,6 @@ class ProgressRectButton:RectButton {
     }
     
     func setProgress(to: CGFloat) {
-        print("progress set to: \(to)")
-        print(progressFillLayer.position)
         progress = to
         CATransaction.begin()
         progressFillLayer.position.x = progress * self.bounds.width - self.bounds.midX

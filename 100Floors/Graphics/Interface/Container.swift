@@ -17,6 +17,14 @@ import Foundation
 import UIKit
 
 struct ColorScheme {
+    static let HPColor = UIColor.greenColor()
+    static let SPDColor = UIColor(red: 2/255, green: 164/255, blue: 239/255, alpha: 1)
+    static let ATKColor = UIColor.redColor()
+    static let EXPColor = UIColor(red: 107/255, green: 121/255, blue: 224/255, alpha: 1)
+    static let MANAColor = UIColor(red: 105/255, green: 2/255, blue: 201/255, alpha: 1)
+    static let DEFColor = UIColor(red: 132/255, green: 140/255, blue: 150/255, alpha: 1)
+    static let DEXColor = UIColor(red: 249/255, green: 159/255, blue: 2/255, alpha: 1)
+    
     static let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
     static let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
     
@@ -55,8 +63,6 @@ class Container:UICollectionViewCell {
     
 }
 class LevelContainer:Container {
-    
-    
     
     private let levelView = UIImageView()
     var level:LevelHandler.LevelDefinition?
@@ -152,18 +158,18 @@ class ItemContainer:Container {
             rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
         }
         
-        if (isEquipped) { //TODO: nicer colors
+        if (isEquipped) {
             if (item! is Weapon) {
-                rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 0, blue: 0, alpha: 1.0).CGColor
+                rectangleLayer.strokeColor = ColorScheme.ATKColor.CGColor
             }
             else if (item! is Armor) {
-                rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0, green: 0, blue: 1, alpha: 1.0).CGColor
+                rectangleLayer.strokeColor = ColorScheme.DEFColor.CGColor
             }
             else if (item! is Enhancer) {
-                rectangleLayer.strokeColor = UIColor(colorLiteralRed: 0, green: 1, blue: 0, alpha: 1.0).CGColor
+                rectangleLayer.strokeColor = ColorScheme.SPDColor.CGColor
             }
             else if (item! is Skill) {
-                rectangleLayer.strokeColor = UIColor(colorLiteralRed: 1, green: 1, blue: 0, alpha: 1.0).CGColor
+                rectangleLayer.strokeColor = ColorScheme.MANAColor.CGColor
             }
         }
         else if (val) {
