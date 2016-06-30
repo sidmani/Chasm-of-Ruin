@@ -10,8 +10,11 @@ import Foundation
 import UIKit
 
 class VictoryViewController: UIViewController {
+    @IBOutlet weak var MenuButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        MenuButton.tintColor = ColorScheme.strokeColor
     }
     
     override func shouldAutorotate() -> Bool {

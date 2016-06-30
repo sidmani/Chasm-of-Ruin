@@ -89,7 +89,6 @@ class InGameViewController: UIViewController {
     }
     
     func loadLevel(level:LevelHandler.LevelDefinition) {
-        
         gameScene.setLevel(MapLevel(level:level))
         UIElements.HPBar.setProgress(1, animated: true)
     }
@@ -100,14 +99,16 @@ class InGameViewController: UIViewController {
         gameScene.paused = true
         let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
         presentViewController(dvc, animated: true, completion: nil)
+        defaultLevelHandler.levelCompletedDefeat()
     }
     
     func levelEndedVictory() {
         blurView()
         UIElements.setVisible(false)
         gameScene.paused = true
-        //mark level as completed
-        //save stats
+        let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+        presentViewController(vvc, animated: true, completion: nil)
+        defaultLevelHandler.levelCompleted()
     }
     
     
@@ -129,6 +130,8 @@ class InGameViewController: UIViewController {
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
         loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:gameScene.currentGroundBag)
     }
+    
+    
     
     func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
         blurView()
@@ -166,6 +169,24 @@ class InGameViewController: UIViewController {
                 return
             }
         }
+    }
+    
+    
+    
+    @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) { //TODO: add transaction
+        thisCharacter.respawn()
+        exitMenu(segue)
+    }
+    
+    @IBAction func defeatSelectedRespawn(segue:UIStoryboardSegue) {
+        thisCharacter.confirmDeath()
+        gameScene.reloadLevel()
+        exitMenu(segue)
+    }
+    
+    @IBAction func victorySelectedRespawn(segue:UIStoryboardSegue) {
+        gameScene.reloadLevel()
+        exitMenu(segue)
     }
     
     private func blurView() {

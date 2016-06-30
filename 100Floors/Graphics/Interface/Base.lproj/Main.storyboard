@@ -38,7 +38,7 @@
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="rTL-ZI-Phy"/>
                                     <constraint firstAttribute="width" secondItem="IAn-6B-34a" secondAttribute="height" multiplier="1:1" id="yar-IS-gwG"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="settings_gear.png"/>
+                                <state key="normal" image="settings_gear"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="234" width="150" height="34"/>
@@ -48,7 +48,7 @@
                                 </constraints>
                                 <state key="normal" title="Play!"/>
                                 <connections>
-                                    <segue destination="ara-Lb-UGj" kind="show" id="eUc-pQ-tDT"/>
+                                    <action selector="loadLevelSelectVC" destination="SZV-WD-TEh" eventType="touchUpInside" id="wXM-Ti-D9V"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -67,7 +67,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="PlayButton" destination="EWh-dv-4PY" id="yUj-SE-u4d"/>
                         <outlet property="SettingsButton" destination="IAn-6B-34a" id="0mi-aY-YKu"/>
                     </connections>
                 </viewController>
@@ -78,7 +77,7 @@
         <!--Level Select View Controller-->
         <scene sceneID="gGO-1y-Mrc">
             <objects>
-                <viewController id="ara-Lb-UGj" customClass="LevelSelectViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="lsvc" modalTransitionStyle="crossDissolve" id="ara-Lb-UGj" customClass="LevelSelectViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="guc-lR-zYp"/>
                         <viewControllerLayoutGuide type="bottom" id="fzh-RF-wm9"/>
@@ -101,7 +100,7 @@
                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
                                 <state key="normal" title="→"/>
                                 <connections>
-                                    <segue destination="joN-bX-2g5" kind="unwind" unwindAction="exitToMainMenu:" id="Y4K-cR-FBw"/>
+                                    <action selector="dismissLevelSelect" destination="OL5-bj-0VW" eventType="touchUpInside" id="oV1-PI-zZO"/>
                                 </connections>
                             </button>
                             <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YJp-Hi-eXt">
@@ -160,7 +159,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OL5-bj-0VW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="joN-bX-2g5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="421" y="496"/>
         </scene>
@@ -319,65 +317,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
-                                <rect key="frame" x="10" y="500" width="475" height="90"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="0.0" green="1" blue="0.017656813828499818" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIp-H1-dgf" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="80" y="0.0" width="77" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="0.45322716247019557" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dnp-YS-FyF" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="159" y="0.0" width="78" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="0.42229567309999999" green="0.42229567309999999" blue="0.42229567309999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOa-EE-equ" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="239" y="0.0" width="77" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="1" green="0.43441106797142925" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-gq-H6F" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="318" y="0.0" width="78" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="0.0012503010419571137" green="0.47816025913962856" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zt6-Hz-xfa" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="398" y="0.0" width="77" height="90"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
-                                                <color key="value" red="1" green="0.90228585023564523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                </subviews>
-                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCD-Gl-DCV" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="495" y="500" width="90" height="90"/>
                                 <color key="backgroundColor" red="0.85999263571083484" green="0.70784289739944306" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -432,11 +371,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                                     <rect key="frame" x="7" y="7" width="110" height="110"/>
                                                     <color key="backgroundColor" red="1" green="0.49196181230329317" blue="0.33186345736402023" alpha="0.0" colorSpace="calibratedRGB"/>
                                                     <color key="tintColor" red="0.95921474358974357" green="0.95921474358974357" blue="0.95921474358974357" alpha="0.79665948275862064" colorSpace="calibratedRGB"/>
-                                                    <state key="normal" backgroundImage="add"/>
+                                                    <state key="normal" image="add"/>
                                                     <connections>
                                                         <action selector="addMoreSlotsButtonPressed:" destination="CGb-Sh-tvY" eventType="touchUpInside" id="Ero-ON-kf5"/>
                                                     </connections>
@@ -457,16 +396,191 @@
                                     <outlet property="delegate" destination="CGb-Sh-tvY" id="uND-iA-mpe"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-lQ-SdJ">
-                                <rect key="frame" x="40" y="500" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kV8-ZZ-3Dp">
+                                <rect key="frame" x="10" y="500" width="475" height="90"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcP-la-qV6" userLabel="ItemInfo">
+                                        <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-lQ-SdJ">
+                                                <rect key="frame" x="10" y="0.0" width="42" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
+                                                <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.0" green="1" blue="0.017656813828499818" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIp-H1-dgf" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="80" y="0.0" width="77" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.45322716247019557" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dnp-YS-FyF" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="159" y="0.0" width="78" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.42229567309999999" green="0.42229567309999999" blue="0.42229567309999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOa-EE-equ" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="239" y="0.0" width="77" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="1" green="0.43441106797142925" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-gq-H6F" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="318" y="0.0" width="78" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.0012503010419571137" green="0.47816025913962856" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zt6-Hz-xfa" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="398" y="0.0" width="77" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="1" green="0.90228585023564523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="BDp-lX-aON" secondAttribute="bottom" id="2sr-Zt-kwW"/>
+                                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="leading" secondItem="Dnp-YS-FyF" secondAttribute="trailing" constant="10" id="ELZ-fO-bVS"/>
+                                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="top" secondItem="BDp-lX-aON" secondAttribute="top" id="Exa-p4-4Y6"/>
+                                            <constraint firstItem="Dnp-YS-FyF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yI7-lQ-SdJ" secondAttribute="trailing" constant="10" id="F02-lo-X8b"/>
+                                            <constraint firstAttribute="trailing" secondItem="BDp-lX-aON" secondAttribute="trailing" id="XGM-QP-GTu"/>
+                                            <constraint firstItem="BDp-lX-aON" firstAttribute="leading" secondItem="gcP-la-qV6" secondAttribute="leading" id="czz-Sk-y41"/>
+                                            <constraint firstItem="BDp-lX-aON" firstAttribute="top" secondItem="gcP-la-qV6" secondAttribute="top" id="xdv-No-9dn"/>
+                                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="leading" secondItem="gcP-la-qV6" secondAttribute="leading" constant="10" id="xwS-xu-70l"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="ELZ-fO-bVS"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vm5-gj-0dP" userLabel="AbsoluteStats">
+                                        <rect key="frame" x="0.0" y="90" width="475" height="90"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tWf-bd-mJc">
+                                                <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCZ-dc-JM8" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.0" green="1" blue="0.01765681383" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ij-R6-Ub7" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="80" y="0.0" width="77" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.4532271625" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="neO-MK-C49" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="159" y="0.0" width="78" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.42229567309999999" green="0.42229567309999999" blue="0.42229567309999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDb-Am-AwI" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="239" y="0.0" width="77" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="1" green="0.43441106800000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cce-lG-FS5" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="318" y="0.0" width="78" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="0.0012503010419999999" green="0.47816025909999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ieg-t3-2eg" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                                        <rect key="frame" x="398" y="0.0" width="77" height="90"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="fillDoneColor">
+                                                                <color key="value" red="1" green="0.90228585019999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="tWf-bd-mJc" secondAttribute="bottom" id="EqB-2H-8gM"/>
+                                            <constraint firstItem="tWf-bd-mJc" firstAttribute="leading" secondItem="Vm5-gj-0dP" secondAttribute="leading" id="gO7-D7-grq"/>
+                                            <constraint firstAttribute="trailing" secondItem="tWf-bd-mJc" secondAttribute="trailing" id="mNG-oe-8wl"/>
+                                            <constraint firstItem="tWf-bd-mJc" firstAttribute="top" secondItem="Vm5-gj-0dP" secondAttribute="top" id="xO8-hN-T4U"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="gcP-la-qV6" firstAttribute="centerY" secondItem="kV8-ZZ-3Dp" secondAttribute="centerY" id="58f-cI-H8Y"/>
+                                    <constraint firstAttribute="bottom" secondItem="Vm5-gj-0dP" secondAttribute="bottom" id="8A6-KE-O6c"/>
+                                    <constraint firstItem="gcP-la-qV6" firstAttribute="centerX" secondItem="kV8-ZZ-3Dp" secondAttribute="centerX" id="Bbg-Za-mY3"/>
+                                    <constraint firstItem="gcP-la-qV6" firstAttribute="top" secondItem="kV8-ZZ-3Dp" secondAttribute="top" id="C7i-fL-JRC"/>
+                                    <constraint firstItem="gcP-la-qV6" firstAttribute="leading" secondItem="kV8-ZZ-3Dp" secondAttribute="leading" id="HwM-V5-4oR"/>
+                                    <constraint firstItem="Vm5-gj-0dP" firstAttribute="leading" secondItem="kV8-ZZ-3Dp" secondAttribute="leading" id="R05-PZ-s2N"/>
+                                    <constraint firstAttribute="trailing" secondItem="Vm5-gj-0dP" secondAttribute="trailing" id="TWd-KC-PbP"/>
+                                    <constraint firstItem="gcP-la-qV6" firstAttribute="height" secondItem="Vm5-gj-0dP" secondAttribute="height" id="dk9-fs-N7I"/>
+                                    <constraint firstAttribute="bottom" secondItem="gcP-la-qV6" secondAttribute="bottom" id="fZR-t1-P69"/>
+                                    <constraint firstItem="Vm5-gj-0dP" firstAttribute="top" secondItem="gcP-la-qV6" secondAttribute="bottom" id="l84-2v-axc"/>
+                                    <constraint firstAttribute="trailing" secondItem="gcP-la-qV6" secondAttribute="trailing" id="o9v-cU-eNv"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="fZR-t1-P69"/>
+                                    </mask>
+                                </variation>
+                            </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehR-ek-g3c">
                                 <rect key="frame" x="30" y="40" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -474,22 +588,20 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="P64-Qm-GHx" secondAttribute="trailing" constant="-20" id="3SA-C9-WQf"/>
+                            <constraint firstItem="kV8-ZZ-3Dp" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="-10" id="6gp-fw-wqB"/>
+                            <constraint firstItem="kV8-ZZ-3Dp" firstAttribute="height" secondItem="BCD-Gl-DCV" secondAttribute="height" id="76h-rC-Kqw"/>
                             <constraint firstItem="mGy-f6-MZ2" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="10" id="L0m-YU-d2g"/>
-                            <constraint firstItem="BCD-Gl-DCV" firstAttribute="height" secondItem="BDp-lX-aON" secondAttribute="height" id="Mpr-oz-lv2"/>
                             <constraint firstItem="ehR-ek-g3c" firstAttribute="top" secondItem="IGa-Ja-NoJ" secondAttribute="top" id="PYr-Rz-YEu"/>
                             <constraint firstItem="IGa-Ja-NoJ" firstAttribute="top" secondItem="OqS-s8-3dQ" secondAttribute="bottom" constant="20" id="QAL-0w-0jF"/>
                             <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" relation="greaterThanOrEqual" secondItem="P64-Qm-GHx" secondAttribute="bottom" constant="100" id="Tlw-du-hmO"/>
-                            <constraint firstItem="BDp-lX-aON" firstAttribute="top" secondItem="P64-Qm-GHx" secondAttribute="bottom" id="Tm9-6G-HAl"/>
-                            <constraint firstItem="BDp-lX-aON" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="-10" id="V4L-64-jg7"/>
-                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="BDp-lX-aON" secondAttribute="bottom" constant="10" id="ZfT-8C-S5I"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BCD-Gl-DCV" secondAttribute="trailing" constant="-5" id="bSW-ES-C0a"/>
+                            <constraint firstItem="BCD-Gl-DCV" firstAttribute="leading" secondItem="kV8-ZZ-3Dp" secondAttribute="trailing" constant="10" id="dBs-5K-gUs"/>
                             <constraint firstItem="P64-Qm-GHx" firstAttribute="top" secondItem="IGa-Ja-NoJ" secondAttribute="bottom" constant="-9" id="g3M-gA-CXB"/>
-                            <constraint firstItem="BCD-Gl-DCV" firstAttribute="leading" secondItem="BDp-lX-aON" secondAttribute="trailing" constant="10" id="ghp-Lv-4L2"/>
                             <constraint firstItem="BCD-Gl-DCV" firstAttribute="top" secondItem="P64-Qm-GHx" secondAttribute="bottom" id="oyp-Hd-ush"/>
                             <constraint firstItem="P64-Qm-GHx" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="-20" id="rpz-3C-tf1"/>
                             <constraint firstItem="ehR-ek-g3c" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="10" id="tu7-dZ-gwU"/>
-                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="top" secondItem="BDp-lX-aON" secondAttribute="top" id="vMp-Uo-HXR"/>
-                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="leading" secondItem="Eyw-Cl-2hO" secondAttribute="leadingMargin" constant="20" id="w5k-Dn-km3"/>
+                            <constraint firstItem="kV8-ZZ-3Dp" firstAttribute="top" secondItem="P64-Qm-GHx" secondAttribute="bottom" id="wfN-Lp-ktn"/>
+                            <constraint firstItem="CJs-Wc-P5S" firstAttribute="top" secondItem="kV8-ZZ-3Dp" secondAttribute="bottom" constant="10" id="zK3-T5-8aH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mGy-f6-MZ2" secondAttribute="trailing" constant="-5" id="znv-qm-FiA"/>
                             <constraint firstItem="IGa-Ja-NoJ" firstAttribute="centerX" secondItem="Eyw-Cl-2hO" secondAttribute="centerX" id="zsm-8P-Ke4"/>
                         </constraints>
@@ -500,6 +612,12 @@
                         <outlet property="DEXProgressView" destination="zt6-Hz-xfa" id="fSN-rd-4CU"/>
                         <outlet property="DescriptionLabel" destination="yI7-lQ-SdJ" id="9yk-Z7-Mdc"/>
                         <outlet property="EquipButton" destination="BCD-Gl-DCV" id="gu6-2S-1Rz"/>
+                        <outlet property="GlobalATKProgressView" destination="BDb-Am-AwI" id="EkJ-fH-dY2"/>
+                        <outlet property="GlobalDEFProgressView" destination="neO-MK-C49" id="gXf-12-fh6"/>
+                        <outlet property="GlobalDEXProgressView" destination="Ieg-t3-2eg" id="45o-5w-1uc"/>
+                        <outlet property="GlobalHPProgressView" destination="mCZ-dc-JM8" id="ZMr-bZ-2at"/>
+                        <outlet property="GlobalManaProgressView" destination="1Ij-R6-Ub7" id="kns-Xo-Sfb"/>
+                        <outlet property="GlobalSPDProgressView" destination="Cce-lG-FS5" id="3mt-oz-iUF"/>
                         <outlet property="HPProgressView" destination="T32-LU-H58" id="SfK-a9-0LI"/>
                         <outlet property="ItemNameLabel" destination="IGa-Ja-NoJ" id="zE6-Gx-Zb8"/>
                         <outlet property="ManaProgressView" destination="jIp-H1-dgf" id="Ncp-Dk-ptX"/>
@@ -565,7 +683,7 @@
                                 </constraints>
                                 <state key="normal" title="Main Menu"/>
                                 <connections>
-                                    <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitToMainMenu:" id="Wq2-6c-JOM"/>
+                                    <segue destination="ATs-Ty-Sgo" kind="unwind" animates="NO" unwindAction="exitToMainMenu:" id="Wq2-6c-JOM"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -593,7 +711,7 @@
         <!--Victory View Controller-->
         <scene sceneID="SM8-gH-k1Y">
             <objects>
-                <viewController id="auq-MV-pOY" customClass="VictoryViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VictoryViewController" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="auq-MV-pOY" customClass="VictoryViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Aai-uw-j9b"/>
                         <viewControllerLayoutGuide type="bottom" id="nK5-vI-GVs"/>
@@ -601,12 +719,83 @@
                     <view key="view" contentMode="scaleToFill" id="rpl-iU-8cg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VICTORY" textAlignment="center" lineBreakMode="clip" minimumFontSize="50" translatesAutoresizingMaskIntoConstraints="NO" id="f2R-SF-2kI">
+                                <rect key="frame" x="40" y="40" width="520" height="137"/>
+                                <color key="tintColor" red="0.99698336880000005" green="0.4505549244" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="100"/>
+                                <color key="textColor" red="0.0" green="0.84975961538461542" blue="0.043488966760667137" alpha="0.80417564659999996" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xT-1O-3Fy">
+                                <rect key="frame" x="553" y="30" width="32" height="32"/>
+                                <color key="backgroundColor" red="0.85537391740000002" green="1" blue="0.99407375580000001" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="UBd-8P-3M0"/>
+                                    <constraint firstAttribute="width" secondItem="9xT-1O-3Fy" secondAttribute="height" multiplier="1:1" id="hlG-9a-1Pa"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="0.18183589380000001" blue="0.86308780709999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="menu"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hlG-9a-1Pa"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="eVg-ep-BHO"/>
+                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="exitToMainMenu:" id="7Yf-UQ-rmw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkb-Vr-W5L" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="400" y="400" width="180" height="180"/>
+                                <state key="normal" image="Stats"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="umc-gy-mFW" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="20" y="400" width="180" height="180"/>
+                                <state key="normal" image="retry"/>
+                                <connections>
+                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="victorySelectedRespawn:" id="U6q-rq-sz1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9W-Xl-wOL" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="210" y="400" width="180" height="180"/>
+                                <state key="normal" image="levelselect"/>
+                                <connections>
+                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="exitToLevelSelect:" id="Lwi-7o-Tws"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nK5-vI-GVs" firstAttribute="top" secondItem="fkb-Vr-W5L" secondAttribute="bottom" constant="20" id="0cV-zn-Ysi"/>
+                            <constraint firstItem="9xT-1O-3Fy" firstAttribute="top" secondItem="Aai-uw-j9b" secondAttribute="bottom" constant="10" id="4f0-d9-IhW"/>
+                            <constraint firstItem="umc-gy-mFW" firstAttribute="width" secondItem="fkb-Vr-W5L" secondAttribute="width" id="64b-be-Ddn"/>
+                            <constraint firstItem="umc-gy-mFW" firstAttribute="width" secondItem="umc-gy-mFW" secondAttribute="height" multiplier="1:1" id="7Gx-QZ-4SI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="f2R-SF-2kI" secondAttribute="trailing" constant="20" id="AdY-bg-awp"/>
+                            <constraint firstItem="umc-gy-mFW" firstAttribute="width" secondItem="P9W-Xl-wOL" secondAttribute="width" id="BdV-kE-QEE"/>
+                            <constraint firstItem="f2R-SF-2kI" firstAttribute="leading" secondItem="rpl-iU-8cg" secondAttribute="leadingMargin" constant="20" id="Hfr-ng-Dr4"/>
+                            <constraint firstItem="P9W-Xl-wOL" firstAttribute="leading" secondItem="umc-gy-mFW" secondAttribute="trailing" constant="10" id="Ivp-VL-Fvo"/>
+                            <constraint firstItem="f2R-SF-2kI" firstAttribute="top" secondItem="Aai-uw-j9b" secondAttribute="bottom" constant="20" id="KFT-0k-J4k"/>
+                            <constraint firstItem="fkb-Vr-W5L" firstAttribute="width" secondItem="fkb-Vr-W5L" secondAttribute="height" multiplier="1:1" id="Kk1-3D-wls"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fkb-Vr-W5L" secondAttribute="trailing" id="LK0-mm-hVb"/>
+                            <constraint firstItem="fkb-Vr-W5L" firstAttribute="top" relation="greaterThanOrEqual" secondItem="f2R-SF-2kI" secondAttribute="bottom" constant="20" id="Yhl-h0-JIq"/>
+                            <constraint firstItem="P9W-Xl-wOL" firstAttribute="width" secondItem="P9W-Xl-wOL" secondAttribute="height" multiplier="1:1" id="bLj-Q5-GsC"/>
+                            <constraint firstItem="umc-gy-mFW" firstAttribute="leading" secondItem="rpl-iU-8cg" secondAttribute="leadingMargin" id="eBx-IV-2Pk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9xT-1O-3Fy" secondAttribute="trailing" constant="-5" id="eoo-dP-xBW"/>
+                            <constraint firstItem="9xT-1O-3Fy" firstAttribute="width" secondItem="9xT-1O-3Fy" secondAttribute="height" multiplier="1:1" id="nIe-Hc-fgU"/>
+                            <constraint firstItem="P9W-Xl-wOL" firstAttribute="top" secondItem="umc-gy-mFW" secondAttribute="top" id="oby-90-FAq"/>
+                            <constraint firstItem="fkb-Vr-W5L" firstAttribute="leading" secondItem="P9W-Xl-wOL" secondAttribute="trailing" constant="10" id="wDt-HQ-rgO"/>
+                            <constraint firstItem="umc-gy-mFW" firstAttribute="top" secondItem="fkb-Vr-W5L" secondAttribute="top" id="zhn-zp-yDh"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="MenuButton" destination="9xT-1O-3Fy" id="VCa-d6-gge"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EtA-fR-8Qk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="BdE-Es-SI5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="834" y="-257"/>
+            <point key="canvasLocation" x="833" y="-277"/>
         </scene>
         <!--Defeat View Controller-->
         <scene sceneID="L1E-Gz-uaF">
@@ -627,13 +816,15 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.14079212079847458" alpha="0.80417564655172413" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jII-MU-R6g" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="277" y="437" width="46" height="30"/>
-                                <state key="normal" title="Revive"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8Z-2c-3ld" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="20" y="296" width="230" height="230"/>
-                                <state key="normal" title="Respawn" image="retry"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8Z-2c-3ld" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="20" y="400" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Q8Z-2c-3ld" secondAttribute="height" multiplier="1:1" id="q9b-Df-j06"/>
+                                </constraints>
+                                <state key="normal" image="retry"/>
+                                <connections>
+                                    <segue destination="L2j-0g-cSK" kind="unwind" identifier="respawn" unwindAction="defeatSelectedRespawn:" id="iDw-hu-ELV"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYa-vp-9yB">
                                 <rect key="frame" x="553" y="30" width="32" height="32"/>
@@ -644,9 +835,31 @@
                                 </constraints>
                                 <color key="tintColor" red="1" green="0.18183589380000001" blue="0.86308780709999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="menu"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="eWk-3Z-hDS"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="leJ-Vx-ltS"/>
-                                    <segue destination="L2j-0g-cSK" kind="unwind" unwindAction="exitToMainMenu:" id="wGv-x0-uby"/>
+                                    <segue destination="L2j-0g-cSK" kind="unwind" animates="NO" unwindAction="exitToMainMenu:" id="wGv-x0-uby"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMH-MU-Oit" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="400" y="400" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="height" multiplier="1:1" id="oZf-YA-w35"/>
+                                </constraints>
+                                <state key="normal" image="Stats"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaq-sd-fAd" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="210" y="400" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vaq-sd-fAd" secondAttribute="height" multiplier="1:1" id="w0I-Tc-W7U"/>
+                                </constraints>
+                                <state key="normal" image="Revive"/>
+                                <connections>
+                                    <segue destination="L2j-0g-cSK" kind="unwind" identifier="revive" unwindAction="defeatSelectedRevive:" id="urB-PU-s5t"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -654,11 +867,20 @@
                         <constraints>
                             <constraint firstItem="FYa-vp-9yB" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="10" id="1By-j6-V7f"/>
                             <constraint firstItem="FYa-vp-9yB" firstAttribute="width" secondItem="FYa-vp-9yB" secondAttribute="height" multiplier="1:1" id="9Nt-Ad-DWJ"/>
-                            <constraint firstItem="Q8Z-2c-3ld" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" id="Cdx-CZ-dXN"/>
+                            <constraint firstItem="vaq-sd-fAd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BQ6-gh-4aD" secondAttribute="bottom" constant="20" id="EwI-rg-WN5"/>
+                            <constraint firstItem="sqy-0t-rW0" firstAttribute="top" secondItem="vaq-sd-fAd" secondAttribute="bottom" constant="20" id="Kc3-lY-GA8"/>
+                            <constraint firstItem="Q8Z-2c-3ld" firstAttribute="width" secondItem="vaq-sd-fAd" secondAttribute="width" id="Kr5-22-ZFg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eMH-MU-Oit" secondAttribute="trailing" id="Maa-iI-Qmf"/>
+                            <constraint firstItem="vaq-sd-fAd" firstAttribute="leading" secondItem="Q8Z-2c-3ld" secondAttribute="trailing" constant="10" id="P2s-hf-biV"/>
+                            <constraint firstItem="Q8Z-2c-3ld" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" id="QSt-cx-tEC"/>
+                            <constraint firstItem="vaq-sd-fAd" firstAttribute="top" secondItem="eMH-MU-Oit" secondAttribute="top" id="YVn-YH-M1B"/>
+                            <constraint firstItem="eMH-MU-Oit" firstAttribute="leading" secondItem="vaq-sd-fAd" secondAttribute="trailing" constant="10" id="hTf-IG-awl"/>
                             <constraint firstItem="BQ6-gh-4aD" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="20" id="qad-hd-2A2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BQ6-gh-4aD" secondAttribute="trailing" constant="20" id="qdO-vG-U3C"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FYa-vp-9yB" secondAttribute="trailing" constant="-5" id="qs8-ct-FAY"/>
                             <constraint firstItem="BQ6-gh-4aD" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" constant="20" id="sn0-U2-R3N"/>
+                            <constraint firstItem="Q8Z-2c-3ld" firstAttribute="top" secondItem="vaq-sd-fAd" secondAttribute="top" id="yCD-Po-E5d"/>
+                            <constraint firstItem="Q8Z-2c-3ld" firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="width" id="ynR-Pn-Qfq"/>
                         </constraints>
                     </view>
                     <connections>
@@ -668,15 +890,18 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MAS-OS-Enc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="L2j-0g-cSK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1491" y="-249"/>
+            <point key="canvasLocation" x="1566" y="-277"/>
         </scene>
     </scenes>
     <resources>
         <image name="ChasmCrystal" width="15" height="13"/>
+        <image name="Revive" width="512" height="512"/>
+        <image name="Stats" width="512" height="512"/>
         <image name="add" width="256" height="256"/>
+        <image name="levelselect" width="512" height="512"/>
         <image name="menu" width="512" height="512"/>
         <image name="retry" width="512" height="512"/>
-        <image name="settings_gear.png" width="512" height="512"/>
+        <image name="settings_gear" width="512" height="512"/>
     </resources>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>
 </document>

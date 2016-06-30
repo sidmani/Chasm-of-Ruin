@@ -167,7 +167,8 @@ class InternalPurchaseHandler:NSCoding {
     }
     
     private var Purchases:[String:Purchase] = [
-        "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal)
+        "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal),
+        "ReviveSelf":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal)
     ]
     
     init() {
@@ -232,24 +233,38 @@ class LevelHandler:NSCoding {
         let thumb:String
         var unlocked:Bool
         let free:Bool
+        let unlocksIndex:Int
+        var cleared:Bool
+        var playCount:Int
+        let maxScore:CGFloat
+        var bestScore:CGFloat
         
-        init(fileName:String, mapName:String, desc:String, thumb:String, unlocked:Bool, free:Bool) {
+        init(fileName:String, mapName:String, desc:String, thumb:String, unlocked:Bool, free:Bool, unlocksIndex:Int, playCount:Int = 0, cleared:Bool = false, maxScore:CGFloat, bestScore:CGFloat = 0) {
             self.fileName = fileName
             self.mapName = mapName
             self.desc = desc
             self.thumb = thumb
             self.unlocked = unlocked
             self.free = free
+            self.unlocksIndex = unlocksIndex
+            self.playCount = playCount
+            self.cleared = cleared
+            self.bestScore = bestScore
+            self.maxScore = maxScore
         }
         
-        @objc required convenience init?(coder aDecoder: NSCoder) {
-            let fileName = aDecoder.decodeObjectForKey("fileName") as! String
-            let mapName = aDecoder.decodeObjectForKey("mapName") as! String
-            let desc = aDecoder.decodeObjectForKey("desc") as! String
-            let thumb = aDecoder.decodeObjectForKey("thumb") as! String
-            let unlocked = aDecoder.decodeObjectForKey("unlocked") as! Bool
-            let free = aDecoder.decodeObjectForKey("free") as! Bool
-            self.init(fileName: fileName, mapName: mapName, desc: desc, thumb: thumb, unlocked: unlocked, free: free)
+        @objc required init?(coder aDecoder: NSCoder) {
+            fileName = aDecoder.decodeObjectForKey("fileName") as! String
+            mapName = aDecoder.decodeObjectForKey("mapName") as! String
+            desc = aDecoder.decodeObjectForKey("desc") as! String
+            thumb = aDecoder.decodeObjectForKey("thumb") as! String
+            unlocked = aDecoder.decodeObjectForKey("unlocked") as! Bool
+            free = aDecoder.decodeObjectForKey("free") as! Bool
+            unlocksIndex = aDecoder.decodeObjectForKey("unlocks") as! Int
+            playCount = aDecoder.decodeObjectForKey("playcount") as! Int
+            cleared = aDecoder.decodeObjectForKey("cleared") as! Bool
+            bestScore = aDecoder.decodeObjectForKey("bestscore") as! CGFloat
+            maxScore = aDecoder.decodeObjectForKey("maxscore") as! CGFloat
         }
         
         @objc func encodeWithCoder(aCoder: NSCoder) {
@@ -259,12 +274,17 @@ class LevelHandler:NSCoding {
             aCoder.encodeObject(thumb, forKey: "thumb")
             aCoder.encodeObject(unlocked, forKey: "unlocked")
             aCoder.encodeObject(free, forKey: "free")
+            aCoder.encodeObject(unlocksIndex, forKey: "unlocks")
+            aCoder.encodeObject(playCount, forKey: "playcount")
+            aCoder.encodeObject(cleared, forKey: "cleared")
+            aCoder.encodeObject(bestScore, forKey: "bestscore")
+            aCoder.encodeObject(maxScore, forKey: "maxscore")
         }
     }
     
     var levelDict:[Int:LevelDefinition] = [
-        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumb:"thumbnail", unlocked:true, free:true),
-        1:LevelDefinition(fileName:"Tutorial", mapName:"Level 1", desc:"Description 2", thumb:"thumbnail", unlocked:false, free:true)
+        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, maxScore: 100),
+        1:LevelDefinition(fileName:"Tutorial", mapName:"Level 1", desc:"Description 2", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, maxScore: 100)
     ]
     
     var currentLevel:Int!
@@ -293,6 +313,16 @@ class LevelHandler:NSCoding {
    
     func getAllLevels() -> [LevelDefinition] {
         return Array(levelDict.values)
+    }
+    
+    func levelCompletedDefeat() {
+        levelDict[currentLevel]!.playCount += 1
+    }
+    
+    func levelCompleted() {
+        setLevelUnlocked(levelDict[currentLevel]!.unlocksIndex)
+        levelDict[currentLevel]!.cleared = true
+        levelDict[currentLevel]!.playCount += 1
     }
     
     func setLevelUnlocked(index:Int) {

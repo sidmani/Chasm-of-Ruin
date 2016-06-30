@@ -263,12 +263,12 @@ class Portal:MapObject, Interactive {
     let thumbnailImg:String
     let autotrigger:Bool
 
-    private let destinationLevel:LevelHandler.LevelDefinition
+    private let destinationLevel:LevelHandler.LevelDefinition?
     private let endsLevel:Bool
-    init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, thumbnailImg:String, endsLevel:Bool) {
-        self.destinationLevel = defaultLevelHandler.levelDict[destinationIndex]!
+    init(loc:CGPoint, destinationIndex:Int, autotrigger:Bool, endsLevel:Bool) {
+        self.destinationLevel = defaultLevelHandler.levelDict[destinationIndex]
         self.autotrigger = autotrigger
-        self.thumbnailImg = thumbnailImg
+        self.thumbnailImg = (destinationLevel?.thumb == nil ? "exit_lvl_img" : destinationLevel!.thumb)
         self.endsLevel = endsLevel
         
         super.init(loc: loc)
@@ -280,16 +280,15 @@ class Portal:MapObject, Interactive {
     }
     
     convenience init(fromBase64:String, loc:CGPoint) {
-        // "destination_index, autotrigger, thumbnailImg"
+        // "destination_index, autotrigger, endsLevel"
         let optArr = fromBase64.splitBase64IntoArray()
-        if (optArr.count != 4) {
+        if (optArr.count != 3) {
             fatalError()
         }
         let destInd = Int(optArr[0])!
         let autotrigger = optArr[1] == "true"
-        let thumbnail = optArr[2]
-        let endsLevel = optArr[3] == "true"
-        self.init(loc:loc, destinationIndex: destInd, autotrigger: autotrigger, thumbnailImg: thumbnail, endsLevel: endsLevel)
+        let endsLevel = optArr[2] == "true"
+        self.init(loc:loc, destinationIndex: destInd, autotrigger: autotrigger, endsLevel: endsLevel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -301,12 +300,18 @@ class Portal:MapObject, Interactive {
             NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
         }
         else {
-            (self.scene as! InGameScene).setLevel(MapLevel(level: destinationLevel))
+            (self.scene as! InGameScene).setLevel(MapLevel(level: destinationLevel!))
         }
     }
     
     func displayPopup(state: Bool) {
-        
+        if (state) {
+            addChild(PopUp(image: thumbnailImg, size: CGSizeMake(8, 8), parent:self))
+        }
+        else {
+            removeAllChildren()
+        }
+
     }
 }
 

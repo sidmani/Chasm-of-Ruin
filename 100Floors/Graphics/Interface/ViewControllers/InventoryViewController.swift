@@ -24,6 +24,14 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     @IBOutlet weak var DEXProgressView: VerticalProgressView!
     @IBOutlet weak var ManaProgressView: VerticalProgressView!
     
+    @IBOutlet weak var GlobalHPProgressView: VerticalProgressView!
+    @IBOutlet weak var GlobalDEFProgressView: VerticalProgressView!
+    @IBOutlet weak var GlobalATKProgressView: VerticalProgressView!
+    @IBOutlet weak var GlobalSPDProgressView: VerticalProgressView!
+    @IBOutlet weak var GlobalDEXProgressView: VerticalProgressView!
+    @IBOutlet weak var GlobalManaProgressView: VerticalProgressView!
+
+    
     @IBOutlet weak var DescriptionLabel: UILabel!
     @IBOutlet weak var TypeLabel: UILabel!
     
@@ -65,12 +73,27 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         DEXProgressView.label.text = "DEX"
         ATKProgressView.label.text = "ATK"
 
+        GlobalHPProgressView.label.text = "HP"
+        GlobalManaProgressView.label.text = "MANA"
+        GlobalDEFProgressView.label.text = "DEF"
+        GlobalSPDProgressView.label.text = "SPD"
+        GlobalDEXProgressView.label.text = "DEX"
+        GlobalATKProgressView.label.text = "ATK"
+        updatePermanentStatsDisplay()
+        
         HPProgressView.fillDoneColor = ColorScheme.HPColor
         ATKProgressView.fillDoneColor = ColorScheme.ATKColor
         DEFProgressView.fillDoneColor = ColorScheme.DEFColor
         ManaProgressView.fillDoneColor = ColorScheme.MANAColor
         DEXProgressView.fillDoneColor = ColorScheme.DEXColor
         SPDProgressView.fillDoneColor = ColorScheme.SPDColor
+
+        GlobalHPProgressView.fillDoneColor = ColorScheme.HPColor
+        GlobalATKProgressView.fillDoneColor = ColorScheme.ATKColor
+        GlobalDEFProgressView.fillDoneColor = ColorScheme.DEFColor
+        GlobalManaProgressView.fillDoneColor = ColorScheme.MANAColor
+        GlobalDEXProgressView.fillDoneColor = ColorScheme.DEXColor
+        GlobalSPDProgressView.fillDoneColor = ColorScheme.SPDColor
 
         for view in StatsDisplay {
             view.alpha = 0
@@ -150,9 +173,27 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
             selectCenterCell()
+            updatePermanentStatsDisplay()
         }
     }
     
+    func updatePermanentStatsDisplay() {
+        let stats = thisCharacter.getStats()
+        GlobalHPProgressView.setProgress(stats.health/stats.maxHealth, animated: true)
+        GlobalManaProgressView.setProgress(stats.mana/stats.maxMana, animated: true)
+        GlobalATKProgressView.setProgress(stats.attack/StatLimits.GLOBAL_STAT_MAX, animated: true)
+        GlobalDEFProgressView.setProgress(stats.defense/StatLimits.GLOBAL_STAT_MAX, animated: true)
+        GlobalSPDProgressView.setProgress(stats.speed/StatLimits.GLOBAL_STAT_MAX, animated: true)
+        GlobalDEXProgressView.setProgress(stats.dexterity/StatLimits.GLOBAL_STAT_MAX, animated: true)
+
+        GlobalHPProgressView.modifierLabel.text = "\(Int(stats.health))/\(Int(stats.maxHealth))"
+        GlobalManaProgressView.modifierLabel.text = "\(Int(stats.mana))/\(Int(stats.maxMana))"
+        GlobalATKProgressView.modifierLabel.text = (stats.attack == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.attack))")
+        GlobalDEFProgressView.modifierLabel.text = (stats.defense == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.defense))")
+        GlobalSPDProgressView.modifierLabel.text = (stats.speed == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.speed))")
+        GlobalDEXProgressView.modifierLabel.text = (stats.dexterity == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.dexterity))")
+
+    }
     
     func updateInfoDisplay() {
         if (previousSelectedContainer != nil) {
@@ -165,39 +206,32 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 DEFProgressView.setProgress(item.statMods.defense/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 SPDProgressView.setProgress(item.statMods.speed/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                 DEXProgressView.setProgress(item.statMods.dexterity/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
-                for view in StatsDisplay {
-                    view.modifierLabel.text = ""
-                }
+                
+                HPProgressView.modifierLabel.text = "\(Int(item.statMods.health))"
+                ManaProgressView.modifierLabel.text = "\(Int(item.statMods.mana))"
+                ATKProgressView.modifierLabel.text = "\(Int(item.statMods.attack))"
+                DEFProgressView.modifierLabel.text = "\(Int(item.statMods.defense))"
+                SPDProgressView.modifierLabel.text = "\(Int(item.statMods.speed))"
+                DEXProgressView.modifierLabel.text = "\(Int(item.statMods.dexterity))"
+
                 if (item is Consumable) {
-//                    HPProgressView.alpha = 1
-//                    ManaProgressView.alpha = 1
-//                    ATKProgressView.alpha = 1
-//                    DEFProgressView.alpha = 1
-//                    SPDProgressView.alpha = 1
-//                    DEXProgressView.alpha = 1
                     for view in StatsDisplay {
                         view.alpha = 1
                     }
                     DescriptionLabel.alpha = 0
                     if ((item as! Consumable).permanent) {
                         for view in StatsDisplay {
-                            view.modifierLabel.text = "🔒"
+                            view.modifierLabel.text = view.modifierLabel.text! + "🔒"
                         }
                     }
                     else {
                         for view in StatsDisplay {
-                            view.modifierLabel.text = "⏱"
+                            view.modifierLabel.text = view.modifierLabel.text! + "⏱"
                         }
                     }
                     EquipButton.setTitle("Eat", forState: .Normal)
                 }
                 else if (item is Usable) {
-//                    HPProgressView.alpha = 0
-//                    ManaProgressView.alpha = 0
-//                    ATKProgressView.alpha = 0
-//                    DEFProgressView.alpha = 0
-//                    SPDProgressView.alpha = 0
-//                    DEXProgressView.alpha = 0
                     for view in StatsDisplay {
                         view.alpha = 0
                     }
@@ -214,12 +248,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     DescriptionLabel.alpha = 1
                 }
                 else if item is Skill {
-//                    HPProgressView.alpha = 0
-//                    ManaProgressView.alpha = 0
-//                    ATKProgressView.alpha = 0
-//                    DEFProgressView.alpha = 0
-//                    SPDProgressView.alpha = 0
-//                    DEXProgressView.alpha = 0
                     for view in StatsDisplay {
                         view.alpha = 0
                     }

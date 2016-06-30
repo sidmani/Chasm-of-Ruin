@@ -15,7 +15,7 @@ var defaultMoneyHandler:MoneyHandler!
 var defaultPurchaseHandler:InternalPurchaseHandler!
 
 class MenuViewController: UIViewController {
-    @IBOutlet weak var playButton: UIButton!
+ //   @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var SettingsButton: UIButton!
     
     override func viewDidLoad() {
@@ -36,6 +36,12 @@ class MenuViewController: UIViewController {
         let scene = MenuScene(size: skView.bounds.size)
         skView.presentScene(scene)
         
+    }
+    
+    @IBAction func loadLevelSelectVC() {
+        let lsvc = storyboard!.instantiateViewControllerWithIdentifier("lsvc")
+        lsvc.modalTransitionStyle = .CrossDissolve
+        presentViewController(lsvc, animated: true, completion: nil)
     }
     
     @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {

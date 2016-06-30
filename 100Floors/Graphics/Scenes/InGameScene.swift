@@ -26,7 +26,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private var currentLevel:BaseLevel?
-
     private var oldTime:CFTimeInterval = 0
     private let mainCamera = SKCameraNode()
     
@@ -168,7 +167,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
         thisCharacter.setTextureDict()
-       // cameraBounds = (left: camera!.xScale*screenSize.width/2, right: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width/2), bottom: camera!.yScale*screenSize.height/2, top: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height/2))
         cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
 
         ///////////////////////////
@@ -176,6 +174,12 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.hidden = false
         self.paused = false
         NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.levelName)
+    }
+    
+    func reloadLevel() {
+        if let level = (currentLevel as? MapLevel) {
+            setLevel(MapLevel(level: level.definition))
+        }
     }
     
     ////////
@@ -209,7 +213,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
     func enemiesOnScreen() -> [Enemy] {
         var arr = [Enemy]()
         let rect = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.width*camera!.yScale)

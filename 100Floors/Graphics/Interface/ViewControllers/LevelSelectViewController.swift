@@ -70,7 +70,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer) {
+        if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer && previousSelectedContainer?.level?.unlocked == true) {
             defaultLevelHandler.currentLevel = indexPath.item
             loadLevel(previousSelectedContainer!.level!)
         }
@@ -84,6 +84,17 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         igvc.modalTransitionStyle = .CrossDissolve
         presentViewController(igvc, animated: true, completion:nil)
         igvc.loadLevel(level)
+        
+    }
+    
+    @IBAction func dismissLevelSelect() { //TODO: fix this
+        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    @IBAction func exitToLevelSelect(segue:UIStoryboardSegue) {
+        levelCollection.reloadData()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -106,4 +117,6 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    
 }

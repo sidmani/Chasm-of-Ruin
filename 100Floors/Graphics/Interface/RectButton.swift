@@ -75,7 +75,6 @@ class ProgressRectButton:RectButton {
     
     func setEnabledTo(to:Bool) {
         self.enabled = to
-       // self.userInteractionEnabled = to
         if (to) {
             self.alpha = 1
         }

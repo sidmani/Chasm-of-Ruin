@@ -130,8 +130,7 @@ enum StatusCondition:Double {
     // Cursed - attack causes recoil damage
     // Bleeding - same as poisoned, but stats drop by half
     // Invincible - cannot be affected by anything
-    //
-    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500
+    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500, Disturbed = 5001, Chilled = 5002, Cursed = 3001, Bleeding = 4000, Invincible = 3002
 }
 
 //////////////////////
@@ -436,7 +435,7 @@ class ThisCharacter: Entity {
         }
         UIElements.HPBar.setProgress(color, progress: progress, animated: true) //div by zero error
     }
-    
+    //////
     func adjustMana(amount:CGFloat) {
         if (amount == 0) {
             return
@@ -451,6 +450,9 @@ class ThisCharacter: Entity {
         UIElements.SkillButton.setProgress(stats.mana/stats.maxMana)
     }
     
+    func getStats() -> Stats {
+        return stats + inventory.stats
+    }
     func setHealth(to:CGFloat, withPopup:Bool) {
         let amount = to*(stats.maxHealth) - stats.health
         adjustHealth(amount, withPopup: withPopup)
@@ -465,7 +467,7 @@ class ThisCharacter: Entity {
         reset()
     }
     
-    func reset() {
+    private func reset() {
         stats.health = stats.maxHealth
         stats.mana = stats.maxMana
         condition = nil
@@ -474,17 +476,15 @@ class ThisCharacter: Entity {
         runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0))
         timeSinceProjectile = 0
         currentTextureSet = "standing3"
-    }
-    
-    func confirmDeath() {
-       // reset()
-        //delete random items
-        //go back to main menu
+        UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
     }
     
     func respawn() {
-       // reset()
-        UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
+        condition = (.Invincible, StatusCondition.Invincible.rawValue)
+    }
+    
+    func confirmDeath() {
+        //delete random items
     }
     
     func killedEnemy(e:Enemy) {

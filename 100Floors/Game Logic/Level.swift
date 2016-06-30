@@ -73,9 +73,10 @@ class BaseLevel:SKNode {
 
 class MapLevel:BaseLevel, Updatable {
     private let map:SKATiledMap
+    let definition:LevelHandler.LevelDefinition
     
     init(level: LevelHandler.LevelDefinition) {
-        
+        definition = level
         map = SKATiledMap(mapName: level.fileName)
         
         let startLocPoint = CGPoint(s: map.mapProperties["StartLoc"] as! String)
@@ -120,9 +121,7 @@ class MapLevel:BaseLevel, Updatable {
     
     func update(deltaT: Double) {
         for object in objects.children {
-            //if let obj = object as? Updatable {
-                (object as? Updatable)?.update(deltaT)
-            //}
+            (object as? Updatable)?.update(deltaT)
         }
     }
     

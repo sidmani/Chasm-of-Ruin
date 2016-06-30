@@ -11,6 +11,7 @@ import UIKit
 
 class DefeatViewController: UIViewController {
     @IBOutlet weak var MenuButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         MenuButton.tintColor = ColorScheme.strokeColor
@@ -27,6 +28,13 @@ class DefeatViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if (identifier == "revive") {
+            return defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)
+        }
+        return true
     }
     
     override func prefersStatusBarHidden() -> Bool {

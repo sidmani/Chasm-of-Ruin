@@ -35,7 +35,7 @@ struct ColorScheme {
 class Container:UICollectionViewCell {
     private var centerPoint = CGPointZero
     private let rectangleLayer = CAShapeLayer()
-    private let containerView:UIView = UIView()
+   // private let containerView:UIView = UIView()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -43,10 +43,10 @@ class Container:UICollectionViewCell {
         let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
         rectangleLayer.path = rectanglePath.CGPath
         rectangleLayer.lineWidth = 2.0
-        containerView.layer.addSublayer(rectangleLayer)
+        self.layer.addSublayer(rectangleLayer)
         setSelectedTo(false)
         ////////////////////////////
-        self.addSubview(containerView)
+        //self.addSubview(containerView)
     }
     
     func setSelectedTo(val:Bool) {
@@ -65,6 +65,8 @@ class Container:UICollectionViewCell {
 class LevelContainer:Container {
     
     private let levelView = UIImageView()
+    private let numberLabel = UILabel()
+
     var level:LevelHandler.LevelDefinition?
     private let lockView = UIImageView()
     
@@ -81,10 +83,16 @@ class LevelContainer:Container {
         lockView.center = centerPoint
         lockView.image = UIImage(named: "lock")
         lockView.tintColor = ColorScheme.strokeColor
+        
+        numberLabel.text = ""
+        numberLabel.textAlignment = .Right
+        numberLabel.textColor = ColorScheme.strokeColorSelected
+        numberLabel.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 5, 30)
+        numberLabel.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
         ////////////////////////////
-        self.addSubview(containerView)
         self.addSubview(levelView)
         self.addSubview(lockView)
+        self.addSubview(numberLabel)
     }
     
     
@@ -92,8 +100,16 @@ class LevelContainer:Container {
     func setLevelTo(l:LevelHandler.LevelDefinition) {
         level = l
         lockView.hidden = level!.unlocked
-        //TODO: somehow get level thumbnail from level name
-        //then add it to the UIImageView
+        levelView.image = UIImage(named:level!.thumb)
+        if (level!.cleared) {
+            numberLabel.text = String(count: min(Int(5*level!.bestScore / level!.maxScore)+1, 5), repeatedValue: "⭐" as Character)
+        }
+        else if (level!.playCount == 0 && level!.unlocked) {
+            numberLabel.text = "⚡"
+        }
+        else {
+            numberLabel.text = ""
+        }
     }
 
     
@@ -101,7 +117,7 @@ class LevelContainer:Container {
 
 class ItemContainer:Container {
     
-    private var numberLabel = UILabel()
+    private let numberLabel = UILabel()
     let itemView = UIImageView()
     var item:Item?
     
@@ -123,7 +139,6 @@ class ItemContainer:Container {
         numberLabel.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width-10, 30)
         numberLabel.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
         ////////////////////////////
-        self.addSubview(containerView)
         self.addSubview(itemView)
         self.addSubview(numberLabel)
         
@@ -192,6 +207,41 @@ class ItemContainer:Container {
             itemView.image = nil
         }
         return oldItem
+    }
+    
+}
+
+class AnimatedImageContainer:UIView { //TODO: possibly delete this
+    private let imageView = UIImageView()
+    var images:[UIImage] = []
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
+        let rectangleLayer = CAShapeLayer()
+        rectangleLayer.path = rectanglePath.CGPath
+        rectangleLayer.lineWidth = 2.0
+        self.layer.addSublayer(rectangleLayer)
+        self.addSubview(imageView)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.bounds = self.bounds
+    }
+    
+    func setImage(to:UIImage) {
+        imageView.image = to
+    }
+    
+    func startAnimation() {
+        imageView.animationImages = images
+        imageView.animationDuration = 0.5
+        imageView.startAnimating()
+    }
+    
+    func stopAnimation() {
+        imageView.stopAnimating()
     }
     
 }

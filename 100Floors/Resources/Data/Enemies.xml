@@ -4,5 +4,6 @@
         <animation name="default" frames="5">SlimeSquareE</animation>
         <stats>MTAsMTAsNTAwLDIwMCw1MDAsNTAwLDQwMCw0MDA=</stats>
         <drop chance="0.5" type="ItemBag">wep1</drop>
+        <drop chance="1" type="Portal">LTEsZmFsc2UsdHJ1ZQ==</drop>
     </enemy>
 </enemies>
