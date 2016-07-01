@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <enemies>
-    <enemy id="Basic Enemy">
-        <animation name="default" frames="5">SlimeSquareE</animation>
+    <enemy id="e0" name="TargetDummy">
+        <animation name="default" frames="8">TargetDummy</animation>
         <stats>MTAsMTAsNTAwLDIwMCw1MDAsNTAwLDQwMCw0MDA=</stats>
-        <drop chance="0.5" type="ItemBag">wep1</drop>
-        <drop chance="1" type="Portal">LTEsZmFsc2UsdHJ1ZQ==</drop>
+    </enemy>
+    <enemy id="e1" name="SlimeSquareE">
+        <animation name="default" frames="5">SlimeSquareE</animation>
+        <stats>MTUsNDAsMzAsMCw1MDAsNTAwLDAsMA==</stats>
     </enemy>
 </enemies>

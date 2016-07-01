@@ -25,13 +25,18 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         static let Activate:UInt32 = 0b1000000
     }
     
+//    struct LightCategory {
+//        static let None: UInt32 = 0
+//        static let All: UInt32 = UINT32_MAX
+//        static let Object: UInt32 = 0b1
+//    }
+    
     private var currentLevel:BaseLevel?
     private var oldTime:CFTimeInterval = 0
     private let mainCamera = SKCameraNode()
     
     private var nonCharNodes = SKNode()
     
-    //private var cameraBounds:(left:CGFloat, right:CGFloat, top:CGFloat, bottom:CGFloat) = (left:0, right:0, top:0 ,bottom:0)
     private var cameraBounds:CGRect = CGRectZero
     var currentGroundBag:ItemBag?
     
@@ -42,6 +47,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
+        let lightNode = SKLightNode()
+        lightNode.categoryBitMask = LightCategory.Object
+        lightNode.falloff = 1
+        lightNode.zPosition = 100
+        addChild(lightNode)
         self.paused = true
         //////////////////////////////////////////
         //////////////////////////////////////////

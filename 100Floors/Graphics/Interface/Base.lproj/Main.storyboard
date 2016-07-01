@@ -100,7 +100,7 @@
                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
                                 <state key="normal" title="→"/>
                                 <connections>
-                                    <action selector="dismissLevelSelect" destination="OL5-bj-0VW" eventType="touchUpInside" id="oV1-PI-zZO"/>
+                                    <segue destination="cA6-TW-GFQ" kind="unwind" identifier="unwindMainMenu" unwindAction="exitToMainMenu:" id="EJc-CS-0NC"/>
                                 </connections>
                             </button>
                             <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YJp-Hi-eXt">
@@ -159,6 +159,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OL5-bj-0VW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="cA6-TW-GFQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="421" y="496"/>
         </scene>
@@ -643,7 +644,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <userGuides>
-                            <userLayoutGuide location="300" affinity="minY"/>
+                            <userLayoutGuide location="299" affinity="minY"/>
                         </userGuides>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9n-dR-gDP" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
@@ -681,9 +682,9 @@
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="qwb-OF-mYm"/>
                                 </constraints>
-                                <state key="normal" title="Main Menu"/>
+                                <state key="normal" title="Level Select"/>
                                 <connections>
-                                    <segue destination="ATs-Ty-Sgo" kind="unwind" animates="NO" unwindAction="exitToMainMenu:" id="Wq2-6c-JOM"/>
+                                    <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitToLevelSelect:" id="nwQ-aH-gPG"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -727,28 +728,12 @@
                                 <color key="textColor" red="0.0" green="0.84975961538461542" blue="0.043488966760667137" alpha="0.80417564659999996" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xT-1O-3Fy">
-                                <rect key="frame" x="553" y="30" width="32" height="32"/>
-                                <color key="backgroundColor" red="0.85537391740000002" green="1" blue="0.99407375580000001" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="UBd-8P-3M0"/>
-                                    <constraint firstAttribute="width" secondItem="9xT-1O-3Fy" secondAttribute="height" multiplier="1:1" id="hlG-9a-1Pa"/>
-                                </constraints>
-                                <color key="tintColor" red="1" green="0.18183589380000001" blue="0.86308780709999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" image="menu"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="hlG-9a-1Pa"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="eVg-ep-BHO"/>
-                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="exitToMainMenu:" id="7Yf-UQ-rmw"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkb-Vr-W5L" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="400" y="400" width="180" height="180"/>
-                                <state key="normal" image="Stats"/>
+                                <state key="normal" image="levelselect"/>
+                                <connections>
+                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="exitToLevelSelect:" id="Tcr-0q-SfE"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="umc-gy-mFW" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="20" y="400" width="180" height="180"/>
@@ -759,16 +744,12 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9W-Xl-wOL" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="210" y="400" width="180" height="180"/>
-                                <state key="normal" image="levelselect"/>
-                                <connections>
-                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="exitToLevelSelect:" id="Lwi-7o-Tws"/>
-                                </connections>
+                                <state key="normal" image="Stats"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="nK5-vI-GVs" firstAttribute="top" secondItem="fkb-Vr-W5L" secondAttribute="bottom" constant="20" id="0cV-zn-Ysi"/>
-                            <constraint firstItem="9xT-1O-3Fy" firstAttribute="top" secondItem="Aai-uw-j9b" secondAttribute="bottom" constant="10" id="4f0-d9-IhW"/>
                             <constraint firstItem="umc-gy-mFW" firstAttribute="width" secondItem="fkb-Vr-W5L" secondAttribute="width" id="64b-be-Ddn"/>
                             <constraint firstItem="umc-gy-mFW" firstAttribute="width" secondItem="umc-gy-mFW" secondAttribute="height" multiplier="1:1" id="7Gx-QZ-4SI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="f2R-SF-2kI" secondAttribute="trailing" constant="20" id="AdY-bg-awp"/>
@@ -781,16 +762,11 @@
                             <constraint firstItem="fkb-Vr-W5L" firstAttribute="top" relation="greaterThanOrEqual" secondItem="f2R-SF-2kI" secondAttribute="bottom" constant="20" id="Yhl-h0-JIq"/>
                             <constraint firstItem="P9W-Xl-wOL" firstAttribute="width" secondItem="P9W-Xl-wOL" secondAttribute="height" multiplier="1:1" id="bLj-Q5-GsC"/>
                             <constraint firstItem="umc-gy-mFW" firstAttribute="leading" secondItem="rpl-iU-8cg" secondAttribute="leadingMargin" id="eBx-IV-2Pk"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="9xT-1O-3Fy" secondAttribute="trailing" constant="-5" id="eoo-dP-xBW"/>
-                            <constraint firstItem="9xT-1O-3Fy" firstAttribute="width" secondItem="9xT-1O-3Fy" secondAttribute="height" multiplier="1:1" id="nIe-Hc-fgU"/>
                             <constraint firstItem="P9W-Xl-wOL" firstAttribute="top" secondItem="umc-gy-mFW" secondAttribute="top" id="oby-90-FAq"/>
                             <constraint firstItem="fkb-Vr-W5L" firstAttribute="leading" secondItem="P9W-Xl-wOL" secondAttribute="trailing" constant="10" id="wDt-HQ-rgO"/>
                             <constraint firstItem="umc-gy-mFW" firstAttribute="top" secondItem="fkb-Vr-W5L" secondAttribute="top" id="zhn-zp-yDh"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="MenuButton" destination="9xT-1O-3Fy" id="VCa-d6-gge"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EtA-fR-8Qk" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="BdE-Es-SI5" userLabel="Exit" sceneMemberID="exit"/>
@@ -826,31 +802,15 @@
                                     <segue destination="L2j-0g-cSK" kind="unwind" identifier="respawn" unwindAction="defeatSelectedRespawn:" id="iDw-hu-ELV"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYa-vp-9yB">
-                                <rect key="frame" x="553" y="30" width="32" height="32"/>
-                                <color key="backgroundColor" red="0.85537391740000002" green="1" blue="0.99407375580000001" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="FYa-vp-9yB" secondAttribute="height" multiplier="1:1" id="eWk-3Z-hDS"/>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="gCr-iB-U2Y"/>
-                                </constraints>
-                                <color key="tintColor" red="1" green="0.18183589380000001" blue="0.86308780709999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" image="menu"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="eWk-3Z-hDS"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="leJ-Vx-ltS"/>
-                                    <segue destination="L2j-0g-cSK" kind="unwind" animates="NO" unwindAction="exitToMainMenu:" id="wGv-x0-uby"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMH-MU-Oit" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="400" y="400" width="180" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="height" multiplier="1:1" id="oZf-YA-w35"/>
                                 </constraints>
-                                <state key="normal" image="Stats"/>
+                                <state key="normal" image="levelselect"/>
+                                <connections>
+                                    <segue destination="L2j-0g-cSK" kind="unwind" unwindAction="exitToLevelSelect:" id="Gfv-WI-R99"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaq-sd-fAd" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="210" y="400" width="180" height="180"/>
@@ -865,8 +825,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FYa-vp-9yB" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="10" id="1By-j6-V7f"/>
-                            <constraint firstItem="FYa-vp-9yB" firstAttribute="width" secondItem="FYa-vp-9yB" secondAttribute="height" multiplier="1:1" id="9Nt-Ad-DWJ"/>
                             <constraint firstItem="vaq-sd-fAd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BQ6-gh-4aD" secondAttribute="bottom" constant="20" id="EwI-rg-WN5"/>
                             <constraint firstItem="sqy-0t-rW0" firstAttribute="top" secondItem="vaq-sd-fAd" secondAttribute="bottom" constant="20" id="Kc3-lY-GA8"/>
                             <constraint firstItem="Q8Z-2c-3ld" firstAttribute="width" secondItem="vaq-sd-fAd" secondAttribute="width" id="Kr5-22-ZFg"/>
@@ -877,15 +835,11 @@
                             <constraint firstItem="eMH-MU-Oit" firstAttribute="leading" secondItem="vaq-sd-fAd" secondAttribute="trailing" constant="10" id="hTf-IG-awl"/>
                             <constraint firstItem="BQ6-gh-4aD" firstAttribute="top" secondItem="uSE-7U-2yu" secondAttribute="bottom" constant="20" id="qad-hd-2A2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BQ6-gh-4aD" secondAttribute="trailing" constant="20" id="qdO-vG-U3C"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FYa-vp-9yB" secondAttribute="trailing" constant="-5" id="qs8-ct-FAY"/>
                             <constraint firstItem="BQ6-gh-4aD" firstAttribute="leading" secondItem="vd7-jD-GjS" secondAttribute="leadingMargin" constant="20" id="sn0-U2-R3N"/>
                             <constraint firstItem="Q8Z-2c-3ld" firstAttribute="top" secondItem="vaq-sd-fAd" secondAttribute="top" id="yCD-Po-E5d"/>
                             <constraint firstItem="Q8Z-2c-3ld" firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="width" id="ynR-Pn-Qfq"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="MenuButton" destination="FYa-vp-9yB" id="gPo-1B-Qqc"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MAS-OS-Enc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="L2j-0g-cSK" userLabel="Exit" sceneMemberID="exit"/>

@@ -56,8 +56,6 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
                 previousSelectedContainer = container
                 NameLabel.text = container.level!.mapName
                 DescLabel.text = container.level!.desc
-                
-                //set name, description, etc labels
                 //set bg image
                 return true
             }
@@ -82,17 +80,10 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     func loadLevel(level:LevelHandler.LevelDefinition) {
         let igvc = storyboard?.instantiateViewControllerWithIdentifier("igvc") as! InGameViewController
         igvc.modalTransitionStyle = .CrossDissolve
-        presentViewController(igvc, animated: true, completion:nil)
+        presentViewController(igvc, animated: true, completion: nil)
         igvc.loadLevel(level)
-        
     }
-    
-    @IBAction func dismissLevelSelect() { //TODO: fix this
-        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-    
+
     @IBAction func exitToLevelSelect(segue:UIStoryboardSegue) {
         levelCollection.reloadData()
     }

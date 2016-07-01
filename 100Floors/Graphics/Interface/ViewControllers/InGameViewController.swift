@@ -48,6 +48,7 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var InfoDisplay: TextDisplay!
     
     private var gameScene:InGameScene!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //setup UI components

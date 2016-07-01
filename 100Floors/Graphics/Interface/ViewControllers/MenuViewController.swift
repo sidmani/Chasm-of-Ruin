@@ -15,7 +15,6 @@ var defaultMoneyHandler:MoneyHandler!
 var defaultPurchaseHandler:InternalPurchaseHandler!
 
 class MenuViewController: UIViewController {
- //   @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var SettingsButton: UIButton!
     
     override func viewDidLoad() {

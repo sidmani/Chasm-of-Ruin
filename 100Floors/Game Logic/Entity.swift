@@ -664,7 +664,7 @@ class Enemy:Entity {
     func normalVectorToCharacter() -> CGVector {
         let dist = distanceToCharacter()
         if (dist == 0) { return CGVector.zero }
-        return CGVectorMake((self.position.x - thisCharacter.position.x)/dist, (self.position.y - thisCharacter.position.y)/dist)
+        return CGVectorMake((thisCharacter.position.x - self.position.x )/dist, (thisCharacter.position.y - self.position.y)/dist)
     }
     
     func setVelocity(v:CGVector) { //v is unit vector

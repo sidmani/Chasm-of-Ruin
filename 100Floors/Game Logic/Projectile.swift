@@ -15,7 +15,7 @@ class Projectile:SKSpriteNode, Updatable{
     private var distanceTraveled:CGFloat = 0
     var statusCondition:(condition:StatusCondition,probability:CGFloat)?
 
-    init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool, statusInflicted:(StatusCondition, CGFloat)?) {
+    init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool = false, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         let size = fromTexture.size()
         fromTexture.filteringMode = .Nearest
         range = withRange

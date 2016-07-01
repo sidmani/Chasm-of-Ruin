@@ -57,7 +57,7 @@ class State:Updatable {
     
     let name:String
     
-    init(name:String, runOnBeginState:[Behavior], behaviors:[Behavior], runOnEndState:[Behavior], transitions:[Transition]) {
+    init(name:String, runOnBeginState:[Behavior] = [], behaviors:[Behavior], runOnEndState:[Behavior] = [], transitions:[Transition]) {
         self.name = name
         self.behaviors = behaviors
         self.transitions = transitions
