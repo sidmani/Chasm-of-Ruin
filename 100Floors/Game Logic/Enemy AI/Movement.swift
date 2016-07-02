@@ -136,7 +136,7 @@ class Flee:Behavior {
     }
     
     override func executeBehavior(timeSinceUpdate: Double) {
-        parent.setVelocity(parent.normalVectorToCharacter())
+        parent.setVelocity(-1 * parent.normalVectorToCharacter())
     }
 }
 

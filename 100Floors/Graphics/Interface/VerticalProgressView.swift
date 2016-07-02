@@ -123,7 +123,9 @@ public class VerticalProgressView : UIView {
         setFilledPosition(color, position: self.shouldHavePosition(), animated: animated)
     }
     
-    
+    public func setColor(color:UIColor) {
+        setFilledPosition(color, position: self.shouldHavePosition(), animated: true)
+    }
 
     
 }

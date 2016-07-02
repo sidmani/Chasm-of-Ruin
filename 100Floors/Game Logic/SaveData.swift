@@ -284,7 +284,7 @@ class LevelHandler:NSCoding {
     
     var levelDict:[Int:LevelDefinition] = [
         0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, maxScore: 100),
-        1:LevelDefinition(fileName:"Tutorial", mapName:"Level 1", desc:"Description 2", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, maxScore: 100)
+        1:LevelDefinition(fileName:"VolcanicPlains", mapName:"Volcanic Plains", desc:"Description 2", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 2, maxScore: 100)
     ]
     
     var currentLevel:Int!

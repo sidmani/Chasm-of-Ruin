@@ -12,7 +12,7 @@ import UIKit
 
 class Behavior: Updatable {
     enum BehaviorIDType {
-        case Movement, Attack, Animation
+        case Movement, Attack, Animation, Nonexclusive
     }
     
     var idType:BehaviorIDType
@@ -40,9 +40,9 @@ class Behavior: Updatable {
         }
     }
     
-    func updatePriority() {
+   // func updatePriority() {
         
-    }
+  //  }
     
     
     func getConditional() -> Bool {

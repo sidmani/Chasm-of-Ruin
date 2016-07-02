@@ -174,7 +174,7 @@ class InGameViewController: UIViewController {
     
     
     
-    @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) { //TODO: add transaction
+    @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) { 
         thisCharacter.respawn()
         exitMenu(segue)
     }

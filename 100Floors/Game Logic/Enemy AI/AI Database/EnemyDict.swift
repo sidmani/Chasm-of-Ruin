@@ -10,11 +10,11 @@ import Foundation
 import SpriteKit
 
 struct EnemyDictionary {
-    static let EnemyDictionary: [String:(parent:Enemy) -> EnemyAI] = [
-        "e0":TargetDummy,
-        "e1":SlimeSquareE
+    static let Dict: [String:(parent:Enemy) -> EnemyAI] = [
+        "e0":EnemyDictionary.TargetDummy,
+        "e1":EnemyDictionary.SlimeSquareE
     ]
-    private static let TargetDummy = {(parent:Enemy) -> EnemyAI in
+    static func TargetDummy(parent:Enemy) -> EnemyAI {
        return EnemyAI(parent:parent, startingState:"default", withStates: [
             State(name: "default",
                 behaviors: [
@@ -23,7 +23,7 @@ struct EnemyDictionary {
                 transitions: []),
         ])
     }
-    private static let SlimeSquareE = {(parent:Enemy) -> EnemyAI in
+    static func SlimeSquareE(parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"Idle", withStates: [
             State(name:"Idle",
                 behaviors: [
@@ -37,7 +37,10 @@ struct EnemyDictionary {
             State(name: "Engage",
                 behaviors: [
                     RunAnimationSequence(parent: parent, animationName: "default", frameDuration: 0.125, updateRate: 200, priority: 5),
-                    MainAttack(parent: parent, error: 0.5, triggerDistance: 30, rateOfFire: 200, projectileTexture: defaultLevelHandler.getCurrentLevelAtlas().textureNamed("texture-test"), projectileSpeed: 60, range: 40, priority: 5),
+                   // FireProjectile(parent: parent, error: 0.5, rateOfFire: 400, projectileTexture: "ProjectileB5", projectileSpeed: 60, range: 40),
+                   // FireNProjectilesAtEqualIntervals(parent: parent, numProjectiles: 10, projectileTexture: "ProjectileA5", rateOfFire: 500, projectileSpeed: 20, range: 50),
+                    FireProjectilesAtAngularRange(parent: parent, numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "ProjectileB4", rateOfFire: 400, projectileSpeed: 35, range: 50),
+                    FireProjectilesInSpiral(parent: parent, numStreams: 1, offsetStep: 0.2, projectileTexture: "ProjectileA5", rateOfFire: 100, projectileSpeed: 30, range: 60),
                     MaintainDistance(parent: parent, distanceToMaintain: 20, triggerDistance: 50, updateRate: 300, priority: 5),
                     Circle(parent: parent, triggerInsideOfDistance: 25, updateRate: 100, priority: 10)
                 ],

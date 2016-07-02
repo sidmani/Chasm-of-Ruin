@@ -47,11 +47,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
-        let lightNode = SKLightNode()
-        lightNode.categoryBitMask = LightCategory.Object
-        lightNode.falloff = 1
-        lightNode.zPosition = 100
-        addChild(lightNode)
+ //       let lightNode = SKLightNode()
+ //       lightNode.categoryBitMask = LightCategory.Object
+ //       lightNode.falloff = 1
+//       lightNode.zPosition = 100
+//        addChild(lightNode)
         self.paused = true
         //////////////////////////////////////////
         //////////////////////////////////////////

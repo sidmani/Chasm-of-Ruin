@@ -130,7 +130,7 @@ enum StatusCondition:Double {
     // Cursed - attack causes recoil damage
     // Bleeding - same as poisoned, but stats drop by half
     // Invincible - cannot be affected by anything
-    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500, Disturbed = 5001, Chilled = 5002, Cursed = 3001, Bleeding = 4000, Invincible = 3002
+    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500, Disturbed = 5001, Chilled = 5002, Cursed = 3001, Bleeding = 4000, Invincible = 5003
 }
 
 //////////////////////
@@ -146,6 +146,7 @@ class Entity:SKSpriteNode, Updatable {
     private struct StatusFactors {
         var movementMod:CGFloat = 1
         var atkMod:CGFloat = 1
+        var damageMod:CGFloat = 1
     }
     
     private var statusFactors = StatusFactors()
@@ -179,17 +180,18 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func struckByProjectile(p:Projectile) {
-        if (self.actionForKey("flash") == nil) {
-            self.runAction(SKAction.sequence([SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.125), SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.125)]), withKey:"flash")
-        }
-        if let cond = p.statusCondition {
-            if (randomBetweenNumbers(0, secondNum: 1) <= cond.probability) {
-                enableCondition(cond.condition)
+        if (condition?.conditionType != .Invincible) {
+            if (self.actionForKey("flash") == nil) {
+                self.runAction(SKAction.sequence([SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.125), SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.125)]), withKey:"flash")
             }
-        }
-        let damage = getDamage(p.attack)
-        adjustHealth(-damage, withPopup: true)
-    }
+            if let cond = p.statusCondition {
+                if (randomBetweenNumbers(0, secondNum: 1) <= cond.probability) {
+                    enableCondition(cond.condition)
+                }
+            }
+            let damage = getDamage(p.attack)
+            adjustHealth(-damage, withPopup: true)
+        }}
 
     func adjustHealth(amount:CGFloat, withPopup:Bool) {
         if (amount == 0) {
@@ -214,7 +216,7 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func getDamage(attack: CGFloat) -> CGFloat {
-        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense)))
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense))) * statusFactors.damageMod
     }
     
     func die() {
@@ -239,6 +241,10 @@ class Entity:SKSpriteNode, Updatable {
                     statusFactors.atkMod = 0.5
                 case .Poisoned:
                     addPopup(UIColor.purpleColor(), text: "POISONED")
+                case .Bleeding: break
+                case .Invincible:
+                    statusFactors.damageMod = 0
+                    addPopup(UIColor.blueColor(), text: "INVINCIBLE")
                 default: break
             }
         }
@@ -297,6 +303,7 @@ class Entity:SKSpriteNode, Updatable {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
                 removeAllPopups()
+                
                 switch (condition!.conditionType) {
                 case .Confused:
                     statusFactors.movementMod = 1
@@ -308,6 +315,8 @@ class Entity:SKSpriteNode, Updatable {
                     statusFactors.atkMod = 1
                 case .Poisoned:
                     break
+                case .Invincible:
+                    statusFactors.damageMod = 1
                 default: break
                 }
                 condition = nil
@@ -459,7 +468,7 @@ class ThisCharacter: Entity {
     }
     
     override func getDamage(attack: CGFloat) -> CGFloat {
-        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense)))
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense))) * statusFactors.damageMod
     }
 
     override func die() {
@@ -480,7 +489,7 @@ class ThisCharacter: Entity {
     }
     
     func respawn() {
-        condition = (.Invincible, StatusCondition.Invincible.rawValue)
+        self.enableCondition(.Invincible)
     }
     
     func confirmDeath() {
@@ -623,7 +632,7 @@ class Enemy:Entity {
         super.init(withStats: stats)
         setTextureDict(textureDict, beginTexture: beginTexture)
         self.name = name
-        AI = EnemyDictionary.EnemyDictionary[name]!(parent: self)
+        AI = EnemyDictionary.Dict[name]!(parent: self)
         parentSpawner = spawnedFrom
         self.drops = drops
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
@@ -646,6 +655,14 @@ class Enemy:Entity {
         (self.scene as? InGameScene)?.addObject(newProjectile)
     }
     
+    func getEnemiesWithID(id:String) -> [Enemy] {
+        var ret:[Enemy] = []
+        for enemy in (self.scene as! InGameScene).enemiesOnScreen() where enemy.name == id {
+            ret.append(enemy)
+        }
+        return ret
+    }
+    
     func distanceToCharacter() -> CGFloat {
         return hypot(self.position.x - thisCharacter.position.x, self.position.y - thisCharacter.position.y)
     }
@@ -664,7 +681,7 @@ class Enemy:Entity {
     func normalVectorToCharacter() -> CGVector {
         let dist = distanceToCharacter()
         if (dist == 0) { return CGVector.zero }
-        return CGVectorMake((thisCharacter.position.x - self.position.x )/dist, (thisCharacter.position.y - self.position.y)/dist)
+        return CGVectorMake((thisCharacter.position.x - self.position.x)/dist, (thisCharacter.position.y - self.position.y)/dist)
     }
     
     func setVelocity(v:CGVector) { //v is unit vector

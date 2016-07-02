@@ -63,18 +63,18 @@ class State:Updatable {
         self.transitions = transitions
         self.runOnEndState = runOnEndState
         self.runOnBeginState = runOnBeginState
+        self.behaviors.sortInPlace({$0.priority > $1.priority})
     }
     
     func update(deltaT: Double) {
         if (elapsedSinceUpdate >= State.behavior_update_interval) {
             behaviorsToRun = []
-            for behavior in behaviors {
-                behavior.updatePriority()
-            }
-            behaviors.sortInPlace({$0.priority > $1.priority})
+       //     for behavior in behaviors {
+       //         behavior.updatePriority()
+       //     }
             var selectedIDs: [Behavior.BehaviorIDType] = []
             for behavior in behaviors {
-                if (behavior.getConditional() && !selectedIDs.contains(behavior.idType)) {
+                if (behavior.getConditional() && (behavior.idType == .Nonexclusive || !selectedIDs.contains(behavior.idType))) {
                     behaviorsToRun.append(behavior)
                     selectedIDs.append(behavior.idType)
                 }

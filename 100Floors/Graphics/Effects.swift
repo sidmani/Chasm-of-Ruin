@@ -162,3 +162,19 @@ class PixelEffect:SKSpriteNode {
     }
     
 }
+
+//class IndicatorArrow:SKShapeNode, Updatable {
+//    private var direction:CGVector
+//    private let center:CGPoint
+//    init(color:UIColor, radius:CGFloat, center:CGPoint) {
+//        super.init
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//    
+//    func update(deltaT: Double) {
+//        
+//    }
+//}
