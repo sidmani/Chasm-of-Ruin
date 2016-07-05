@@ -31,10 +31,10 @@ class MaintainDistance:Behavior {
     private let distanceToMaintain:CGFloat
     private let triggerDistance:CGFloat
     
-    init(parent:Enemy, distanceToMaintain:CGFloat, triggerDistance:CGFloat, updateRate:Double, priority:Int) {
+    init(distanceToMaintain:CGFloat, triggerDistance:CGFloat, priority:Int) {
         self.distanceToMaintain = distanceToMaintain
         self.triggerDistance = triggerDistance
-        super.init(parent:parent, idType:.Movement, updateRate: updateRate)
+        super.init(idType:.Movement, updateRate: 100)
         self.priority = priority
     }
     
@@ -59,7 +59,7 @@ class MaintainDistance:Behavior {
 }
 
 class Wander:Behavior {
-    private var nextLoc:CGPoint
+    private var nextLoc:CGPoint = CGPointZero
     private var stateTime:Double = 0
     
     private enum States { case Waiting, Moving }
@@ -67,15 +67,21 @@ class Wander:Behavior {
     
     private let triggerOutsideOf:CGFloat
 
-    init(parent:Enemy, triggerOutsideOfDistance:CGFloat, updateRate:Double, priority:Int) {
+    init(triggerOutsideOfDistance:CGFloat, priority:Int) {
         self.triggerOutsideOf = triggerOutsideOfDistance
-        self.nextLoc = parent.position
-        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+        super.init(idType: .Movement, updateRate: 100)
         self.priority = priority
     }
+    
+    override func setParent(to: Enemy) {
+        super.setParent(to)
+        self.nextLoc = parent.position
+    }
+    
     override func getConditional() -> Bool {
         return parent.distanceToCharacter() > triggerOutsideOf
     }
+    
     override func executeBehavior(timeSinceUpdate:Double) {
         if (currState == .Moving) {
             stateTime -= timeSinceUpdate
@@ -104,9 +110,9 @@ class SmoothWander:Behavior {
 class Circle:Behavior {
     private let triggerInsideOf:CGFloat
     
-    init(parent: Enemy, triggerInsideOfDistance:CGFloat, updateRate:Double, priority:Int) {
+    init(triggerInsideOfDistance:CGFloat, priority:Int) {
         self.triggerInsideOf = triggerInsideOfDistance
-        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+        super.init(idType: .Movement, updateRate: 100)
         self.priority = priority
     }
     
@@ -125,9 +131,9 @@ class Circle:Behavior {
 class Flee:Behavior {
     private let finalDist:CGFloat
     
-    init(parent:Enemy, finalDist:CGFloat, updateRate:Double, priority:Int) {
+    init(finalDist:CGFloat, priority:Int) {
         self.finalDist = finalDist
-        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+        super.init(idType: .Movement, updateRate: 200)
         self.priority = priority
     }
     
@@ -141,8 +147,8 @@ class Flee:Behavior {
 }
 
 class ReturnToSpawn:Behavior {
-    init(parent:Enemy, updateRate:Double, priority:Int) {
-        super.init(parent: parent, idType: .Movement, updateRate: updateRate)
+    init(updateRate:Double, priority:Int) {
+        super.init(idType: .Movement, updateRate: updateRate)
         self.priority = priority
     }
     

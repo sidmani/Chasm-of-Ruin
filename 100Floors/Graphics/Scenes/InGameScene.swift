@@ -38,6 +38,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var nonCharNodes = SKNode()
     
     private var cameraBounds:CGRect = CGRectZero
+    var currScreenBounds:CGRect = CGRectZero
+    
     var currentGroundBag:ItemBag?
     
     override func didMoveToView(view: SKView) {
@@ -47,11 +49,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
- //       let lightNode = SKLightNode()
- //       lightNode.categoryBitMask = LightCategory.Object
- //       lightNode.falloff = 1
-//       lightNode.zPosition = 100
-//        addChild(lightNode)
         self.paused = true
         //////////////////////////////////////////
         //////////////////////////////////////////
@@ -164,7 +161,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         newLoc.y = min(cameraBounds.maxY, newLoc.y)
         newLoc.y = max(cameraBounds.minY, newLoc.y)
         camera!.position = newLoc
-
     }
 
     
@@ -172,6 +168,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
         nonCharNodes.removeAllChildren()
+        thisCharacter.pointers.removeAllChildren()
         ///////////////////////////
         currentLevel = level
         nonCharNodes.addChild(currentLevel!)
@@ -199,10 +196,10 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         if (deltaT < 100) {
             thisCharacter.update(deltaT)
             if (currentLevel != nil) {
-                let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale)
-                let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale)
+                let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale) - 1
+                let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale) - 1
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
-                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth - 1, height: newHeight - 1) //Remove tiles that are off-screen
+                currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
             }
             for node in nonCharNodes.children {
@@ -210,6 +207,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                     nodeToUpdate.update(deltaT)
                 }
             }
+            currScreenBounds = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.height*camera!.yScale)
         }
     }
 
@@ -226,11 +224,16 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
 
     func enemiesOnScreen() -> [Enemy] {
         var arr = [Enemy]()
-        let rect = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.width*camera!.yScale)
-        for node in nonCharNodes.children where node is Enemy {
-            if (rect.contains(node.position)) {
-                arr.append(node as! Enemy)
-            }
+        for node in nonCharNodes.children where (node is Enemy && currScreenBounds.contains(node.position)) {
+            arr.append(node as! Enemy)
+        }
+        return arr
+    }
+    
+    func enemiesOffScreen() -> [Enemy] {
+        var arr = [Enemy]()
+        for node in nonCharNodes.children where (node is Enemy && !currScreenBounds.contains(node.position)) {
+            arr.append(node as! Enemy)
         }
         return arr
     }

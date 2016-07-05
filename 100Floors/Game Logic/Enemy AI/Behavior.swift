@@ -21,13 +21,16 @@ class Behavior: Updatable {
     
     var priority:Int = 0
     
-    unowned var parent:Enemy
+    weak var parent:Enemy!
     
     
-    init(parent:Enemy, idType:BehaviorIDType, updateRate:Double) {
-        self.parent = parent
+    init(idType:BehaviorIDType, updateRate:Double) {
         self.idType = idType
         self.updateRate = updateRate
+    }
+    
+    func setParent(to:Enemy) {
+        parent = to
     }
     
     final func update(deltaT: Double) {
@@ -39,11 +42,6 @@ class Behavior: Updatable {
             timeSinceUpdate += deltaT
         }
     }
-    
-   // func updatePriority() {
-        
-  //  }
-    
     
     func getConditional() -> Bool {
         return false

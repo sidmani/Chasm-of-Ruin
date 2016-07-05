@@ -159,17 +159,12 @@ class InGameViewController: UIViewController {
         if let bag = (segue.sourceViewController as? InventoryViewController)?.groundBag {
             gameScene.addObject(bag)
         }
-        for view:UIView in self.view.subviews {
-            if let effectView = view as? UIVisualEffectView {
-                UIView.animateWithDuration(0.5, animations: {
-                    effectView.effect = nil
-                    },
-                    completion: {(finished:Bool) in
-                        effectView.removeFromSuperview()
-                })
-                return
-            }
-        }
+        UIView.animateWithDuration(0.5, animations: {
+                self.blur?.effect = nil
+            },
+            completion: {(finished:Bool) in
+                self.blur?.removeFromSuperview()
+        })
     }
     
     
@@ -190,12 +185,14 @@ class InGameViewController: UIViewController {
         exitMenu(segue)
     }
     
+    private var blur:UIVisualEffectView?
+    
     private func blurView() {
-        let blurEffectView = UIVisualEffectView(frame: self.view.bounds)
-         blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        self.view.addSubview(blurEffectView)
+        blur = UIVisualEffectView(frame: self.view.bounds)
+         blur!.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blur!)
         UIView.animateWithDuration(0.5) {
-            blurEffectView.effect = UIBlurEffect(style: .Light)
+            self.blur!.effect = UIBlurEffect(style: .Light)
         }
     }
    

@@ -21,6 +21,7 @@ class EnemyAI: Updatable{
         self.parent = parent
         for state in withStates {
             states[state.name] = state
+            state.setParent(parent)
         }
         currState = states[startingState]!
     }
@@ -69,9 +70,6 @@ class State:Updatable {
     func update(deltaT: Double) {
         if (elapsedSinceUpdate >= State.behavior_update_interval) {
             behaviorsToRun = []
-       //     for behavior in behaviors {
-       //         behavior.updatePriority()
-       //     }
             var selectedIDs: [Behavior.BehaviorIDType] = []
             for behavior in behaviors {
                 if (behavior.getConditional() && (behavior.idType == .Nonexclusive || !selectedIDs.contains(behavior.idType))) {
@@ -97,6 +95,21 @@ class State:Updatable {
             }
         }
         return ""
+    }
+    
+    func setParent(to:Enemy) {
+        for behavior in runOnBeginState {
+            behavior.setParent(to)
+        }
+        for behavior in behaviors {
+            behavior.setParent(to)
+        }
+        for behavior in runOnEndState {
+            behavior.setParent(to)
+        }
+        for transition in transitions {
+            transition.setParent(to)
+        }
     }
     
     func beginState() {

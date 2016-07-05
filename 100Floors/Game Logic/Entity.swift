@@ -347,7 +347,7 @@ class ThisCharacter: Entity {
     private var enhancer:Enhancer? {
         return inventory.getItem(inventory.enhancerIndex) as? Enhancer
     }
-    
+    let pointers = SKNode()
     private var timeSinceProjectile:Double = 0
     var totalDamageInflicted:Int = 0
     //////////////
@@ -362,6 +362,7 @@ class ThisCharacter: Entity {
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.Enemy | InGameScene.PhysicsCategory.EnemyProjectile | InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         self.position = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
+        self.addChild(pointers)
     }
     
     func setTextureDict() {
@@ -480,6 +481,7 @@ class ThisCharacter: Entity {
         stats.health = stats.maxHealth
         stats.mana = stats.maxMana
         condition = nil
+        pointers.removeAllChildren()
         removeAllPopups()
         removeAllActions()
         runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0))
@@ -625,7 +627,8 @@ class Enemy:Entity {
         let data:String
     }
     private var drops:[Drop] = []
-
+    
+    let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
     weak var parentSpawner:Spawner?
 
     init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:Spawner?) {
@@ -640,6 +643,8 @@ class Enemy:Entity {
         physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         position = atPosition
         self.runEffect("WarpB")
+        
+        indicatorArrow.zPosition = 100
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -684,6 +689,11 @@ class Enemy:Entity {
         return CGVectorMake((thisCharacter.position.x - self.position.x)/dist, (thisCharacter.position.y - self.position.y)/dist)
     }
     
+    func isOnScreen() -> Bool {
+        let ret = (self.scene as? InGameScene)?.currScreenBounds.contains(self.position)
+        return (ret == nil ? false:ret!)
+    }
+    
     func setVelocity(v:CGVector) { //v is unit vector
         physicsBody?.velocity = (0.03 * (stats.speed) + 30) * statusFactors.movementMod * v
     }
@@ -691,6 +701,15 @@ class Enemy:Entity {
     override func update(deltaT:Double) {
         super.update(deltaT)
         AI?.update(deltaT)
+        if (!self.isOnScreen()) {
+            if (indicatorArrow.parent == nil) {
+                thisCharacter.pointers.addChild(indicatorArrow)
+            }
+            indicatorArrow.setRotation(angleToCharacter())
+        }
+        else {
+            indicatorArrow.removeFromParent()
+        }
     }
 
     override func die() {
@@ -705,6 +724,7 @@ class Enemy:Entity {
         }
         parentSpawner?.childDied()
         removeFromParent()
+        indicatorArrow.removeFromParent()
     }
     
 }

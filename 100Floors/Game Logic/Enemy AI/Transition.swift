@@ -11,11 +11,14 @@ import UIKit
 
 class Transition {
     private let destinationState:String
-    private unowned let parent:Enemy
+    private weak var parent:Enemy!
     
-    init(enemy:Enemy, dest:String) {
-        parent = enemy
+    init(dest:String) {
         destinationState = dest
+    }
+    
+    func setParent(to:Enemy) {
+        parent = to
     }
     
     func evaluate() -> String { //override this
@@ -25,9 +28,9 @@ class Transition {
 
 class HPLessThan:Transition {
     private let hpLevel:CGFloat
-    init(parent:Enemy, dest:String, hpLevel:CGFloat) {
+    init(dest:String, hpLevel:CGFloat) {
         self.hpLevel = hpLevel
-        super.init(enemy: parent, dest: dest)
+        super.init(dest: dest)
     }
     override func evaluate() -> String {
         if (parent.getStats().health < hpLevel*parent.getStats().maxHealth) {
@@ -39,9 +42,9 @@ class HPLessThan:Transition {
 
 class HPMoreThan:Transition {
     private let hpLevel:CGFloat
-    init(parent:Enemy, dest:String, hpLevel:CGFloat) {
+    init(dest:String, hpLevel:CGFloat) {
         self.hpLevel = hpLevel
-        super.init(enemy: parent, dest: dest)
+        super.init(dest: dest)
     }
     override func evaluate() -> String {
         if (parent.getStats().health > hpLevel*parent.getStats().maxHealth) {
@@ -53,9 +56,9 @@ class HPMoreThan:Transition {
 
 class PlayerFartherThan:Transition {
     private let distance:CGFloat
-    init(parent:Enemy, dest:String, distance:CGFloat) {
+    init(dest:String, distance:CGFloat) {
         self.distance = distance
-        super.init(enemy: parent, dest: dest)
+        super.init(dest: dest)
     }
     override func evaluate() -> String {
         if (parent.distanceToCharacter() > distance) {
@@ -67,9 +70,9 @@ class PlayerFartherThan:Transition {
 
 class PlayerCloserThan:Transition {
     private let distance:CGFloat
-    init(parent:Enemy, dest:String, distance:CGFloat) {
+    init(dest:String, distance:CGFloat) {
         self.distance = distance
-        super.init(enemy: parent, dest: dest)
+        super.init(dest: dest)
     }
     override func evaluate() -> String {
         if (parent.distanceToCharacter() < distance) {

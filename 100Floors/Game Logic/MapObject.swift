@@ -184,6 +184,7 @@ class FixedNumSpawner:Spawner {
     private let maxNumOfEnemies:Int
     private var currNumOfEnemies:Int = 0
     private var elapsedTime:Double = 0
+    
     init(loc:CGPoint, withEnemyID:String, threshold:CGFloat, rate:Double, maxNumEnemies:Int) {
         maxNumOfEnemies = maxNumEnemies
         rateOfSpawning = rate
@@ -206,7 +207,6 @@ class FixedNumSpawner:Spawner {
 
     override func update(deltaT: Double) {
         if (playerIsWithinRadius && currNumOfEnemies < maxNumOfEnemies && elapsedTime > rateOfSpawning) {
-           // let newEnemy = Enemy(withID: enemyID, atPosition: self.position, spawnedFrom: self)
             let newEnemy = Enemy(name: enemyID, textureDict: enemyTextureDict, beginTexture: beginTexture, drops: drops, stats: stats, atPosition: self.position, spawnedFrom: self)
             (self.scene as! InGameScene).addObject(newEnemy)
             currNumOfEnemies += 1
