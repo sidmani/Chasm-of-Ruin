@@ -1,31 +1,37 @@
 //
-//  InGameMenuViewController.swift
-//  100Floors
+//  StoreViewController.swift
+//  Chasm Of Ruin
 //
-//  Created by Sid Mani on 2/28/16.
+//  Created by Sid Mani on 7/10/16.
 //
 //
+
+import Foundation
 import UIKit
 
-class InGameMenuViewController: UIViewController {
-    
+class StoreViewController: UIViewController {
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
         setCurrencyLabels()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
     }
     
-    @IBAction func presentStore() {
-        let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
-        presentViewController(svc, animated: true, completion: nil)
+    @IBAction func exit() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        presentingViewController?.view.subviews.forEach({(view) in view.hidden = false})
     }
     
     func setCurrencyLabels() {
         CrystalLabel.text = "\(defaultMoneyHandler.getCrystals())"
         CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
     }
     
     override func shouldAutorotate() -> Bool {
@@ -44,8 +50,5 @@ class InGameMenuViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-
-
     
 }

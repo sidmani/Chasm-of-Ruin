@@ -16,7 +16,9 @@ var defaultPurchaseHandler:InternalPurchaseHandler!
 
 class MenuViewController: UIViewController {
     @IBOutlet weak var SettingsButton: UIButton!
-    
+    @IBOutlet weak var CrystalLabel: UILabel!
+    @IBOutlet weak var CoinLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         SettingsButton.tintColor = ColorScheme.strokeColor
@@ -35,6 +37,18 @@ class MenuViewController: UIViewController {
         let scene = MenuScene(size: skView.bounds.size)
         skView.presentScene(scene)
         
+        setCurrencyLabels()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
+    }
+    
+    func setCurrencyLabels() {
+        CrystalLabel.text = "\(defaultMoneyHandler.getCrystals())"
+        CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
+    }
+    
+    @IBAction func presentStore() {
+        let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
+        presentViewController(svc, animated: true, completion: nil)
     }
     
     @IBAction func loadLevelSelectVC() {

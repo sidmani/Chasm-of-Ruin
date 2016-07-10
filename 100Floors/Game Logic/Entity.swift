@@ -550,10 +550,8 @@ class ThisCharacter: Entity {
     @objc func useSkill(sender:UIButton) {
         if let skill = skill {
             if (stats.mana >= skill.mana) {
-                print("skill executed")
                 skill.execute(self)
                 adjustMana(-skill.mana)
-                print("lost \(skill.mana)")
                 if (skill.mana > stats.mana) {
                     (sender as! ProgressRectButton).setEnabledTo(false)
                 }
@@ -601,7 +599,13 @@ class ThisCharacter: Entity {
         self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.movementMod * UIElements.LeftJoystick!.normalDisplacement
         
         if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
-            let newDir = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+            let newDir:Int
+            if (UIElements.RightJoystick.currentPoint != CGPointZero) {
+                newDir = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+            }
+            else {
+                newDir = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+            }
             if (newDir != currentDirection) {
                 currentDirection = newDir
                 setCurrentTextures("walking\(newDir)")

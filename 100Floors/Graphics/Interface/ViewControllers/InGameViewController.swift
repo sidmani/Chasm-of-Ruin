@@ -14,11 +14,11 @@ struct UIElements {
     static var RightJoystick:JoystickControl!
     static var HPBar:VerticalProgressView!
     static var EXPBar:UIProgressView!
-    static var InventoryButton:UIButton!
-    static var MenuButton:UIButton!
+  //  static var InventoryButton:UIButton!
+   // static var MenuButton:UIButton!
     static var SkillButton:ProgressRectButton!
 
-    static func setVisible(toState:Bool) {
+  /*  static func setVisible(toState:Bool) {
         let _toState = !toState
         LeftJoystick.hidden = _toState
         RightJoystick.hidden = _toState
@@ -27,7 +27,7 @@ struct UIElements {
         InventoryButton.hidden = _toState
         MenuButton.hidden = _toState
         SkillButton.hidden = _toState
-    }
+    }*/
 }
 
 var enemyXML: AEXMLDocument! = nil
@@ -43,7 +43,7 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var EXPBar: UIProgressView!
     
     @IBOutlet weak var MenuButton: UIButton!
-    @IBOutlet weak var InventoryButton: UIButton!
+ //   @IBOutlet weak var InventoryButton: UIButton!
     @IBOutlet weak var SkillButton: ProgressRectButton!
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
@@ -59,8 +59,6 @@ class InGameViewController: UIViewController {
         UIElements.LeftJoystick = LeftJoystickControl
         UIElements.RightJoystick = RightJoystickControl
         UIElements.HPBar = HPDisplayBar
-        UIElements.MenuButton = MenuButton
-        UIElements.InventoryButton = InventoryButton
         UIElements.SkillButton = SkillButton
         UIElements.EXPBar = EXPBar
         
@@ -100,8 +98,8 @@ class InGameViewController: UIViewController {
     }
     
     func levelEndedDefeat() {
+        self.view.subviews.forEach({(view) in view.hidden = true})
         blurView()
-        UIElements.setVisible(false)
         gameScene.paused = true
         let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
         presentViewController(dvc, animated: true, completion: nil)
@@ -109,8 +107,8 @@ class InGameViewController: UIViewController {
     }
     
     func levelEndedVictory() {
+        self.view.subviews.forEach({(view) in view.hidden = true})
         blurView()
-        UIElements.setVisible(false)
         gameScene.paused = true
         let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
         presentViewController(vvc, animated: true, completion: nil)
@@ -133,8 +131,8 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {
+        self.view.subviews.forEach({(view) in view.hidden = true})
         blurView()
-        UIElements.setVisible(false)
         gameScene.paused = true
     }
  
@@ -143,8 +141,8 @@ class InGameViewController: UIViewController {
     }
     
     func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
+        self.view.subviews.forEach({(view) in view.hidden = true})
         blurView()
-        UIElements.setVisible(false)
         gameScene.paused = true
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
         inventoryController.inventory = inv
@@ -155,8 +153,9 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
+        self.view.subviews.forEach({(view) in view.hidden = false})
+        self.InfoDisplay.hidden = true
         gameScene.paused = false
-        UIElements.setVisible(true)
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
         if (gameScene.currentGroundBag?.parent == nil) {
