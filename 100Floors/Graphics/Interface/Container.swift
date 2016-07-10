@@ -211,37 +211,3 @@ class ItemContainer:Container {
     
 }
 
-//class AnimatedImageContainer:UIView { //TODO: possibly delete this
-//    private let imageView = UIImageView()
-//    var images:[UIImage] = []
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
-//        let rectangleLayer = CAShapeLayer()
-//        rectangleLayer.path = rectanglePath.CGPath
-//        rectangleLayer.lineWidth = 2.0
-//        self.layer.addSublayer(rectangleLayer)
-//        self.addSubview(imageView)
-//    }
-//    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        imageView.bounds = self.bounds
-//    }
-//    
-//    func setImage(to:UIImage) {
-//        imageView.image = to
-//    }
-//    
-//    func startAnimation() {
-//        imageView.animationImages = images
-//        imageView.animationDuration = 0.5
-//        imageView.startAnimating()
-//    }
-//    
-//    func stopAnimation() {
-//        imageView.stopAnimating()
-//    }
-//    
-//}

@@ -69,8 +69,16 @@ class SaveData:NSObject, NSCoding {
 }
 
 class MoneyHandler:NSCoding {
-    private var ChasmCrystals:Int
-    private var Coins:Int
+    private var ChasmCrystals:Int {
+        didSet {
+        NSNotificationCenter.defaultCenter().postNotificationName("transactionMade", object: nil)
+        }
+    }
+    private var Coins:Int {
+        didSet {
+            NSNotificationCenter.defaultCenter().postNotificationName("transactionMade", object: nil)
+        }
+    }
     private var CrystalTransactions:[Int] = []
     
     init() {
@@ -283,8 +291,10 @@ class LevelHandler:NSCoding {
     }
     
     var levelDict:[Int:LevelDefinition] = [
-        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Description", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, maxScore: 100),
-        1:LevelDefinition(fileName:"VolcanicPlains", mapName:"Volcanic Plains", desc:"Description 2", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 2, maxScore: 100)
+        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, maxScore: 100),
+        1:LevelDefinition(fileName:"VolcanicPlains", mapName:"Volcanic Plains", desc:"What horrors await at the base of the volcano?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, maxScore: 100),
+        2:LevelDefinition(fileName:"", mapName:"", desc:"Make the treacherous ascent to the summit...", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, maxScore: 100),
+        3:LevelDefinition(fileName:"", mapName:"", desc:"Can you survive the smoldering crater?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, maxScore: 100)
     ]
     
     var currentLevel:Int!

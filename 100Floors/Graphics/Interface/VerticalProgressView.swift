@@ -12,7 +12,7 @@ import UIKit
 @IBDesignable
 public class VerticalProgressView : UIView {
     
-    public var fillDoneColor : UIColor = UIColor.blueColor()
+    public var fillDoneColor : UIColor = UIColor.greenColor()
     @IBInspectable public var vertical:Bool = true
 
     var progress: CGFloat = 0

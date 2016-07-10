@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <enemies>
     <enemy id="e0" name="TargetDummy">
-        <animation name="default" frames="8">TargetDummy</animation>
+        <animation name="default" frames="4">TargetDummy</animation>
         <stats>MTAsMTAsNTAwLDIwMCw1MDAsNTAwLDQwMCw0MDA=</stats>
     </enemy>
     <enemy id="e1" name="SlimeSquareE">

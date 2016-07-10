@@ -219,6 +219,10 @@ class Entity:SKSpriteNode, Updatable {
         return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense))) * statusFactors.damageMod
     }
     
+    func getStats() -> Stats {
+        return self.stats
+    }
+    
     func die() {
         
     }
@@ -443,7 +447,7 @@ class ThisCharacter: Entity {
         else {
             color = UIColor(red: 2-2*progress, green: 255, blue: 0, alpha: 1.0)
         }
-        UIElements.HPBar.setProgress(color, progress: progress, animated: true) //div by zero error
+        UIElements.HPBar.setProgress(color, progress: progress, animated: true)
     }
     //////
     func adjustMana(amount:CGFloat) {
@@ -460,7 +464,7 @@ class ThisCharacter: Entity {
         UIElements.SkillButton.setProgress(stats.mana/stats.maxMana)
     }
     
-    func getStats() -> Stats {
+    override func getStats() -> Stats {
         return stats + inventory.stats
     }
     func setHealth(to:CGFloat, withPopup:Bool) {
@@ -650,11 +654,7 @@ class Enemy:Entity {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func getStats() -> Stats {
-        return stats
-    }
-    
+        
     func fireProjectile(texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
         let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         (self.scene as? InGameScene)?.addObject(newProjectile)

@@ -17,12 +17,13 @@ struct UIElements {
     static var InventoryButton:UIButton!
     static var MenuButton:UIButton!
     static var SkillButton:ProgressRectButton!
-    
+
     static func setVisible(toState:Bool) {
         let _toState = !toState
         LeftJoystick.hidden = _toState
         RightJoystick.hidden = _toState
         HPBar.hidden = _toState
+        EXPBar.hidden = _toState
         InventoryButton.hidden = _toState
         MenuButton.hidden = _toState
         SkillButton.hidden = _toState
@@ -47,6 +48,9 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
     
+    @IBOutlet weak var CrystalLabel: UILabel!
+    @IBOutlet weak var CoinLabel: UILabel!
+    
     private var gameScene:InGameScene!
     
     override func viewDidLoad() {
@@ -61,21 +65,22 @@ class InGameViewController: UIViewController {
         UIElements.EXPBar = EXPBar
         
         InfoDisplay.hidden = true
+        setCurrencyLabels()
         
         EXPBar.trackTintColor = ColorScheme.strokeColor
         EXPBar.progressTintColor = ColorScheme.EXPColor
 
+        
         MenuButton.tintColor = ColorScheme.strokeColor
        
         //////////
-      
         //////////
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(levelEndedDefeat), name: "levelEndedDefeat", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(levelEndedVictory), name: "levelEndedVictory", object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
         /////////////////////////
         self.view.backgroundColor = UIColor.clearColor()
         let skView = view as! SKView
@@ -122,6 +127,11 @@ class InGameViewController: UIViewController {
         InfoDisplay.setText(text, letterDelay: 1.5/Double(text.characters.count), hideAfter: 1)
     }
     
+    func setCurrencyLabels() {
+        CrystalLabel.text = "\(defaultMoneyHandler.getCrystals())"
+        CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
+    }
+    
     @IBAction func menuButtonPressed(sender: UIButton) {
         blurView()
         UIElements.setVisible(false)
@@ -131,8 +141,6 @@ class InGameViewController: UIViewController {
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
         loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:gameScene.currentGroundBag)
     }
-    
-    
     
     func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
         blurView()
@@ -145,8 +153,6 @@ class InGameViewController: UIViewController {
         inventoryController.modalTransitionStyle = .CoverVertical
         presentViewController(inventoryController, animated: true, completion: nil)
     }
-    
-    
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
         gameScene.paused = false
@@ -166,8 +172,6 @@ class InGameViewController: UIViewController {
                 self.blur?.removeFromSuperview()
         })
     }
-    
-    
     
     @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) { 
         thisCharacter.respawn()

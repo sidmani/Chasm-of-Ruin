@@ -101,7 +101,6 @@ class Item:NSObject, NSCoding, Purchasable {
         let optArr = fromBase64.splitBase64IntoArray()
         // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType"
         projectile = optArr[0]
-       // projectile.filteringMode = .Nearest
         range = CGFloat(s: optArr[1])
         projectileSpeed = CGFloat(s: optArr[2])
         projectileReflects = optArr[3] == "true"
@@ -151,21 +150,56 @@ class Item:NSObject, NSCoding, Purchasable {
 
 class Armor: Item {
     //protects against certain status effects
+    let protectsAgainst:StatusCondition?
+    
+    required init(fromBase64: String) {
+        //statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType, statusCondition rawval
+        let optArr = fromBase64.splitBase64IntoArray()
+        protectsAgainst = StatusCondition(rawValue: Double(optArr[7])!)!
+        super.init(statMods: Stats.statsFrom(optArr[0]), name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
+    }
+    
     override func getType() -> String {
         return "Armor"
     }
+    //NSCoding
+    required init?(coder aDecoder: NSCoder) {
+        if let rawVal = aDecoder.decodeObjectForKey("protectsAgainst") as? Double {
+            self.protectsAgainst = StatusCondition(rawValue: rawVal)!
+        }
+        else {
+            self.protectsAgainst = nil
+        }
+        super.init(coder: aDecoder)
+    }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(protectsAgainst?.rawValue, forKey: "protectsAgainst")
+    }
+
+
 }
 
 class Enhancer: Item {
     override func getType() -> String {
         return "Enhancer"
     }
+    required init(fromBase64: String) {
+        //statMods, name, desc, img, priceCrystal, priceCoin, currencyType
+        let optArr = fromBase64.splitBase64IntoArray()
+        super.init(statMods: Stats.statsFrom(optArr[0]), name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 }
 
 class Consumable: Item {
     let permanent:Bool
     required init(fromBase64:String) {
-        //permanent, statMods, name, desc, img
+        //permanent, statMods, name, desc, img, priceCrystal, priceCoin, currencyType
         let optArr = fromBase64.splitBase64IntoArray()
         permanent = optArr[0] == "true"
         super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: optArr[3], img: optArr[4], priceCrystals: Int(optArr[5])!, priceCoins: Int(optArr[6])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[7])!))
@@ -191,15 +225,19 @@ class Consumable: Item {
 class Usable:Item {
     let eventKey:String
     required init(fromBase64: String) {
-        //eventKey, statMods, name, desc, img
+        //eventKey, name, desc, img, priceCrystal
         let optArr = fromBase64.splitBase64IntoArray()
         eventKey = optArr[0]
-        super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: optArr[3], img: optArr[4], priceCrystals: Int(optArr[5])!, priceCoins: Int(optArr[6])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[7])!))
-
+        super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: 0, designatedCurrencyType: CurrencyType.ChasmCrystal)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        eventKey = aDecoder.decodeObjectForKey("eventkey") as! String
+        super.init(coder: aDecoder)
+    }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(eventKey, forKey: "eventkey")
     }
     
     func use() {
@@ -208,6 +246,20 @@ class Usable:Item {
    
     override func getType() -> String {
         return "Tool"
+    }
+}
+
+class Sellable:Item {
+    required init(fromBase64:String) {
+        //name, desc, img, priceCoin
+        let optArr = fromBase64.splitBase64IntoArray()
+        super.init(statMods: Stats.nilStats, name: optArr[0], description: optArr[1], img: optArr[2], priceCrystals: 0, priceCoins: Int(optArr[3])!, designatedCurrencyType: CurrencyType.Coin)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    override func getType() -> String {
+        return "Valuable"
     }
 
 }
