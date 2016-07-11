@@ -109,7 +109,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         
         currentItemView.contentMode = .ScaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
-        
+        let blur = UIVisualEffectView(frame: self.view.bounds)
+        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blur)
+        UIView.animateWithDuration(0.5) {
+            blur.effect = UIBlurEffect(style: .Light)
+        }
+        self.view.sendSubviewToBack(blur)
     }
     
     override func viewDidAppear(animated: Bool) {

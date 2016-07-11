@@ -9,11 +9,20 @@
 import Foundation
 import UIKit
 
-class DefeatViewController: UIViewController {
+class DefeatViewController: UIViewController, AlertHandler {
+    var alertCompletion:(Bool) -> () = {_ in }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let blur = UIVisualEffectView(frame: self.view.bounds)
+        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blur)
+        UIView.animateWithDuration(0.5) {
+            blur.effect = UIBlurEffect(style: .Light)
+        }
+        self.view.sendSubviewToBack(blur)
     }
+    
     
     override func shouldAutorotate() -> Bool {
         return true
@@ -30,7 +39,15 @@ class DefeatViewController: UIViewController {
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if (identifier == "revive") {
-            return defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)
+            if (defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)) {
+                return true
+            }
+            else {
+                let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                alert.text = "You don't have enough Crystals for that! Buy some more?"
+                self.presentViewController(alert, animated: true, completion: nil)
+                return false
+            }
         }
         return true
     }

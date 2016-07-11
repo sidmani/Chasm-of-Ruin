@@ -13,6 +13,13 @@ class VictoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let blur = UIVisualEffectView(frame: self.view.bounds)
+        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blur)
+        UIView.animateWithDuration(0.5) {
+            blur.effect = UIBlurEffect(style: .Light)
+        }
+        self.view.sendSubviewToBack(blur)
     }
     
     override func shouldAutorotate() -> Bool {

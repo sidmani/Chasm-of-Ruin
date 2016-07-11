@@ -16,6 +16,13 @@ class InGameMenuViewController: UIViewController {
         super.viewDidLoad()
         setCurrencyLabels()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
+        let blur = UIVisualEffectView(frame: self.view.bounds)
+        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blur)
+        UIView.animateWithDuration(0.5) {
+            blur.effect = UIBlurEffect(style: .Light)
+        }
+        self.view.sendSubviewToBack(blur)
     }
     
     @IBAction func presentStore() {
@@ -44,8 +51,4 @@ class InGameMenuViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-
-
-    
 }

@@ -99,7 +99,7 @@ class InGameViewController: UIViewController {
     
     func levelEndedDefeat() {
         self.view.subviews.forEach({(view) in view.hidden = true})
-        blurView()
+  //      blurView()
         gameScene.paused = true
         let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
         presentViewController(dvc, animated: true, completion: nil)
@@ -108,7 +108,7 @@ class InGameViewController: UIViewController {
     
     func levelEndedVictory() {
         self.view.subviews.forEach({(view) in view.hidden = true})
-        blurView()
+   //     blurView()
         gameScene.paused = true
         let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
         presentViewController(vvc, animated: true, completion: nil)
@@ -132,7 +132,6 @@ class InGameViewController: UIViewController {
     
     @IBAction func menuButtonPressed(sender: UIButton) {
         self.view.subviews.forEach({(view) in view.hidden = true})
-        blurView()
         gameScene.paused = true
     }
  
@@ -142,13 +141,11 @@ class InGameViewController: UIViewController {
     
     func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
         self.view.subviews.forEach({(view) in view.hidden = true})
-        blurView()
         gameScene.paused = true
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
         inventoryController.inventory = inv
         inventoryController.groundBag = groundBag
         inventoryController.dropLoc = dropLoc
-        inventoryController.modalTransitionStyle = .CoverVertical
         presentViewController(inventoryController, animated: true, completion: nil)
     }
     
@@ -163,14 +160,7 @@ class InGameViewController: UIViewController {
         }
         if let bag = (segue.sourceViewController as? InventoryViewController)?.groundBag {
             gameScene.addObject(bag)
-        }
-        UIView.animateWithDuration(0.5, animations: {
-                self.blur?.effect = nil
-            },
-            completion: {(finished:Bool) in
-                self.blur?.removeFromSuperview()
-        })
-    }
+        }    }
     
     @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) { 
         thisCharacter.respawn()
@@ -187,18 +177,6 @@ class InGameViewController: UIViewController {
         gameScene.reloadLevel()
         exitMenu(segue)
     }
-    
-    private var blur:UIVisualEffectView?
-    
-    private func blurView() {
-        blur = UIVisualEffectView(frame: self.view.bounds)
-         blur!.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        self.view.addSubview(blur!)
-        UIView.animateWithDuration(0.5) {
-            self.blur!.effect = UIBlurEffect(style: .Light)
-        }
-    }
-   
     
     override func shouldAutorotate() -> Bool {
         return true
