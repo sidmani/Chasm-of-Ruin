@@ -203,9 +203,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
             }
             for node in nonCharNodes.children {
-                if let nodeToUpdate = node as? Updatable {
-                    nodeToUpdate.update(deltaT)
-                }
+                (node as? Updatable)?.update(deltaT)
             }
             currScreenBounds = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.height*camera!.yScale)
         }

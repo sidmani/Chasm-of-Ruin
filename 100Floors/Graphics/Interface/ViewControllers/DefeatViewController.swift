@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-class DefeatViewController: UIViewController, AlertHandler {
-    var alertCompletion:(Bool) -> () = {_ in }
+class DefeatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +36,10 @@ class DefeatViewController: UIViewController, AlertHandler {
         // Release any cached data, images, etc that aren't in use.
     }
     
+    func loadCurrencyPurchaseView() {
+        
+    }
+    
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if (identifier == "revive") {
             if (defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)) {
@@ -45,6 +48,11 @@ class DefeatViewController: UIViewController, AlertHandler {
             else {
                 let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
                 alert.text = "You don't have enough Crystals for that! Buy some more?"
+                alert.completion = {(response) in
+                    if (response) {
+                        self.loadCurrencyPurchaseView()
+                    }
+                }
                 self.presentViewController(alert, animated: true, completion: nil)
                 return false
             }

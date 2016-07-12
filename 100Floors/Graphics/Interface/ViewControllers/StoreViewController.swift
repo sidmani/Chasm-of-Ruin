@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-class StoreViewController: UIViewController, AlertHandler {
+class StoreViewController: UIViewController {
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
     

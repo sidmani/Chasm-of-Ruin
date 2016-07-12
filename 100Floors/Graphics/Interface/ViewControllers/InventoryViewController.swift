@@ -109,6 +109,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         
         currentItemView.contentMode = .ScaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
+        
         let blur = UIVisualEffectView(frame: self.view.bounds)
         blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         self.view.addSubview(blur)
@@ -198,7 +199,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         GlobalDEFProgressView.modifierLabel.text = (stats.defense == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.defense))")
         GlobalSPDProgressView.modifierLabel.text = (stats.speed == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.speed))")
         GlobalDEXProgressView.modifierLabel.text = (stats.dexterity == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.dexterity))")
-
     }
     
     func updateInfoDisplay() {
@@ -235,7 +235,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                             view.modifierLabel.text = view.modifierLabel.text! + "⏱"
                         }
                     }
-                    EquipButton.setTitle("Eat", forState: .Normal)
+                    EquipButton.setTitle("Consume", forState: .Normal)
                 }
                 else if (item is Usable) {
                     for view in StatsDisplay {
@@ -285,6 +285,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
             }
+            
             if (previousSelectedContainer!.correspondsToInventoryIndex == -2) {
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
@@ -313,11 +314,27 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") < 4) {
             if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
                 inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
-                //if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
+                if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
                 //    inventoryCollection.deleteItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
-                //}
+                    sender.enabled = false
+                    sender.alpha = 0.3
+                }
+            }
+            else {
+                let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                alert.text = "You don't have enough Crystals for that! Buy some more?"
+                alert.completion = {(response) in
+                    if (response) {
+                        self.loadCurrencyPurchaseView()
+                    }
+                }
+                self.presentViewController(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func loadCurrencyPurchaseView() {
+        //TODO: load currency purchase view
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -368,13 +385,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
                 currentItemIsButton = false
             }
-            else if (inventoryCollection.cellForItemAtIndexPath(path) != nil) {
-                if (!currentItemIsButton) {
+            else if (inventoryCollection.cellForItemAtIndexPath(path) != nil && !currentItemIsButton) {
+              //  if (!currentItemIsButton) {
                     previousSelectedContainer?.setSelectedTo(false)
                     previousSelectedContainer = nil
                     currentItemIsButton = true
                     return true
-                }
+              //  }
             }
         }
         return false
@@ -388,11 +405,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
-        
-        let loc = recognizer.locationInView(self.inventoryCollection)
-        let newLoc = recognizer.locationInView(self.view)
         if (recognizer.state == .Began) {
-            if let path = inventoryCollection.indexPathForItemAtPoint(loc)
+            if let path = inventoryCollection.indexPathForItemAtPoint( recognizer.locationInView(self.inventoryCollection))
             {
                 currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer)
                 if (currentContainer?.item == nil) {
@@ -405,24 +419,24 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 let bounds = currentContainer!.itemView.bounds
                 
                 currentItemView.bounds = CGRectMake(bounds.minX, bounds.minY, bounds.width*1.5, bounds.height*1.5)
-                currentItemView.center = newLoc
+                currentItemView.center = recognizer.locationInView(self.view)
                 currentContainer!.itemView.hidden = true
         
                 self.view.addSubview(currentItemView)
             }
-            
         }
-        else if (recognizer.state == .Changed) {
-            if (currentItemView.image != nil) {
-                currentItemView.center = newLoc
-                if (newLoc.x > 0.8*screenSize.width || newLoc.x < screenSize.width*0.2) {
-                    let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
-                    inventoryCollection.setContentOffset(CGPoint(x:offsetX, y:0), animated: false)
-                }
+        else if (recognizer.state == .Changed && currentItemView.image != nil) {
+        //    if (currentItemView.image != nil) {
+            let newLoc = recognizer.locationInView(self.view)
+            currentItemView.center = newLoc
+            if (newLoc.x > 0.8*screenSize.width || newLoc.x < screenSize.width*0.2) {
+                let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
+                inventoryCollection.setContentOffset(CGPoint(x:offsetX, y:0), animated: false)
             }
+       //     }
         }
         else if (recognizer.state == .Ended) {
-            if let path = inventoryCollection.indexPathForItemAtPoint(loc), containerA = inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer  {
+            if let path = inventoryCollection.indexPathForItemAtPoint(recognizer.locationInView(self.inventoryCollection)), containerA = inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer  {
                 itemDropped(containerA.correspondsToInventoryIndex, indexB: currentIndex)
                 currentIndex = -1
                 inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
@@ -435,9 +449,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             currentItemView.removeFromSuperview()
             currentItemView.image = nil
-
         }
-    
     }
     /////////////////////////
     

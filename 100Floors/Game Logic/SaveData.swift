@@ -175,7 +175,7 @@ class InternalPurchaseHandler:NSCoding {
     }
     
     private var Purchases:[String:Purchase] = [
-        "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal),
+        "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 50, designatedCurrencyType: .ChasmCrystal),
         "ReviveSelf":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal)
     ]
     

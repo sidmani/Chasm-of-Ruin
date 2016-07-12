@@ -9,10 +9,6 @@
 import Foundation
 import UIKit
 
-protocol AlertHandler {
-    var alertCompletion:(Bool) -> () { get }
-}
-
 class AlertViewController: UIViewController {
     @IBOutlet weak var noButton: RectButton!
     @IBOutlet weak var yesButton: RectButton!
@@ -21,6 +17,7 @@ class AlertViewController: UIViewController {
     var text:String = ""
     var yesText:String = "Yes"
     var noText:String = "No"
+    var completion:(Bool) -> () = {_ in }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,17 +27,13 @@ class AlertViewController: UIViewController {
     }
     
     @IBAction func yesButtonPressed() {
-        if let pvc = self.presentingViewController as? AlertHandler {
-            pvc.alertCompletion(true)
-        }
         self.dismissViewControllerAnimated(true, completion: nil)
+        self.completion(true)
     }
     
     @IBAction func noButtonPressed() {
-        if let pvc = self.presentingViewController as? AlertHandler {
-            pvc.alertCompletion(false)
-        }
         self.dismissViewControllerAnimated(true, completion: nil)
+        self.completion(true)
     }
     
     override func shouldAutorotate() -> Bool {

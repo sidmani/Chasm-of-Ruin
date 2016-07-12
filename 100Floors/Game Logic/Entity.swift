@@ -307,7 +307,6 @@ class Entity:SKSpriteNode, Updatable {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
                 removeAllPopups()
-                
                 switch (condition!.conditionType) {
                 case .Confused:
                     statusFactors.movementMod = 1
@@ -467,7 +466,8 @@ class ThisCharacter: Entity {
     override func getStats() -> Stats {
         return stats + inventory.stats
     }
-    func setHealth(to:CGFloat, withPopup:Bool) {
+  
+    private func setHealth(to:CGFloat, withPopup:Bool) {
         let amount = to*(stats.maxHealth) - stats.health
         adjustHealth(amount, withPopup: withPopup)
     }
@@ -478,10 +478,9 @@ class ThisCharacter: Entity {
 
     override func die() {
         NSNotificationCenter.defaultCenter().postNotificationName("levelEndedDefeat", object: nil)
-        reset()
     }
     
-    private func reset() {
+    func reset() {
         stats.health = stats.maxHealth
         stats.mana = stats.maxMana
         condition = nil
@@ -493,10 +492,10 @@ class ThisCharacter: Entity {
         currentTextureSet = "standing3"
         UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
     }
-    
-    func respawn() {
-        self.enableCondition(.Invincible)
-    }
+//    
+//    func respawn() {
+//        self.enableCondition(.Invincible)
+//    }
     
     func confirmDeath() {
         //delete random items
@@ -565,27 +564,28 @@ class ThisCharacter: Entity {
     private var didNotifyNilWeapon = false
     private var statRegenTimeElapsed:Double = 0
     private let statRegenInterval:Double = 1000
+    
     override func update(deltaT:Double) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
         super.update(deltaT)
         if (statRegenTimeElapsed >= statRegenInterval) {
             statRegenTimeElapsed = 0
-            adjustHealth(0.02*stats.maxHealth, withPopup: false)
-            adjustMana(0.02*stats.maxMana)
-            if (skill != nil && skill!.mana <= stats.mana) {
+            adjustHealth(0.005*stats.maxHealth, withPopup: false)
+            adjustMana(0.01*stats.maxMana)
+            if (skill != nil && skill!.mana <= stats.mana) { 
                 UIElements.SkillButton.setEnabledTo(true)
             }
         }
         else {
             statRegenTimeElapsed += deltaT
         }
-        
+                
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
+            currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
             if (timeSinceProjectile > 500-0.4*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
                 fireProjectile(UIElements.RightJoystick!.normalDisplacement)
                 timeSinceProjectile = 0
             }
             else if (weapon == nil && !didNotifyNilWeapon) {
-                // post notification
                 NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: "Press Inventory to equip a weapon!")
                 didNotifyNilWeapon = true
             }
@@ -595,32 +595,21 @@ class ThisCharacter: Entity {
         }
         else {
             didNotifyNilWeapon = false
+            if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
+                currentDirection = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+            }
         }
+        
         self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.movementMod * UIElements.LeftJoystick!.normalDisplacement
         
-        if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
-            let newDir:Int
-            if (UIElements.RightJoystick.currentPoint != CGPointZero) {
-                newDir = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+        if (!isCurrentlyAnimating() || (currentTextureSet != "walking\(currentDirection)" && currentTextureSet != "standing\(currentDirection)")) {
+            if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
+                setCurrentTextures("walking\(currentDirection)")
             }
             else {
-                newDir = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
-            }
-            if (newDir != currentDirection) {
-                currentDirection = newDir
-                setCurrentTextures("walking\(newDir)")
-                runAnimation(0.25)
-            }
-            else if (!isCurrentlyAnimating() || currentTextureSet == "standing\(currentDirection)") {
-                setCurrentTextures("walking\(newDir)")
-                runAnimation(0.25)
-            }
-        }
-        else {
-            if (!isCurrentlyAnimating() || currentTextureSet == "walking\(currentDirection)") {
                 setCurrentTextures("standing\(currentDirection)")
-                runAnimation(0.25)
             }
+            runAnimation(0.25)
         }
     }
 }
@@ -705,7 +694,7 @@ class Enemy:Entity {
     override func update(deltaT:Double) {
         super.update(deltaT)
         AI?.update(deltaT)
-        if (!self.isOnScreen()) {
+        if (!isOnScreen()) {
             if (indicatorArrow.parent == nil) {
                 thisCharacter.pointers.addChild(indicatorArrow)
             }
@@ -719,8 +708,7 @@ class Enemy:Entity {
     override func die() {
         thisCharacter.killedEnemy(self)
         for drop in drops {
-            let chance = randomBetweenNumbers(0, secondNum: 1)
-            if (chance <= drop.chance) {
+            if (randomBetweenNumbers(0, secondNum: 1) <= drop.chance) {
                 let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
                 let newObj = MapObject.initHandler(drop.type, fromBase64: drop.data, loc: newPoint)
                 (self.scene as? InGameScene)?.addObject(newObj)
@@ -730,7 +718,6 @@ class Enemy:Entity {
         removeFromParent()
         indicatorArrow.removeFromParent()
     }
-    
 }
 
 class DisplayEnemy:Enemy {

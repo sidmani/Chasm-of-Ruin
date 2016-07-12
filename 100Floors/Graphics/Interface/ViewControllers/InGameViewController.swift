@@ -160,20 +160,24 @@ class InGameViewController: UIViewController {
         }
         if let bag = (segue.sourceViewController as? InventoryViewController)?.groundBag {
             gameScene.addObject(bag)
-        }    }
+        }
+    }
     
-    @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) { 
-        thisCharacter.respawn()
+    @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) {
+        thisCharacter.reset()
+        thisCharacter.enableCondition(.Invincible)
         exitMenu(segue)
     }
     
     @IBAction func defeatSelectedRespawn(segue:UIStoryboardSegue) {
+        thisCharacter.reset()
         thisCharacter.confirmDeath()
         gameScene.reloadLevel()
-        exitMenu(segue)
+        exitMenu(segue) 
     }
     
     @IBAction func victorySelectedRespawn(segue:UIStoryboardSegue) {
+        thisCharacter.reset()
         gameScene.reloadLevel()
         exitMenu(segue)
     }
