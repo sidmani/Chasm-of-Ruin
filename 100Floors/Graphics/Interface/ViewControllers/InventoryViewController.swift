@@ -42,7 +42,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     var inventory = thisCharacter.inventory
 
     var groundBag:ItemBag?
-    //var dropLoc:CGPoint!
     
     private var leftScrollBound:CGFloat = 0
     private var rightScrollBound:CGFloat = 0
@@ -59,6 +58,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         layout.minimumInteritemSpacing = CGFloat.max
 
         let longPressGR = UILongPressGestureRecognizer()
+       // inventoryCollection.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
         inventoryCollection.addGestureRecognizer(longPressGR)
         longPressGR.addTarget(self, action: #selector(handleLongPress))
         longPressGR.delegate = self
@@ -136,15 +136,15 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 let newBag = ItemBag(withItem: item, loc: thisCharacter.position)
                 groundBag = newBag
             }
-            else {
-                groundBag = nil // this should never happen
-            }
+       //     else {
+       //         groundBag = nil // this should never happen
+       //     }
         }
         else if (indexB == -2) {
             if let item = inventory.getItem(indexA) {
-                if (inventory.isEquipped(indexB)) {
-                    inventory.equipItem(indexB)
-                }
+               // if (inventory.isEquipped(indexB)) { //?????
+               //     inventory.equipItem(indexB)
+               // }
                 inventory.setItem(indexA, toItem: groundBag?.item)
                 groundBag?.setItemTo(nil)
                 let newBag = ItemBag(withItem: item, loc: thisCharacter.position)
@@ -165,6 +165,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         if let item = previousSelectedContainer?.item {
             if (item is Usable) {
                 //do something
+                (item as! Usable).use()
             }
             else if (item is Consumable) {
                 thisCharacter.consumeItem(item as! Consumable)
@@ -312,31 +313,39 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     @IBAction func addMoreSlotsButtonPressed(sender:UIButton) {
         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") < 4) {
-            if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
-                inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
-                if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
-                //    inventoryCollection.deleteItemsAtIndexPaths([NSIndexPath.init(forItem: inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
-                    sender.enabled = false
-                    sender.alpha = 0.3
-                }
-            }
-            else {
-                let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
-                alert.text = "You don't have enough Crystals for that! Buy some more?"
-                alert.completion = {(response) in
-                    if (response) {
-                        self.loadCurrencyPurchaseView()
+            let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+            alert.text = "Purchase another inventory slot for 50 Crystals?"
+            alert.completion = {(response) in
+                if (response) {
+                    if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
+                        self.inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: self.inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
+                        //TODO: actually increase inventory size
+                        if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
+                            sender.enabled = false
+                            sender.alpha = 0.3
+                        }
+                    }
+                    else {
+                        let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                        alert.text = "You don't have enough Crystals for that! Buy some more?"
+                        alert.completion = {(response) in
+                            if (response) {
+                                let cpvc = self.storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+                                self.presentViewController(cpvc, animated: true, completion: nil)
+                            }
+                        }
+                        self.presentViewController(alert, animated: true, completion: nil)
                     }
                 }
-                self.presentViewController(alert, animated: true, completion: nil)
             }
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
-    func loadCurrencyPurchaseView() {
+   /* func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
         self.presentViewController(cpvc, animated: true, completion: nil)
-    }
+    }*/
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if (indexPath.item == collectionView.numberOfItemsInSection(0)-1) {
@@ -344,6 +353,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
         else {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
+            
             cell.updateIndex((indexPath.item == 0 ? -2 : indexPath.item - 1))
             if (cell.correspondsToInventoryIndex != currentIndex) {
                 cell.resetItemView()
@@ -388,10 +398,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             else if (inventoryCollection.cellForItemAtIndexPath(path) != nil && !currentItemIsButton) {
               //  if (!currentItemIsButton) {
-                    previousSelectedContainer?.setSelectedTo(false)
-                    previousSelectedContainer = nil
-                    currentItemIsButton = true
-                    return true
+                previousSelectedContainer?.setSelectedTo(false)
+                previousSelectedContainer = nil
+                currentItemIsButton = true
+                return true
               //  }
             }
         }
@@ -407,14 +417,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
         if (recognizer.state == .Began) {
-            if let path = inventoryCollection.indexPathForItemAtPoint( recognizer.locationInView(self.inventoryCollection))
+            if let path = inventoryCollection.indexPathForItemAtPoint(recognizer.locationInView(self.inventoryCollection))
             {
                 currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer)
                 if (currentContainer?.item == nil) {
                     currentContainer = nil
                     return
                 }
-                
                 currentIndex = currentContainer!.correspondsToInventoryIndex
                 currentItemView.image = currentContainer!.itemView.image
                 let bounds = currentContainer!.itemView.bounds
@@ -452,28 +461,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             currentItemView.image = nil
         }
     }
-    /////////////////////////
-    
-    
-    
+    ////////////////////////
     private func constrain(x:CGFloat, lower:CGFloat, upper:CGFloat) -> CGFloat{
         return max(lower, min(x,upper))
     }
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-            return .Landscape
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
 }

@@ -447,6 +447,7 @@ class ThisCharacter: Entity {
             color = UIColor(red: 2-2*progress, green: 255, blue: 0, alpha: 1.0)
         }
         UIElements.HPBar.setProgress(color, progress: progress, animated: true)
+        UIElements.HPBar.label.text = "\(Int(stats.health))/\(Int(stats.maxHealth))"
     }
     //////
     func adjustMana(amount:CGFloat) {

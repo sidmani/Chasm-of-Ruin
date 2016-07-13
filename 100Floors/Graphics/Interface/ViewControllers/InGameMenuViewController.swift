@@ -29,6 +29,17 @@ class InGameMenuViewController: UIViewController {
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
 
     }
+
+    @IBAction func levelSelectPressed(sender: AnyObject) {
+        let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+        alert.text = "Are you sure? All level progress will be lost..."
+        alert.completion = {(response) in
+            if (response) {
+                self.performSegueWithIdentifier("unwindToLevelSelect", sender: self)
+            }
+        }
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
     @IBAction func presentStore() {
         let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
@@ -43,22 +54,5 @@ class InGameMenuViewController: UIViewController {
     @objc func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
         self.presentViewController(cpvc, animated: true, completion: nil)
-    }
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Landscape
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
 }

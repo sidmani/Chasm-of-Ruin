@@ -22,20 +22,6 @@ class DefeatViewController: UIViewController {
         self.view.sendSubviewToBack(blur)
     }
     
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Landscape
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
     func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
         self.presentViewController(cpvc, animated: true, completion: nil)
@@ -60,9 +46,4 @@ class DefeatViewController: UIViewController {
         }
         return true
     }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-
 }

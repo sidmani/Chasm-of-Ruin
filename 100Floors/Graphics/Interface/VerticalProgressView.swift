@@ -13,7 +13,7 @@ import UIKit
 public class VerticalProgressView : UIView {
     
     public var fillDoneColor : UIColor = UIColor.greenColor()
-    @IBInspectable public var vertical:Bool = true
+    @IBInspectable public var vertical = true
 
     var progress: CGFloat = 0
     
@@ -28,27 +28,39 @@ public class VerticalProgressView : UIView {
         self.filledView.frame = self.bounds
 
         self.layer.addSublayer(filledView)
+        label.textColor = ColorScheme.strokeColor
+        modifierLabel.textColor = ColorScheme.strokeColor
 
         if (self.vertical) {
+         //   vertical = true
             label.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 10, 30)
             label.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
-            label.textColor = ColorScheme.strokeColor
             label.textAlignment = .Right
-            self.addSubview(label)
             
             modifierLabel.bounds = CGRectMake(10, 30, self.bounds.width, 30)
             modifierLabel.center = CGPointMake(self.bounds.width/2 + 2.5, 15)
-            modifierLabel.textColor = ColorScheme.strokeColor
             modifierLabel.textAlignment = .Left
-            self.addSubview(modifierLabel)
-            
         }
+        else {
+        //    vertical = false
+            label.center = CGPointMake(self.bounds.width/2, self.bounds.height/2)
+            label.textAlignment = .Center
+            label.bounds = CGRectMake(0, label.center.y-15, self.bounds.width, 30)
+            self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(enableHPLabel)))
+            label.userInteractionEnabled = true
+        }
+        
+        self.addSubview(modifierLabel)
+        self.addSubview(label)
         self.layer.borderColor = ColorScheme.strokeColor.CGColor
         self.layer.borderWidth = 2.0
         self.backgroundColor = ColorScheme.fillColor
         self.layer.cornerRadius = 12
         self.layer.masksToBounds = true
-        
+    }
+    
+    @objc func enableHPLabel() {
+        label.hidden = !label.hidden
     }
     
     override public func drawRect(rect: CGRect) {
@@ -98,7 +110,7 @@ public class VerticalProgressView : UIView {
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
         
-        if (vertical) {
+        if (self.vertical) {
             self.filledView.frame.origin.y = position
         }
         else {

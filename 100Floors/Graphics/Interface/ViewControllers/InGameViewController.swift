@@ -14,20 +14,7 @@ struct UIElements {
     static var RightJoystick:JoystickControl!
     static var HPBar:VerticalProgressView!
     static var EXPBar:UIProgressView!
-  //  static var InventoryButton:UIButton!
-   // static var MenuButton:UIButton!
     static var SkillButton:ProgressRectButton!
-
-  /*  static func setVisible(toState:Bool) {
-        let _toState = !toState
-        LeftJoystick.hidden = _toState
-        RightJoystick.hidden = _toState
-        HPBar.hidden = _toState
-        EXPBar.hidden = _toState
-        InventoryButton.hidden = _toState
-        MenuButton.hidden = _toState
-        SkillButton.hidden = _toState
-    }*/
 }
 
 var enemyXML: AEXMLDocument! = nil
@@ -37,13 +24,8 @@ class InGameViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var LeftJoystickControl: JoystickControl!
     @IBOutlet weak var RightJoystickControl: JoystickControl!
-    
     @IBOutlet weak var HPDisplayBar: VerticalProgressView!
-    
     @IBOutlet weak var EXPBar: UIProgressView!
-    
-  //  @IBOutlet weak var MenuButton: UIButton!
- //   @IBOutlet weak var InventoryButton: UIButton!
     @IBOutlet weak var SkillButton: ProgressRectButton!
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
@@ -81,6 +63,8 @@ class InGameViewController: UIViewController {
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
 
         //////////
+        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
+
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
@@ -95,7 +79,6 @@ class InGameViewController: UIViewController {
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
         
-        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
         skView.presentScene(InGameScene(size:skView.bounds.size))
     }
     
@@ -106,8 +89,7 @@ class InGameViewController: UIViewController {
     func levelEndedDefeat() {
         thisCharacter.reset()
         presentingOtherViewController()
-        defaultLevelHandler.levelCompletedDefeat()
-
+        defaultLevelHandler.levelCompleted(false)
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
             let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
             addChildViewController(dvc)
@@ -123,8 +105,7 @@ class InGameViewController: UIViewController {
     func levelEndedVictory() {
         thisCharacter.reset()
         presentingOtherViewController()
-        defaultLevelHandler.levelCompleted()
-        
+        defaultLevelHandler.levelCompleted(true)
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
             let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
             addChildViewController(vvc)
@@ -137,9 +118,6 @@ class InGameViewController: UIViewController {
         }
     }
     
-    func groundBagTapped(notification: NSNotification) {
-        loadInventoryView(notification.object as? ItemBag)
-    }
     
     func setInfoDisplayText(notification:NSNotification) {
         let text = notification.object as! String
@@ -162,7 +140,11 @@ class InGameViewController: UIViewController {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
- 
+    
+    func groundBagTapped(notification: NSNotification) {
+        loadInventoryView(notification.object as? ItemBag)
+    }
+
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
         loadInventoryView(gameScene.currentGroundBag)
     }
@@ -209,7 +191,7 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func victorySelectedRespawn(segue:UIStoryboardSegue) {
-        thisCharacter.reset()
+     //   thisCharacter.reset()
         gameScene.reloadLevel()
         returnedFromOtherViewController()
     }

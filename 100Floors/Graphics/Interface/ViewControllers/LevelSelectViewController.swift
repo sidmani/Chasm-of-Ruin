@@ -16,6 +16,9 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var NameLabel: UILabel!
     @IBOutlet weak var DescLabel: UILabel!
     
+    @IBOutlet weak var CrystalLabel: UILabel!
+    @IBOutlet weak var CoinLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,9 +28,27 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
+
+        CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        
+
+        setCurrencyLabels()
         selectCenterCell()
     }
+
+    @objc func loadCurrencyPurchaseView() {
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
+    }
     
+    @IBAction func exit(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
     ///////////////
     //Collection View
     
@@ -68,9 +89,35 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer && previousSelectedContainer?.level?.unlocked == true) {
-            defaultLevelHandler.currentLevel = indexPath.item
-            loadLevel(previousSelectedContainer!.level!)
+        if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer) {
+            if (previousSelectedContainer?.level?.unlocked == true) {
+                defaultLevelHandler.currentLevel = indexPath.item
+                loadLevel(previousSelectedContainer!.level!)
+            }
+            else {
+                let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                alert.text = "This level is still locked! Unlock it for 25 Crystals?"
+                alert.completion = {(response) in
+                    if (response) {
+                        if (defaultPurchaseHandler.makePurchase("UnlockLevel", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
+                            defaultLevelHandler.levelDict[indexPath.item]?.unlocked = true
+                            self.levelCollection.reloadItemsAtIndexPaths(self.levelCollection.indexPathsForVisibleItems())
+                        }
+                        else {
+                            let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                            alert.text = "You don't have enough Crystals for that! Buy some more?"
+                            alert.completion = {(response) in
+                                if (response) {
+                                    let cpvc = self.storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+                                    self.presentViewController(cpvc, animated: true, completion: nil)
+                                }
+                            }
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
         }
         else {
             collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth - collectionView.contentInset.left, 0), animated: true)
@@ -88,26 +135,8 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         levelCollection.reloadData()
     }
     
-    override func shouldAutorotate() -> Bool {
-        return true
+    func setCurrencyLabels() {
+        CrystalLabel.text = "\(defaultMoneyHandler.getCrystals())"
+        CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
     }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
-    
 }

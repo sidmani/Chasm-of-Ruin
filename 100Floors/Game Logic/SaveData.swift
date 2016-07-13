@@ -176,7 +176,8 @@ class InternalPurchaseHandler:NSCoding {
     
     private var Purchases:[String:Purchase] = [
         "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 50, designatedCurrencyType: .ChasmCrystal),
-        "ReviveSelf":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal)
+        "ReviveSelf":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal),
+        "UnlockLevel":Purchase(priceCoins: nil, priceCrystals: 25, designatedCurrencyType: .ChasmCrystal)
     ]
     
     init() {
@@ -325,14 +326,16 @@ class LevelHandler:NSCoding {
         return Array(levelDict.values)
     }
     
-    func levelCompletedDefeat() {
+//    func levelCompletedDefeat() {
+//        levelDict[currentLevel]!.playCount += 1
+//    }
+//    
+    func levelCompleted(victory:Bool) {
         levelDict[currentLevel]!.playCount += 1
-    }
-    
-    func levelCompleted() {
-        setLevelUnlocked(levelDict[currentLevel]!.unlocksIndex)
-        levelDict[currentLevel]!.cleared = true
-        levelDict[currentLevel]!.playCount += 1
+        if (victory) {
+            setLevelUnlocked(levelDict[currentLevel]!.unlocksIndex)
+            levelDict[currentLevel]!.cleared = true
+        }
     }
     
     func setLevelUnlocked(index:Int) {

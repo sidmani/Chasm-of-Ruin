@@ -52,13 +52,12 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func presentStore() {
-        let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
+        let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController")
         presentViewController(svc, animated: true, completion: nil)
     }
     
     @IBAction func loadLevelSelectVC() {
         let lsvc = storyboard!.instantiateViewControllerWithIdentifier("lsvc")
-        lsvc.modalTransitionStyle = .CrossDissolve
         presentViewController(lsvc, animated: true, completion: nil)
     }
     
