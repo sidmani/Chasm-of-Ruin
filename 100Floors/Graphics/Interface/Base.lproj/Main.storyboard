@@ -54,14 +54,14 @@
                                     <action selector="loadLevelSelectVC" destination="SZV-WD-TEh" eventType="touchUpInside" id="wXM-Ti-D9V"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="eUX-KF-vu2">
+                            <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="eUX-KF-vu2">
                                 <rect key="frame" x="410" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="ApQ-bb-yTx"/>
                                     <constraint firstAttribute="width" secondItem="eUX-KF-vu2" secondAttribute="height" multiplier="1:1" id="zNf-z0-PGm"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ig-39-D0u" userLabel="CrystalNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ig-39-D0u" userLabel="CrystalNumber">
                                 <rect key="frame" x="450" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,13 +69,13 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="ktH-PX-kht" userLabel="Coin">
+                            <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="ktH-PX-kht" userLabel="Coin">
                                 <rect key="frame" x="480" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="gCv-l2-ncW"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xg8-EA-6WM" userLabel="CoinNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xg8-EA-6WM" userLabel="CoinNumber">
                                 <rect key="frame" x="518" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -259,7 +259,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="vertical" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cs-Y9-J62">
+                            <button opaque="NO" tag="1" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cs-Y9-J62">
                                 <rect key="frame" x="553" y="30" width="32" height="32"/>
                                 <color key="backgroundColor" red="0.85537391744662894" green="1" blue="0.99407375577711088" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -269,8 +269,7 @@
                                 <color key="tintColor" red="1" green="0.18183589376993314" blue="0.86308780705393529" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="menu"/>
                                 <connections>
-                                    <action selector="menuButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="MYi-rL-BhV"/>
-                                    <segue destination="vb3-7V-c1Z" kind="presentation" id="JJd-2I-DG8"/>
+                                    <action selector="menuButtonPressed" destination="MLO-tX-9Zl" eventType="touchUpInside" id="vnv-56-6lE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-pQ-J3m" customClass="ProgressRectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
@@ -282,14 +281,14 @@
                                 <rect key="frame" x="140" y="77" width="320" height="32"/>
                                 <color key="backgroundColor" red="0.41559579261380147" green="0.088069058263496508" blue="0.94284855769230769" alpha="0.0" colorSpace="calibratedRGB"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="0i1-qW-Q1v">
+                            <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="0i1-qW-Q1v">
                                 <rect key="frame" x="415" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="0i1-qW-Q1v" secondAttribute="height" multiplier="1:1" id="cW7-OE-5br"/>
                                     <constraint firstAttribute="width" constant="40" id="f60-Ul-dWI"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9r-K3-eX4" userLabel="CrystalNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9r-K3-eX4" userLabel="CrystalNumber">
                                 <rect key="frame" x="455" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.35686274509803922" green="0.67843137254901964" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
@@ -300,13 +299,13 @@
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67Y-lJ-ZEt" userLabel="EXPBar">
                                 <rect key="frame" x="32" y="62" width="361" height="2"/>
                             </progressView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="s4M-Ha-nct" userLabel="Coin">
+                            <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="s4M-Ha-nct" userLabel="Coin">
                                 <rect key="frame" x="485" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="Reu-W0-AJr"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvo-UH-QfJ" userLabel="CoinNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvo-UH-QfJ" userLabel="CoinNumber">
                                 <rect key="frame" x="523" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
@@ -360,7 +359,6 @@
                         <outlet property="HPDisplayBar" destination="rkT-DA-yQp" id="wLp-PG-8A8"/>
                         <outlet property="InfoDisplay" destination="LF5-U2-EV1" id="biK-Wa-Xgn"/>
                         <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
-                        <outlet property="MenuButton" destination="7cs-Y9-J62" id="pic-p6-seH"/>
                         <outlet property="RightJoystickControl" destination="CwZ-pI-Qun" id="TrL-BJ-nKT"/>
                         <outlet property="SkillButton" destination="3qM-pQ-J3m" id="bFi-qu-JWk"/>
                     </connections>
@@ -445,7 +443,7 @@
                                                     <rect key="frame" x="7" y="7" width="110" height="110"/>
                                                     <color key="backgroundColor" red="1" green="0.49196181230329317" blue="0.33186345736402023" alpha="0.0" colorSpace="calibratedRGB"/>
                                                     <color key="tintColor" red="0.95921474358974357" green="0.95921474358974357" blue="0.95921474358974357" alpha="0.79665948275862064" colorSpace="calibratedRGB"/>
-                                                    <state key="normal" image="add"/>
+                                                    <state key="normal" backgroundImage="add"/>
                                                     <connections>
                                                         <action selector="addMoreSlotsButtonPressed:" destination="CGb-Sh-tvY" eventType="touchUpInside" id="Ero-ON-kf5"/>
                                                     </connections>
@@ -644,7 +642,7 @@
         <!--In Game Menu View Controller-->
         <scene sceneID="GM0-G2-SZq">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="vb3-7V-c1Z" customClass="InGameMenuViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="igmvc" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vb3-7V-c1Z" customClass="InGameMenuViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Chk-cv-qsX"/>
                         <viewControllerLayoutGuide type="bottom" id="3gB-3g-vgw"/>
@@ -699,7 +697,7 @@
                                     <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitToLevelSelect:" id="nwQ-aH-gPG"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="yNV-7T-r3R">
+                            <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="yNV-7T-r3R">
                                 <rect key="frame" x="352" y="21" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yNV-7T-r3R" secondAttribute="height" multiplier="1:1" id="X1K-X0-x8j"/>
@@ -711,7 +709,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4o-MY-wzi" userLabel="CrystalNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4o-MY-wzi" userLabel="CrystalNumber">
                                 <rect key="frame" x="392" y="29" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -719,13 +717,13 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="fV2-rM-xLE" userLabel="Coin">
+                            <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="fV2-rM-xLE" userLabel="Coin">
                                 <rect key="frame" x="422" y="21" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="4tL-Bt-nkm"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0D-0q-wWf" userLabel="CoinNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0D-0q-wWf" userLabel="CoinNumber">
                                 <rect key="frame" x="460" y="29" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -882,7 +880,7 @@
                                     <action selector="exit" destination="D63-XM-v8w" eventType="touchUpInside" id="CeL-kR-gQB"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="tWU-jB-F1r">
+                            <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="tWU-jB-F1r">
                                 <rect key="frame" x="515" y="500" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="tWU-jB-F1r" secondAttribute="height" multiplier="1:1" id="3Af-XI-EGS"/>
@@ -894,7 +892,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vf2-VQ-GlY" userLabel="CrystalNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vf2-VQ-GlY" userLabel="CrystalNumber">
                                 <rect key="frame" x="555" y="508" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -902,13 +900,13 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="2jd-gx-RSU" userLabel="Coin">
+                            <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="2jd-gx-RSU" userLabel="Coin">
                                 <rect key="frame" x="515" y="550" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="FG4-m2-UIj"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFc-b1-UGn" userLabel="CoinNumber">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFc-b1-UGn" userLabel="CoinNumber">
                                 <rect key="frame" x="553" y="558" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -967,6 +965,149 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F7M-yG-zxg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1934" y="1254"/>
+        </scene>
+        <!--Currency Purchase View Controller-->
+        <scene sceneID="dh4-VJ-cht">
+            <objects>
+                <viewController storyboardIdentifier="currencyPurchaseVC" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nct-WO-HX0" customClass="CurrencyPurchaseViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5Eo-s7-dii"/>
+                        <viewControllerLayoutGuide type="bottom" id="rOL-LS-cUE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3jS-dT-5Si">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OFs-eh-fxf">
+                                <rect key="frame" x="60" y="67" width="480" height="533"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="currencyDisplay" rowHeight="55" id="ofJ-Xq-O09">
+                                        <rect key="frame" x="0.0" y="50" width="480" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ofJ-Xq-O09" id="NlK-cG-VQs">
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aku-mt-0Vu">
+                                                    <rect key="frame" x="8" y="0.0" width="54" height="54"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Aku-mt-0Vu" secondAttribute="height" multiplier="1:1" id="zi1-d1-4gi"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Coins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c34-So-pOh">
+                                                    <rect key="frame" x="70" y="16" width="79" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-kN-CpQ">
+                                                    <rect key="frame" x="420" y="16" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="c34-So-pOh" firstAttribute="centerY" secondItem="NlK-cG-VQs" secondAttribute="centerY" id="Asq-SC-UyK"/>
+                                                <constraint firstItem="Fgg-kN-CpQ" firstAttribute="centerY" secondItem="NlK-cG-VQs" secondAttribute="centerY" id="CSV-r2-GmJ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Fgg-kN-CpQ" secondAttribute="trailing" constant="10" id="Q9a-c5-LM1"/>
+                                                <constraint firstItem="Aku-mt-0Vu" firstAttribute="centerY" secondItem="NlK-cG-VQs" secondAttribute="centerY" id="VVQ-RN-C9j"/>
+                                                <constraint firstItem="Aku-mt-0Vu" firstAttribute="height" secondItem="NlK-cG-VQs" secondAttribute="height" id="Zbg-0j-JA6"/>
+                                                <constraint firstItem="c34-So-pOh" firstAttribute="leading" secondItem="Aku-mt-0Vu" secondAttribute="trailing" constant="8" id="fbR-d9-sZ7"/>
+                                                <constraint firstItem="Aku-mt-0Vu" firstAttribute="leading" secondItem="NlK-cG-VQs" secondAttribute="leadingMargin" id="ync-lw-X7c"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="nct-WO-HX0" id="rDR-LA-6Mv"/>
+                                    <outlet property="delegate" destination="nct-WO-HX0" id="1gc-Eh-BFu"/>
+                                </connections>
+                            </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="siE-yg-UA5">
+                                <rect key="frame" x="352" y="21" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Gsv-kM-3bT"/>
+                                    <constraint firstAttribute="width" secondItem="siE-yg-UA5" secondAttribute="height" multiplier="1:1" id="mUB-aT-koS"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="mUB-aT-koS"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPF-gb-C0E" userLabel="CrystalNumber">
+                                <rect key="frame" x="392" y="29" width="25" height="25"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="1" height="1"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="PZn-Pq-K3A" userLabel="Coin">
+                                <rect key="frame" x="422" y="21" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Mn8-ff-eVz"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJN-DM-0ra" userLabel="CoinNumber">
+                                <rect key="frame" x="460" y="29" width="25" height="25"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="1" height="1"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhc-nr-3uP" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="495" y="30" width="90" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="lhc-nr-3uP" secondAttribute="height" multiplier="45:11" id="hZv-uY-30p"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
+                                <state key="normal" title="→"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hZv-uY-30p"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="exit:" destination="nct-WO-HX0" eventType="touchUpInside" id="WT4-DP-Ehk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="siE-yg-UA5" firstAttribute="centerY" secondItem="lhc-nr-3uP" secondAttribute="centerY" id="1AC-W8-6Hg"/>
+                            <constraint firstItem="lhc-nr-3uP" firstAttribute="leading" secondItem="JJN-DM-0ra" secondAttribute="trailing" constant="10" id="27L-6a-L3s"/>
+                            <constraint firstItem="PZn-Pq-K3A" firstAttribute="top" secondItem="siE-yg-UA5" secondAttribute="top" id="DGy-Ne-OnY"/>
+                            <constraint firstItem="lhc-nr-3uP" firstAttribute="width" secondItem="lhc-nr-3uP" secondAttribute="height" multiplier="45:11" id="NiY-Za-d5w"/>
+                            <constraint firstItem="siE-yg-UA5" firstAttribute="width" secondItem="siE-yg-UA5" secondAttribute="height" multiplier="1:1" id="PbG-o0-8Rh"/>
+                            <constraint firstItem="JJN-DM-0ra" firstAttribute="centerY" secondItem="PZn-Pq-K3A" secondAttribute="centerY" id="VZ3-Az-tIT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lhc-nr-3uP" secondAttribute="trailing" constant="-5" id="XL5-Rx-deq"/>
+                            <constraint firstItem="JJN-DM-0ra" firstAttribute="leading" secondItem="PZn-Pq-K3A" secondAttribute="trailing" constant="-2" id="cJT-ya-Chn"/>
+                            <constraint firstItem="lhc-nr-3uP" firstAttribute="top" secondItem="5Eo-s7-dii" secondAttribute="bottom" constant="10" id="fAY-Do-xgN"/>
+                            <constraint firstItem="OFs-eh-fxf" firstAttribute="centerX" secondItem="3jS-dT-5Si" secondAttribute="centerX" id="ggl-mU-ZOz"/>
+                            <constraint firstItem="gPF-gb-C0E" firstAttribute="centerY" secondItem="siE-yg-UA5" secondAttribute="centerY" id="iPY-X4-uC8"/>
+                            <constraint firstItem="gPF-gb-C0E" firstAttribute="leading" secondItem="siE-yg-UA5" secondAttribute="trailing" id="l1k-fc-5Zw"/>
+                            <constraint firstItem="OFs-eh-fxf" firstAttribute="top" secondItem="lhc-nr-3uP" secondAttribute="bottom" constant="15" id="nJS-8Q-Uwd"/>
+                            <constraint firstItem="OFs-eh-fxf" firstAttribute="leading" secondItem="3jS-dT-5Si" secondAttribute="leadingMargin" constant="40" id="oGv-80-IfW"/>
+                            <constraint firstItem="PZn-Pq-K3A" firstAttribute="width" secondItem="PZn-Pq-K3A" secondAttribute="height" multiplier="1:1" id="rtA-7P-jwg"/>
+                            <constraint firstItem="PZn-Pq-K3A" firstAttribute="leading" secondItem="gPF-gb-C0E" secondAttribute="trailing" constant="5" id="xdB-Df-VdT"/>
+                            <constraint firstItem="PZn-Pq-K3A" firstAttribute="width" secondItem="siE-yg-UA5" secondAttribute="width" id="y8l-Jl-M2s"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OFs-eh-fxf" secondAttribute="trailing" constant="40" id="zSx-Gu-M0s"/>
+                            <constraint firstItem="rOL-LS-cUE" firstAttribute="top" secondItem="OFs-eh-fxf" secondAttribute="bottom" id="zfe-jy-J5c"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="CoinLabel" destination="JJN-DM-0ra" id="K9M-40-1BM"/>
+                        <outlet property="CrystalLabel" destination="gPF-gb-C0E" id="TxB-d1-01G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbk-ir-Joo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2680" y="1434"/>
         </scene>
         <!--Alert View Controller-->
         <scene sceneID="1Xg-kh-pvB">

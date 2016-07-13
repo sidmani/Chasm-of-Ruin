@@ -90,7 +90,6 @@ public class VerticalProgressView : UIView {
         }
         
         CATransaction.commit()
-
     }
     
     private func setFilledPosition(color:UIColor, position: CGFloat, animated: Bool) {

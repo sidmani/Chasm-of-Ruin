@@ -478,6 +478,7 @@ class ThisCharacter: Entity {
 
     override func die() {
         NSNotificationCenter.defaultCenter().postNotificationName("levelEndedDefeat", object: nil)
+        self.scene?.paused = true
     }
     
     func reset() {
@@ -492,11 +493,7 @@ class ThisCharacter: Entity {
         currentTextureSet = "standing3"
         UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
     }
-//    
-//    func respawn() {
-//        self.enableCondition(.Invincible)
-//    }
-    
+
     func confirmDeath() {
         //delete random items
     }
@@ -578,7 +575,7 @@ class ThisCharacter: Entity {
         else {
             statRegenTimeElapsed += deltaT
         }
-                
+        
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
             if (timeSinceProjectile > 500-0.4*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {

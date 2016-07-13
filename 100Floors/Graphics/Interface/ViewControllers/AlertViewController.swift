@@ -33,7 +33,7 @@ class AlertViewController: UIViewController {
     
     @IBAction func noButtonPressed() {
         self.dismissViewControllerAnimated(true, completion: nil)
-        self.completion(true)
+        self.completion(false)
     }
     
     override func shouldAutorotate() -> Bool {

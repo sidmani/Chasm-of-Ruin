@@ -37,7 +37,8 @@ class DefeatViewController: UIViewController {
     }
     
     func loadCurrencyPurchaseView() {
-        
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {

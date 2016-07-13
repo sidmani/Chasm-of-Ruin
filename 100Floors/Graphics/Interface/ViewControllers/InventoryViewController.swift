@@ -39,10 +39,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     var StatsDisplay:[VerticalProgressView] = []
     
-    var inventory:Inventory!
+    var inventory = thisCharacter.inventory
 
     var groundBag:ItemBag?
-    var dropLoc:CGPoint!
+    //var dropLoc:CGPoint!
     
     private var leftScrollBound:CGFloat = 0
     private var rightScrollBound:CGFloat = 0
@@ -133,7 +133,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
                 inventory.setItem(indexB, toItem: groundBag?.item)
                 groundBag?.setItemTo(nil)
-                let newBag = ItemBag(withItem: item, loc: dropLoc)
+                let newBag = ItemBag(withItem: item, loc: thisCharacter.position)
                 groundBag = newBag
             }
             else {
@@ -147,7 +147,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
                 inventory.setItem(indexA, toItem: groundBag?.item)
                 groundBag?.setItemTo(nil)
-                let newBag = ItemBag(withItem: item, loc: dropLoc)
+                let newBag = ItemBag(withItem: item, loc: thisCharacter.position)
                 groundBag = newBag
             }
             else {
@@ -334,7 +334,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func loadCurrencyPurchaseView() {
-        //TODO: load currency purchase view
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

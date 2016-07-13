@@ -42,7 +42,7 @@ class InGameViewController: UIViewController {
     
     @IBOutlet weak var EXPBar: UIProgressView!
     
-    @IBOutlet weak var MenuButton: UIButton!
+  //  @IBOutlet weak var MenuButton: UIButton!
  //   @IBOutlet weak var InventoryButton: UIButton!
     @IBOutlet weak var SkillButton: ProgressRectButton!
     
@@ -51,7 +51,10 @@ class InGameViewController: UIViewController {
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
     
-    private var gameScene:InGameScene!
+ //   private var gameScene:InGameScene!
+    private var gameScene:InGameScene {
+        return (view as! SKView).scene as! InGameScene
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +72,14 @@ class InGameViewController: UIViewController {
         EXPBar.progressTintColor = ColorScheme.EXPColor
 
         
-        MenuButton.tintColor = ColorScheme.strokeColor
-       
+        //MenuButton.tintColor = ColorScheme.strokeColor
+        view.viewWithTag(1)?.tintColor = ColorScheme.strokeColor
         //////////
+        CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+
         //////////
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
@@ -86,38 +94,51 @@ class InGameViewController: UIViewController {
         skView.showsNodeCount = true
         skView.showsDrawCount = true
         skView.ignoresSiblingOrder = true
+        
         SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
-        gameScene = InGameScene(size:skView.bounds.size)
-        skView.presentScene(gameScene)
-
+        skView.presentScene(InGameScene(size:skView.bounds.size))
     }
     
     func loadLevel(level:LevelHandler.LevelDefinition) {
         gameScene.setLevel(MapLevel(level:level))
-        UIElements.HPBar.setProgress(1, animated: true)
     }
     
     func levelEndedDefeat() {
-        self.view.subviews.forEach({(view) in view.hidden = true})
-  //      blurView()
-        gameScene.paused = true
-        let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
-        presentViewController(dvc, animated: true, completion: nil)
+        thisCharacter.reset()
+        presentingOtherViewController()
         defaultLevelHandler.levelCompletedDefeat()
+
+        if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
+            let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+            addChildViewController(dvc)
+            presentedViewController!.willMoveToParentViewController(nil)
+            transitionFromViewController(self.presentedViewController!, toViewController: dvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
+        }
+        else if (presentedViewController == nil) {
+            let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+            presentViewController(dvc, animated: false, completion: nil)
+        }
     }
     
     func levelEndedVictory() {
-        self.view.subviews.forEach({(view) in view.hidden = true})
-   //     blurView()
-        gameScene.paused = true
-        let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
-        presentViewController(vvc, animated: true, completion: nil)
+        thisCharacter.reset()
+        presentingOtherViewController()
         defaultLevelHandler.levelCompleted()
+        
+        if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
+            let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+            addChildViewController(vvc)
+            presentedViewController!.willMoveToParentViewController(nil)
+            transitionFromViewController(self.presentedViewController!, toViewController: vvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
+        }
+        else if (presentedViewController == nil) {
+            let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+            presentViewController(vvc, animated: false, completion: nil)
+        }
     }
     
-    
     func groundBagTapped(notification: NSNotification) {
-        loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:notification.object as? ItemBag)
+        loadInventoryView(notification.object as? ItemBag)
     }
     
     func setInfoDisplayText(notification:NSNotification) {
@@ -130,32 +151,32 @@ class InGameViewController: UIViewController {
         CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
     }
     
-    @IBAction func menuButtonPressed(sender: UIButton) {
-        self.view.subviews.forEach({(view) in view.hidden = true})
-        gameScene.paused = true
+    @IBAction func menuButtonPressed() {
+        presentingOtherViewController()
+        let igmvc = storyboard!.instantiateViewControllerWithIdentifier("igmvc")
+        self.presentViewController(igmvc, animated: true, completion: nil)
+    }
+    
+    @objc func loadCurrencyPurchaseView() {
+        presentingOtherViewController()
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
     }
  
     @IBAction func inventoryButtonPressed(sender: UIButton?) {
-        loadInventoryView(thisCharacter.inventory, dropLoc: thisCharacter.position, groundBag:gameScene.currentGroundBag)
+        loadInventoryView(gameScene.currentGroundBag)
     }
     
-    func loadInventoryView(inv:Inventory, dropLoc:CGPoint, groundBag:ItemBag?) {
-        self.view.subviews.forEach({(view) in view.hidden = true})
-        gameScene.paused = true
+    func loadInventoryView(groundBag:ItemBag?) {
+        presentingOtherViewController()
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
-        inventoryController.inventory = inv
         inventoryController.groundBag = groundBag
-        inventoryController.dropLoc = dropLoc
         presentViewController(inventoryController, animated: true, completion: nil)
     }
     
     @IBAction func exitMenu(segue: UIStoryboardSegue) {
-        self.view.subviews.forEach({(view) in view.hidden = false})
-        self.InfoDisplay.hidden = true
-        gameScene.paused = false
-        LeftJoystickControl.resetControl()
-        RightJoystickControl.resetControl()
-        if (gameScene.currentGroundBag?.parent == nil) {
+        returnedFromOtherViewController()
+        if (gameScene.currentGroundBag?.parent == nil) { //TODO: check if necessary
             gameScene.currentGroundBag = nil
         }
         if let bag = (segue.sourceViewController as? InventoryViewController)?.groundBag {
@@ -163,40 +184,33 @@ class InGameViewController: UIViewController {
         }
     }
     
+    func returnedFromOtherViewController() {
+        self.view.subviews.forEach({(view) in view.hidden = false})
+        self.InfoDisplay.hidden = true
+        gameScene.paused = false
+        LeftJoystickControl.resetControl()
+        RightJoystickControl.resetControl()
+    }
+    
+    func presentingOtherViewController() {
+        self.view.subviews.forEach({(view) in view.hidden = true})
+        gameScene.paused = true
+    }
+    
     @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) {
-        thisCharacter.reset()
         thisCharacter.enableCondition(.Invincible)
-        exitMenu(segue)
+        returnedFromOtherViewController()
     }
     
     @IBAction func defeatSelectedRespawn(segue:UIStoryboardSegue) {
-        thisCharacter.reset()
         thisCharacter.confirmDeath()
         gameScene.reloadLevel()
-        exitMenu(segue) 
+        returnedFromOtherViewController()
     }
     
     @IBAction func victorySelectedRespawn(segue:UIStoryboardSegue) {
         thisCharacter.reset()
         gameScene.reloadLevel()
-        exitMenu(segue)
+        returnedFromOtherViewController()
     }
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-            return .Landscape
-    }
-   
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
 }

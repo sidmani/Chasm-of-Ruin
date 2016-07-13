@@ -40,7 +40,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var cameraBounds:CGRect = CGRectZero
     var currScreenBounds:CGRect = CGRectZero
     
-    var currentGroundBag:ItemBag?
+    weak var currentGroundBag:ItemBag?
     
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)

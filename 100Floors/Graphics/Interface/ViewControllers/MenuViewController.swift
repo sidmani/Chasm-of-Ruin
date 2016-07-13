@@ -38,6 +38,11 @@ class MenuViewController: UIViewController {
         skView.presentScene(scene)
         
         setCurrencyLabels()
+        CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
     }
     
@@ -55,6 +60,11 @@ class MenuViewController: UIViewController {
         let lsvc = storyboard!.instantiateViewControllerWithIdentifier("lsvc")
         lsvc.modalTransitionStyle = .CrossDissolve
         presentViewController(lsvc, animated: true, completion: nil)
+    }
+    
+    @objc func loadCurrencyPurchaseView() {
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
     @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {

@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         enemyXML = {
@@ -25,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             catch {
                 fatalError()
             }
-            
         }()
         
         itemXML = {
@@ -37,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             catch {
                 fatalError()
             }
-            
         }()
         SaveData.loadSaveGame()
         return true

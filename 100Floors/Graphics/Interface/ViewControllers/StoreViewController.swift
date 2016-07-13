@@ -15,9 +15,9 @@ class StoreViewController: UIViewController {
     var alertCompletion: (Bool) -> () = {_ in }
     
     private var items = StoreViewController.getItems()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
         setCurrencyLabels()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
         let blur = UIVisualEffectView(frame: self.view.bounds)
@@ -25,8 +25,18 @@ class StoreViewController: UIViewController {
         self.view.addSubview(blur)
         UIView.animateWithDuration(0.5) {
             blur.effect = UIBlurEffect(style: .Light)
+            self.presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
         }
         self.view.sendSubviewToBack(blur)
+        
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView))
+//        tapRecognizer.addTarget(self, action: #selector(loadCurrencyPurchaseView))
+//        tapRecognizer.delegate = self
+//        
+        CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
     }
     
     @IBAction func exit() {
@@ -43,6 +53,11 @@ class StoreViewController: UIViewController {
         //add 3 random (available) consumables & health/mana potions
         //init all of them and return the array
         return []
+    }
+    
+    @objc func loadCurrencyPurchaseView() {
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
     func setCurrencyLabels() {

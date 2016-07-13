@@ -23,6 +23,11 @@ class InGameMenuViewController: UIViewController {
             blur.effect = UIBlurEffect(style: .Light)
         }
         self.view.sendSubviewToBack(blur)
+        CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+
     }
     
     @IBAction func presentStore() {
@@ -33,6 +38,11 @@ class InGameMenuViewController: UIViewController {
     func setCurrencyLabels() {
         CrystalLabel.text = "\(defaultMoneyHandler.getCrystals())"
         CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
+    }
+    
+    @objc func loadCurrencyPurchaseView() {
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
     override func shouldAutorotate() -> Bool {
