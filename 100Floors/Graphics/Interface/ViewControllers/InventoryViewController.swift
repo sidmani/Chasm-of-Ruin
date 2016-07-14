@@ -232,10 +232,16 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                         }
                     }
                     else {
-                        for view in StatsDisplay {
-                            view.modifierLabel.text = view.modifierLabel.text! + "⏱"
-                        }
+                        ATKProgressView.alpha = 0.3
+                        DEFProgressView.alpha = 0.3
+                        SPDProgressView.alpha = 0.3
+                        DEXProgressView.alpha = 0.3
                     }
+                   // else {
+                  //      for view in StatsDisplay {
+                  //          view.modifierLabel.text = view.modifierLabel.text! + "⏱"
+                  //      }
+                  //  }
                     EquipButton.setTitle("Consume", forState: .Normal)
                 }
                 else if (item is Usable) {

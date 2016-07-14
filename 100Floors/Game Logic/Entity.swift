@@ -120,17 +120,18 @@ func +(left:Stats?, right:Stats?) -> Stats{
 }
 //////////////////////
 enum StatusCondition:Double {
-    // Stuck - immobilized. 
-    // Confused - actions reversed. 
-    // Weak - atk halved. 
-    // Poisoned - lose hp every second.
-    // Blinded - (player -> screen black) (enemy -> cannot see player location)
-    // Disturbed - fails to shoot 1/2 of the time, cannot use skill, accuracy drops 1/2
-    // Chilled - speed halved
-    // Cursed - attack causes recoil damage
-    // Bleeding - same as poisoned, but stats drop by half
-    // Invincible - cannot be affected by anything
-    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500, Disturbed = 5001, Chilled = 5002, Cursed = 3001, Bleeding = 4000, Invincible = 5003
+    // Stuck - immobilized. x
+    // Confused - actions reversed. x
+    // Weak - atk halved. x
+    // Poisoned - lose hp every second. x
+    // Blinded - (player -> cannot see enemies) (enemy -> cannot see player location)
+    // Disturbed - cannot use skill x
+    // Chilled - speed halved x
+    // Cursed - attack causes recoil damage x
+    // Bleeding - same as poisoned, but stats drop by half x
+    // Invincible - cannot be affected by anything x
+    // Burned - lose HP every second, dex dropped by half x
+    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500, Disturbed = 5001, Chilled = 5002, Cursed = 3001, Bleeding = 4000, Invincible = 5003, Burned = 8000
 }
 
 //////////////////////
@@ -146,7 +147,11 @@ class Entity:SKSpriteNode, Updatable {
     private struct StatusFactors {
         var movementMod:CGFloat = 1
         var atkMod:CGFloat = 1
+        var defMod:CGFloat = 1
+        var dexMod:CGFloat = 1
         var damageMod:CGFloat = 1
+        var healthRegenMod:CGFloat = 1
+        var manaRegenMod:CGFloat = 1
     }
     
     private var statusFactors = StatusFactors()
@@ -186,7 +191,7 @@ class Entity:SKSpriteNode, Updatable {
             }
             if let cond = p.statusCondition {
                 if (randomBetweenNumbers(0, secondNum: 1) <= cond.probability) {
-                    enableCondition(cond.condition)
+                    enableCondition(cond.condition, duration: cond.condition.rawValue)
                 }
             }
             let damage = getDamage(p.attack)
@@ -216,7 +221,7 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func getDamage(attack: CGFloat) -> CGFloat {
-        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense))) * statusFactors.damageMod
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense*statusFactors.defMod))) * statusFactors.damageMod
     }
     
     func getStats() -> Stats {
@@ -227,29 +232,50 @@ class Entity:SKSpriteNode, Updatable {
         
     }
     /////////////////////
-    func enableCondition(type:StatusCondition) {
+    func enableCondition(type:StatusCondition, duration:Double) { //TODO: finish status effects
         if (condition == nil) {
             removeAllPopups()
             condition = (type, type.rawValue)
             switch (type) {
-                case .Confused:
-                    addPopup(UIColor.greenColor(), text: "CONFUSED")
-                    statusFactors.movementMod = -1
-                    //some kind of animation
-                case .Stuck:
-                    addPopup(UIColor.yellowColor(), text: "STUCK")
-                    self.physicsBody?.velocity = CGVector.zero
-                    statusFactors.movementMod = 0
-                case .Weak:
-                    addPopup(UIColor.blueColor(), text: "WEAKENED")
-                    statusFactors.atkMod = 0.5
-                case .Poisoned:
-                    addPopup(UIColor.purpleColor(), text: "POISONED")
-                case .Bleeding: break
-                case .Invincible:
-                    statusFactors.damageMod = 0
-                    addPopup(UIColor.blueColor(), text: "INVINCIBLE")
-                default: break
+            case .Stuck:
+                addPopup(UIColor.yellowColor(), text: "STUCK")
+                self.physicsBody?.velocity = CGVector.zero
+                statusFactors.movementMod = 0
+            case .Confused:
+                addPopup(UIColor.greenColor(), text: "CONFUSED")
+                statusFactors.movementMod = -1
+            case .Weak:
+                addPopup(UIColor.blueColor(), text: "WEAKENED")
+                statusFactors.atkMod = 0.5
+            case .Poisoned:
+                addPopup(UIColor.purpleColor(), text: "POISONED")
+                statusFactors.healthRegenMod = -10
+            case .Blinded:
+                addPopup(UIColor.whiteColor(), text: "BLINDED") //probably unnecessary
+            case .Disturbed:
+                addPopup(UIColor.magentaColor(), text: "DISTURBED")
+                statusFactors.manaRegenMod = -10
+            case .Chilled:
+                addPopup(UIColor.cyanColor(), text: "CHILLED")
+                statusFactors.movementMod = 0.5
+            case .Cursed:
+                addPopup(UIColor.purpleColor(), text: "CURSED")
+            case .Bleeding:
+                addPopup(UIColor.redColor(), text: "BLEEDING")
+                statusFactors.atkMod = 0.5
+                statusFactors.defMod = 0.5
+                statusFactors.movementMod = 0.5
+                statusFactors.dexMod = 0.5
+                statusFactors.healthRegenMod = -5
+            case .Invincible:
+                statusFactors.damageMod = 0
+                addPopup(UIColor.blueColor(), text: "INVINCIBLE")
+                
+            case .Burned:
+                addPopup(UIColor.orangeColor(), text: "BURNED")
+                statusFactors.dexMod = 0.5
+                statusFactors.healthRegenMod = -10
+                statusFactors.manaRegenMod = 0
             }
         }
     }
@@ -307,21 +333,8 @@ class Entity:SKSpriteNode, Updatable {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
                 removeAllPopups()
-                switch (condition!.conditionType) {
-                case .Confused:
-                    statusFactors.movementMod = 1
-                    //some kind of animation
-                case .Stuck:
-                    addPopup(UIColor.greenColor(), text: "FREED")
-                    statusFactors.movementMod = 1
-                case .Weak:
-                    statusFactors.atkMod = 1
-                case .Poisoned:
-                    break
-                case .Invincible:
-                    statusFactors.damageMod = 1
-                default: break
-                }
+                addPopup(UIColor.greenColor(), text: "FREED")
+                statusFactors = StatusFactors()
                 condition = nil
             }
         }
@@ -432,7 +445,6 @@ class ThisCharacter: Entity {
         aCoder.encodeObject(level, forKey: PropertyKey.levelKey)
     }
     
-    ///collision handling
     override func adjustHealth(amount: CGFloat, withPopup: Bool) {
         super.adjustHealth(amount, withPopup: withPopup)
         var color:UIColor
@@ -474,7 +486,7 @@ class ThisCharacter: Entity {
     }
     
     override func getDamage(attack: CGFloat) -> CGFloat {
-        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense))) * statusFactors.damageMod
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense)*statusFactors.defMod)) * statusFactors.damageMod
     }
 
     override func die() {
@@ -486,6 +498,7 @@ class ThisCharacter: Entity {
         stats.health = stats.maxHealth
         stats.mana = stats.maxMana
         condition = nil
+        statusFactors = StatusFactors()
         pointers.removeAllChildren()
         removeAllPopups()
         removeAllActions()
@@ -526,7 +539,12 @@ class ThisCharacter: Entity {
         }
         //add to kills
     }
-
+    override func enableCondition(type: StatusCondition, duration: Double) {
+        if (type != armor?.protectsAgainst) {
+            super.enableCondition(type, duration: duration)
+        }
+    }
+    
     func consumeItem(c:Consumable) {
         stats = stats + c.statMods
         stats.capAt(StatLimits.BASE_STAT_MAX)
@@ -541,12 +559,15 @@ class ThisCharacter: Entity {
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
             (self.scene as! InGameScene).addObject(weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withVelocity: withVelocity, isFriendly: true))
+            if (condition?.conditionType == .Cursed) {
+                adjustHealth(-0.01*stats.maxHealth, withPopup: true)
+            }
         }
     }
     
     @objc func useSkill(sender:UIButton) {
         if let skill = skill {
-            if (stats.mana >= skill.mana) {
+            if (stats.mana >= skill.mana && condition?.conditionType != .Disturbed) {
                 skill.execute(self)
                 adjustMana(-skill.mana)
                 if (skill.mana > stats.mana) {
@@ -567,8 +588,8 @@ class ThisCharacter: Entity {
         super.update(deltaT)
         if (statRegenTimeElapsed >= statRegenInterval) {
             statRegenTimeElapsed = 0
-            adjustHealth(0.005*stats.maxHealth, withPopup: false)
-            adjustMana(0.01*stats.maxMana)
+            adjustHealth(0.005*stats.maxHealth*statusFactors.healthRegenMod, withPopup: false)
+            adjustMana(0.01*stats.maxMana*statusFactors.manaRegenMod)
             if (skill != nil && skill!.mana <= stats.mana) { 
                 UIElements.SkillButton.setEnabledTo(true)
             }
@@ -579,7 +600,7 @@ class ThisCharacter: Entity {
         
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
-            if (timeSinceProjectile > 500-0.4*Double(stats.dexterity+inventory.stats.dexterity) && weapon != nil) {
+            if (timeSinceProjectile > 500-0.4*Double((stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod) && weapon != nil) {
                 fireProjectile(UIElements.RightJoystick!.normalDisplacement)
                 timeSinceProjectile = 0
             }

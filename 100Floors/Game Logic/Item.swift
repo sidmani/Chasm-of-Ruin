@@ -24,7 +24,7 @@ class Item:NSObject, NSCoding, Purchasable {
         "Enhancer":Enhancer.self
     ]
 
-    let statMods:Stats
+    var statMods:Stats
     let name:String
     let desc:String
     let img: String
@@ -37,13 +37,13 @@ class Item:NSObject, NSCoding, Purchasable {
         fatalError()
     }
     
-    init(statMods:Stats, name:String, description:String, img:String, priceCrystals:Int?, priceCoins:Int?, designatedCurrencyType:CurrencyType?) {
+    init(statMods:Stats, name:String, description:String, img:String, priceCrystals:Int, priceCoins:Int, designatedCurrencyType:CurrencyType?) {
         self.statMods = statMods
         self.desc = description
         self.name = name
         self.img = img
-        self.priceCoins = priceCoins
-        self.priceCrystals = priceCrystals
+        self.priceCoins = (priceCoins < 0 ? nil : priceCoins)
+        self.priceCrystals = (priceCrystals < 0 ? nil : priceCrystals)
         self.designatedCurrencyType = designatedCurrencyType
     }
     
@@ -149,9 +149,7 @@ class Item:NSObject, NSCoding, Purchasable {
 }
 
 class Armor: Item {
-    //protects against certain status effects
     let protectsAgainst:StatusCondition?
-    
     required init(fromBase64: String) {
         //statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType, statusCondition rawval
         let optArr = fromBase64.splitBase64IntoArray()
@@ -199,12 +197,11 @@ class Enhancer: Item {
 class Consumable: Item {
     let permanent:Bool
     required init(fromBase64:String) {
-        //permanent, statMods, name, desc, img, priceCrystal, priceCoin, currencyType
+        //permanent, statMods, name, img, priceCrystal, priceCoin, currencyType
         let optArr = fromBase64.splitBase64IntoArray()
         permanent = optArr[0] == "true"
-        super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: optArr[3], img: optArr[4], priceCrystals: Int(optArr[5])!, priceCoins: Int(optArr[6])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[7])!))
+        super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: "", img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
     }
-    
     //NSCoding
     private struct PropertyKey {
         static let permanentKey = "permanent"
@@ -220,6 +217,10 @@ class Consumable: Item {
     override func getType() -> String {
         return "Consumable"
     }
+}
+
+class TemporaryBoostConsumable: Item {
+    
 }
 
 class Usable:Item {
@@ -251,9 +252,9 @@ class Usable:Item {
 
 class Sellable:Item {
     required init(fromBase64:String) {
-        //name, desc, img, priceCoin
+        //name, img, priceCoin
         let optArr = fromBase64.splitBase64IntoArray()
-        super.init(statMods: Stats.nilStats, name: optArr[0], description: optArr[1], img: optArr[2], priceCrystals: 0, priceCoins: Int(optArr[3])!, designatedCurrencyType: CurrencyType.Coin)
+        super.init(statMods: Stats.nilStats, name: optArr[0], description: "Worth: \(optArr[2]) Coins", img: optArr[1], priceCrystals: 0, priceCoins: Int(optArr[2])!, designatedCurrencyType: CurrencyType.Coin)
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

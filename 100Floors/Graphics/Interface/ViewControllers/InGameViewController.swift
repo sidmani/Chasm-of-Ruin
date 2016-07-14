@@ -180,7 +180,7 @@ class InGameViewController: UIViewController {
     }
     
     @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) {
-        thisCharacter.enableCondition(.Invincible)
+        thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
         returnedFromOtherViewController()
     }
     

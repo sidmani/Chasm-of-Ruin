@@ -74,7 +74,7 @@ class Scroll:Skill {
         for enemy in (character.scene! as! InGameScene).enemiesOnScreen() {
             enemy.runEffect(effect, completion: {[unowned self] in
                 if (randomBetweenNumbers(0, secondNum: 1) < self.statusProbability) {
-                    enemy.enableCondition(self.statusEffect)
+                    enemy.enableCondition(self.statusEffect, duration: self.statusEffect.rawValue)
                 }
                 //enemy.adjustHealth(self.damagePercent * enemy.getStats().maxHealth, withPopup: true)
                 enemy.adjustHealth(-enemy.getDamage(character.getStats().attack + self.attack), withPopup: true)
