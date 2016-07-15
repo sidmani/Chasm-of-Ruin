@@ -54,20 +54,24 @@ class Item:NSObject, Purchasable {
         let thisItem = itemXML.root["item"].allWithAttributes(["id":withID])!.first!
         return ItemTypeDict[thisItem.attributes["type"]!]!.init(fromBase64: thisItem.stringValue, id:withID)
     }
+    
     func getType() -> String {
         return ""
     }
+    
+    func getMaxStat() -> CGFloat {
+        return statMods.toSwiftArray().maxElement()!
+    }
+
 }
 
- class Weapon: Item {
+class Weapon: Item {
     
-    lazy var projectile:SKTexture = {[unowned self] in
-        return defaultLevelHandler.getCurrentLevelAtlas().textureNamed(self.projectileName)
-    }()
+    var projectile:SKTexture!
     private let range:CGFloat
     let projectileName:String
     let projectileReflects:Bool
-    var statusCondition:(condition:StatusCondition,probability:CGFloat)? = nil
+    var statusCondition:(condition:StatusCondition, probability:CGFloat)? = nil
     var angles:[CGFloat] = []
     required init(fromBase64:String, id:String) {
         let optArr = fromBase64.splitBase64IntoArray("|")
@@ -81,28 +85,36 @@ class Item:NSObject, Purchasable {
         let numProjectiles = Int(optArr[1])!
         if (numProjectiles % 2 == 0) {
             for i in 0..<numProjectiles/2 {
-                angles.append(CGFloat(i)*CGFloat(M_PI_4/4))
-                angles.append(-1 * CGFloat(i)*CGFloat(M_PI_4/4))
+                angles.append(CGFloat(i+1)*CGFloat(M_PI_4/4))
+                angles.append(-1 * CGFloat(i+1)*CGFloat(M_PI_4/4))
             }
+        }
+        else if (numProjectiles == 1){
+            angles.append(0)
         }
         else {
             angles.append(0)
             for i in 0..<numProjectiles/2 {
-                angles.append(CGFloat(i)*CGFloat(M_PI_4/2))
-                angles.append(-1 * CGFloat(i)*CGFloat(M_PI_4/2))
+                angles.append(CGFloat(i+1)*CGFloat(M_PI_4/2))
+                angles.append(-1 * CGFloat(i+1)*CGFloat(M_PI_4/2))
             }
         }
         super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9], priceCrystals: Int(optArr[10])!, priceCoins: Int(optArr[11])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[12])!), id: id)
-        
     }
         
     func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withAngle:CGFloat, withSpeed:CGFloat, isFriendly:Bool) -> [Projectile] {
         var out = [Projectile]()
         for angle in angles {
-            out.append(Projectile(fromTexture: projectile, fromPoint: fromPoint, withVelocity: withSpeed*CGVectorMake(cos(angle+withAngle), sin(angle+withAngle)), withAngle: withAngle, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition))
+            out.append(Projectile(fromTexture: projectile, fromPoint: fromPoint, withVelocity: withSpeed*CGVectorMake(cos(angle+withAngle), sin(angle+withAngle)), withAngle: angle+withAngle, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition))
         }
         return out
     }
+
+    func setTextureDict() {
+        projectile = defaultLevelHandler.getCurrentLevelAtlas().textureNamed(self.projectileName)
+
+    }
+    
     override func getType() -> String {
         return "Weapon"
     }

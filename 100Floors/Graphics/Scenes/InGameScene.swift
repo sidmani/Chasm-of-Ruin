@@ -42,6 +42,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     
     weak var currentGroundBag:ItemBag?
     
+    var character:ThisCharacter!
+    
     override func didMoveToView(view: SKView) {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         self.physicsWorld.contactDelegate = self
@@ -163,6 +165,9 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         camera!.position = newLoc
     }
 
+    func isTutorial() -> Bool {
+        return (currentLevel as? MapLevel)?.definition.mapName == "Tutorial"
+    }
     
     func setLevel(level:BaseLevel) {
         thisCharacter.hidden = true
@@ -174,13 +179,15 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         nonCharNodes.addChild(currentLevel!)
         thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
         thisCharacter.setTextureDict()
+        thisCharacter.reset()
         cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
-
         ///////////////////////////
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
         self.paused = false
-        NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.levelName)
+        if (!isTutorial()) {
+            NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.levelName)
+        }
     }
     
     func reloadLevel() {

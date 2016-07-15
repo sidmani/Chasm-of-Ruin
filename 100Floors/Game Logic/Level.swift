@@ -32,7 +32,7 @@ class BaseLevel:SKNode {
         static let PopUps:CGFloat = 20
         static let Lighting:CGFloat = 8
         static let MapAbovePlayer:CGFloat = 6
-        static let Projectiles:CGFloat = 4.5
+        static let Projectiles:CGFloat = 3.9
         static let Entity:CGFloat = 4.5 //range 4-4.5
         static let MapObjects:CGFloat = 4.5
         static let MapTop:CGFloat = 3

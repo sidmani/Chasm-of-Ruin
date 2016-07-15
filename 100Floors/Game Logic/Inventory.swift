@@ -150,6 +150,11 @@ class Inventory:NSObject, NSCoding {
         return newStats
     }
     
+    func setTextureDict() {
+        for item in inventory where item is Weapon {
+            (item as! Weapon).setTextureDict()
+        }
+    }       
     /////NSCoding
     private struct PropertyKey {
         static let inventoryArrKey = "inventory"

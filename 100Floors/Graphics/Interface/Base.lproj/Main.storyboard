@@ -361,7 +361,7 @@
                                     <constraint firstAttribute="height" constant="100" id="NRS-Ss-T4B"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="35" y="436" width="100" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Inventory"/>

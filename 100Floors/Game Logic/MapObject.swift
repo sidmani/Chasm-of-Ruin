@@ -325,7 +325,7 @@ class ItemBag:MapObject, Interactive {
     }
     
     var item:Item
-    
+    var popup:PopUp?
     init (withItem: Item, loc:CGPoint) {
         item = withItem
         super.init(loc: loc)
@@ -334,10 +334,33 @@ class ItemBag:MapObject, Interactive {
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.pinned = true
+        if let weapon = item as? Weapon {
+            weapon.setTextureDict()
+        }
+        let maxStat = item.getMaxStat()
+        var texture:SKTexture
+        if (maxStat < 30) {
+            texture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Sack0")
+        }
+        else if (maxStat < 60) {
+            texture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Sack1")
+        }
+        else {
+            texture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Sack2")
+        }
+        let node = SKSpriteNode(texture: texture)
+        node.setScale(0.5)
+        node.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - node.frame.height/2)
+        self.addChild(node)
+        popup = PopUp(image: thumbnailImg, size: CGSizeMake(8, 8), parent:self)
+        popup!.hidden = true
+        popup!.zPosition = BaseLevel.LayerDef.PopUps
+        self.addChild(popup!)
         self.runAction(SKAction.waitForDuration(20, withRange: 2), completion: {[unowned self] in
             self.removeAllChildren()
             self.removeFromParent()
         })
+        self.zPosition = 0
     }
         
     required init?(coder aDecoder: NSCoder) {
@@ -350,10 +373,10 @@ class ItemBag:MapObject, Interactive {
         
     func displayPopup(state:Bool) {
         if (state) {
-            addChild(PopUp(image: thumbnailImg, size: CGSizeMake(8, 8), parent:self))
+            self.popup?.hidden = false
         }
         else {
-            removeAllChildren()
+            self.popup?.hidden = true
         }
     }
     

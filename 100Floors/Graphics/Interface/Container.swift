@@ -125,7 +125,7 @@ class ItemContainer:Container {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        itemView.bounds = CGRectMake(5, self.bounds.height - 5, self.bounds.width-10, self.bounds.height-10)
+        itemView.bounds = CGRectMake(10, self.bounds.height - 10, self.bounds.width-20, self.bounds.height-20)
         itemView.userInteractionEnabled = false
         itemView.center = centerPoint
         itemView.contentMode = .ScaleAspectFit

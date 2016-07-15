@@ -53,6 +53,10 @@ struct Stats {
         return NSArray(array: [health,defense,attack,speed,dexterity,mana, maxHealth, maxMana])
     }
     
+    func toSwiftArray() -> [CGFloat] {
+        return [health,defense,attack,speed,dexterity,mana, maxHealth, maxMana]
+    }
+    
     mutating func capAt(maxVal:CGFloat) {
         for i in 0..<Stats.numStats {
             setIndex(i, toVal: min(getIndex(i), maxVal))
@@ -402,7 +406,8 @@ class ThisCharacter: Entity {
         super.setTextureDict(dict, beginTexture: "standing3")
         self.size = CGSizeMake(8, 8)
         SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "Heal1")], withCompletionHandler: {})
-        self.reset()
+        //self.reset()
+        inventory.setTextureDict()
     }
     
     convenience init(inventorySize:Int) {
@@ -552,6 +557,7 @@ class ThisCharacter: Entity {
     func consumeItem(c:Consumable) {
         stats = stats + c.statMods
         stats.capAt(StatLimits.BASE_STAT_MAX)
+        adjustHealth(0, withPopup: false)
         if (stats.health > stats.maxHealth) {
             stats.health = stats.maxHealth
         }

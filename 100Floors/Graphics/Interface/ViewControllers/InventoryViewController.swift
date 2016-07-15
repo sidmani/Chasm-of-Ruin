@@ -146,7 +146,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             else {
                 inventory.setItem(indexA, toItem: groundBag?.item)
-                groundBag?.setItemTo(nil)
+             //   groundBag?.setItemTo(nil)
+                groundBag?.removeFromParent()
                 groundBag = nil
             }
         }
@@ -199,6 +200,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         GlobalDEFProgressView.modifierLabel.text = (stats.defense == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.defense))")
         GlobalSPDProgressView.modifierLabel.text = (stats.speed == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.speed))")
         GlobalDEXProgressView.modifierLabel.text = (stats.dexterity == StatLimits.GLOBAL_STAT_MAX ? "MAX" : "\(Int(stats.dexterity))")
+        
     }
     
     func updateInfoDisplay() {

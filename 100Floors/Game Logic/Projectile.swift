@@ -61,7 +61,8 @@ class Projectile:SKSpriteNode, Updatable{
     
     func update(deltaT:Double) {
         distanceTraveled += CGFloat(deltaT/1000) * _speed
-       // self.zPosition = BaseLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
+        self.zPosition = BaseLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
+        //self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
         if (distanceTraveled > range) {
             removeFromParent()
         }
