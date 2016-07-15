@@ -111,8 +111,6 @@ class LevelContainer:Container {
             numberLabel.text = ""
         }
     }
-
-    
 }
 
 class ItemContainer:Container {
@@ -132,6 +130,7 @@ class ItemContainer:Container {
         itemView.center = centerPoint
         itemView.contentMode = .ScaleAspectFit
         itemView.layer.magnificationFilter = kCAFilterNearest
+        itemView.clipsToBounds = true
         ////////////////////////////
         numberLabel.text = ""
         numberLabel.textAlignment = .Right

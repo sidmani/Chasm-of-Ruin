@@ -125,7 +125,7 @@ enum StatusCondition:Double {
     // Weak - atk halved. x
     // Poisoned - lose hp every second. x
     // Blinded - (player -> cannot see enemies) (enemy -> cannot see player location)
-    // Disturbed - cannot use skill x
+    // Disturbed - player-> cannot use skill enemy-> 1/2 attacks failx
     // Chilled - speed halved x
     // Cursed - attack causes recoil damage x
     // Bleeding - same as poisoned, but stats drop by half x
@@ -365,7 +365,7 @@ class ThisCharacter: Entity {
     }
     let pointers = SKNode()
     private var timeSinceProjectile:Double = 0
-    var totalDamageInflicted:Int = 0
+    //var totalDamageInflicted:Int = 0
     //////////////
     //INIT
     init(withStats:Stats, withInventory:Inventory, withLevel:Int, withExp:Int)
@@ -411,6 +411,8 @@ class ThisCharacter: Entity {
         inventory.setItem(0, toItem: Item.initHandlerID("shield15"))
         inventory.setItem(1, toItem: Item.initHandlerID("cons11"))
         inventory.setItem(2, toItem: Item.initHandlerID("sell2"))
+        inventory.setItem(3, toItem: Item.initHandlerID("weapon17"))
+
      //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
@@ -461,7 +463,7 @@ class ThisCharacter: Entity {
             color = UIColor(red: 2-2*progress, green: 255, blue: 0, alpha: 1.0)
         }
         UIElements.HPBar.setProgress(color, progress: progress, animated: true)
-        UIElements.HPBar.label.text = "\(Int(stats.health))/\(Int(stats.maxHealth))"
+        UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
     }
     //////
     func adjustMana(amount:CGFloat) {
@@ -558,9 +560,9 @@ class ThisCharacter: Entity {
         }
     }
 
-    func fireProjectile(withVelocity:CGVector) {
+    func fireProjectile(withVelocity:CGVector, withSpeed:CGFloat) {
         if (weapon != nil) {
-            let projectiles = weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withVelocity: withVelocity, isFriendly: true)
+            let projectiles = weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withAngle: atan2(withVelocity.dy, withVelocity.dx), withSpeed: withSpeed, isFriendly: true)
             for projectile in projectiles {
                 (self.scene as! InGameScene).addObject(projectile)
             }
@@ -606,7 +608,7 @@ class ThisCharacter: Entity {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
             if (timeSinceProjectile > 500-0.4*Double((stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod) && weapon != nil) {
-                fireProjectile(UIElements.RightJoystick!.normalDisplacement)
+                fireProjectile(UIElements.RightJoystick!.normalDisplacement, withSpeed: (stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod/20 + 100)
                 timeSinceProjectile = 0
             }
             else if (weapon == nil && !didNotifyNilWeapon) {
@@ -673,7 +675,7 @@ class Enemy:Entity {
     }
         
     func fireProjectile(texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
-        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
+        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, withAngle: atan2(withVelocity.dy, withVelocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         (self.scene as? InGameScene)?.addObject(newProjectile)
     }
     
@@ -764,7 +766,7 @@ class DisplayEnemy:Enemy {
     }
     
     override func fireProjectile(texture: SKTexture, range: CGFloat, reflects: Bool, withVelocity: CGVector, status: (StatusCondition, CGFloat)?) {
-        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
+        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, withAngle: atan2(withVelocity.dy, withVelocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         parent?.addChild(newProjectile)
     }
     

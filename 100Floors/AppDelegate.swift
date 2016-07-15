@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }()
         SaveData.loadSaveGame()
+
         return true
     }
 

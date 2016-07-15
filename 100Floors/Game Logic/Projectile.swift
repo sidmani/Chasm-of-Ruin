@@ -15,7 +15,7 @@ class Projectile:SKSpriteNode, Updatable{
     private var distanceTraveled:CGFloat = 0
     var statusCondition:(condition:StatusCondition,probability:CGFloat)?
 
-    init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool = false, statusInflicted:(StatusCondition, CGFloat)? = nil) {
+    init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, withAngle:CGFloat, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool = false, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         let size = fromTexture.size()
         fromTexture.filteringMode = .Nearest
         range = withRange
@@ -24,12 +24,12 @@ class Projectile:SKSpriteNode, Updatable{
         
         self.statusCondition = statusInflicted
         super.init(texture: fromTexture, color: UIColor.clearColor(), size: size)
-        self.zRotation = atan2(withVelocity.dy, withVelocity.dx) + 5*CGFloat(M_PI_4)
+        self.zRotation = withAngle - CGFloat(M_PI_4)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 2)
         self.physicsBody?.friction = 0
         self.physicsBody?.velocity = withVelocity
         self.position = fromPoint
-        self.setScale(0.25)
+        self.setScale(0.5)
         if (isFriendly) {
             self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         }
@@ -47,7 +47,7 @@ class Projectile:SKSpriteNode, Updatable{
             self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
             self.physicsBody?.restitution = 0
         }
-        self.zPosition = BaseLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
+        self.zPosition = BaseLevel.LayerDef.Projectiles
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,7 +61,7 @@ class Projectile:SKSpriteNode, Updatable{
     
     func update(deltaT:Double) {
         distanceTraveled += CGFloat(deltaT/1000) * _speed
-        self.zPosition = BaseLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
+       // self.zPosition = BaseLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
         if (distanceTraveled > range) {
             removeFromParent()
         }

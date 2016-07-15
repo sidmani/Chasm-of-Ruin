@@ -14,6 +14,20 @@ import GameKit
 // char customization, if that's implemented
 // unlocked levels
 // money
+var thisCharacter:ThisCharacter {
+    return SaveData.currentSave!.character
+}
+var defaultLevelHandler:LevelHandler {
+    return SaveData.currentSave!.levelHandler
+}
+var defaultMoneyHandler:MoneyHandler! {
+    return SaveData.currentSave!.moneyHandler
+}
+var defaultPurchaseHandler:InternalPurchaseHandler! {
+    return SaveData.currentSave!.purchaseHandler
+}
+
+
 class SaveData:NSObject, NSCoding {
     static let SaveDir = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     static let SaveURL = SaveDir.URLByAppendingPathComponent("SaveGame")

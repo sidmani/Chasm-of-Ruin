@@ -39,8 +39,8 @@ struct EnemyDictionary {
                     RunAnimationSequence(animationName: "default"),
                    // FireProjectile(parent: parent, error: 0.5, rateOfFire: 400, projectileTexture: "ProjectileB5", projectileSpeed: 60, range: 40),
                    // FireNProjectilesAtEqualIntervals(parent: parent, numProjectiles: 10, projectileTexture: "ProjectileA5", rateOfFire: 500, projectileSpeed: 20, range: 50),
-                    FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "ProjectileB4", rateOfFire: 400, projectileSpeed: 35, range: 50),
-                    FireProjectilesInSpiral(numStreams: 1, offsetStep: 0.2, projectileTexture: "ProjectileA5", rateOfFire: 100, projectileSpeed: 30, range: 60),
+                    FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile9", rateOfFire: 400, projectileSpeed: 35, range: 50),
+                    FireProjectilesInSpiral(numStreams: 1, offsetStep: 0.2, projectileTexture: "projectile11", rateOfFire: 100, projectileSpeed: 30, range: 60),
                     MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                     Circle(triggerInsideOfDistance: 25, priority: 10)
                 ],
