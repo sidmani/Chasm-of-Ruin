@@ -2,10 +2,10 @@
 <enemies>
     <enemy id="e0" name="TargetDummy">
         <animation name="default" frames="4">TargetDummy</animation>
-        <stats>MTAsMTAsNTAwLDIwMCw1MDAsNTAwLDQwMCw0MDA=</stats>
+        <stats>MTB8MTB8NTAwfDIwMHw1MDB8NTAwfDQwMHw0MDA=</stats>
     </enemy>
     <enemy id="e1" name="SlimeSquareE">
         <animation name="default" frames="5">SlimeSquareE</animation>
-        <stats>MTUsNDAsMzAsMCw1MDAsNTAwLDAsMA==</stats>
+        <stats>MTV8NDB8MzB8MHw1MDB8NTAwfDB8MA==</stats>
     </enemy>
 </enemies>

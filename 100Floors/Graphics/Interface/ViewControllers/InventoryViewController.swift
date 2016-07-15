@@ -136,15 +136,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 let newBag = ItemBag(withItem: item, loc: thisCharacter.position)
                 groundBag = newBag
             }
-       //     else {
-       //         groundBag = nil // this should never happen
-       //     }
         }
         else if (indexB == -2) {
             if let item = inventory.getItem(indexA) {
-               // if (inventory.isEquipped(indexB)) { //?????
-               //     inventory.equipItem(indexB)
-               // }
                 inventory.setItem(indexA, toItem: groundBag?.item)
                 groundBag?.setItemTo(nil)
                 let newBag = ItemBag(withItem: item, loc: thisCharacter.position)
@@ -171,6 +165,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 thisCharacter.consumeItem(item as! Consumable)
                 inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
             }
+            else if (item is Sellable) {
+                defaultPurchaseHandler.sellPurchasable(item, withMoneyHandler: defaultMoneyHandler)
+                inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
+            }
             else {
                 if (inventory.equipItem(previousSelectedContainer!.correspondsToInventoryIndex)) {
                     EquipButton.setTitle("Unload", forState: .Normal)
@@ -181,6 +179,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
             selectCenterCell()
+            updateInfoDisplay()
             updatePermanentStatsDisplay()
         }
     }
@@ -251,6 +250,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     DescriptionLabel.alpha = 1
                     EquipButton.setTitle("Use", forState: .Normal)
                 }
+                else if (item is Sellable) {
+                    for view in StatsDisplay {
+                        view.alpha = 0
+                    }
+                    DescriptionLabel.alpha = 1
+                    EquipButton.setTitle("Sell", forState: .Normal)
+                }
                 else if (item is Weapon || item is Armor || item is Enhancer) {
                     HPProgressView.alpha = 0
                     ManaProgressView.alpha = 0
@@ -259,23 +265,27 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     SPDProgressView.alpha = 1
                     DEXProgressView.alpha = 1
                     DescriptionLabel.alpha = 1
+                    if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
+                        EquipButton.setTitle("Unload", forState: .Normal)
+                    }
+                    else {
+                        EquipButton.setTitle("Equip", forState: .Normal)
+                    }
                 }
                 else if item is Skill {
                     for view in StatsDisplay {
                         view.alpha = 0
                     }
                     DescriptionLabel.alpha = 1
+                    if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
+                        EquipButton.setTitle("Unload", forState: .Normal)
+                    }
+                    else {
+                        EquipButton.setTitle("Equip", forState: .Normal)
+                    }
                 }
                 
                 DescriptionLabel.text = item.desc
-                
-                
-                if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
-                    EquipButton.setTitle("Unload", forState: .Normal)
-                }
-                else {
-                    EquipButton.setTitle("Equip", forState: .Normal)
-                }
                 
                 EquipButton.enabled = true
                 EquipButton.alpha = 1
@@ -367,6 +377,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             else {
                 cell.itemView.hidden = true
             }
+        
             cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
             cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
             if (indexPath.item == 0 && previousSelectedContainer == nil) {
@@ -377,6 +388,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             else {
                 cell.setSelectedTo(false)
             }
+           
             return cell
         }
     }

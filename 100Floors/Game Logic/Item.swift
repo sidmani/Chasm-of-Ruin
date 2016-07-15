@@ -21,7 +21,9 @@ class Item:NSObject, NSCoding, Purchasable {
         "Consumable":Consumable.self,
         "Skill":Skill.self,
         "Armor":Armor.self,
-        "Enhancer":Enhancer.self
+        "Enhancer":Enhancer.self,
+        "Sellable":Sellable.self,
+        "Usable":Usable.self
     ]
 
     var statMods:Stats
@@ -96,23 +98,42 @@ class Item:NSObject, NSCoding, Purchasable {
     let projectileSpeed:CGFloat
     let projectileReflects:Bool
     var statusCondition:(condition:StatusCondition,probability:CGFloat)? = nil
-    
+    var angles:[CGFloat] = []
     required init(fromBase64:String) {
-        let optArr = fromBase64.splitBase64IntoArray()
-        // "projectile name, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType"
+        let optArr = fromBase64.splitBase64IntoArray("|")
+        // "projectile name, # projectiles, range, projectile speed, projectile reflects, status condition, probability, statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType"
         projectile = optArr[0]
-        range = CGFloat(s: optArr[1])
-        projectileSpeed = CGFloat(s: optArr[2])
-        projectileReflects = optArr[3] == "true"
-        if let cond = StatusCondition(rawValue: Double(optArr[4])!) {
-            statusCondition = (cond, CGFloat(s:optArr[5]))
+        range = CGFloat(optArr[2])
+        projectileSpeed = CGFloat(optArr[3])
+        projectileReflects = optArr[4] == "TRUE"
+        if let cond = StatusCondition(rawValue: Double(optArr[5])!) {
+            statusCondition = (cond, CGFloat(optArr[6]))
         }
-        super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9], priceCrystals: Int(optArr[10])!, priceCoins: Int(optArr[11])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[12])!))
+        
+        let numProjectiles = Int(optArr[1])!
+        if (numProjectiles % 2 == 0) {
+            for i in 0..<numProjectiles/2 {
+                angles.append(CGFloat(i)*CGFloat(M_PI_4/4))
+                angles.append(-1 * CGFloat(i)*CGFloat(M_PI_4/4))
+            }
+        }
+        else {
+            angles.append(0)
+            for i in 0..<numProjectiles/2 {
+                angles.append(CGFloat(i)*CGFloat(M_PI_4/2))
+                angles.append(-1 * CGFloat(i)*CGFloat(M_PI_4/2))
+            }
+        }
+        super.init(statMods: Stats.statsFrom(optArr[7]), name: optArr[8], description: optArr[9], img: optArr[10], priceCrystals: Int(optArr[11])!, priceCoins: Int(optArr[12])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[13])!))
         
     }
         
-    func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> Projectile {
-        return Projectile(fromTexture: defaultLevelHandler.getCurrentLevelAtlas().textureNamed(projectile), fromPoint: fromPoint, withVelocity: projectileSpeed * withVelocity, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition)
+    func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withVelocity:CGVector, isFriendly:Bool) -> [Projectile] {
+        var out = [Projectile]()
+        for angle in angles {
+            out.append(Projectile(fromTexture: defaultLevelHandler.getCurrentLevelAtlas().textureNamed(projectile), fromPoint: fromPoint, withVelocity: projectileSpeed * CGVectorMake(cos(angle)*withVelocity.dx, sin(angle*withVelocity.dy)), isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition))
+        }
+        return out
     }
     
     //NSCoding
@@ -123,6 +144,7 @@ class Item:NSObject, NSCoding, Purchasable {
         static let projectileReflectsKey = "projectileReflects"
         static let statusConditionKey = "statCond"
         static let statusConditionProbKey = "statCondProb"
+        static let angleKey = "angles"
     }
     required init?(coder aDecoder: NSCoder) {
         projectile = aDecoder.decodeObjectForKey(PropertyKey.projectileKey) as! String
@@ -132,6 +154,7 @@ class Item:NSObject, NSCoding, Purchasable {
         if let val = aDecoder.decodeObjectForKey(PropertyKey.statusConditionKey) as? Double, prob = aDecoder.decodeObjectForKey(PropertyKey.statusConditionProbKey) as? CGFloat {
             statusCondition = (StatusCondition(rawValue: val)!, prob)
         }
+        angles = aDecoder.decodeObjectForKey(PropertyKey.angleKey) as! [CGFloat]
         super.init(coder: aDecoder)
     }
     override func encodeWithCoder(aCoder: NSCoder) {
@@ -141,6 +164,7 @@ class Item:NSObject, NSCoding, Purchasable {
         aCoder.encodeObject(projectileReflects, forKey:PropertyKey.projectileReflectsKey)
         aCoder.encodeObject(statusCondition?.condition.rawValue, forKey:PropertyKey.statusConditionKey)
         aCoder.encodeObject(statusCondition?.probability, forKey:PropertyKey.statusConditionProbKey)
+        aCoder.encodeObject(angles, forKey: PropertyKey.angleKey)
         super.encodeWithCoder(aCoder)
     }
     override func getType() -> String {
@@ -152,8 +176,8 @@ class Armor: Item {
     let protectsAgainst:StatusCondition?
     required init(fromBase64: String) {
         //statMod in b64, name, desc, img, priceCrystal, priceCoin, currencyType, statusCondition rawval
-        let optArr = fromBase64.splitBase64IntoArray()
-        protectsAgainst = StatusCondition(rawValue: Double(optArr[7])!)!
+        let optArr = fromBase64.splitBase64IntoArray("|")
+        protectsAgainst = StatusCondition(rawValue: Double(optArr[7])!)
         super.init(statMods: Stats.statsFrom(optArr[0]), name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
     }
     
@@ -184,7 +208,7 @@ class Enhancer: Item {
     }
     required init(fromBase64: String) {
         //statMods, name, desc, img, priceCrystal, priceCoin, currencyType
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray("|")
         super.init(statMods: Stats.statsFrom(optArr[0]), name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
 
     }
@@ -198,8 +222,8 @@ class Consumable: Item {
     let permanent:Bool
     required init(fromBase64:String) {
         //permanent, statMods, name, img, priceCrystal, priceCoin, currencyType
-        let optArr = fromBase64.splitBase64IntoArray()
-        permanent = optArr[0] == "true"
+        let optArr = fromBase64.splitBase64IntoArray("|")
+        permanent = optArr[0] == "TRUE"
         super.init(statMods: Stats.statsFrom(optArr[1]), name: optArr[2], description: "", img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
     }
     //NSCoding
@@ -227,7 +251,7 @@ class Usable:Item {
     let eventKey:String
     required init(fromBase64: String) {
         //eventKey, name, desc, img, priceCrystal
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray("|")
         eventKey = optArr[0]
         super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: 0, designatedCurrencyType: CurrencyType.ChasmCrystal)
     }
@@ -253,7 +277,7 @@ class Usable:Item {
 class Sellable:Item {
     required init(fromBase64:String) {
         //name, img, priceCoin
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray("|")
         super.init(statMods: Stats.nilStats, name: optArr[0], description: "Worth: \(optArr[2]) Coins", img: optArr[1], priceCrystals: 0, priceCoins: Int(optArr[2])!, designatedCurrencyType: CurrencyType.Coin)
     }
     required init?(coder aDecoder: NSCoder) {

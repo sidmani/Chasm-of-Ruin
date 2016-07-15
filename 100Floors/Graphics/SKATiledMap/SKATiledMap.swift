@@ -629,7 +629,7 @@ class SKATiledMap : SKNode{
                                     
                                     sprite.properties = mapTile.properties
                                     if let speedMod = sprite.properties?["SpeedMod"] as? String {
-                                        sprite.speedMod = CGFloat(s:speedMod)
+                                        sprite.speedMod = CGFloat(speedMod)
                                     }
                                     //creating collision body if special SKACollision type is set
                                     if  let properties = sprite.properties{

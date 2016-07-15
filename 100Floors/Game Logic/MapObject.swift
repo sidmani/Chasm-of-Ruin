@@ -32,8 +32,8 @@ extension String {
         return NSString(data: decodedData!, encoding: NSUTF8StringEncoding)! as String
     }
     
-    func splitBase64IntoArray() -> [String] {
-        return self.base64Decoded().componentsSeparatedByString(",")
+    func splitBase64IntoArray(separator:String) -> [String] {
+        return self.base64Decoded().componentsSeparatedByString(separator)
     }
 }
 
@@ -107,7 +107,7 @@ class Spawner:MapObject, Updatable, Activate {
         // initalize drops
         if let enemyDrops =  thisEnemy["drop"].all {
             for drop in enemyDrops {
-                drops.append(Enemy.Drop(type: drop.attributes["type"]!, chance: CGFloat(s: drop.attributes["chance"]!), data: drop.stringValue))
+                drops.append(Enemy.Drop(type: drop.attributes["type"]!, chance: CGFloat(drop.attributes["chance"]!), data: drop.stringValue))
             }
         }
         
@@ -153,12 +153,12 @@ class ConstantRateSpawner:Spawner {
     }
     convenience init(fromBase64:String, loc:CGPoint) {
         // "enemyID, threshold, rate"
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         if (optArr.count != 3) {
             fatalError()
         }
         let enemyID = optArr[0]
-        let threshold = CGFloat(s:optArr[1])
+        let threshold = CGFloat(optArr[1])
         let rate = Double(optArr[2])!
         self.init(loc:loc, withEnemyID: enemyID, threshold: threshold, rate: rate)
     }
@@ -193,12 +193,12 @@ class FixedNumSpawner:Spawner {
     
     convenience init(fromBase64:String, loc:CGPoint) {
         // "enemyID, threshold, rate, maxNumEnemies"
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         if (optArr.count != 4) {
             fatalError()
         }
         let enemyID = optArr[0]
-        let threshold = CGFloat(s:optArr[1])
+        let threshold = CGFloat(optArr[1])
         let rate = Double(optArr[2])!
         let maxNumEnemies = Int(optArr[3])!
         self.init(loc:loc, withEnemyID: enemyID, threshold: threshold, rate: rate, maxNumEnemies: maxNumEnemies)
@@ -207,8 +207,10 @@ class FixedNumSpawner:Spawner {
 
     override func update(deltaT: Double) {
         if (playerIsWithinRadius && currNumOfEnemies < maxNumOfEnemies && elapsedTime > rateOfSpawning) {
-            let newEnemy = Enemy(name: enemyID, textureDict: enemyTextureDict, beginTexture: beginTexture, drops: drops, stats: stats, atPosition: self.position, spawnedFrom: self)
-            (self.scene as! InGameScene).addObject(newEnemy)
+            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) { //TODO: fix concurrency
+                let newEnemy = Enemy(name: self.enemyID, textureDict: self.enemyTextureDict, beginTexture: self.beginTexture, drops: self.drops, stats: self.stats, atPosition: self.position, spawnedFrom: self)
+                (self.scene as! InGameScene).addObject(newEnemy)
+            }
             currNumOfEnemies += 1
             elapsedTime = 0
         }
@@ -235,12 +237,12 @@ class OneTimeSpawner:Spawner {
     
     convenience init(fromBase64:String, loc:CGPoint) {
         // "enemyID, threshold"
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         if (optArr.count != 2) {
             fatalError()
         }
         let enemyID = optArr[0]
-        let threshold = CGFloat(s:optArr[1])
+        let threshold = CGFloat(optArr[1])
         self.init(loc:loc, withEnemyID: enemyID, threshold: threshold)
     }
     
@@ -281,7 +283,7 @@ class Portal:MapObject, Interactive {
     
     convenience init(fromBase64:String, loc:CGPoint) {
         // "destination_index, autotrigger, endsLevel"
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         if (optArr.count != 3) {
             fatalError()
         }
@@ -370,9 +372,9 @@ class InfoDisplay:MapObject, Activate {
     private let triggerDistance:CGFloat
 
     init (fromBase64:String, loc:CGPoint) {
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         infoToDisplay = optArr[0]
-        triggerDistance = CGFloat(s: optArr[1])
+        triggerDistance = CGFloat(optArr[1])
         super.init(loc: loc)
         physicsBody = SKPhysicsBody(circleOfRadius: triggerDistance)
         physicsBody!.pinned = true
@@ -401,12 +403,12 @@ class Trap:MapObject, Activate {
     
     init(fromBase64:String, loc:CGPoint) {
         //texture name, damage, trigger distance, side effect rawvalue
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         node = SKSpriteNode(imageNamed: optArr[0])
         node.texture?.filteringMode = .Nearest
         node.hidden = true
-        damage = CGFloat(s:optArr[1])
-        triggerDistance = CGFloat(s:optArr[2])
+        damage = CGFloat(optArr[1])
+        triggerDistance = CGFloat(optArr[2])
         statusInflicted = StatusCondition(rawValue: Double(optArr[3])!)
         super.init(loc: loc)
         self.addChild(node)
@@ -456,7 +458,7 @@ class Gate:UsableItemResponder {
     private let node:SKSpriteNode
     init (fromBase64:String, loc:CGPoint) {
         // texture name, event key
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray(",")
         node = SKSpriteNode(imageNamed: optArr[0])
         super.init(loc: loc, eventKey: optArr[1])
         self.addChild(node)

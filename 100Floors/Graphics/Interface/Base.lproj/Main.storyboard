@@ -570,7 +570,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcP-la-qV6" userLabel="ItemInfo">
                                         <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-lQ-SdJ">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-lQ-SdJ">
                                                 <rect key="frame" x="10" y="0.0" width="42" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -611,7 +611,8 @@
                                             <constraint firstAttribute="bottom" secondItem="BDp-lX-aON" secondAttribute="bottom" id="2sr-Zt-kwW"/>
                                             <constraint firstItem="yI7-lQ-SdJ" firstAttribute="leading" secondItem="Dnp-YS-FyF" secondAttribute="trailing" constant="10" id="ELZ-fO-bVS"/>
                                             <constraint firstItem="yI7-lQ-SdJ" firstAttribute="top" secondItem="BDp-lX-aON" secondAttribute="top" id="Exa-p4-4Y6"/>
-                                            <constraint firstItem="Dnp-YS-FyF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yI7-lQ-SdJ" secondAttribute="trailing" constant="10" id="F02-lo-X8b"/>
+                                            <constraint firstItem="Dnp-YS-FyF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yI7-lQ-SdJ" secondAttribute="trailing" constant="5" id="F02-lo-X8b"/>
+                                            <constraint firstItem="yI7-lQ-SdJ" firstAttribute="top" secondItem="gcP-la-qV6" secondAttribute="top" id="Uvo-t1-dB5"/>
                                             <constraint firstAttribute="trailing" secondItem="BDp-lX-aON" secondAttribute="trailing" id="XGM-QP-GTu"/>
                                             <constraint firstItem="BDp-lX-aON" firstAttribute="leading" secondItem="gcP-la-qV6" secondAttribute="leading" id="czz-Sk-y41"/>
                                             <constraint firstItem="BDp-lX-aON" firstAttribute="top" secondItem="gcP-la-qV6" secondAttribute="top" id="xdv-No-9dn"/>
@@ -1384,7 +1385,7 @@
                                 </constraints>
                                 <state key="normal" image="Revive"/>
                                 <connections>
-                                    <segue destination="L2j-0g-cSK" kind="unwind" identifier="revive" unwindAction="defeatSelectedRevive:" id="urB-PU-s5t"/>
+                                    <action selector="revivePressed:" destination="wSz-S2-3r0" eventType="touchUpInside" id="5qK-7E-ZYB"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1405,6 +1406,9 @@
                             <constraint firstItem="Q8Z-2c-3ld" firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="width" id="ynR-Pn-Qfq"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="L2j-0g-cSK" kind="unwind" identifier="revive" unwindAction="defeatSelectedRevive:" id="Pcx-lY-mbL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MAS-OS-Enc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="L2j-0g-cSK" userLabel="Exit" sceneMemberID="exit"/>

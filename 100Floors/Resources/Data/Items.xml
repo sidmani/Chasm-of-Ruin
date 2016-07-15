@@ -1,4 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-    <item id="wep1" type="Weapon">UHJvamVjdGlsZUEwLDUwLDIwMCxmYWxzZSwyMDAwLDAuNSxOREFzT1RBc05UQXNPVEFzTUN3d0xEQXNNQT09LERyYWdvbnN3b3JkLGRlc2Msd2VhcG9uMCwxMCwxMCww</item>
+    <item id="shield7" type="Armor">TjN3d2ZEQjhNSHd3ZkRCOE1Id3d8Um9jayBTaGllbGR8QSBjb252ZW5pZW50bHkgc2hhcGVkIHJvY2sufHNoaWVsZDd8LTV8NXwxfDA=</item>
+    <item id="shield6" type="Armor">TVRKOE1Id3lmREY4TUh3d2ZEQjhNQT09fFJ1c3RlZCBTYXVjZXJ8U29tZSBzb3J0IG9mIG9sZCB1dGVuc2lsOyBpdCBhcHBlYXJzIHRvIGJsb2NrIHByb2plY3RpbGVzLnxzaGllbGQ2fC01fDEwfDF8MA==</item>
+    <item id="shield5" type="Armor">TVRWOE5IdzFmRFY4TUh3d2ZEQjhNQT09fENvcnJvZGVkIFNoaWVsZHxBIHNoaWVsZCB0aGF0IGhhcyBzZWVuIGJldHRlciBkYXlzLnxzaGllbGQ1fC01fDE1fDF8MA==</item>
+    <item id="shield23" type="Armor">TVRsOE1IdzJmRGQ4TUh3d2ZEQjhNQT09fE9sZCBTaGllbGR8QW4gYW5jaWVudCB3YXJyaW9yIHVzZWQgdGhpcyBvbmNlLWdyZWF0IHNoaWVsZC58c2hpZWxkMjN8LTV8MzB8MXww</item>
+    <item id="shield0" type="Armor">TWpSOE1IdzVmRFY4TUh3d2ZEQjhNQT09fFN0dXJkeSBTaGllbGR8QSBzdHJvbmcgc2hpZWxkLiBCbG9ja3M6IFN0dWNrLnxzaGllbGQwfC01fDQ1fDF8MjAwMA==</item>
+    <item id="shield22" type="Armor">TWpOOE9Id3hNSHcyZkRCOE1Id3dmREE9fFJlaW5mb3JjZWQgU2hpZWxkfEEgZmlybSwgbW9kZXJuIHNoaWVsZC58c2hpZWxkMjJ8LTV8NjB8MXww</item>
+    <item id="shield8" type="Armor">TXpCOE1UVjhNVEo4TVRCOE1Id3dmREI4TUE9PXxTcGlrZWQgU2hpZWxkfFRoZSBiZXN0IGRlZmVuc2UgaXMgYSBnb29kIG9mZmVuc2UuIEJsb2NrczogV2Vhay58c2hpZWxkOHwtNXwxMDB8MXw1MDAw</item>
+    <item id="shield14" type="Armor">TXpGOE1UQjhNVE44TVRWOE1Id3dmREI4TUE9PXxEYXJrIFNoaWVsZHxBIHNoaWVsZCBpbWJ1ZWQgd2l0aCBhcmNhbmUgcG93ZXIuIEJsb2NrczogQ3Vyc2VkLnxzaGllbGQxNHwtNXwxNTB8MXwzMDAx</item>
+    <item id="shield10" type="Armor">TkRKOE1qaDhNakI4TWpWOE1Id3dmREI4TUE9PXxTaGluaW5nIFNoaWVsZHxBIGhpZ2hseSByZWZsZWN0aXZlIHNoaWVsZC4gQmxvY2tzOiBCbGluZGVkLnxzaGllbGQxMHwxNXwtNXwwfDE1MDA=</item>
+    <item id="shield15" type="Armor">TkRCOE16TjhNako4TWpaOE1Id3dmREI4TUE9PXxDcnlzdGFsIFNoaWVsZHxBIHNoaWVsZCBjdXQgZnJvbSBjcnlzdGFsLnxzaGllbGQxNXwyNXwtNXwwfDA=</item>
+    <item id="shield17" type="Armor">TkRGOE1UaDhNakY4TXpaOE1Id3dmREI4TUE9PXxFbWJsZW0gU2hpZWxkfEEgc2hpZWxkIHdpdGggdGhlIGVtYmxlbSBvZiBhIGxvbmctZGVhZCBjbGFuLnxzaGllbGQxN3wzMHwtNXwwfDA=</item>
+    <item id="shield27" type="Armor">TlRaOE1UWjhNamQ4TWpsOE1Id3dmREI4TUE9PXxTdGFpbmxlc3MgU2hpZWxkfEEgbW9kZXJuIHN0ZWVsIHNoaWVsZC58c2hpZWxkMjd8MzV8LTV8MHww</item>
+    <item id="shield1" type="Armor">TmpoOE1qSjhNekI4TXpWOE1Id3dmREI4TUE9PXxIb2x5IFNoaWVsZHxBIHNoaWVsZCBmb3JnZWQgYnkgYSBsZXNzZXIgZ29kLiBCbG9ja3M6IEN1cnNlZC58c2hpZWxkMXw1MHwtNXwwfDMwMDE=</item>
+    <item id="shield19" type="Armor">TmpSOE1qVjhNelY4TkRCOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgU3Vydml2YWx8VGhpcyBzaGllbGQgcHJvdGVjdGVkIG1hbnkgZ3JlYXQgd2FycmlvcnMuICBCbG9ja3M6IFBvaXNvbmVkLnxzaGllbGQxOXw1MHwtNXwwfDEwMDAw</item>
+    <item id="shield26" type="Armor">TmpkOE16QjhOREI4TkROOE1Id3dmREI4TUE9PXxCbGVzc2VkIFNoaWVsZHxBIHNoaWVsZCB0aGF0IGlzIHNhaWQgdG8gaGF2ZSBwcm90ZWN0aXZlIGVuY2hhbnRtZW50cy4gQmxvY2tzOiBDdXJzZWQufHNoaWVsZDI2fDYwfC01fDB8MzAwMQ==</item>
+    <item id="shield2" type="Armor">TnpWOE1qQjhNakI4TmpWOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgUXVpY2sgRmluZ2Vyc3xHaXZlcyB0aGUgd2VhcmVyIGltbWVuc2UgZGV4dGVyaXR5LiBCbG9ja3M6IEJ1cm5lZHxzaGllbGQyfDc1fC01fDB8ODAwMA==</item>
+    <item id="shield3" type="Armor">TnpWOE5qVjhNakI4TWpCOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgRGVzdHJ1Y3Rpb258Q2hhbm5lbHMgcmFnZSBpbnRvIHRoZSB1c2VyJ3MgYXR0YWNrcy4gIEJsb2NrczogV2Vhay58c2hpZWxkM3w3NXwtNXwwfDUwMDA=</item>
+    <item id="shield4" type="Armor">TnpWOE1qQjhOalY4TWpCOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgSGlnaCBWZWxvY2l0eXxUaGlzIHNoaWVsZCBpcyBwcm9wZWxsZWQgYnkgd2luZCBzcGlyaXRzLiAgQmxvY2tzOiBDaGlsbGVkLnxzaGllbGQ0fDc1fC01fDB8NTAwMg==</item>
+    <item id="shield13" type="Armor">TnpsOE16VjhORFo4TkRWOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgRGl2aW5lIFByb3RlY3Rpb258QSBzaGllbGQgY3JlYXRlZCBieSBhIGRpdmluZSBiZWluZy4gQmxvY2tzOiBDdXJzZWQufHNoaWVsZDEzfDkwfC01fDB8MzAwMQ==</item>
+    <item id="shield18" type="Armor">TnpaOE16aDhOREY4TlRSOE1Id3dmREI4TUE9PXxDcnlwdCBTaGllbGR8QSBzaGllbGQgcmVjb3ZlcmVkIGZyb20gYSBraW5nJ3MgZ3JhdmUuIEJsb2NrczogQmxlZWRpbmcufHNoaWVsZDE4fDEyMHwtNXwwfDQwMDA=</item>
+    <item id="shield20" type="Armor">T0ROOE5EaDhOVE44TlRaOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgQWR2YW5jZWQgU29yY2VyeXxBbiBzaGllbGQgZW5jaGFudGVkIHdpdGggYW5jaWVudCBzcGVsbHMuIEJsb2NrczogQmxlZWRpbmcufHNoaWVsZDIwfDEzNXwtNXwwfDQwMDA=</item>
+    <item id="shield21" type="Armor">T0RCOE5EWjhORFo4TlRWOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgdGhlIFN1bW1vbmVyfEEgc2hpZWxkIGZvdW5kIGluIGEgYmxvb2R5IHBlbnRhY2xlLiBCbG9ja3M6IEN1cnNlZC58c2hpZWxkMjF8MTUwfC01fDB8MzAwMQ==</item>
+    <item id="shield9" type="Armor">T1RCOE5qZDhNVEI4TVRWOE1Id3dmREI4TUE9PXxUZWN0b25pYyBTaGllbGR8QSBzaGllbGQgY3JlYXRlZCBmcm9tIHZvbGNhbmljIGNydXN0LiAgQmxvY2tzOiBCdXJuZWQufHNoaWVsZDl8MTgwfC01fDB8ODAwMA==</item>
+    <item id="shield24" type="Armor">T1RkOE9UVjhNekI4TmpCOE1Id3dmREI4TUE9PXxTaGllbGQgb2YgRGVlcCBOZWNyb21hbmN5fFRoZSBkYXJrIGF1cmEgb2YgdGhpcyBzaGllbGQgY2F1c2VzIGZvZXMgdG8gdHJlbWJsZS4gIEJsb2NrczogRGlzdHVyYmVkLnxzaGllbGQyNHwyNTB8LTV8MHw1MDAx</item>
+    <item id="shield25" type="Armor">T1RWOE5qQjhNalo4T0RkOE1Id3dmREI4TUE9PXxNaXRocmlsIFNoaWVsZHxBIHNoaWVsZCBvZiBhYnNvbHV0ZSBkZWZlbnNlLiAgQmxvY2tzOiBEaXN0dXJiZWQufHNoaWVsZDI1fDIxMHwtNXwwfDUwMDE=</item>
+    
+    <item id="cons0" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHcxZkRCOE1Id3d8QXBwbGV8Y29uczB8LTV8LTV8LTF8</item>
+    <item id="cons11" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHd5TUh3d2ZEQjhNQT09fFZpYWwgb2YgSGVhbHRofGNvbnMxMXwtNXwxMHwxfA==</item>
+    <item id="cons12" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHd5TUh3d2ZESXdmREE9fFZpYWwgb2YgUmVqdXZlbmF0aW9ufGNvbnMxMnwtNXwyNXwxfA==</item>
+    <item id="cons13" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHd3ZkRCOE1qQjhNQT09fFZpYWwgb2YgTWFuYXxjb25zMTN8LTV8MTB8MXw=</item>
+    <item id="cons15" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHcxZkRCOE5Yd3d8VW5tYXJrZWQgRmxhc2t8Y29uczE1fC01fC01fC0xfA==</item>
+    <item id="cons19" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHd4TUh3d2ZEVjhNQT09fEJyZWFkfGNvbnMxOXwtNXwtNXwtMXw=</item>
+    <item id="cons24" type="Consumable">RkFMU0V8TUh3d2ZEQjhNSHd4Tlh3d2ZEQjhNQT09fFN1c2hpfGNvbnMyNHwtNXwtNXwtMXw=</item>
+    <item id="cons34" type="Consumable">VFJVRXxNSHd3ZkRCOE1Id3dmREkxZkRCOE1BPT18RWxpeGlyIG9mIExvbmdldml0eXxjb25zMzR8NjB8LTV8MHw=</item>
+    <item id="cons35" type="Consumable">VFJVRXxNSHd3ZkRJMWZEQjhNSHd3ZkRCOE1BPT18RWxpeGlyIG9mIFNwZWVkfGNvbnMzNXw0NXwtNXwwfA==</item>
+    <item id="cons36" type="Consumable">VFJVRXxNSHd5Tlh3d2ZEQjhNSHd3ZkRCOE1BPT18RWxpeGlyIG9mIEF0dGFja3xjb25zMzZ8NDV8LTV8MHw=</item>
+    <item id="cons37" type="Consumable">VFJVRXxNalY4TUh3d2ZEQjhNSHd3ZkRCOE1BPT18RWxpeGlyIG9mIERlZmVuc2V8Y29uczM3fDQ1fC01fDB8</item>
+    <item id="cons38" type="Consumable">VFJVRXxNSHd3ZkRCOE1qVjhNSHd3ZkRCOE1BPT18RWxpeGlyIG9mIERleHRlcml0eXxjb25zMzh8NDV8LTV8MHw=</item>
+
+    <item id="sell0" type="Sellable">R29sZCBJbmdvdHxzZWxsMHw3</item>
+    <item id="sell1" type="Sellable">U3RhY2sgb2YgR29sZHxzZWxsMXwxNA==</item>
+    <item id="sell2" type="Sellable">SGVhcCBvZiBHb2xkfHNlbGwyfDIx</item>
+    <item id="sell3" type="Sellable">U2lsdmVyIEluZ290fHNlbGwzfDU=</item>
+    <item id="sell4" type="Sellable">U3RhY2sgb2YgU2lsdmVyfHNlbGw0fDEw</item>
+    <item id="sell5" type="Sellable">SGVhcCBvZiBTaWx2ZXJ8c2VsbDV8MTU=</item>
+    <item id="sell6" type="Sellable">Q29hbHxzZWxsNnwx</item>
+    <item id="sell7" type="Sellable">RGlhbW9uZHxzZWxsN3w4</item>
+    <item id="sell8" type="Sellable">RW1lcmFsZHxzZWxsOHw2</item>
+    <item id="sell9" type="Sellable">QmlnIERpYW1vbmR8c2VsbDl8MTA=</item>
+    <item id="sell11" type="Sellable">SmV3ZWxzfHNlbGwxMXwxMA==</item>
+    <item id="sell12" type="Sellable">R29sZCBUb290aHxzZWxsMTJ8MTA=</item>
+    <item id="sell13" type="Sellable">UmVkIEpld2VsfHNlbGwxM3w3</item>
+    <item id="sell14" type="Sellable">R29sZCBMb2NrZXR8c2VsbDE0fDEw</item>
+    <item id="sell19" type="Sellable">UGVhcmx8c2VsbDE5fDU=</item>
+    <item id="sell20" type="Sellable">UGVhcmxzfHNlbGwyMHwxNQ==</item>
+    <item id="sell22" type="Sellable">UHlyYW1pZHxzZWxsMjJ8MjA=</item>
+    <item id="sell23" type="Sellable">T2xkIEZvc3NpbHxzZWxsMjN8NA==</item>
+    <item id="sell24" type="Sellable">VG9rZW58c2VsbDI0fDI=</item>å
+
 </items>

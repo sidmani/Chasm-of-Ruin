@@ -14,8 +14,8 @@ class Skill: Item {
     
     required init(fromBase64: String) {
         //requiredMana, name, desc, img, priceCC, priceCoins, designatedCurrency
-        let optArr = fromBase64.splitBase64IntoArray()
-        self.mana = CGFloat(s: optArr[0])
+        let optArr = fromBase64.splitBase64IntoArray("|")
+        self.mana = CGFloat(optArr[0])
         super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!))
     }
     
@@ -55,11 +55,11 @@ class Scroll:Skill {
     private let attack:CGFloat
     required init (fromBase64:String) {
         //requiredMana, name, desc, img, priceCC, priceCoins, designatedCurrency, animation name, attack, status effect raw value, probability
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray("|")
         effect = optArr[7]
-        attack = -CGFloat(s: optArr[8])
+        attack = -CGFloat(optArr[8])
         statusEffect = StatusCondition(rawValue: Double(optArr[9])!)!
-        statusProbability = CGFloat(s: optArr[10])
+        statusProbability = CGFloat(optArr[10])
         super.init(fromBase64: fromBase64)
     }
     

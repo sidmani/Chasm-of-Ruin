@@ -222,7 +222,11 @@ class InternalPurchaseHandler:NSCoding {
         }
         return false
     }
-
+    
+    func sellPurchasable(purchasable:Purchasable, withMoneyHandler:MoneyHandler) {
+        withMoneyHandler.addCoins(purchasable.priceCoins!)
+    }
+    
     func checkPurchase(forKey:String) -> Int {
         if let purchase = Purchases[forKey] {
             return purchase.hasBeenPurchased

@@ -20,7 +20,7 @@ extension CGPoint {
 }
 
 extension CGFloat {
-    init(s:String) {
+    init(_ s:String) {
         self.init(NSNumberFormatter().numberFromString(s)!)
     }
 }

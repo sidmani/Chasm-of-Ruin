@@ -27,23 +27,27 @@ class DefeatViewController: UIViewController {
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if (identifier == "revive") {
-            if (defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)) {
-                return true
-            }
-            else {
-                let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
-                alert.text = "You don't have enough Crystals for that! Buy some more?"
-                alert.completion = {(response) in
-                    if (response) {
-                        self.loadCurrencyPurchaseView()
-                    }
+    
+    @IBAction func revivePressed(sender: AnyObject) {
+        let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+        alert.text = "Revive for 10 Chasm Crystals?"
+        alert.completion = {(response) in
+            if (response) {
+                if (defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)) {
+                    self.performSegueWithIdentifier("revive", sender: self)
                 }
-                self.presentViewController(alert, animated: true, completion: nil)
-                return false
+                else {
+                    let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                    alert.text = "You don't have enough Crystals for that! Buy some more?"
+                    alert.completion = {(response) in
+                        if (response) {
+                            self.loadCurrencyPurchaseView()
+                        }
+                    }
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             }
         }
-        return true
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }

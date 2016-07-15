@@ -68,16 +68,16 @@ struct Stats {
     }
     
     static func statsFrom(fromBase64:String) -> Stats {
-        let optArr = fromBase64.splitBase64IntoArray()
+        let optArr = fromBase64.splitBase64IntoArray("|")
         return Stats(
-            defense: CGFloat(s: optArr[0]),
-            attack: CGFloat(s: optArr[1]),
-            speed: CGFloat(s: optArr[2]),
-            dexterity: CGFloat(s: optArr[3]),
-            health: CGFloat(s: optArr[4]),
-            maxHealth: CGFloat(s: optArr[5]),
-            mana: CGFloat(s: optArr[6]),
-            maxMana: CGFloat(s: optArr[7])
+            defense: CGFloat(optArr[0]),
+            attack: CGFloat(optArr[1]),
+            speed: CGFloat(optArr[2]),
+            dexterity: CGFloat(optArr[3]),
+            health: CGFloat(optArr[4]),
+            maxHealth: CGFloat(optArr[5]),
+            mana: CGFloat(optArr[6]),
+            maxMana: CGFloat(optArr[7])
         )
     }
 
@@ -408,8 +408,10 @@ class ThisCharacter: Entity {
     convenience init(inventorySize:Int) {
         self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventorySize), withLevel: 1, withExp: 0)
 
-        inventory.setItem(0, toItem: Item.initHandlerID("wep1"))
-        inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
+        inventory.setItem(0, toItem: Item.initHandlerID("shield15"))
+        inventory.setItem(1, toItem: Item.initHandlerID("cons11"))
+        inventory.setItem(2, toItem: Item.initHandlerID("sell2"))
+     //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.health = stats.maxHealth
@@ -558,7 +560,10 @@ class ThisCharacter: Entity {
 
     func fireProjectile(withVelocity:CGVector) {
         if (weapon != nil) {
-            (self.scene as! InGameScene).addObject(weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withVelocity: withVelocity, isFriendly: true))
+            let projectiles = weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withVelocity: withVelocity, isFriendly: true)
+            for projectile in projectiles {
+                (self.scene as! InGameScene).addObject(projectile)
+            }
             if (condition?.conditionType == .Cursed) {
                 adjustHealth(-0.01*stats.maxHealth, withPopup: true)
             }
