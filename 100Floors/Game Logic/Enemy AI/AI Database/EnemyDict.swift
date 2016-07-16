@@ -63,7 +63,7 @@ struct EnemyDictionary {
             State(name: "default",
                 behaviors: [
                     RunAnimationSequence(animationName: "default"),
-                    Wander(triggerOutsideOfDistance: 0, priority: 5, flipsTexture: true)
+                    Wander(triggerOutsideOfDistance: 0, priority: 5)
                 ],
                 transitions: []),
             ])

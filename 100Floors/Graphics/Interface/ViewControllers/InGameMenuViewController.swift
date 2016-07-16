@@ -54,6 +54,7 @@ class InGameMenuViewController: UIViewController, ModalDismissDelegate {
     @IBAction func presentStore() {
         let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
         svc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
         presentViewController(svc, animated: true, completion: nil)
     }
     

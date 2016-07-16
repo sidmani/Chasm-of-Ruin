@@ -30,7 +30,7 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
         self.view.addSubview(blur)
         UIView.animateWithDuration(0.5) {
             blur.effect = UIBlurEffect(style: .Light)
-            self.presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
+ //           self.presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
         }
         self.view.sendSubviewToBack(blur)
         

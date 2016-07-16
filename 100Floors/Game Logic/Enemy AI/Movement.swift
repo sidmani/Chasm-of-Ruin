@@ -66,12 +66,9 @@ class Wander:Behavior {
     private var currState = States.Moving
     
     private let triggerOutsideOf:CGFloat
-    private let flipsTexture:Bool
-    private let startingFlip:CGFloat
-    init(triggerOutsideOfDistance:CGFloat, priority:Int, flipsTexture:Bool = false, startingFlip:CGFloat = 1) {
+
+    init(triggerOutsideOfDistance:CGFloat, priority:Int) {
         self.triggerOutsideOf = triggerOutsideOfDistance
-        self.flipsTexture = flipsTexture
-        self.startingFlip = startingFlip
         super.init(idType: .Movement, updateRate: 100)
         self.priority = priority
     }
@@ -100,12 +97,12 @@ class Wander:Behavior {
                 currState = .Moving
                 stateTime = Double(randomBetweenNumbers(200, secondNum: 2000))
                 let randAngle = randomBetweenNumbers(0, secondNum: 6.28)
-                if (randAngle < 1.57 || randAngle > 4.71) {
-                    parent.xScale = abs(parent.xScale) * -startingFlip
-                }
-                else {
-                    parent.xScale = abs(parent.xScale) * startingFlip
-                }
+//                if (randAngle < 1.57 || randAngle > 4.71) {
+//                    parent.xScale = abs(parent.xScale) * -startingFlip
+//                }
+//                else {
+//                    parent.xScale = abs(parent.xScale) * startingFlip
+//                }
                 parent.setVelocity(CGVectorMake(cos(randAngle), sin(randAngle)))
             }
         }
@@ -151,7 +148,8 @@ class Flee:Behavior {
     }
     
     override func executeBehavior(timeSinceUpdate: Double) {
-        parent.setVelocity(-1 * parent.normalVectorToCharacter())
+        let vect = -1 * parent.normalVectorToCharacter()
+        parent.setVelocity(vect)
     }
 }
 

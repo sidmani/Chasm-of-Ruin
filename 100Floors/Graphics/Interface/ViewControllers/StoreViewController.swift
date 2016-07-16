@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-class StoreViewController: UIViewController {
+class StoreViewController: UIViewController, ModalDismissDelegate {
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
     var dismissDelegate:ModalDismissDelegate?
@@ -26,7 +26,6 @@ class StoreViewController: UIViewController {
         self.view.addSubview(blur)
         UIView.animateWithDuration(0.5) {
             blur.effect = UIBlurEffect(style: .Light)
-            self.presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
         }
         self.view.sendSubviewToBack(blur)
         
@@ -59,6 +58,11 @@ class StoreViewController: UIViewController {
     @objc func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
         self.presentViewController(cpvc, animated: true, completion: nil)
+        self.view.subviews.forEach({(view) in view.hidden = true})
+    }
+    
+    func didDismissModalVC(object: AnyObject?) {
+        self.view.subviews.forEach({(view) in view.hidden = false})
     }
     
     func setCurrencyLabels() {

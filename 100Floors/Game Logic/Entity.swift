@@ -663,8 +663,11 @@ class Enemy:Entity {
     
     let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
     var parentSpawner:EnemyCreator?
-
-    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:EnemyCreator?) {
+    private let textureFlip:Bool
+    private let initialTextureOrientation:CGFloat
+    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:EnemyCreator?, textureFlipEnabled:Bool = true, initialTextureOrientation:CGFloat = 1) {
+        self.textureFlip = textureFlipEnabled
+        self.initialTextureOrientation = initialTextureOrientation
         super.init(withStats: stats)
         setTextureDict(textureDict, beginTexture: beginTexture)
         self.name = name
@@ -725,6 +728,20 @@ class Enemy:Entity {
     
     func setVelocity(v:CGVector) { //v is unit vector
         physicsBody?.velocity = (0.03 * (stats.speed) + 30) * statusFactors.movementMod * v
+        if (textureFlip) {
+            if (physicsBody!.velocity.dx < 0) {
+                self.xScale = abs(self.xScale) * initialTextureOrientation
+            }
+            else {
+                self.xScale = abs(self.xScale) * -initialTextureOrientation
+            }
+            if (self.xScale < 0) {
+                popups.xScale = -abs(popups.xScale)
+            }
+            else {
+                popups.xScale = abs(popups.xScale)
+            }
+        }
     }
     let statusHarmInterval:Double = 2000
     var currentStatusElapsed:Double = 0
@@ -774,6 +791,14 @@ class DisplayEnemy:Enemy {
   //  }
     override func setVelocity(v:CGVector) { //v is unit vector
         physicsBody?.velocity = 30 * v
+        if (textureFlip) {
+            if (physicsBody!.velocity.dx < 0) {
+                self.xScale = abs(self.xScale) * initialTextureOrientation
+            }
+            else {
+                self.xScale = abs(self.xScale) * -initialTextureOrientation
+            }
+        }
     }
 
     override func distanceToCharacter() -> CGFloat {

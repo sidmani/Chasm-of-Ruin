@@ -189,7 +189,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     }
     
     func levelEndedDefeat() {
-        thisCharacter.reset()
+    //    thisCharacter.reset()
         presentingOtherViewController()
         defaultLevelHandler.levelCompleted(false)
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
@@ -207,7 +207,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     }
     
     func levelEndedVictory() {
-        thisCharacter.reset()
+    //    thisCharacter.reset()
         presentingOtherViewController()
         defaultLevelHandler.levelCompleted(true)
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
@@ -268,9 +268,9 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     }
     
     func didDismissModalVC(object:AnyObject? = nil) {
+        thisCharacter.reset()
         self.view.subviews.forEach({(view) in view.hidden = false})
         self.InfoDisplay.hidden = true
-        gameScene.paused = false
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
         popTip1.hide()
@@ -282,37 +282,23 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         }
         else if let flag = object as? String {
             switch (flag) {
-                case "Revive":
-                    thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
-                case "defeatRespawn":
-                    thisCharacter.confirmDeath()
-                    gameScene.reloadLevel()
-                case "victoryRespawn":
-                    gameScene.reloadLevel()
+            case "Revive":
+                thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
+            case "defeatRespawn":
+                thisCharacter.confirmDeath()
+                gameScene.reloadLevel()
+            case "victoryRespawn":
+                gameScene.reloadLevel()
             default: fatalError()
             }
         }
+
+        gameScene.paused = false
+
     }
     
     func presentingOtherViewController() {
         self.view.subviews.forEach({(view) in view.hidden = true})
         gameScene.paused = true
     }
-    
-   /* @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) {
-        thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
-        returnedFromOtherViewController()
-    }
-    
-    @IBAction func defeatSelectedRespawn(segue:UIStoryboardSegue) {
-        thisCharacter.confirmDeath()
-        gameScene.reloadLevel()
-        returnedFromOtherViewController()
-    }
-    
-    @IBAction func victorySelectedRespawn(segue:UIStoryboardSegue) {
-     //   thisCharacter.reset()
-        gameScene.reloadLevel()
-        returnedFromOtherViewController()
-    }*/
 }

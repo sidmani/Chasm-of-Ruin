@@ -20,8 +20,7 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         SettingsButton.tintColor = ColorScheme.fillColor
-        
-        
+       
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -53,6 +52,7 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
     @IBAction func presentStore() {
         let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
         svc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
         presentViewController(svc, animated: true, completion: nil)
         (view as! SKView).scene?.paused = true
     }
@@ -60,6 +60,7 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
     @IBAction func loadLevelSelectVC() {
         let lsvc = storyboard!.instantiateViewControllerWithIdentifier("lsvc") as! LevelSelectViewController
         lsvc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
         presentViewController(lsvc, animated: true, completion: nil)
         (view as! SKView).scene?.paused = true
     }
@@ -67,6 +68,7 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
     @objc func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
         cpvc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
         self.presentViewController(cpvc, animated: true, completion: nil)
         (view as! SKView).scene?.paused = true
     }
