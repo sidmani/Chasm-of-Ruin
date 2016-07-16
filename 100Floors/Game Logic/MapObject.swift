@@ -73,7 +73,52 @@ class MapObject:SKNode {
     
 }
 
-class Spawner:MapObject, Updatable, Activate {
+protocol EnemyCreator {
+    func childDied()
+}
+
+class DisplaySpawner:MapObject, Updatable, EnemyCreator {
+    let enemyName:String
+    var currNumOfEnemies = 0
+    let maxNumEnemies:Int
+    var textureArr:[SKTexture] = []
+    init(enemyImageName:String, numFrames:Int, maxNumEnemies:Int) {
+        enemyName = enemyImageName
+        self.maxNumEnemies = maxNumEnemies
+        for i in 0..<numFrames {
+            let newTexture = SKTextureAtlas(named: "Menu").textureNamed("\(enemyImageName)\(i)")
+            newTexture.filteringMode = .Nearest
+            textureArr.append(newTexture)
+        }
+        super.init(loc: CGPointZero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    let rateOfSpawning:Double = Double(randomBetweenNumbers(3000, secondNum: 6000))
+    var elapsedTime:Double = 0
+    func update(deltaT: Double) {
+        if (currNumOfEnemies < maxNumEnemies && elapsedTime > rateOfSpawning) {
+           // dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) { //TODO: fix concurrency
+            let newEnemy = DisplayEnemy(name: "DisplayEnemy", textureDict: ["default":textureArr], beginTexture: "default", drops: [], stats: Stats.nilStats, atPosition: CGPointMake(randomBetweenNumbers(20, secondNum: screenSize.width-20), randomBetweenNumbers(20, secondNum: screenSize.height-20)), spawnedFrom: self)
+            newEnemy.setScale(screenSize.width/160)
+            self.scene?.addChild(newEnemy)
+            //}
+            currNumOfEnemies += 1
+            elapsedTime = 0
+        }
+        else if (currNumOfEnemies < maxNumEnemies) {
+            elapsedTime += deltaT
+        }
+    }
+    
+    func childDied() {
+        currNumOfEnemies -= 1
+    }
+}
+
+class Spawner:MapObject, Updatable, Activate, EnemyCreator {
     private var playerIsWithinRadius:Bool = false
     ///enemy data
     private let enemyID:String
@@ -354,7 +399,6 @@ class ItemBag:MapObject, Interactive {
         self.addChild(node)
         popup = PopUp(image: thumbnailImg, size: CGSizeMake(8, 8), parent:self)
         popup!.hidden = true
-        popup!.zPosition = BaseLevel.LayerDef.PopUps
         self.addChild(popup!)
         self.runAction(SKAction.waitForDuration(20, withRange: 2), completion: {[unowned self] in
             self.removeAllChildren()

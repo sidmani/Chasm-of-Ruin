@@ -22,13 +22,14 @@ struct ColorScheme {
     static let ATKColor = UIColor.redColor()
     static let EXPColor = UIColor(red: 107/255, green: 121/255, blue: 224/255, alpha: 1)
     static let MANAColor = UIColor(red: 105/255, green: 2/255, blue: 201/255, alpha: 1)
-    static let DEFColor = UIColor(red: 132/255, green: 140/255, blue: 150/255, alpha: 1)
+    //static let DEFColor = UIColor(red: 132/255, green: 140/255, blue: 150/255, alpha: 1)
+    static let DEFColor = UIColor.blackColor()
     static let DEXColor = UIColor(red: 249/255, green: 159/255, blue: 2/255, alpha: 1)
     
-    static let strokeColor =  UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.8)
+    static let strokeColor =  UIColor(colorLiteralRed: 0.75, green: 0.75, blue: 0.75, alpha: 0.8)
     static let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
     
-    static let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.5)
+    static let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.75)
     static let fillColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.5)
 }
 

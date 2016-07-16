@@ -12,7 +12,8 @@ import SpriteKit
 struct EnemyDictionary {
     static let Dict: [String:(parent:Enemy) -> EnemyAI] = [
         "e0":EnemyDictionary.TargetDummy,
-        "e1":EnemyDictionary.SlimeSquareE
+        "e1":EnemyDictionary.SlimeSquareE,
+        "DisplayEnemy":EnemyDictionary.DisplayEnemy
     ]
     static func TargetDummy(parent:Enemy) -> EnemyAI {
        return EnemyAI(parent:parent, startingState:"default", withStates: [
@@ -56,5 +57,15 @@ struct EnemyDictionary {
                 ],
                 transitions: [])
         ])
+    }
+    static func DisplayEnemy(parent:Enemy) -> EnemyAI {
+        return EnemyAI(parent:parent, startingState:"default", withStates: [
+            State(name: "default",
+                behaviors: [
+                    RunAnimationSequence(animationName: "default"),
+                    Wander(triggerOutsideOfDistance: 0, priority: 5, flipsTexture: true)
+                ],
+                transitions: []),
+            ])
     }
 }

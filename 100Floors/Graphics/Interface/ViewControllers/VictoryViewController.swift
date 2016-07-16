@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class VictoryViewController: UIViewController {
+    var dismissDelegate:ModalDismissDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,21 +23,10 @@ class VictoryViewController: UIViewController {
         self.view.sendSubviewToBack(blur)
     }
     
-    override func shouldAutorotate() -> Bool {
-        return true
+    @IBAction func respawn(sender: AnyObject) {
+        dismissDelegate?.didDismissModalVC("victoryRespawn")
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Landscape
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
     
 }

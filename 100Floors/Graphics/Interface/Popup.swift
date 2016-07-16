@@ -28,6 +28,7 @@ class PopUp:SKNode {
         imgNode.texture?.filteringMode = .Nearest
         imgNode.position = CGPointMake(tile.position.x + imgNode.size.width/2, tile.position.y + imgNode.size.height)
         imgNode.userInteractionEnabled = false
+        imgNode.zPosition = 0
         addChild(imgNode)
         
         userInteractionEnabled = true

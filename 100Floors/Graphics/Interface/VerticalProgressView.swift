@@ -28,7 +28,6 @@ public class VerticalProgressView : UIView {
         self.filledView.frame = self.bounds
 
         self.layer.addSublayer(filledView)
-        label.textColor = ColorScheme.strokeColor
         modifierLabel.textColor = ColorScheme.strokeColor
 
         if (self.vertical) {
@@ -36,7 +35,8 @@ public class VerticalProgressView : UIView {
             label.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 10, 30)
             label.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
             label.textAlignment = .Right
-            
+            label.textColor = ColorScheme.strokeColor
+
             modifierLabel.bounds = CGRectMake(10, 30, self.bounds.width, 30)
             modifierLabel.center = CGPointMake(self.bounds.width/2 + 2.5, 15)
             modifierLabel.textAlignment = .Left
@@ -45,6 +45,8 @@ public class VerticalProgressView : UIView {
         //    vertical = false
             label.center = CGPointMake(self.bounds.width/2, self.bounds.height/2)
             label.textAlignment = .Center
+            label.textColor = UIColor.blackColor() //TODO: check this
+            label.alpha = 0.4
             label.bounds = CGRectMake(0, label.center.y-15, self.bounds.width, 30)
             self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(enableHPLabel)))
             label.userInteractionEnabled = true

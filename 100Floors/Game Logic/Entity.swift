@@ -93,7 +93,7 @@ struct Stats {
 }
 
 struct StatLimits {
-    static let expForLevel:[Int] =  [0, 40, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000]
+    static let expForLevel:[Int] =  [0, 0, 250, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000] //TODO: balance this
     static let MAX_LEVEL = 15
     
     static let MIN_LVLUP_STAT_GAIN:CGFloat = 10
@@ -254,6 +254,7 @@ class Entity:SKSpriteNode, Updatable {
             case .Poisoned:
                 addPopup(UIColor.purpleColor(), text: "POISONED")
                 statusFactors.healthRegenMod = -10
+                runEffect("Poison")
             case .Blinded:
                 addPopup(UIColor.whiteColor(), text: "BLINDED") //probably unnecessary
             case .Disturbed:
@@ -264,6 +265,7 @@ class Entity:SKSpriteNode, Updatable {
                 statusFactors.movementMod = 0.5
             case .Cursed:
                 addPopup(UIColor.purpleColor(), text: "CURSED")
+                runEffect("Dark")
             case .Bleeding:
                 addPopup(UIColor.redColor(), text: "BLEEDING")
                 statusFactors.atkMod = 0.5
@@ -271,6 +273,7 @@ class Entity:SKSpriteNode, Updatable {
                 statusFactors.movementMod = 0.5
                 statusFactors.dexMod = 0.5
                 statusFactors.healthRegenMod = -5
+                runEffect("BloodSplatterA")
             case .Invincible:
                 statusFactors.damageMod = 0
                 addPopup(UIColor.blueColor(), text: "INVINCIBLE")
@@ -280,6 +283,7 @@ class Entity:SKSpriteNode, Updatable {
                 statusFactors.dexMod = 0.5
                 statusFactors.healthRegenMod = -10
                 statusFactors.manaRegenMod = 0
+                runEffect("FlameAlt")
             }
         }
     }
@@ -337,7 +341,7 @@ class Entity:SKSpriteNode, Updatable {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
                 removeAllPopups()
-                addPopup(UIColor.greenColor(), text: "FREED")
+                addPopup(UIColor.greenColor(), text: "CLEARED")
                 statusFactors = StatusFactors()
                 condition = nil
             }
@@ -658,9 +662,9 @@ class Enemy:Entity {
     private var drops:[Drop] = []
     
     let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
-    weak var parentSpawner:Spawner?
+    var parentSpawner:EnemyCreator?
 
-    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:Spawner?) {
+    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:EnemyCreator?) {
         super.init(withStats: stats)
         setTextureDict(textureDict, beginTexture: beginTexture)
         self.name = name
@@ -722,10 +726,21 @@ class Enemy:Entity {
     func setVelocity(v:CGVector) { //v is unit vector
         physicsBody?.velocity = (0.03 * (stats.speed) + 30) * statusFactors.movementMod * v
     }
+    let statusHarmInterval:Double = 2000
+    var currentStatusElapsed:Double = 0
     
     override func update(deltaT:Double) {
         super.update(deltaT)
         AI?.update(deltaT)
+        if (condition != nil && currentStatusElapsed > statusHarmInterval) {
+            currentStatusElapsed = 0
+            if (statusFactors.healthRegenMod < 0) {
+                adjustHealth(statusFactors.healthRegenMod*0.005*stats.maxHealth, withPopup: true)
+            }
+        }
+        else if (condition != nil) {
+            currentStatusElapsed += deltaT
+        }
         if (!isOnScreen()) {
             if (indicatorArrow.parent == nil) {
                 thisCharacter.pointers.addChild(indicatorArrow)
@@ -754,12 +769,15 @@ class Enemy:Entity {
 
 class DisplayEnemy:Enemy {
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError()
+  //  required init?(coder aDecoder: NSCoder) {
+  //      fatalError()
+  //  }
+    override func setVelocity(v:CGVector) { //v is unit vector
+        physicsBody?.velocity = 30 * v
     }
-    
+
     override func distanceToCharacter() -> CGFloat {
-        return randomBetweenNumbers(0, secondNum: 100)
+        return randomBetweenNumbers(1, secondNum: 100)
     }
     
     override func angleToCharacter() -> CGFloat {
@@ -771,6 +789,24 @@ class DisplayEnemy:Enemy {
         return CGVectorMake(cos(angle), sin(angle))
     }
     
+    override func isOnScreen() -> Bool {
+        return screenSize.contains(self.position)
+    }
+    var elapsedSinceCheck:Double = 0
+    override func update(deltaT: Double) {
+        AI?.update(deltaT)
+        if (elapsedSinceCheck > 1000) {
+            if (!isOnScreen()) {
+                die()
+            }
+            elapsedSinceCheck = 0
+        }
+        else {
+            elapsedSinceCheck += deltaT
+        }
+        self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
+    }
+    
     override func fireProjectile(texture: SKTexture, range: CGFloat, reflects: Bool, withVelocity: CGVector, status: (StatusCondition, CGFloat)?) {
         let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, withAngle: atan2(withVelocity.dy, withVelocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         parent?.addChild(newProjectile)
@@ -778,6 +814,7 @@ class DisplayEnemy:Enemy {
     
     override func die() {
         removeFromParent()
+        parentSpawner?.childDied()
     }
     
 }

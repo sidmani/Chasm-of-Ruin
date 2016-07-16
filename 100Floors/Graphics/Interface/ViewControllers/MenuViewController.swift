@@ -8,16 +8,18 @@
 
 import UIKit
 import SpriteKit
+protocol ModalDismissDelegate {
+    func didDismissModalVC(object:AnyObject?)
+}
 
-
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController, ModalDismissDelegate {
     @IBOutlet weak var SettingsButton: UIButton!
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        SettingsButton.tintColor = ColorScheme.strokeColor
+        SettingsButton.tintColor = ColorScheme.fillColor
         
         
         let skView = view as! SKView
@@ -38,49 +40,38 @@ class MenuViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
     }
     
+    func didDismissModalVC(object:AnyObject? = nil) {
+        (view as! SKView).scene?.paused = false
+        view.subviews.forEach({(view) in view.hidden = false})
+    }
+    
     func setCurrencyLabels() {
         CrystalLabel.text = "\(defaultMoneyHandler.getCrystals())"
         CoinLabel.text = "\(defaultMoneyHandler.getCoins())"
     }
     
     @IBAction func presentStore() {
-        let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController")
+        let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
+        svc.dismissDelegate = self
         presentViewController(svc, animated: true, completion: nil)
+        (view as! SKView).scene?.paused = true
     }
     
     @IBAction func loadLevelSelectVC() {
-        let lsvc = storyboard!.instantiateViewControllerWithIdentifier("lsvc")
+        let lsvc = storyboard!.instantiateViewControllerWithIdentifier("lsvc") as! LevelSelectViewController
+        lsvc.dismissDelegate = self
         presentViewController(lsvc, animated: true, completion: nil)
+        (view as! SKView).scene?.paused = true
     }
     
     @objc func loadCurrencyPurchaseView() {
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
+        cpvc.dismissDelegate = self
         self.presentViewController(cpvc, animated: true, completion: nil)
+        (view as! SKView).scene?.paused = true
     }
     
     @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
          (view as! SKView).scene?.paused = false
     }
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
 }

@@ -11,6 +11,7 @@ import UIKit
 class StoreViewController: UIViewController {
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
+    var dismissDelegate:ModalDismissDelegate?
     
     var alertCompletion: (Bool) -> () = {_ in }
     
@@ -41,7 +42,7 @@ class StoreViewController: UIViewController {
     
     @IBAction func exit() {
         self.dismissViewControllerAnimated(true, completion: nil)
-        presentingViewController?.view.subviews.forEach({(view) in view.hidden = false})
+        dismissDelegate?.didDismissModalVC(nil)
     }
     
     static func getItems() -> [Item] {

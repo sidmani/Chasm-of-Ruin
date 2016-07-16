@@ -7,11 +7,12 @@
 //
 import UIKit
 
-class InGameMenuViewController: UIViewController {
+class InGameMenuViewController: UIViewController, ModalDismissDelegate {
     
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
-
+    var dismissDelegate:ModalDismissDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setCurrencyLabels()
@@ -29,7 +30,16 @@ class InGameMenuViewController: UIViewController {
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
 
     }
+    
+    @IBAction func exit(sender: AnyObject) {
+        dismissDelegate?.didDismissModalVC(nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
+    func didDismissModalVC(object: AnyObject?) {
+        self.view.subviews.forEach({(view) in view.hidden = false})
+    }
+    
     @IBAction func levelSelectPressed(sender: AnyObject) {
         let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
         alert.text = "Are you sure? All level progress will be lost..."
@@ -43,6 +53,7 @@ class InGameMenuViewController: UIViewController {
     
     @IBAction func presentStore() {
         let svc = storyboard!.instantiateViewControllerWithIdentifier("storeViewController") as! StoreViewController
+        svc.dismissDelegate = self
         presentViewController(svc, animated: true, completion: nil)
     }
     
@@ -52,7 +63,8 @@ class InGameMenuViewController: UIViewController {
     }
     
     @objc func loadCurrencyPurchaseView() {
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
+        cpvc.dismissDelegate = self
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
 }

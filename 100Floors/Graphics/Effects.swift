@@ -195,7 +195,7 @@ class PixelEffect:SKSpriteNode {
         self.hidden = false
         if (!surround) {
             self.zPosition = 0.01
-            runAction(SKAction.animateWithTextures(textureArray, timePerFrame: 0.05), completion: {[unowned self] in
+            runAction(SKAction.animateWithTextures(textureArray, timePerFrame: 0.1), completion: {[unowned self] in
                 self.completion()
                 self.removeFromParent()})
         }

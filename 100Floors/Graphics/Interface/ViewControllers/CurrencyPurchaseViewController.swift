@@ -12,7 +12,7 @@ import StoreKit
 class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate {
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
-
+    var dismissDelegate:ModalDismissDelegate?
  //   private var coinPurchases:[(name:String, price:String)] = []
   //  private var crystalPurchases:[(name:String, price:String)] = []
     private let crystalPurchases = [
@@ -71,12 +71,7 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
     
     @IBAction func exit(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
-        if (presentingViewController is InGameViewController) {
-            (presentingViewController as! InGameViewController).returnedFromOtherViewController()
-        }
-        else {
-            presentingViewController?.view.subviews.forEach({(view) in view.hidden = false})
-        }
+        dismissDelegate?.didDismissModalVC(nil)
     }
     
     

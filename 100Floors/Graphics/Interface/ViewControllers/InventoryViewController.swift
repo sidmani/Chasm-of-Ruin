@@ -13,6 +13,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     @IBOutlet weak var inventoryCollection: UICollectionView!
     
+    var dismissDelegate:ModalDismissDelegate?
+    
     private var currentItemView:UIImageView = UIImageView()
     private var currentContainer:ItemContainer?
     private var currentIndex:Int = -1
@@ -154,6 +156,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         else {
             inventory.swapItems(indexA, atIndexB: indexB)
         }
+    }
+    @IBAction func exit(sender: AnyObject) {
+        dismissDelegate?.didDismissModalVC(groundBag)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func equipButtonPressed(sender: AnyObject) {
@@ -359,11 +365,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
-    
-   /* func loadCurrencyPurchaseView() {
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
-        self.presentViewController(cpvc, animated: true, completion: nil)
-    }*/
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if (indexPath.item == collectionView.numberOfItemsInSection(0)-1) {

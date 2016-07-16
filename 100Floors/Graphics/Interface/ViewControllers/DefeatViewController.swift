@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class DefeatViewController: UIViewController {
+    var dismissDelegate:ModalDismissDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,10 @@ class DefeatViewController: UIViewController {
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
+    @IBAction func respawn(sender: AnyObject) {
+        self.dismissDelegate?.didDismissModalVC("defeatRespawn")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func revivePressed(sender: AnyObject) {
         let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
@@ -34,7 +39,9 @@ class DefeatViewController: UIViewController {
         alert.completion = {(response) in
             if (response) {
                 if (defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)) {
-                    self.performSegueWithIdentifier("revive", sender: self)
+                    //self.performSegueWithIdentifier("revive", sender: self)
+                    self.dismissDelegate?.didDismissModalVC("Revive")
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 }
                 else {
                     let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController

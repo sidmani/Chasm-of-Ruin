@@ -192,7 +192,7 @@
         <!--Level Select View Controller-->
         <scene sceneID="gGO-1y-Mrc">
             <objects>
-                <viewController storyboardIdentifier="lsvc" modalTransitionStyle="crossDissolve" id="ara-Lb-UGj" customClass="LevelSelectViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="lsvc" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="ara-Lb-UGj" customClass="LevelSelectViewController" customModule="Chasm_of_Ruin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="guc-lR-zYp"/>
                         <viewControllerLayoutGuide type="bottom" id="fzh-RF-wm9"/>
@@ -289,7 +289,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="g20-q0-oFf" firstAttribute="centerY" secondItem="wlE-oX-SpP" secondAttribute="centerY" id="9gs-2w-QMu"/>
                             <constraint firstItem="wX0-Gt-TFa" firstAttribute="leading" secondItem="tl7-9s-0ae" secondAttribute="trailing" constant="5" id="AqS-yt-qVL"/>
@@ -526,7 +526,7 @@
                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
                                 <state key="normal" title="→"/>
                                 <connections>
-                                    <segue destination="iyI-Oc-9DT" kind="unwind" unwindAction="exitMenu:" id="chs-95-AFL"/>
+                                    <action selector="exit:" destination="CGb-Sh-tvY" eventType="touchUpInside" id="Gop-dx-DE5"/>
                                 </connections>
                             </button>
                             <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P64-Qm-GHx">
@@ -755,7 +755,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gGn-KE-Oze" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="iyI-Oc-9DT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1150" y="1205"/>
         </scene>
@@ -789,7 +788,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="ATs-Ty-Sgo" kind="unwind" unwindAction="exitMenu:" id="YS3-eL-WRq"/>
+                                    <action selector="exit:" destination="vb3-7V-c1Z" eventType="touchUpInside" id="3Sr-4D-Au1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL0-vz-VNk" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
@@ -1348,7 +1347,7 @@
                                 <rect key="frame" x="20" y="400" width="180" height="180"/>
                                 <state key="normal" image="retry"/>
                                 <connections>
-                                    <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="victorySelectedRespawn:" id="U6q-rq-sz1"/>
+                                    <action selector="respawn:" destination="auq-MV-pOY" eventType="touchUpInside" id="Rte-Wq-8pE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9W-Xl-wOL" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
@@ -1408,7 +1407,7 @@
                                 </constraints>
                                 <state key="normal" image="retry"/>
                                 <connections>
-                                    <segue destination="L2j-0g-cSK" kind="unwind" identifier="respawn" unwindAction="defeatSelectedRespawn:" id="iDw-hu-ELV"/>
+                                    <action selector="respawn:" destination="wSz-S2-3r0" eventType="touchUpInside" id="Okg-2r-t6t"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMH-MU-Oit" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">

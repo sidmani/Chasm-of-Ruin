@@ -11,6 +11,7 @@ import SpriteKit
 
 class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     private var previousSelectedContainer:LevelContainer?
+    var dismissDelegate:ModalDismissDelegate?
     private var itemWidth:CGFloat = 0
     @IBOutlet weak var levelCollection: UICollectionView!
     @IBOutlet weak var NameLabel: UILabel!
@@ -25,6 +26,13 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         let layout = levelCollection.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .Horizontal
         layout.minimumInteritemSpacing = CGFloat.max
+        let blur = UIVisualEffectView(frame: self.view.bounds)
+        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(blur)
+        UIView.animateWithDuration(0.5) {
+            blur.effect = UIBlurEffect(style: .Light)
+        }
+        self.view.sendSubviewToBack(blur)
         itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
@@ -34,7 +42,6 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
-        
 
         setCurrencyLabels()
         selectCenterCell()
@@ -46,6 +53,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func exit(sender: AnyObject) {
+        dismissDelegate?.didDismissModalVC(nil)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

@@ -20,7 +20,7 @@ struct UIElements {
 var enemyXML: AEXMLDocument! = nil
 var itemXML: AEXMLDocument! = nil
 
-class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
+class InGameViewController: UIViewController, UIGestureRecognizerDelegate, ModalDismissDelegate {
     // MARK: Properties
     @IBOutlet weak var LeftJoystickControl: JoystickControl!
     @IBOutlet weak var RightJoystickControl: JoystickControl!
@@ -56,7 +56,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
         HPDisplayBar.setProgress(1, animated: false)
 
         //MenuButton.tintColor = ColorScheme.strokeColor
-        view.viewWithTag(1)?.tintColor = ColorScheme.strokeColor
+        view.viewWithTag(1)?.tintColor = ColorScheme.fillColor
         //////////
         CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
@@ -173,7 +173,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.incrementTutorial()
             }
         case 7:
-            popTip1.showText("The red arrows point to enemies. Go after them!", direction: .None, maxWidth: 150, inView: self.view, fromFrame: self.view.frame)
+            popTip1.showText("The red arrows point at enemies. Go after them!", direction: .None, maxWidth: 150, inView: self.view, fromFrame: self.view.frame)
             popTip1.dismissHandler = { [unowned self] in
                 self.view.viewWithTag(1)!.userInteractionEnabled = true
                 self.view.viewWithTag(1)!.alpha = 1
@@ -194,12 +194,14 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
         defaultLevelHandler.levelCompleted(false)
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
             let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+            dvc.dismissDelegate = self
             addChildViewController(dvc)
             presentedViewController!.willMoveToParentViewController(nil)
             transitionFromViewController(self.presentedViewController!, toViewController: dvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
         }
         else if (presentedViewController == nil) {
             let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+            dvc.dismissDelegate = self
             presentViewController(dvc, animated: false, completion: nil)
         }
     }
@@ -210,16 +212,17 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
         defaultLevelHandler.levelCompleted(true)
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
             let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+            vvc.dismissDelegate = self
             addChildViewController(vvc)
             presentedViewController!.willMoveToParentViewController(nil)
             transitionFromViewController(self.presentedViewController!, toViewController: vvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
         }
         else if (presentedViewController == nil) {
             let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+            vvc.dismissDelegate = self
             presentViewController(vvc, animated: false, completion: nil)
         }
     }
-    
     
     func setInfoDisplayText(notification:NSNotification) {
         let text = notification.object as! String
@@ -233,13 +236,17 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func menuButtonPressed() {
         presentingOtherViewController()
-        let igmvc = storyboard!.instantiateViewControllerWithIdentifier("igmvc")
+        let igmvc = storyboard!.instantiateViewControllerWithIdentifier("igmvc") as! InGameMenuViewController
+        igmvc.dismissDelegate = self
+    //    self.addChildViewController(igmvc)
         self.presentViewController(igmvc, animated: true, completion: nil)
     }
     
     @objc func loadCurrencyPurchaseView() {
         presentingOtherViewController()
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
+        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
+        cpvc.dismissDelegate = self
+   //     self.addChildViewController(cpvc)
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
     
@@ -255,26 +262,36 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
         presentingOtherViewController()
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
         inventoryController.groundBag = groundBag
+        inventoryController.dismissDelegate = self
+    //    self.addChildViewController(inventoryController)
         presentViewController(inventoryController, animated: true, completion: nil)
     }
     
-    @IBAction func exitMenu(segue: UIStoryboardSegue) {
-        returnedFromOtherViewController()
-        if (gameScene.currentGroundBag?.parent == nil) { //TODO: check if necessary
-            gameScene.currentGroundBag = nil
-        }
-        if let bag = (segue.sourceViewController as? InventoryViewController)?.groundBag {
-            gameScene.addObject(bag)
-        }
-    }
-    
-    func returnedFromOtherViewController() {
+    func didDismissModalVC(object:AnyObject? = nil) {
         self.view.subviews.forEach({(view) in view.hidden = false})
         self.InfoDisplay.hidden = true
         gameScene.paused = false
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
         popTip1.hide()
+        if (gameScene.currentGroundBag?.parent == nil) { //TODO: check if necessary
+            gameScene.currentGroundBag = nil
+        }
+        if let bag = object as? ItemBag {
+            gameScene.addObject(bag)
+        }
+        else if let flag = object as? String {
+            switch (flag) {
+                case "Revive":
+                    thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
+                case "defeatRespawn":
+                    thisCharacter.confirmDeath()
+                    gameScene.reloadLevel()
+                case "victoryRespawn":
+                    gameScene.reloadLevel()
+            default: fatalError()
+            }
+        }
     }
     
     func presentingOtherViewController() {
@@ -282,7 +299,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
         gameScene.paused = true
     }
     
-    @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) {
+   /* @IBAction func defeatSelectedRevive(segue:UIStoryboardSegue) {
         thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
         returnedFromOtherViewController()
     }
@@ -297,5 +314,5 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate {
      //   thisCharacter.reset()
         gameScene.reloadLevel()
         returnedFromOtherViewController()
-    }
+    }*/
 }
