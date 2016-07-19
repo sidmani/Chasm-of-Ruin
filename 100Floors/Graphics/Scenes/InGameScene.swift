@@ -31,7 +31,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
 //        static let Object: UInt32 = 0b1
 //    }
     
-    private var currentLevel:BaseLevel?
+    private var currentLevel:MapLevel?
     private var oldTime:CFTimeInterval = 0
     private let mainCamera = SKCameraNode()
     
@@ -127,13 +127,26 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
             
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.FriendlyProjectile && contact.bodyA.categoryBitMask == PhysicsCategory.Enemy) {
-            if let projectile = contact.bodyB.node as?  Projectile {
+            if let projectile = contact.bodyB.node as? Projectile {
                 (contact.bodyA.node as? Enemy)?.struckByProjectile(projectile)
                 projectile.struckMapBoundary()
             }
             return
         }
-        /////// character entered info display
+        ////// enemy hits map boundary
+        else if (contact.bodyA.categoryBitMask == PhysicsCategory.Enemy && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
+            if let enemy = contact.bodyA.node as? Enemy {
+                enemy.struckMapBoundary()
+            }
+            return
+        }
+            
+        else if (contact.bodyB.categoryBitMask == PhysicsCategory.Enemy && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
+            if let enemy = contact.bodyB.node as? Enemy {
+                enemy.struckMapBoundary()
+            }
+            return
+        }
     }
     
     func didEndContact(contact: SKPhysicsContact) {
@@ -166,10 +179,14 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func isTutorial() -> Bool {
-        return (currentLevel as? MapLevel)?.definition.mapName == "Tutorial"
+        return currentLevel?.definition.mapName == "Tutorial"
     }
     
-    func setLevel(level:BaseLevel) {
+    func currentWave() -> Int {
+        return (currentLevel != nil ? currentLevel!.currWave : 0)
+    }
+    
+    func setLevel(level:MapLevel) {
         thisCharacter.hidden = true
         nonCharNodes.hidden = true
         nonCharNodes.removeAllChildren()
@@ -181,17 +198,18 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         thisCharacter.setTextureDict()
         thisCharacter.reset()
         cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
+        currentLevel!.nextWave()
         ///////////////////////////
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
         self.paused = false
         if (!isTutorial()) {
-            NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.levelName)
+            NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.definition.mapName)
         }
     }
     
     func reloadLevel() {
-        if let level = (currentLevel as? MapLevel) {
+        if let level = currentLevel {
             setLevel(MapLevel(level: level.definition))
         }
     }
@@ -208,11 +226,17 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
+                if (currentLevel!.waveIsOver()) {
+                    //countdown
+                    //next wave
+                    currentLevel!.nextWave()
+                }
             }
             for node in nonCharNodes.children {
                 (node as? Updatable)?.update(deltaT)
             }
             currScreenBounds = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.height*camera!.yScale)
+            
         }
     }
 

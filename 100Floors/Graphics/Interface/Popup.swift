@@ -32,7 +32,7 @@ class PopUp:SKNode {
         addChild(imgNode)
         
         userInteractionEnabled = true
-        zPosition = BaseLevel.LayerDef.PopUps
+        zPosition = MapLevel.LayerDef.PopUps
     }
     
     required init?(coder aDecoder: NSCoder) {

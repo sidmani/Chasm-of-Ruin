@@ -70,7 +70,7 @@ class SKAObject{
     var properties : [String : AnyObject]?
 
     var polygon : [[String: Int]]?
-    
+    var polyline : [[String : Int]]?
     var isEllipse = false
 
     /**
@@ -113,7 +113,8 @@ class SKAObject{
         self.properties = properties["properties"] as? [String : AnyObject]
 
         self.polygon = properties["polygon"] as? [[String: Int]]
-
+        self.polyline = properties["polyline"] as? [[String: Int]]
+        
         guard let _  = properties["rotation"] as? Float else{
             fatalError("Error: required rotation is missing on tile object")
         }

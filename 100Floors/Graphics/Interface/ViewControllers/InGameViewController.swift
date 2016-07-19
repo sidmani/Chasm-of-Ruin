@@ -87,10 +87,12 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     
     func loadLevel(level:LevelHandler.LevelDefinition) {
         gameScene.setLevel(MapLevel(level:level))
+    }
+    override func viewDidAppear(animated: Bool) {
         if (gameScene.isTutorial() && !hasExecutedTutorial) {
             popTip1.shouldDismissOnTapOutside = true
             popTip1.shouldDismissOnTap = true
-
+            
             popTip1.popoverColor = ColorScheme.fillColor
             popTip1.borderColor = ColorScheme.strokeColor
             popTip1.borderWidth = 2.0
@@ -119,7 +121,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             self.view.viewWithTag(1)!.alpha = 0.3
             
             incrementTutorial()
-            
         }
     }
     
@@ -191,7 +192,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     func levelEndedDefeat() {
     //    thisCharacter.reset()
         presentingOtherViewController()
-        defaultLevelHandler.levelCompleted(false)
+        defaultLevelHandler.levelCompleted(false, wave: gameScene.currentWave())
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
             let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
             dvc.dismissDelegate = self
@@ -209,7 +210,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     func levelEndedVictory() {
     //    thisCharacter.reset()
         presentingOtherViewController()
-        defaultLevelHandler.levelCompleted(true)
+        defaultLevelHandler.levelCompleted(true, wave: gameScene.currentWave())
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
             let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
             vvc.dismissDelegate = self

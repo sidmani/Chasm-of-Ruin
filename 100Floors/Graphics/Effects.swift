@@ -53,7 +53,7 @@ class StatUpdatePopup:SKNode {
     
     init(color:SKColor, text:String, velocity:CGVector, zoomRate:CGFloat) {
         super.init()
-        self.zPosition = BaseLevel.LayerDef.Effects
+        self.zPosition = MapLevel.LayerDef.Effects
         let labelNode = SKLabelNode()
         labelNode.text = text
         labelNode.setScale(0.2)

@@ -263,10 +263,10 @@ class LevelHandler:NSCoding {
         let unlocksIndex:Int
         var cleared:Bool
         var playCount:Int
-        let maxScore:CGFloat
-        var bestScore:CGFloat
+        let numWaves:CGFloat
+        var bestWave:CGFloat
         
-        init(fileName:String, mapName:String, desc:String, thumb:String, unlocked:Bool, free:Bool, unlocksIndex:Int, playCount:Int = 0, cleared:Bool = false, maxScore:CGFloat, bestScore:CGFloat = 0) {
+        init(fileName:String, mapName:String, desc:String, thumb:String, unlocked:Bool, free:Bool, unlocksIndex:Int, playCount:Int = 0, cleared:Bool = false, numWaves:CGFloat, bestWave:CGFloat = 0) {
             self.fileName = fileName
             self.mapName = mapName
             self.desc = desc
@@ -276,8 +276,8 @@ class LevelHandler:NSCoding {
             self.unlocksIndex = unlocksIndex
             self.playCount = playCount
             self.cleared = cleared
-            self.bestScore = bestScore
-            self.maxScore = maxScore
+            self.bestWave = bestWave
+            self.numWaves = numWaves
         }
         
         @objc required init?(coder aDecoder: NSCoder) {
@@ -290,8 +290,8 @@ class LevelHandler:NSCoding {
             unlocksIndex = aDecoder.decodeObjectForKey("unlocks") as! Int
             playCount = aDecoder.decodeObjectForKey("playcount") as! Int
             cleared = aDecoder.decodeObjectForKey("cleared") as! Bool
-            bestScore = aDecoder.decodeObjectForKey("bestscore") as! CGFloat
-            maxScore = aDecoder.decodeObjectForKey("maxscore") as! CGFloat
+            bestWave = aDecoder.decodeObjectForKey("bestWave") as! CGFloat
+            numWaves = aDecoder.decodeObjectForKey("numWaves") as! CGFloat
         }
         
         @objc func encodeWithCoder(aCoder: NSCoder) {
@@ -304,16 +304,16 @@ class LevelHandler:NSCoding {
             aCoder.encodeObject(unlocksIndex, forKey: "unlocks")
             aCoder.encodeObject(playCount, forKey: "playcount")
             aCoder.encodeObject(cleared, forKey: "cleared")
-            aCoder.encodeObject(bestScore, forKey: "bestscore")
-            aCoder.encodeObject(maxScore, forKey: "maxscore")
+            aCoder.encodeObject(bestWave, forKey: "bestWave")
+            aCoder.encodeObject(numWaves, forKey: "numWaves")
         }
     }
     
     var levelDict:[Int:LevelDefinition] = [
-        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, maxScore: 100),
-        1:LevelDefinition(fileName:"VolcanicPlains", mapName:"Volcanic Plains", desc:"What horrors await at the base of the volcano?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, maxScore: 100),
-        2:LevelDefinition(fileName:"", mapName:"", desc:"Make the treacherous ascent to the summit...", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, maxScore: 100),
-        3:LevelDefinition(fileName:"", mapName:"", desc:"Can you survive the smoldering crater?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, maxScore: 100)
+        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
+        1:LevelDefinition(fileName:"VolcanicPlains", mapName:"Enter the Chasm", desc:"What horrors await at the base of the volcano?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 25),
+        2:LevelDefinition(fileName:"", mapName:"", desc:"Make the treacherous ascent to the summit...", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves:25),
+        3:LevelDefinition(fileName:"", mapName:"", desc:"Can you survive the smoldering crater?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves: 25)
     ]
     
     var currentLevel:Int!
@@ -348,8 +348,9 @@ class LevelHandler:NSCoding {
 //        levelDict[currentLevel]!.playCount += 1
 //    }
 //    
-    func levelCompleted(victory:Bool) {
+    func levelCompleted(victory:Bool, wave:Int) {
         levelDict[currentLevel]!.playCount += 1
+        levelDict[currentLevel]!.bestWave = CGFloat(wave)
         if (victory) {
             setLevelUnlocked(levelDict[currentLevel]!.unlocksIndex)
             levelDict[currentLevel]!.cleared = true

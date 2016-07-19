@@ -172,7 +172,7 @@ class Entity:SKSpriteNode, Updatable {
         self.physicsBody!.allowsRotation = false
         self.physicsBody!.friction = 0
         self.physicsBody!.restitution = 0
-        self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
+        self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
         self.addChild(popups)
         popups.zPosition = 50
     }
@@ -346,7 +346,7 @@ class Entity:SKSpriteNode, Updatable {
                 condition = nil
             }
         }
-        self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
+        self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
     }
     
     
@@ -614,9 +614,10 @@ class ThisCharacter: Entity {
         else {
             statRegenTimeElapsed += deltaT
         }
-        
+        var animationType:String
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+            animationType = UIElements.LeftJoystick.currentPoint != CGPointZero ? "walking" : "standing"
             if (timeSinceProjectile > 500-0.4*Double((stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod) && weapon != nil) {
                 fireProjectile(UIElements.RightJoystick!.normalDisplacement, withSpeed: (stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod/20 + 100)
                 timeSinceProjectile = 0
@@ -633,18 +634,22 @@ class ThisCharacter: Entity {
             didNotifyNilWeapon = false
             if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
                 currentDirection = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
+                animationType = "walking"
+            }
+            else {
+                animationType = "standing"
             }
         }
         
         self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.movementMod * UIElements.LeftJoystick!.normalDisplacement
         
-        if (!isCurrentlyAnimating() || (currentTextureSet != "walking\(currentDirection)" && currentTextureSet != "standing\(currentDirection)")) {
-            if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
-                setCurrentTextures("walking\(currentDirection)")
-            }
-            else {
-                setCurrentTextures("standing\(currentDirection)")
-            }
+        if (!isCurrentlyAnimating() || (currentTextureSet != "\(animationType)\(currentDirection)")) {
+          //  if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
+                setCurrentTextures("\(animationType)\(currentDirection)")
+         //   }
+          //  else {
+           //     setCurrentTextures("standing\(currentDirection)")
+          //  }
             runAnimation(0.25)
         }
     }
@@ -659,23 +664,25 @@ class Enemy:Entity {
         let chance:CGFloat
         let data:String
     }
-    private var drops:[Drop] = []
+    weak var wave:Wave?
     
+   // private var drops:[Drop] = []
+    private var drops:[(object:MapObject, chance:CGFloat)]
     let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
-    var parentSpawner:EnemyCreator?
     private let textureFlip:Bool
     private let initialTextureOrientation:CGFloat
-    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[Drop], stats:Stats, atPosition:CGPoint, spawnedFrom:EnemyCreator?, textureFlipEnabled:Bool = true, initialTextureOrientation:CGFloat = 1) {
+    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[(object:MapObject, chance:CGFloat)], stats:Stats, atPosition:CGPoint, textureFlipEnabled:Bool = true, initialTextureOrientation:CGFloat = 1, wave:Wave? = nil) {
         self.textureFlip = textureFlipEnabled
         self.initialTextureOrientation = initialTextureOrientation
+        self.drops = drops
+        self.wave = wave
         super.init(withStats: stats)
         setTextureDict(textureDict, beginTexture: beginTexture)
         self.name = name
         AI = EnemyDictionary.Dict[name]!(parent: self)
-        parentSpawner = spawnedFrom
-        self.drops = drops
+  //      parentSpawner = spawnedFrom
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
-        physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
+        physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile | InGameScene.PhysicsCategory.MapBoundary
         physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         position = atPosition
         self.runEffect("WarpB")
@@ -726,6 +733,10 @@ class Enemy:Entity {
         return (ret == nil ? false:ret!)
     }
     
+    func struckMapBoundary() {
+        AI?.struckMapBoundary()
+    }
+    
     func setVelocity(v:CGVector) { //v is unit vector
         physicsBody?.velocity = (0.03 * (stats.speed) + 30) * statusFactors.movementMod * v
         if (textureFlip) {
@@ -771,21 +782,24 @@ class Enemy:Entity {
 
     override func die() {
         thisCharacter.killedEnemy(self)
-        for drop in drops {
+        for drop in self.drops {
             if (randomBetweenNumbers(0, secondNum: 1) <= drop.chance) {
-                let newPoint = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
-                let newObj = MapObject.initHandler(drop.type, fromBase64: drop.data, loc: newPoint)
-                (self.scene as? InGameScene)?.addObject(newObj)
+    //                let newPoint =
+                   // let newObj = MapObject.initHandler(drop.type, fromBase64: drop.data, loc: newPoint)
+                drop.object.position = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
+                drop.object.updateZPosition()
+                (self.scene as? InGameScene)?.addObject(drop.object)
             }
         }
-        parentSpawner?.childDied()
+        wave?.enemyDied()
+    //    parentSpawner?.childDied()
         removeFromParent()
         indicatorArrow.removeFromParent()
     }
 }
 
 class DisplayEnemy:Enemy {
-    
+    var parentSpawner:DisplaySpawner? = nil
   //  required init?(coder aDecoder: NSCoder) {
   //      fatalError()
   //  }
@@ -829,7 +843,7 @@ class DisplayEnemy:Enemy {
         else {
             elapsedSinceCheck += deltaT
         }
-        self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
+        self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
     }
     
     override func fireProjectile(texture: SKTexture, range: CGFloat, reflects: Bool, withVelocity: CGVector, status: (StatusCondition, CGFloat)?) {

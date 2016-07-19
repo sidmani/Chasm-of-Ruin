@@ -10,6 +10,7 @@ import SpriteKit
 
 class MenuScene: SKScene {
     private var oldTime:Double = 0
+    var touchLocation:CGPoint?
     override func didMoveToView(view: SKView) {
         //add random display enemies
         //add map
@@ -29,9 +30,19 @@ class MenuScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+        if let touch = touches.first {
+            touchLocation = touch.locationInNode(self)
+        }
     }
-   
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if let touch = touches.first {
+            touchLocation = touch.locationInNode(self)
+        }
+    }
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        touchLocation = nil
+    }
+    
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime

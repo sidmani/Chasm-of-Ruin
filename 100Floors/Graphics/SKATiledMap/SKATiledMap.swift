@@ -684,7 +684,7 @@ class SKATiledMap : SKNode{
                         let objectLayer = SKAObjectLayer(properties: layerDictionary)
                         var collisionSprites = [SKNode]()
                         var objects = [SKAObject]()
-                        
+                     //   print("objectDict: \(objectsArray.count)")
                         for objectDictionary in objectsArray{
                             
                             if let properties = objectDictionary as? [String : AnyObject]{
@@ -715,9 +715,8 @@ class SKATiledMap : SKNode{
                                             collisionSprites.append(floorSprite)
                                         }
                                         else if collisionType == "SKACollisionTypeShape"{
-                                            print("collision type shape")
+                                        //    print("collision type shape")
                                             if object.polygon != nil{
-                                                
                                                 let points = object.polygon!
                                                 let myPath = UIBezierPath();
                                                 myPath.moveToPoint(CGPoint(x: 0,y: 0))
@@ -746,12 +745,55 @@ class SKATiledMap : SKNode{
                                                 node.physicsBody?.dynamic = false
                                                 node.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
                                                 node.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
+                                                
                                                 node.physicsBody!.restitution = 0
                                                 addChild(node)
                                                 collisionSprites.append(node)
                                                 
-                                            } else if object.isEllipse{
+                                            }
+                                        }
+                                        else if collisionType == "SKACollisionTypeLine"{
+                                        //    print("SKACollisionTypeLine")
+                                            if object.polyline != nil{
+                                       //         print("collision type edge-based shape")
+                                                let points = object.polyline!
+                                                let myPath = UIBezierPath();
+                                                var hasInitialPoint = false
+                                                for set in points{
+                                                    
+                                                    let x = set["x"]!
+                                                    var y = set["y"]!
+                                                    if(objectLayer.drawOrder == "topdown")
+                                                    {
+                                                        y = -y
+                                                    }
+
+                                                    //   print("\(x),\(y)")
+                                                    //getting origin in the correct position based on draw order
+                        
+                                                    if (!hasInitialPoint) {
+                                                        myPath.moveToPoint(CGPoint(x: x,y: y))
+                                                        hasInitialPoint = true
+                                                    }
+                                                    else if x != 0 && y != 0{
+                                                        myPath.addLineToPoint(CGPoint(x: x,y: y))
+                                                    }
+                                                }
                                                 
+                                                let node = SKNode()
+                                                node.zPosition = CGFloat(layerNumber)
+                                                let centerX = CGFloat(object.x+object.width/2)
+                                                let centerY = CGFloat(object.y+object.height/2)
+                                                node.position = CGPointMake(centerX, centerY)
+                                                node.physicsBody = SKPhysicsBody(edgeLoopFromPath: myPath.CGPath)
+                                                node.physicsBody?.dynamic = false
+                                                node.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
+                                                node.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
+                                                
+                                                node.physicsBody!.restitution = 0
+                                                addChild(node)
+                                                collisionSprites.append(node)
+                                        }   else if object.isEllipse{
                                                 let shapeNode = SKShapeNode(ellipseOfSize: CGSize(width: object.width, height:object.height))
                                                 shapeNode.zPosition = CGFloat(layerNumber)
                                                 shapeNode.fillColor = SKColor.clearColor()

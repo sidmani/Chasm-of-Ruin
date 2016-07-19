@@ -55,7 +55,6 @@ class MaintainDistance:Behavior {
             parent.setVelocity(CGVector.zero)
         }
     }
-    
 }
 
 class Wander:Behavior {
@@ -153,27 +152,57 @@ class Flee:Behavior {
     }
 }
 
-class ReturnToSpawn:Behavior {
-    init(updateRate:Double, priority:Int) {
-        super.init(idType: .Movement, updateRate: updateRate)
+//class ReturnToSpawn:Behavior {
+//    init(updateRate:Double, priority:Int) {
+//        super.init(idType: .Movement, updateRate: updateRate)
+//        self.priority = priority
+//    }
+//    
+//    override func getConditional() -> Bool {
+//        return true
+//    }
+//    
+//    override func executeBehavior(timeSinceUpdate: Double) {
+//        if let spawnLoc = (parent.parentSpawner as? Spawner)?.position {
+//            var v = CGVectorMake(spawnLoc.x-parent.position.x, spawnLoc.y-parent.position.y)
+//            v.normalize()
+//            parent.setVelocity(v)
+//        }
+//    }
+//}
+
+
+class MoveToTouch:Behavior {
+    private let distanceToMaintain:CGFloat
+    
+    init(distanceToMaintain:CGFloat, priority:Int) {
+        self.distanceToMaintain = distanceToMaintain
+        super.init(idType:.Movement, updateRate: 100)
         self.priority = priority
     }
     
     override func getConditional() -> Bool {
-        return true
+        if let point = (parent.scene as? MenuScene)?.touchLocation {
+            let dist = hypot(point.x - parent.position.x, point.y - parent.position.y)
+            return dist > distanceToMaintain
+        }
+        return false
     }
     
-    override func executeBehavior(timeSinceUpdate: Double) {
-        if let spawnLoc = (parent.parentSpawner as? Spawner)?.position {
-            var v = CGVectorMake(spawnLoc.x-parent.position.x, spawnLoc.y-parent.position.y)
-            v.normalize()
-            parent.setVelocity(v)
+    override func executeBehavior(timeSinceUpdate:Double) {
+        if let dest = (parent.scene as? MenuScene)?.touchLocation {
+            let v = CGVectorMake(dest.x - parent.position.x, dest.y - parent.position.y)
+            let dist = hypot(v.dx, v.dy)
+            if (dist > distanceToMaintain) {
+                parent.setVelocity(1/dist * v)
+                
+            }
+            else if (dist < distanceToMaintain) {
+                parent.setVelocity(CGVector.zero)
+            }
         }
     }
 }
-
-
-
 
 
 

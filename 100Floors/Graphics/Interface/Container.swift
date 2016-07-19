@@ -103,7 +103,7 @@ class LevelContainer:Container {
         lockView.hidden = level!.unlocked
         levelView.image = UIImage(named:level!.thumb)
         if (level!.cleared) {
-            numberLabel.text = String(count: min(Int(5*level!.bestScore / level!.maxScore)+1, 5), repeatedValue: "⭐" as Character)
+            numberLabel.text = String(count: min(Int(5*level!.bestWave / level!.numWaves)+1, 5), repeatedValue: "⭐" as Character)
         }
         else if (level!.playCount == 0 && level!.unlocked) {
             numberLabel.text = "⚡"

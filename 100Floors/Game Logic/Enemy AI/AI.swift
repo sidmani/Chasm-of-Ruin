@@ -25,11 +25,17 @@ class EnemyAI: Updatable{
         }
         currState = states[startingState]!
     }
+    
     func changeState(to:String) {
         currState.endState()
         currState = states[to]!
         currState.beginState()
     }
+    
+    func struckMapBoundary() {
+        currState.struckMapBoundary()
+    }
+    
     func update(deltaT:Double) {
         if (elapsedSinceUpdate >= EnemyAI.transition_update_interval) {
             let out = currState.evaluateTransitions()
@@ -52,18 +58,21 @@ class State:Updatable {
     private let runOnBeginState:[Behavior]
     private let runOnEndState:[Behavior]
     
+    private let runOnStruckMapBoundary:[Behavior]
+    
     private var behaviors:[Behavior]
     private var behaviorsToRun:[Behavior] = []
     private let transitions:[Transition]
     
     let name:String
     
-    init(name:String, runOnBeginState:[Behavior] = [], behaviors:[Behavior], runOnEndState:[Behavior] = [], transitions:[Transition]) {
+    init(name:String, runOnBeginState:[Behavior] = [], behaviors:[Behavior], runOnEndState:[Behavior] = [], runOnStruckMapBoundary:[Behavior] = [], transitions:[Transition]) {
         self.name = name
         self.behaviors = behaviors
         self.transitions = transitions
         self.runOnEndState = runOnEndState
         self.runOnBeginState = runOnBeginState
+        self.runOnStruckMapBoundary = runOnStruckMapBoundary
         self.behaviors.sortInPlace({$0.priority > $1.priority})
     }
     
@@ -120,6 +129,12 @@ class State:Updatable {
     
     func endState() {
         for behavior in runOnEndState {
+            behavior.executeBehavior(0)
+        }
+    }
+    
+    func struckMapBoundary() {
+        for behavior in runOnStruckMapBoundary {
             behavior.executeBehavior(0)
         }
     }

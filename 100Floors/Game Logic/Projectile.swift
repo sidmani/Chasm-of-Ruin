@@ -47,7 +47,7 @@ class Projectile:SKSpriteNode, Updatable{
             self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None
             self.physicsBody?.restitution = 0
         }
-        self.zPosition = BaseLevel.LayerDef.Projectiles
+        self.zPosition = MapLevel.LayerDef.Projectiles
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,8 +61,8 @@ class Projectile:SKSpriteNode, Updatable{
     
     func update(deltaT:Double) {
         distanceTraveled += CGFloat(deltaT/1000) * _speed
-        self.zPosition = BaseLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
-        //self.zPosition = BaseLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
+       // self.zPosition = MapLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
+        self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y)
         if (distanceTraveled > range) {
             removeFromParent()
         }

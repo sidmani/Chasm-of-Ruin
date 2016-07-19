@@ -28,6 +28,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
     private let kProperty = "property"
     private let kProperies = "properties"
     private let kPolygon = "polygon"
+    private let kPolyline = "polyline"
     private let kEllipse = "ellipse"
 
     /**
@@ -214,6 +215,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
             }
         
         case kObject :
+      //      print("discovered object")
             object = newObject()
             for (key, value) in attributeDict{
                 object[key] = value
@@ -246,7 +248,25 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
                 
                 object[kPolygon] = polygons
             }
-            
+        case kPolyline:
+            if let pairsString = attributeDict["points"] {
+                
+                var polygons = [[String: Int]]()
+                let pairs = pairsString.componentsSeparatedByString(" ")
+                
+                for pair in pairs{
+                    let xy = pair.componentsSeparatedByString(",")
+                    if xy.count == 2 {
+                        let x = Int(NSNumberFormatter().numberFromString(xy[0])!.intValue)
+                        let y = Int(NSNumberFormatter().numberFromString(xy[1])!.intValue)
+                        polygons.append(["x": x, "y": y])
+                    }else{
+                        fatalError("TMXParser Error: expected x,y pair but got \(xy)")
+                    }
+                }
+                
+                object[kPolyline] = polygons
+            }
         case kEllipse:
             object[kEllipse] = true
         
@@ -330,8 +350,8 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
                     properties = [String: AnyObject]()
                 }
                 objectLayer["objects"] = objects
-                layers.append(objectLayer)
-            
+                layers.append(cleanDictionary(objectLayer))
+                objects = []
             case kProperies:
                 object["properties"] = properties
             
