@@ -123,6 +123,24 @@ class Inventory:NSObject, NSCoding {
         return (weaponIndex == index || skillIndex == index || armorIndex == index || enhancerIndex == index)
     }
     
+    func isFull() -> Bool {
+        for item in inventory {
+            if (item == nil) {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func lowestEmptySlot() -> Int {
+        for i in 0..<baseSize {
+            if (inventory[i] == nil) {
+                return i
+            }
+        }
+        return -1
+    }
+    
 //    func dropAllItems() -> [Item?] {
 //        let allItems = inventory
 //        inventory = [Item?](count:baseSize, repeatedValue: nil)

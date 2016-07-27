@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="8">
  <properties>
   <property name="NumWaves" value="3"/>
   <property name="StartLoc" value="12,10"/>
-  <property name="Wave1" value="ZTA6MTIwLDIwOHxlMDoxOTIsMTEyfGUwOjE5MiwyMDg="/>
-  <property name="Wave2" value="ZTA6MTIwLDIwOHxlMDoxOTIsMTEyfGUwOjE5MiwyMDg="/>
-  <property name="Wave3" value="ZTA6MTIwLDIwOHxlMDoxOTIsMTEyfGUwOjE5MiwyMDg="/>
+  <property name="Wave1" value="dDA6QXx0MDpCfHQwOkM="/>
+  <property name="Wave2" value="dDE6QXx0MTpCfHQxOkM="/>
+  <property name="Wave3" value="dDE6QXx0MTpCfHQxOkN8dDI6RA=="/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
   <image source="../Tilesets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>
@@ -68,4 +68,10 @@
 136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136,136
 </data>
  </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="1" name="A" type="SpawnPoint" x="133.818" y="216.182" width="4.90909" height="4"/>
+  <object id="2" name="B" type="SpawnPoint" x="189.455" y="116.727" width="4.54545" height="4"/>
+  <object id="5" name="C" type="SpawnPoint" x="251.273" y="199.636" width="3.63636" height="2.90909"/>
+  <object id="7" name="D" type="SpawnPoint" x="194.545" y="161.818" width="2.18182" height="3.09091"/>
+ </objectgroup>
 </map>

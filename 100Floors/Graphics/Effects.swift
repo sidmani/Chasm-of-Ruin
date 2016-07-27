@@ -9,43 +9,57 @@
 import Foundation
 import SpriteKit
 
-class CountdownTimer:SKLabelNode {
+class CountdownTimer:SKNode {
     private var timeSinceUpdate:Double = 0
     private var currTime:Int
     private var timer:NSTimer?
     private let finalText:String
-    init(time:Int, endText:String) {
+    private let completion:() -> ()
+    private let node = SKLabelNode()
+    init(time:Int, endText:String, completion: ()->()) {
         currTime = time
         finalText = endText
+        self.completion = completion
         super.init()
-        verticalAlignmentMode = .Center
-        fontName = "Optima"
-        fontSize = 72
-        fontColor = UIColor.redColor()
-        text  = "\(currTime)"
-        zPosition = 100
+        
+        
+        node.verticalAlignmentMode = .Center
+        node.fontName = "AvenirNext-Heavy"
+        node.fontSize = 72
+        node.fontColor = UIColor.redColor()
+        node.text  = "\(currTime)"
+        node.zPosition = 100
+        self.addChild(node)
+        node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    func startTimer() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
-    }
+    
     func runTimer() {
+        currTime -= 1
         if (currTime > 0) {
-            self.text = "\(currTime)"
+            node.removeAllActions()
+            node.setScale(1)
+            node.alpha = 1
+            node.text = "\(currTime)"
+            node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
         }
         else if (currTime == 0) {
-            self.text = finalText
+            node.removeAllActions()
+            node.setScale(1)
+            node.alpha = 1
+            node.text = finalText
+            node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
         }
         else {
             //do some animation
-            //callback
+            completion()
             timer?.invalidate()
             self.removeFromParent()
         }
-        currTime -= 1
     }
 }
 

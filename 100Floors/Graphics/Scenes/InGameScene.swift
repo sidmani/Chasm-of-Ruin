@@ -53,6 +53,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.camera!.setScale(0.2)
         self.paused = true
         //////////////////////////////////////////
+        self.addChild(self.camera!)
         //////////////////////////////////////////
         addChild(nonCharNodes)
         addChild(thisCharacter)
@@ -198,23 +199,37 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         thisCharacter.setTextureDict()
         thisCharacter.reset()
         cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
-        currentLevel!.nextWave()
+       
         ///////////////////////////
         thisCharacter.hidden = false
         nonCharNodes.hidden = false
         self.paused = false
         if (!isTutorial()) {
             NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.definition.mapName)
+            self.camera!.addChild(CountdownTimer(time: 5, endText: "GO") {[unowned self] in
+                self.currentLevel!.nextWave()
+            })
         }
+        else {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(startCountdownAfterTutorial), name: "TutorialEnded", object: nil)
+        }
+    }
+    
+    func startCountdownAfterTutorial() {
+        self.camera!.addChild(CountdownTimer(time: 5, endText: "GO") {[unowned self] in
+            self.currentLevel!.nextWave()
+        })
     }
     
     func reloadLevel() {
         if let level = currentLevel {
             setLevel(MapLevel(level: level.definition))
+            self.currentLevel!.nextWave()
         }
     }
     
     ////////
+    var hasMovedToNextWave = false
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
@@ -226,10 +241,21 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
-                if (currentLevel!.waveIsOver()) {
+                if (currentLevel!.waveIsOver() && !hasMovedToNextWave) {
                     //countdown
                     //next wave
-                    currentLevel!.nextWave()
+                    hasMovedToNextWave = true
+                    if (currentLevel!.currWave == currentLevel!.numWaves - 1) {
+                        NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
+                    }
+                    else {
+                        self.camera!.addChild(CountdownTimer(time: 5, endText: "GO") {[unowned self] in
+                            self.currentLevel!.nextWave()
+                        })
+                    }
+                }
+                else if (!currentLevel!.waveIsOver()){
+                    hasMovedToNextWave = false
                 }
             }
             for node in nonCharNodes.children {

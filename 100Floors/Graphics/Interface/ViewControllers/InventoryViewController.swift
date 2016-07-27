@@ -45,6 +45,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     var groundBag:ItemBag?
     
+    var hasExecutedTutorial = false
+    let popTip = AMPopTip()
+    var popupNum = 0
+    
     private var leftScrollBound:CGFloat = 0
     private var rightScrollBound:CGFloat = 0
     private var itemWidth:CGFloat = 0
@@ -64,7 +68,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         inventoryCollection.addGestureRecognizer(longPressGR)
         longPressGR.addTarget(self, action: #selector(handleLongPress))
         longPressGR.delegate = self
-        
+        longPressGR.minimumPressDuration = 0.5
         StatsDisplay = [HPProgressView, DEFProgressView, ATKProgressView, SPDProgressView, DEXProgressView, ManaProgressView]
         DescriptionLabel.text = ""
         
@@ -89,7 +93,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         ManaProgressView.fillDoneColor = ColorScheme.MANAColor
         DEXProgressView.fillDoneColor = ColorScheme.DEXColor
         SPDProgressView.fillDoneColor = ColorScheme.SPDColor
-
+        
         GlobalHPProgressView.fillDoneColor = ColorScheme.HPColor
         GlobalATKProgressView.fillDoneColor = ColorScheme.ATKColor
         GlobalDEFProgressView.fillDoneColor = ColorScheme.DEFColor
@@ -124,7 +128,49 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidAppear(animated: Bool) {
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
         rightScrollBound = layout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
+        if (!hasExecutedTutorial) {
+            popTip.shouldDismissOnTapOutside = true
+            popTip.shouldDismissOnTap = true
+            
+            popTip.popoverColor = ColorScheme.fillColor
+            popTip.borderColor = ColorScheme.strokeColor
+            popTip.borderWidth = 2.0
+            
+            popTip.actionAnimation = .Float
+            popTip.entranceAnimation = .Scale
+            popTip.exitAnimation = .Scale
+            popTip.dismissHandler = {[unowned self] in
+                self.incrementTutorial()
+            }
+            incrementTutorial()
+        }
     }
+    
+    /////////Tutorial/////////
+    func incrementTutorial() {
+        switch (popupNum) {
+        case 0:
+            popTip.showText("This is your inventory.", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+        case 1:
+            popTip.showText("Press and drag an item to move it to a different slot.", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+        case 2:
+            popTip.showText("The leftmost slot shows an item on the ground. Use it to drop or pick up items.", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+        case 3:
+            popTip.showText("Press this button to load or use the selected item.", direction: .Up, maxWidth: EquipButton.frame.width*2, inView: self.view, fromFrame: EquipButton.frame)
+        case 4:
+            popTip.showText("These display the individual stats for each item. Tap on each one to learn more!", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
+            popTip.shouldDismissOnTapOutside = false
+        case 5:
+            popTip.showText("Swipe up to display your character's stats.", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
+            popTip.shouldDismissOnTapOutside = true
+        case 6:
+            popTip.showText("Now load a weapon and armor, and let's begin playing!", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+        default:
+            break
+        }
+        popupNum += 1
+    }
+    
     
     func itemDropped(indexA:Int, indexB:Int) {
         if (indexA == indexB) {return}
@@ -158,8 +204,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     @IBAction func exit(sender: AnyObject) {
-        dismissDelegate?.didDismissModalVC(groundBag)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissDelegate?.willDismissModalVC(self.groundBag)
+        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+            self.dismissDelegate?.didDismissModalVC(nil)
+        })
     }
     
     @IBAction func equipButtonPressed(sender: AnyObject) {
@@ -181,7 +229,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     EquipButton.setTitle("Unload", forState: .Normal)
                 }
                 else {
-                    EquipButton.setTitle("Equip", forState: .Normal)
+                    EquipButton.setTitle("Load", forState: .Normal)
                 }
             }
             inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
@@ -229,26 +277,24 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 DEXProgressView.modifierLabel.text = "\(Int(item.statMods.dexterity))"
 
                 if (item is Consumable) {
-                    for view in StatsDisplay {
-                        view.alpha = 1
-                    }
                     DescriptionLabel.alpha = 0
                     if ((item as! Consumable).permanent) {
+                        HPProgressView.modifierLabel.text = "\(Int(item.statMods.maxHealth))"
+                        ManaProgressView.modifierLabel.text = "\(Int(item.statMods.maxMana))"
+                        HPProgressView.setProgress(item.statMods.maxHealth/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
+                        ManaProgressView.setProgress(item.statMods.maxMana/StatLimits.SINGLE_ITEM_STAT_MAX, animated: true)
                         for view in StatsDisplay {
                             view.modifierLabel.text = view.modifierLabel.text! + "🔒"
                         }
                     }
-                    else {
-                        ATKProgressView.alpha = 0.3
-                        DEFProgressView.alpha = 0.3
-                        SPDProgressView.alpha = 0.3
-                        DEXProgressView.alpha = 0.3
+                    for view in StatsDisplay {
+                        if (view.progress != 0) {
+                            view.alpha = 1
+                        }
+                        else {
+                            view.alpha = 0.3
+                        }
                     }
-                   // else {
-                  //      for view in StatsDisplay {
-                  //          view.modifierLabel.text = view.modifierLabel.text! + "⏱"
-                  //      }
-                  //  }
                     EquipButton.setTitle("Consume", forState: .Normal)
                 }
                 else if (item is Usable) {
@@ -277,7 +323,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                         EquipButton.setTitle("Unload", forState: .Normal)
                     }
                     else {
-                        EquipButton.setTitle("Equip", forState: .Normal)
+                        EquipButton.setTitle("Load", forState: .Normal)
                     }
                 }
                 else if item is Skill {
@@ -289,7 +335,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                         EquipButton.setTitle("Unload", forState: .Normal)
                     }
                     else {
-                        EquipButton.setTitle("Equip", forState: .Normal)
+                        EquipButton.setTitle("Load", forState: .Normal)
                     }
                 }
                 
@@ -302,7 +348,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             else {
                 ItemNameLabel.text = "---"
                 for view in StatsDisplay {
-                    view.alpha = 0
+                    view.alpha = 0.3
+                    view.setProgress(0, animated: true)
                 }
                 DescriptionLabel.alpha = 0
                 DescriptionLabel.text = ""
@@ -418,12 +465,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 currentItemIsButton = false
             }
             else if (inventoryCollection.cellForItemAtIndexPath(path) != nil && !currentItemIsButton) {
-              //  if (!currentItemIsButton) {
                 previousSelectedContainer?.setSelectedTo(false)
                 previousSelectedContainer = nil
                 currentItemIsButton = true
                 return true
-              //  }
             }
         }
         return false

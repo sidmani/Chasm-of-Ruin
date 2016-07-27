@@ -10,6 +10,7 @@ import UIKit
 import SpriteKit
 protocol ModalDismissDelegate {
     func didDismissModalVC(object:AnyObject?)
+    func willDismissModalVC(object:AnyObject?)
 }
 
 class MenuViewController: UIViewController, ModalDismissDelegate {
@@ -39,9 +40,13 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
     }
     
-    func didDismissModalVC(object:AnyObject? = nil) {
+    func willDismissModalVC(object: AnyObject?) {
         (view as! SKView).scene?.paused = false
         view.subviews.forEach({(view) in view.hidden = false})
+    }
+    
+    func didDismissModalVC(object:AnyObject? = nil) {
+    
     }
     
     func setCurrencyLabels() {

@@ -24,9 +24,9 @@ class VictoryViewController: UIViewController {
     }
     
     @IBAction func respawn(sender: AnyObject) {
-        dismissDelegate?.didDismissModalVC("victoryRespawn")
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissDelegate?.willDismissModalVC("victoryRespawn")
+        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+            self.dismissDelegate?.didDismissModalVC(nil)
+        })
     }
-    
-    
 }

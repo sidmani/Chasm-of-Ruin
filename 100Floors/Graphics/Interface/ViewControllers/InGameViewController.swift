@@ -88,6 +88,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     func loadLevel(level:LevelHandler.LevelDefinition) {
         gameScene.setLevel(MapLevel(level:level))
     }
+    
     override func viewDidAppear(animated: Bool) {
         if (gameScene.isTutorial() && !hasExecutedTutorial) {
             popTip1.shouldDismissOnTapOutside = true
@@ -180,7 +181,9 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
                 self.view.viewWithTag(1)!.alpha = 1
                 self.incrementTutorial()
             }
-        default: hasExecutedTutorial = true
+        default:
+            hasExecutedTutorial = true
+            NSNotificationCenter.defaultCenter().postNotificationName("TutorialEnded", object: nil)
         }
         popupNum += 1
     }
@@ -189,16 +192,18 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         return !(touch.view is JoystickControl)
     }
     
+    var gameStateChangedWhilePresentingVC = 0
+    
     func levelEndedDefeat() {
-    //    thisCharacter.reset()
         presentingOtherViewController()
         defaultLevelHandler.levelCompleted(false, wave: gameScene.currentWave())
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
-            let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
-            dvc.dismissDelegate = self
-            addChildViewController(dvc)
-            presentedViewController!.willMoveToParentViewController(nil)
-            transitionFromViewController(self.presentedViewController!, toViewController: dvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
+//            let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+//            dvc.dismissDelegate = self
+//            addChildViewController(dvc)
+//            presentedViewController!.willMoveToParentViewController(nil)
+//            transitionFromViewController(self.presentedViewController!, toViewController: dvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
+            gameStateChangedWhilePresentingVC = 1
         }
         else if (presentedViewController == nil) {
             let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
@@ -208,15 +213,15 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     }
     
     func levelEndedVictory() {
-    //    thisCharacter.reset()
         presentingOtherViewController()
         defaultLevelHandler.levelCompleted(true, wave: gameScene.currentWave())
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
-            let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
-            vvc.dismissDelegate = self
-            addChildViewController(vvc)
-            presentedViewController!.willMoveToParentViewController(nil)
-            transitionFromViewController(self.presentedViewController!, toViewController: vvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
+//            let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+//            vvc.dismissDelegate = self
+//            addChildViewController(vvc)
+//            presentedViewController!.willMoveToParentViewController(nil)
+//            transitionFromViewController(self.presentedViewController!, toViewController: vvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
+            gameStateChangedWhilePresentingVC = 2
         }
         else if (presentedViewController == nil) {
             let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
@@ -264,12 +269,11 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
         inventoryController.groundBag = groundBag
         inventoryController.dismissDelegate = self
-    //    self.addChildViewController(inventoryController)
+        inventoryController.hasExecutedTutorial = hasExecutedTutorial
         presentViewController(inventoryController, animated: true, completion: nil)
     }
     
-    func didDismissModalVC(object:AnyObject? = nil) {
-        thisCharacter.reset()
+    func willDismissModalVC(object: AnyObject?) {
         self.view.subviews.forEach({(view) in view.hidden = false})
         self.InfoDisplay.hidden = true
         LeftJoystickControl.resetControl()
@@ -284,18 +288,31 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         else if let flag = object as? String {
             switch (flag) {
             case "Revive":
+                thisCharacter.reset()
                 thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
             case "defeatRespawn":
                 thisCharacter.confirmDeath()
+                thisCharacter.reset()
                 gameScene.reloadLevel()
             case "victoryRespawn":
+                thisCharacter.reset()
                 gameScene.reloadLevel()
             default: fatalError()
             }
         }
-
-        gameScene.paused = false
-
+    }
+    
+    func didDismissModalVC(object:AnyObject? = nil) {
+        if (gameStateChangedWhilePresentingVC == 1) {
+            levelEndedDefeat()
+            gameStateChangedWhilePresentingVC = 0
+        }
+        else if (gameStateChangedWhilePresentingVC == 2) {
+            levelEndedVictory()
+            gameStateChangedWhilePresentingVC = 0
+        }
+        self.gameScene.paused = false
+        
     }
     
     func presentingOtherViewController() {

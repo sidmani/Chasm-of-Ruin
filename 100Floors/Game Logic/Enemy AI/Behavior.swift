@@ -17,7 +17,7 @@ class Behavior: Updatable {
     
     var idType:BehaviorIDType
     private var timeSinceUpdate:Double = 0
-    private let updateRate:Double
+    let updateRate:Double
     
     var priority:Int = 0
     
@@ -47,7 +47,7 @@ class Behavior: Updatable {
         return false
     }
     
-    internal func executeBehavior(timeSinceUpdate:Double) {
+    func executeBehavior(timeSinceUpdate:Double) {
         
     }
 }

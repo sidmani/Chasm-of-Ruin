@@ -341,7 +341,7 @@ class Entity:SKSpriteNode, Updatable {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
                 removeAllPopups()
-                addPopup(UIColor.greenColor(), text: "CLEARED")
+                addPopup(UIColor.greenColor(), text: "STATUS CLEARED")
                 statusFactors = StatusFactors()
                 condition = nil
             }
@@ -417,10 +417,10 @@ class ThisCharacter: Entity {
     convenience init(inventorySize:Int) {
         self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventorySize), withLevel: 1, withExp: 0)
 
-        inventory.setItem(0, toItem: Item.initHandlerID("shield15"))
-        inventory.setItem(1, toItem: Item.initHandlerID("cons11"))
-        inventory.setItem(2, toItem: Item.initHandlerID("sell2"))
-        inventory.setItem(3, toItem: Item.initHandlerID("weapon17"))
+        inventory.setItem(0, toItem: Item.initHandlerID("s15"))
+        inventory.setItem(1, toItem: Item.initHandlerID("c11"))
+        inventory.setItem(2, toItem: Item.initHandlerID("v2"))
+        inventory.setItem(3, toItem: Item.initHandlerID("w17"))
 
      //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
@@ -519,6 +519,7 @@ class ThisCharacter: Entity {
         timeSinceProjectile = 0
         currentTextureSet = "standing3"
         UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
+        UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
     }
 
     func confirmDeath() {
@@ -532,7 +533,7 @@ class ThisCharacter: Entity {
         if (level < StatLimits.MAX_LEVEL && expPoints >= StatLimits.expForLevel[level+1]) {
             level += 1
             removeAllPopups()
-            addPopup(UIColor.greenColor(), text: "LEVEL UP")
+            addPopup(UIColor.greenColor(), text: "LEVEL UP: \(level)")
             runEffect("Heal1")
             for i in 0..<Stats.numStats {
                 stats.setIndex(i, toVal: stats.getIndex(i) + randomBetweenNumbers(StatLimits.MIN_LVLUP_STAT_GAIN, secondNum: StatLimits.MAX_LVLUP_STAT_GAIN))
@@ -541,6 +542,7 @@ class ThisCharacter: Entity {
             stats.mana = stats.maxMana
             stats.capAt(StatLimits.BASE_STAT_MAX)
             UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
+            UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
             UIElements.EXPBar.setProgress(0, animated: false)
             // add some other animation
         }
@@ -666,11 +668,11 @@ class Enemy:Entity {
     }
     weak var wave:Wave?
     
-   // private var drops:[Drop] = []
     private var drops:[(object:MapObject, chance:CGFloat)]
     let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
     private let textureFlip:Bool
     private let initialTextureOrientation:CGFloat
+    
     init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[(object:MapObject, chance:CGFloat)], stats:Stats, atPosition:CGPoint, textureFlipEnabled:Bool = true, initialTextureOrientation:CGFloat = 1, wave:Wave? = nil) {
         self.textureFlip = textureFlipEnabled
         self.initialTextureOrientation = initialTextureOrientation
@@ -680,14 +682,11 @@ class Enemy:Entity {
         setTextureDict(textureDict, beginTexture: beginTexture)
         self.name = name
         AI = EnemyDictionary.Dict[name]!(parent: self)
-  //      parentSpawner = spawnedFrom
         physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Enemy
         physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.FriendlyProjectile | InGameScene.PhysicsCategory.MapBoundary
         physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.MapBoundary
         position = atPosition
-        self.runEffect("WarpB")
-        
-        indicatorArrow.zPosition = 100
+        self.runEffect("TeleportC")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -754,6 +753,7 @@ class Enemy:Entity {
             }
         }
     }
+    
     let statusHarmInterval:Double = 2000
     var currentStatusElapsed:Double = 0
     
@@ -769,6 +769,7 @@ class Enemy:Entity {
         else if (condition != nil) {
             currentStatusElapsed += deltaT
         }
+        
         if (!isOnScreen()) {
             if (indicatorArrow.parent == nil) {
                 thisCharacter.pointers.addChild(indicatorArrow)
@@ -784,15 +785,12 @@ class Enemy:Entity {
         thisCharacter.killedEnemy(self)
         for drop in self.drops {
             if (randomBetweenNumbers(0, secondNum: 1) <= drop.chance) {
-    //                let newPoint =
-                   // let newObj = MapObject.initHandler(drop.type, fromBase64: drop.data, loc: newPoint)
                 drop.object.position = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
                 drop.object.updateZPosition()
                 (self.scene as? InGameScene)?.addObject(drop.object)
             }
         }
         wave?.enemyDied()
-    //    parentSpawner?.childDied()
         removeFromParent()
         indicatorArrow.removeFromParent()
     }
@@ -800,9 +798,6 @@ class Enemy:Entity {
 
 class DisplayEnemy:Enemy {
     var parentSpawner:DisplaySpawner? = nil
-  //  required init?(coder aDecoder: NSCoder) {
-  //      fatalError()
-  //  }
     override func setVelocity(v:CGVector) { //v is unit vector
         physicsBody?.velocity = 30 * v
         if (textureFlip) {

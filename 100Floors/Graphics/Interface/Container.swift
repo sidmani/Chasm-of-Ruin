@@ -26,7 +26,7 @@ struct ColorScheme {
     static let DEFColor = UIColor.blackColor()
     static let DEXColor = UIColor(red: 249/255, green: 159/255, blue: 2/255, alpha: 1)
     
-    static let strokeColor =  UIColor(colorLiteralRed: 0.75, green: 0.75, blue: 0.75, alpha: 0.8)
+    static let strokeColor =  UIColor(colorLiteralRed: 0.95, green: 0.95, blue: 0.95, alpha: 0.9)
     static let strokeColorSelected = UIColor(colorLiteralRed: 1, green: 0.98, blue: 0.45, alpha: 0.8)
     
     static let fillColor = UIColor(colorLiteralRed: 0.85, green: 0.85, blue: 0.85, alpha: 0.75)
@@ -36,7 +36,6 @@ struct ColorScheme {
 class Container:UICollectionViewCell {
     private var centerPoint = CGPointZero
     private let rectangleLayer = CAShapeLayer()
-   // private let containerView:UIView = UIView()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -96,14 +95,26 @@ class LevelContainer:Container {
         self.addSubview(numberLabel)
     }
     
-    
+    override func setSelectedTo(val: Bool) {
+        if (val) {
+            rectangleLayer.fillColor = ColorScheme.fillColorSelected.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
+            lockView.tintColor = ColorScheme.strokeColorSelected
+        }
+        else {
+            rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
+            lockView.tintColor = ColorScheme.strokeColor
+        }
+    }
     
     func setLevelTo(l:LevelHandler.LevelDefinition) {
         level = l
         lockView.hidden = level!.unlocked
         levelView.image = UIImage(named:level!.thumb)
         if (level!.cleared) {
-            numberLabel.text = String(count: min(Int(5*level!.bestWave / level!.numWaves)+1, 5), repeatedValue: "⭐" as Character)
+            //numberLabel.text = String(count: min(Int(5*level!.bestWave / level!.numWaves)+1, 5), repeatedValue: "⭐" as Character)
+            numberLabel.text = "⭐"
         }
         else if (level!.playCount == 0 && level!.unlocked) {
             numberLabel.text = "⚡"
@@ -115,7 +126,7 @@ class LevelContainer:Container {
 }
 
 class ItemContainer:Container {
-    
+
     private let numberLabel = UILabel()
     let itemView = UIImageView()
     var item:Item?

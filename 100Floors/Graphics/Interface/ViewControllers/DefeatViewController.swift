@@ -29,8 +29,10 @@ class DefeatViewController: UIViewController {
     }
     
     @IBAction func respawn(sender: AnyObject) {
-        self.dismissDelegate?.didDismissModalVC("defeatRespawn")
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissDelegate?.willDismissModalVC("defeatRespawn")
+        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+            self.dismissDelegate?.didDismissModalVC(nil)
+        })
     }
     
     @IBAction func revivePressed(sender: AnyObject) {
@@ -40,8 +42,10 @@ class DefeatViewController: UIViewController {
             if (response) {
                 if (defaultPurchaseHandler.makePurchase("ReviveSelf", withMoneyHandler: defaultMoneyHandler, currency: CurrencyType.ChasmCrystal)) {
                     //self.performSegueWithIdentifier("revive", sender: self)
-                    self.dismissDelegate?.didDismissModalVC("Revive")
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismissDelegate?.willDismissModalVC("Revive")
+                    self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+                        self.dismissDelegate?.didDismissModalVC(nil)
+                    })
                 }
                 else {
                     let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController

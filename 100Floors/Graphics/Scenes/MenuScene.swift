@@ -26,12 +26,21 @@ class MenuScene: SKScene {
         self.addChild(DisplaySpawner(enemyImageName: "SlimeSquareB", numFrames: 5, maxNumEnemies: 2))
         self.addChild(DisplaySpawner(enemyImageName: "ButterflyA", numFrames: 10, maxNumEnemies: 2))
         self.addChild(DisplaySpawner(enemyImageName: "ButterflyB", numFrames: 10, maxNumEnemies: 2))
-
+        SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named:"ExplodeA")], withCompletionHandler: {})
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
-            touchLocation = touch.locationInNode(self)
+            if let touchedNode = self.nodeAtPoint(touch.locationInNode(self)) as? DisplayEnemy {
+                touchedNode.runEffect("ExplodeA") { [unowned touchedNode] in
+                    touchedNode.runAction(SKAction.fadeAlphaTo(0, duration: 0.25)) { [unowned touchedNode] in
+                        touchedNode.die()
+                    }
+                }
+            }
+            else {
+                touchLocation = touch.locationInNode(self)
+            }
         }
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -46,10 +55,8 @@ class MenuScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
-
         for child in children {
             (child as? Updatable)?.update(deltaT)
-   //         print(child.position)
         }
     }
 }

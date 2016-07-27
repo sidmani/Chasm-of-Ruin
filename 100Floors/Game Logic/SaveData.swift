@@ -96,8 +96,8 @@ class MoneyHandler:NSCoding {
     private var CrystalTransactions:[Int] = []
     
     init() {
-        ChasmCrystals = 50
-        Coins = 0
+        ChasmCrystals = 500
+        Coins = 500
     }
     
     func addCoins(num:Int) -> Bool {
@@ -311,9 +311,9 @@ class LevelHandler:NSCoding {
     
     var levelDict:[Int:LevelDefinition] = [
         0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
-        1:LevelDefinition(fileName:"VolcanicPlains", mapName:"Enter the Chasm", desc:"What horrors await at the base of the volcano?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 25),
-        2:LevelDefinition(fileName:"", mapName:"", desc:"Make the treacherous ascent to the summit...", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves:25),
-        3:LevelDefinition(fileName:"", mapName:"", desc:"Can you survive the smoldering crater?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves: 25)
+        1:LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
+        2:LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
+        3:LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)
     ]
     
     var currentLevel:Int!

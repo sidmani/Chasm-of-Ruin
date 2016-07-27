@@ -32,12 +32,18 @@ class InGameMenuViewController: UIViewController, ModalDismissDelegate {
     }
     
     @IBAction func exit(sender: AnyObject) {
-        dismissDelegate?.didDismissModalVC(nil)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissDelegate?.willDismissModalVC(nil)
+        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+            self.dismissDelegate?.didDismissModalVC(nil)
+        })
     }
 
-    func didDismissModalVC(object: AnyObject?) {
+    func willDismissModalVC(object: AnyObject?) {
         self.view.subviews.forEach({(view) in view.hidden = false})
+    }
+    
+    func didDismissModalVC(object: AnyObject?) {
+        
     }
     
     @IBAction func levelSelectPressed(sender: AnyObject) {
@@ -66,6 +72,7 @@ class InGameMenuViewController: UIViewController, ModalDismissDelegate {
     @objc func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
         cpvc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
 }

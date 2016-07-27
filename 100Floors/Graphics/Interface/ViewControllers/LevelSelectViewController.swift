@@ -53,8 +53,10 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func exit(sender: AnyObject) {
-        dismissDelegate?.didDismissModalVC(nil)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissDelegate?.willDismissModalVC(nil)
+        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+            self.dismissDelegate?.didDismissModalVC(nil)
+        })
     }
 
     ///////////////

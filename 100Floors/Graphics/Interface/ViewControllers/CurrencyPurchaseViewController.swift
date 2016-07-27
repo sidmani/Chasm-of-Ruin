@@ -70,8 +70,10 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
 
     
     @IBAction func exit(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        dismissDelegate?.didDismissModalVC(nil)
+        self.dismissDelegate?.willDismissModalVC(nil)
+        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+            self.dismissDelegate?.didDismissModalVC(nil)
+        })
     }
     
     
