@@ -34,7 +34,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
-    
  //   private var gameScene:InGameScene!
     private var gameScene:InGameScene {
         return (view as! SKView).scene as! InGameScene
@@ -68,7 +67,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         //////////
         SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
         ProceedButton.hidden = true
-        ProceedButton.setTitle("Proceed", forState: .Normal)
+        ProceedButton.setTitle("Continue", forState: .Normal)
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
@@ -202,11 +201,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         presentingOtherViewController()
         defaultLevelHandler.levelCompleted(false, wave: gameScene.currentWave())
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "DefeatViewController") {
-//            let dvc = self.storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
-//            dvc.dismissDelegate = self
-//            addChildViewController(dvc)
-//            presentedViewController!.willMoveToParentViewController(nil)
-//            transitionFromViewController(self.presentedViewController!, toViewController: dvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
             gameStateChangedWhilePresentingVC = 1
         }
         else if (presentedViewController == nil) {
@@ -220,11 +214,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         presentingOtherViewController()
         defaultLevelHandler.levelCompleted(true, wave: gameScene.currentWave())
         if (presentedViewController != nil && presentedViewController!.restorationIdentifier != "VictoryViewController") {
-//            let vvc = self.storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
-//            vvc.dismissDelegate = self
-//            addChildViewController(vvc)
-//            presentedViewController!.willMoveToParentViewController(nil)
-//            transitionFromViewController(self.presentedViewController!, toViewController: vvc, duration: 0.25, options: .TransitionCrossDissolve, animations: {},completion: nil)
             gameStateChangedWhilePresentingVC = 2
         }
         else if (presentedViewController == nil) {
@@ -236,7 +225,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     
     func setInfoDisplayText(notification:NSNotification) {
         let text = notification.object as! String
-        InfoDisplay.setText(text, letterDelay: 1.5/Double(text.characters.count), hideAfter: 1)
+        InfoDisplay.setText(text, letterDelay: 1.5/Double(text.characters.count), hideAfter: 2)
     }
     
     func setCurrencyLabels() {
@@ -248,7 +237,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         presentingOtherViewController()
         let igmvc = storyboard!.instantiateViewControllerWithIdentifier("igmvc") as! InGameMenuViewController
         igmvc.dismissDelegate = self
-    //    self.addChildViewController(igmvc)
         self.presentViewController(igmvc, animated: true, completion: nil)
     }
     
@@ -256,7 +244,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         presentingOtherViewController()
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
         cpvc.dismissDelegate = self
-   //     self.addChildViewController(cpvc)
         self.presentViewController(cpvc, animated: true, completion: nil)
     }
     

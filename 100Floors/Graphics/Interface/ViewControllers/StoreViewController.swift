@@ -112,7 +112,15 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
         cell.setItemTo(Item.initHandlerID(itemIDs[indexPath.item]))
-        
+        if (indexPath.item == 0 && previousSelectedContainer == nil) {
+            previousSelectedContainer = cell
+            cell.setSelectedTo(true)
+            updateInfoDisplay()
+        }
+        else {
+            cell.setSelectedTo(false)
+        }
+
         return cell
     }
     

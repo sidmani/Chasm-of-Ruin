@@ -33,7 +33,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var itemBags = SKNode()
     private var cameraBounds:CGRect = CGRectZero
     var currScreenBounds:CGRect = CGRectZero
-    
     weak var currentGroundBag:ItemBag?
     
     override func didMoveToView(view: SKView) {
@@ -188,7 +187,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         ///////////////////////////
         currentLevel = level
         nonCharNodes.addChild(currentLevel!)
-        thisCharacter.position = CGPointMake(currentLevel!.tileEdge * currentLevel!.startLoc.x, currentLevel!.tileEdge * currentLevel!.startLoc.y)
+        thisCharacter.position = currentLevel!.startLoc
         thisCharacter.setTextureDict()
         thisCharacter.reset()
         cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
@@ -224,7 +223,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     ////////
     var hasMovedToNextWave = false
     var timeUntilProceedToNextWave:Double = 15000
-
+    var progressUpdateTime:Double = 0
     override func update(currentTime: CFTimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
@@ -237,8 +236,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
                 if (currentLevel!.waveIsOver() && !hasMovedToNextWave) {
-                    //countdown
-                    //next wave
                     if (timeUntilProceedToNextWave <= 0) {
                         if (currentLevel!.currWave == currentLevel!.numWaves - 1) {
                             NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
@@ -251,10 +248,17 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         timeUntilProceedToNextWave = 15000
                         UIElements.ProceedButton.hidden = true
+                        UIElements.ProceedButton.setProgress(1, animated: false)
                     }
                     else {
+                        if (progressUpdateTime >= 20) {
+                            UIElements.ProceedButton.setProgress(CGFloat(timeUntilProceedToNextWave/15000), animated: false)
+                            progressUpdateTime = 0
+                        }
+                        else {
+                            progressUpdateTime += deltaT
+                        }
                         timeUntilProceedToNextWave -= deltaT
-                        UIElements.ProceedButton.setProgress(CGFloat(timeUntilProceedToNextWave/15000))
                         UIElements.ProceedButton.hidden = false
                     }
                 }
@@ -272,6 +276,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
 
     func proceedToNextWave() {
         if (!hasMovedToNextWave) {
+            UIElements.ProceedButton.hidden = true
             if (currentLevel!.currWave == currentLevel!.numWaves - 1) {
                 NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
             }
@@ -281,8 +286,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                     self.currentLevel!.nextWave()
                     })
             }
-            UIElements.ProceedButton.hidden = true
             timeUntilProceedToNextWave = 15000
+            UIElements.ProceedButton.setProgress(1, animated: false)
         }
     }
     
@@ -314,6 +319,12 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             arr.append(node as! Enemy)
         }
         return arr
+    }
+    
+    deinit {
+        for node in camera!.children where node is CountdownTimer {
+            (node as! CountdownTimer).invalidate()
+        }
     }
     
 }

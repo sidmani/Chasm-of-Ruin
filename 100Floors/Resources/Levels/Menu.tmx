@@ -2,10 +2,15 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="6" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
   <image source="../Tilesets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>
+  <tile id="134">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeCircle"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="10" height="6">
   <data encoding="csv">
-262,262,262,4,68,68,68,68,68,68,
+262,262,262,262,262,262,262,135,262,262,
 262,135,262,262,262,262,262,262,262,262,
 262,262,263,392,264,135,262,262,262,262,
 262,262,391,261,390,392,392,392,264,262,

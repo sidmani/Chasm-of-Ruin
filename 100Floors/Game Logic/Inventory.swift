@@ -9,7 +9,7 @@ import Foundation
 
 
 class Inventory:NSObject, NSCoding {
-    
+    static let max_inventory_size = 12
     var stats:Stats = Stats.nilStats
     
     var weaponIndex:Int = -1
@@ -17,13 +17,13 @@ class Inventory:NSObject, NSCoding {
     var skillIndex:Int = -1
     var enhancerIndex:Int = -1
     
-    let baseSize:Int
+    var baseSize:Int
     private var inventory:[Item?]
     //INIT
     init(withSize: Int)
     {
         baseSize = withSize
-        inventory = [Item?](count:baseSize, repeatedValue: nil)
+        inventory = [Item?](count:12, repeatedValue: nil)
     }
     
     private var ignoreStats = false
@@ -31,7 +31,7 @@ class Inventory:NSObject, NSCoding {
     
     //////////
     func swapItems(atIndexA: Int, atIndexB: Int) {
-        if (atIndexA >= inventory.count || atIndexB >= inventory.count || atIndexA < 0 || atIndexB < 0 || atIndexA == atIndexB) {
+        if (atIndexA >= baseSize || atIndexB >= baseSize || atIndexA < 0 || atIndexB < 0 || atIndexA == atIndexB) {
             return
         }
         let temp = getItem(atIndexA)
@@ -49,14 +49,14 @@ class Inventory:NSObject, NSCoding {
     }
 
     func getItem(atIndex:Int) -> Item? {
-        if (atIndex >= inventory.count || atIndex < 0) {
+        if (atIndex >= baseSize || atIndex < 0) {
             return nil
         }
         return inventory[atIndex]
     }
     
     func setItem(atIndex:Int, toItem:Item?) -> Item? { //UNSAFE: could cause crash due to setting an equipped index to the wrong type
-        if (atIndex >= inventory.count || atIndex < 0) {
+        if (atIndex >= baseSize || atIndex < 0) {
             return toItem
         }
         let out = inventory[atIndex]
@@ -141,26 +141,9 @@ class Inventory:NSObject, NSCoding {
         return -1
     }
     
-//    func dropAllItems() -> [Item?] {
-//        let allItems = inventory
-//        inventory = [Item?](count:baseSize, repeatedValue: nil)
-//        weaponIndex = -1
-//        skillIndex = -1
-//        shieldIndex = -1
-//        enhancerIndex = -1
-//        return allItems
-//    }
-//    
-//    func dropAllExceptInventory() -> [Item?] {
-//        var droppedItems:[Item?] = []
-//        for i in 0..<baseSize {
-//            if (i != skillIndex && i != weaponIndex && i != enhancerIndex && i != shieldIndex) {
-//                droppedItems.append(inventory[i])
-//                inventory[i] = nil
-//            }
-//        }
-//        return droppedItems
-//    }
+    func purchasedSlot() {
+        baseSize = min(baseSize+1, Inventory.max_inventory_size)
+    }
     
     private func getEquippedStats() -> Stats {
         var newStats = getItem(weaponIndex)?.statMods + getItem(armorIndex)?.statMods + getItem(skillIndex)?.statMods + getItem(enhancerIndex)?.statMods

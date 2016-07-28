@@ -61,6 +61,10 @@ class CountdownTimer:SKNode {
             self.removeFromParent()
         }
     }
+    
+    func invalidate() {
+        timer?.invalidate()
+    }
 }
 
 class StatUpdatePopup:SKNode {

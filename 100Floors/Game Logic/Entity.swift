@@ -417,10 +417,9 @@ class ThisCharacter: Entity {
     convenience init(inventorySize:Int) {
         self.init(withStats:Stats.nilStats, withInventory: Inventory(withSize: inventorySize), withLevel: 1, withExp: 0)
 
-        inventory.setItem(0, toItem: Item.initHandlerID("s15"))
-        inventory.setItem(1, toItem: Item.initHandlerID("c11"))
-        inventory.setItem(2, toItem: Item.initHandlerID("v2"))
-        inventory.setItem(3, toItem: Item.initHandlerID("w17"))
+        inventory.setItem(0, toItem: Item.initHandlerID("w9"))
+        inventory.setItem(1, toItem: Item.initHandlerID("s7"))
+        inventory.setItem(2, toItem: Item.initHandlerID("c11"))
 
      //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
@@ -499,7 +498,7 @@ class ThisCharacter: Entity {
     }
     
     override func getDamage(attack: CGFloat) -> CGFloat {
-        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense)*statusFactors.defMod)) * statusFactors.damageMod
+        return max(1,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense)*statusFactors.defMod)) * statusFactors.damageMod
     }
 
     override func die() {
@@ -603,8 +602,7 @@ class ThisCharacter: Entity {
     private var statRegenTimeElapsed:Double = 0
     private let statRegenInterval:Double = 1000
     
-    override func update(deltaT:Double) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
-        super.update(deltaT)
+    override func update(deltaT:Double) {         super.update(deltaT)
         if (statRegenTimeElapsed >= statRegenInterval) {
             statRegenTimeElapsed = 0
             adjustHealth(0.005*stats.maxHealth*statusFactors.healthRegenMod, withPopup: false)
@@ -620,7 +618,7 @@ class ThisCharacter: Entity {
         if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
             currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
             animationType = UIElements.LeftJoystick.currentPoint != CGPointZero ? "walking" : "standing"
-            if (timeSinceProjectile > 500-0.4*Double((stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod) && weapon != nil) {
+            if (timeSinceProjectile > 500-0.4*Double((stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod) && weapon != nil) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
                 fireProjectile(UIElements.RightJoystick!.normalDisplacement, withSpeed: (stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod/20 + 100)
                 timeSinceProjectile = 0
             }
@@ -646,12 +644,7 @@ class ThisCharacter: Entity {
         self.physicsBody?.velocity = (0.03 * (stats.speed+inventory.stats.speed) + 30) * statusFactors.movementMod * UIElements.LeftJoystick!.normalDisplacement
         
         if (!isCurrentlyAnimating() || (currentTextureSet != "\(animationType)\(currentDirection)")) {
-          //  if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
-                setCurrentTextures("\(animationType)\(currentDirection)")
-         //   }
-          //  else {
-           //     setCurrentTextures("standing\(currentDirection)")
-          //  }
+            setCurrentTextures("\(animationType)\(currentDirection)")
             runAnimation(0.25)
         }
     }

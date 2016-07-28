@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="8">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="9">
  <properties>
   <property name="NumWaves" value="3"/>
   <property name="StartLoc" value="12,10"/>
@@ -9,6 +9,36 @@
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
   <image source="../Tilesets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>
+  <tile id="212">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </tile>
+  <tile id="213">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </tile>
+  <tile id="214">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </tile>
+  <tile id="276">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </tile>
+  <tile id="340">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </tile>
+  <tile id="342">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="25" height="25">
   <data encoding="csv">
@@ -73,5 +103,6 @@
   <object id="2" name="B" type="SpawnPoint" x="189.455" y="116.727" width="4.54545" height="4"/>
   <object id="5" name="C" type="SpawnPoint" x="251.273" y="199.636" width="3.63636" height="2.90909"/>
   <object id="7" name="D" type="SpawnPoint" x="194.545" y="161.818" width="2.18182" height="3.09091"/>
+  <object id="8" name="StartLoc" type="SpawnPoint" x="199.455" y="165.091" width="2.72727" height="3.09091"/>
  </objectgroup>
 </map>

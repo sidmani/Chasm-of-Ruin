@@ -309,11 +309,11 @@ class LevelHandler:NSCoding {
         }
     }
     
-    var levelDict:[Int:LevelDefinition] = [
-        0:LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
-        1:LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
-        2:LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
-        3:LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)
+    var levelDict:[LevelDefinition] = [
+        LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
+        LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
+        LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
+        LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)
     ]
     
     var currentLevel:Int!
@@ -327,37 +327,38 @@ class LevelHandler:NSCoding {
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
-        levelDict = aDecoder.decodeObjectForKey("levelDict") as! [Int:LevelDefinition]
-        for (key, value) in levelDict {
-            if (!value.free) {
-                //verify purchases
+        levelDict = aDecoder.decodeObjectForKey("levelDict") as! [LevelDefinition]
+//        for (key, value) in levelDict {
+//            if (!value.free) {
+//                //verify purchases
+//            }
+//        }
+    }
+    
+    func maxUnlockedLevel() -> Int {
+        var leastIndex = 0
+        for i in 0..<defaultLevelHandler.levelDict.count {
+            if (defaultLevelHandler.levelDict[i].cleared == true) {
+                leastIndex = i+1
             }
         }
+        return min(leastIndex, defaultLevelHandler.levelDict.count)
     }
     
     @objc func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(levelDict, forKey: "levelDict")
     }
     
-   
-    func getAllLevels() -> [LevelDefinition] {
-        return Array(levelDict.values)
-    }
-    
-//    func levelCompletedDefeat() {
-//        levelDict[currentLevel]!.playCount += 1
-//    }
-//    
     func levelCompleted(victory:Bool, wave:Int) {
-        levelDict[currentLevel]!.playCount += 1
-        levelDict[currentLevel]!.bestWave = CGFloat(wave)
+        levelDict[currentLevel].playCount += 1
+        levelDict[currentLevel].bestWave = CGFloat(wave)
         if (victory) {
-            setLevelUnlocked(levelDict[currentLevel]!.unlocksIndex)
-            levelDict[currentLevel]!.cleared = true
+            setLevelUnlocked(levelDict[currentLevel].unlocksIndex)
+            levelDict[currentLevel].cleared = true
         }
     }
     
     func setLevelUnlocked(index:Int) {
-        levelDict[index]?.unlocked = true
+        levelDict[index].unlocked = true
     }
 }

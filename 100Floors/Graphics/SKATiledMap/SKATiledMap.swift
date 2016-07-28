@@ -637,6 +637,7 @@ class SKATiledMap : SKNode{
                                             if collisionType == "SKACollisionTypeRect"{
                                                 sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
                                                 sprite.physicsBody!.dynamic = false
+                                                sprite.physicsBody!.restitution = 0
                                                 sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                 sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                 sprite.zPosition = 20;

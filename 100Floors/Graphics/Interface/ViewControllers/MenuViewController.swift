@@ -20,7 +20,7 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        SettingsButton.tintColor = ColorScheme.fillColor
+        SettingsButton.tintColor = ColorScheme.strokeColor
        
         let skView = view as! SKView
         skView.showsFPS = true

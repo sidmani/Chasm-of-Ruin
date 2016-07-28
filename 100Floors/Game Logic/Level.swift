@@ -37,17 +37,19 @@ class MapLevel:SKNode, Updatable {
         static let MapTop:CGFloat = 3
     }
     let mapSize:CGSize
-    let tileEdge:CGFloat
+  //  let tileEdge:CGFloat
     let mapSizeOnScreen: CGSize
     
-    let startLoc:CGPoint
+   // let startLoc:CGPoint
     let objects = SKNode()
 
     private let map:SKATiledMap
     let definition:LevelHandler.LevelDefinition
     
     var spawnPoints:[String:CGPoint] = [:]
-    
+    var startLoc:CGPoint {
+        return spawnPoints["StartLoc"]!
+    }
     private var waves:[Wave] = []
     var currWave:Int = -1
     let numWaves:Int
@@ -56,14 +58,14 @@ class MapLevel:SKNode, Updatable {
         definition = level
         map = SKATiledMap(mapName: level.fileName)
         
-        let startLocPoint = CGPoint(map.mapProperties["StartLoc"] as! String)
+       // let startLocPoint = CGPoint(map.mapProperties["StartLoc"] as! String)
         let mapSizeOnScreen = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
         let mapSize = CGSizeMake(CGFloat(map.mapWidth*map.tileWidth), CGFloat(map.mapHeight*map.tileHeight))
        
         
         self.numWaves = Int(map.mapProperties["NumWaves"] as! String)!
-        self.startLoc = startLocPoint
-        self.tileEdge = CGFloat(map.tileWidth)
+      //  self.startLoc = startLocPoint
+       // self.tileEdge = CGFloat(map.tileWidth)
         self.mapSize = mapSize
         self.mapSizeOnScreen = mapSizeOnScreen
         super.init()

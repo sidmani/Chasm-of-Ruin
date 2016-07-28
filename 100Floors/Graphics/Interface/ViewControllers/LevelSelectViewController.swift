@@ -19,7 +19,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
-
+    private var maxUnlockedLevel = defaultLevelHandler.maxUnlockedLevel()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,13 +36,15 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
+        levelCollection.setContentOffset(CGPointMake(CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, 0), animated: true)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
 
         CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
-
+        
         setCurrencyLabels()
         selectCenterCell()
     }
@@ -68,13 +70,12 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! LevelContainer
-        cell.setLevelTo(defaultLevelHandler.levelDict[indexPath.item]!)
-        if (indexPath.item == 0 && previousSelectedContainer == nil) {
+        cell.setLevelTo(defaultLevelHandler.levelDict[indexPath.item])
+        if (indexPath.item == maxUnlockedLevel && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
             NameLabel.text = cell.level!.mapName
             DescLabel.text = cell.level!.desc
-            
         }
         return cell
     }
@@ -86,7 +87,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
                 container.setSelectedTo(true)
                 previousSelectedContainer = container
                 NameLabel.text = container.level!.mapName
-                DescLabel.text = container.level!.desc
+                DescLabel.text = (container.level!.unlocked ? container.level!.desc : "???")
                 //set bg image
                 return true
             }
@@ -110,7 +111,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
                 alert.completion = {(response) in
                     if (response) {
                         if (defaultPurchaseHandler.makePurchase("UnlockLevel", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
-                            defaultLevelHandler.levelDict[indexPath.item]?.unlocked = true
+                            defaultLevelHandler.levelDict[indexPath.item].unlocked = true
                             self.levelCollection.reloadItemsAtIndexPaths(self.levelCollection.indexPathsForVisibleItems())
                         }
                         else {
@@ -139,10 +140,13 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         igvc.modalTransitionStyle = .CrossDissolve
         presentViewController(igvc, animated: true, completion: nil)
         igvc.loadLevel(level)
+        previousSelectedContainer = nil
     }
 
     @IBAction func exitToLevelSelect(segue:UIStoryboardSegue) {
+        maxUnlockedLevel = defaultLevelHandler.maxUnlockedLevel()
         levelCollection.reloadData()
+        levelCollection.setContentOffset(CGPointMake(CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, 0), animated: true)
     }
     
     func setCurrencyLabels() {

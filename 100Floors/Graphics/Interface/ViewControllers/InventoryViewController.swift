@@ -64,7 +64,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         layout.minimumInteritemSpacing = CGFloat.max
 
         let longPressGR = UILongPressGestureRecognizer()
-       // inventoryCollection.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
         inventoryCollection.addGestureRecognizer(longPressGR)
         longPressGR.addTarget(self, action: #selector(handleLongPress))
         longPressGR.delegate = self
@@ -110,7 +109,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
         itemWidth = layout.itemSize.width
         leftScrollBound = -inventoryCollection.contentInset.left
-        inventoryCollection.setContentOffset(CGPointMake(leftScrollBound,0), animated: false)
+        inventoryCollection.setContentOffset(CGPointMake(leftScrollBound+itemWidth,0), animated: false)
 
         
         currentItemView.contentMode = .ScaleAspectFit
@@ -150,21 +149,21 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     func incrementTutorial() {
         switch (popupNum) {
         case 0:
-            popTip.showText("This is your inventory.", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+            popTip.showText("This is your inventory.", direction: .Up, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: CGRectMake(inventoryCollection.frame.minX, inventoryCollection.frame.minY + 20, inventoryCollection.frame.width, inventoryCollection.frame.height))
         case 1:
-            popTip.showText("Press and drag an item to move it to a different slot.", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+            popTip.showText("Press and drag an item to move it to a different slot.", direction: .Up, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: CGRectMake(inventoryCollection.frame.minX, inventoryCollection.frame.minY + 20, inventoryCollection.frame.width, inventoryCollection.frame.height))
         case 2:
-            popTip.showText("The leftmost slot shows an item on the ground. Use it to drop or pick up items.", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+            popTip.showText("The leftmost slot shows items on the ground. Use it to drop or pick up items.", direction: .Up, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: CGRectMake(inventoryCollection.frame.minX, inventoryCollection.frame.minY + 20, inventoryCollection.frame.width, inventoryCollection.frame.height))
         case 3:
             popTip.showText("Press this button to load or use the selected item.", direction: .Up, maxWidth: EquipButton.frame.width*2, inView: self.view, fromFrame: EquipButton.frame)
         case 4:
-            popTip.showText("These display the individual stats for each item. Tap on each one to learn more!", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
+            popTip.showText("These display the individual stats for each item.", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
             popTip.shouldDismissOnTapOutside = false
         case 5:
             popTip.showText("Swipe up to display your character's stats.", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
             popTip.shouldDismissOnTapOutside = true
         case 6:
-            popTip.showText("Now load a weapon and armor, and start playing!", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+            popTip.showText("Now load armor and a weapon, and start playing!", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
         default:
             break
         }
@@ -194,7 +193,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             else {
                 inventory.setItem(indexA, toItem: groundBag?.item)
-             //   groundBag?.setItemTo(nil)
                 groundBag?.removeFromParent()
                 groundBag = nil
             }
@@ -390,6 +388,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 if (response) {
                     if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
                         self.inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: self.inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
+                        self.inventory.purchasedSlot()
                         //TODO: actually increase inventory size
                         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
                             sender.enabled = false
@@ -430,7 +429,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         
             cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
             cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
-            if (indexPath.item == 0 && previousSelectedContainer == nil) {
+            if (indexPath.item == 1 && previousSelectedContainer == nil) {
                 previousSelectedContainer = cell
                 cell.setSelectedTo(true)
                 updateInfoDisplay()
