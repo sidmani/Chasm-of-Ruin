@@ -8,14 +8,14 @@
 
 import SpriteKit
 class Projectile:SKSpriteNode, Updatable{
+    static var shadowTexture:SKTexture?
     let attack: CGFloat
-    
     private let range: CGFloat
     private let spd:CGFloat
     private var distanceTraveled:CGFloat = 0
     private var reflects:Bool
     var statusCondition:(condition:StatusCondition,probability:CGFloat)?
-
+    
     init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, withAngle:CGFloat, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool = false, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         let size = fromTexture.size()
         fromTexture.filteringMode = .Nearest
@@ -32,6 +32,16 @@ class Projectile:SKSpriteNode, Updatable{
         self.physicsBody?.velocity = withVelocity
         self.position = fromPoint
         self.setScale(0.5)
+        
+        if let texture = Projectile.shadowTexture {
+        let shadow = SKSpriteNode(texture: texture)
+            shadow.zPosition = -0.01
+            shadow.setScale(0.25)
+            shadow.position = CGPointMake(2*cos(withAngle - CGFloat(M_PI_4)), 2*sin(withAngle - CGFloat(M_PI_4)))
+            shadow.zRotation = -self.zRotation
+            shadow.name = "shadow"
+            self.addChild(shadow)
+        }
         if (isFriendly) {
             self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.FriendlyProjectile
         }

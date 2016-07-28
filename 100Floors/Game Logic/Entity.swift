@@ -225,7 +225,7 @@ class Entity:SKSpriteNode, Updatable {
     }
     
     func getDamage(attack: CGFloat) -> CGFloat {
-        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense*statusFactors.defMod))) * statusFactors.damageMod
+        return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(10*attack / (stats.defense*statusFactors.defMod))) * statusFactors.damageMod
     }
     
     func getStats() -> Stats {
@@ -410,8 +410,15 @@ class ThisCharacter: Entity {
         super.setTextureDict(dict, beginTexture: "standing3")
         self.size = CGSizeMake(8, 8)
         SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "Heal1")], withCompletionHandler: {})
+        let shadowTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Shadow")
+        let shadow = SKSpriteNode(texture: shadowTexture)
+        shadow.zPosition = -0.01
+        shadow.setScale(0.5)
+        shadow.position = CGPointMake(0,-2)
+        self.addChild(shadow)
         //self.reset()
         inventory.setTextureDict()
+        Projectile.shadowTexture = shadowTexture
     }
     
     convenience init(inventorySize:Int) {
@@ -498,7 +505,7 @@ class ThisCharacter: Entity {
     }
     
     override func getDamage(attack: CGFloat) -> CGFloat {
-        return max(1,randomBetweenNumbers(0.9, secondNum: 1.2)*(attack - (stats.defense + inventory.stats.defense)*statusFactors.defMod)) * statusFactors.damageMod
+        return max(randomBetweenNumbers(1, secondNum: 4),randomBetweenNumbers(0.9, secondNum: 1.2)*(10 * attack / (stats.defense + inventory.stats.defense)*statusFactors.defMod)) * statusFactors.damageMod
     }
 
     override func die() {

@@ -640,14 +640,14 @@ class SKATiledMap : SKNode{
                                                 sprite.physicsBody!.restitution = 0
                                                 sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                 sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
-                                                sprite.zPosition = 20;
+                                                //sprite.zPosition = 20;
                                             } else if collisionType == "SKACollisionTypeTexture"{
                                                 sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
                                                 if sprite.physicsBody != nil{
                                                     sprite.physicsBody!.dynamic = false
                                                     sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                     sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
-                                                    sprite.zPosition = 20;
+                                                 //   sprite.zPosition = 20;
                                                 }else{
                                                     print("Error creating body from texture: \(sprite.texture)")
                                                 }
@@ -657,7 +657,7 @@ class SKATiledMap : SKNode{
                                                 sprite.physicsBody!.dynamic = false
                                                 sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                 sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
-                                                sprite.zPosition = 20;
+                                              //  sprite.zPosition = 20;
                                             }
                                         }
                                     }

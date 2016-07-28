@@ -124,8 +124,8 @@ class Inventory:NSObject, NSCoding {
     }
     
     func isFull() -> Bool {
-        for item in inventory {
-            if (item == nil) {
+        for i in 0..<baseSize {
+            if (inventory[i] == nil) {
                 return false
             }
         }

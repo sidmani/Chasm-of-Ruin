@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="6" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="6" tilewidth="16" tileheight="16" nextobjectid="12">
  <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
   <image source="../Tilesets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>
-  <tile id="134">
-   <properties>
-    <property name="SKACollisionType" value="SKACollisionTypeCircle"/>
-   </properties>
-  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="10" height="6">
   <data encoding="csv">
@@ -48,4 +43,21 @@
 0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="8" x="19.6364" y="19.5455" width="8.45455" height="7.90909">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </object>
+  <object id="9" x="115.682" y="3.77273" width="8.45455" height="7.90909">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </object>
+  <object id="10" x="83.6818" y="35.7727" width="8.45455" height="7.90909">
+   <properties>
+    <property name="SKACollisionType" value="SKACollisionTypeRect"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

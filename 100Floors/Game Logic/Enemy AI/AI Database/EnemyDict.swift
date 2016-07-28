@@ -71,12 +71,11 @@ struct EnemyDictionary {
             ),
             State(name: "Engage",
                 behaviors: [
-                    RunAnimationSequence(animationName: "attack"),
+                    RunAnimationSequence(animationName: "default"),
                     RunSimultaneously(behaviorsToRun: [
                         RunAnimationSequence(animationName: "attack"),
-                        FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile9", rateOfFire: 400, projectileSpeed: 35, range: 50)
+                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile9", rateOfFire: 1000, projectileSpeed: 35, range: 50)
                     ], useConditionalOfIndex: 1),
-                    FireProjectilesInSpiral(numStreams: 1, offsetStep: 0.2, projectileTexture: "projectile11", rateOfFire: 100, projectileSpeed: 30, range: 60),
                     Wander(triggerOutsideOfDistance: 0, priority: 5)
                 ],
                 transitions: [

@@ -32,6 +32,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         UIView.animateWithDuration(0.5) {
             blur.effect = UIBlurEffect(style: .Light)
         }
+        blur.alpha = 0.5
         self.view.sendSubviewToBack(blur)
         itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
@@ -139,8 +140,9 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         let igvc = storyboard?.instantiateViewControllerWithIdentifier("igvc") as! InGameViewController
         igvc.modalTransitionStyle = .CrossDissolve
         presentViewController(igvc, animated: true, completion: nil)
-        igvc.loadLevel(level)
+        previousSelectedContainer?.setSelectedTo(false)
         previousSelectedContainer = nil
+        igvc.loadLevel(level)
     }
 
     @IBAction func exitToLevelSelect(segue:UIStoryboardSegue) {

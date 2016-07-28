@@ -208,7 +208,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         })
     }
     
-    @IBAction func equipButtonPressed(sender: AnyObject) {
+    @IBAction func equipButtonPressed() {
         if let item = previousSelectedContainer?.item {
             if (item is Usable) {
                 //do something
@@ -444,6 +444,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth + leftScrollBound, 0), animated: true)
+        if let container = (inventoryCollection.cellForItemAtIndexPath(indexPath) as? ItemContainer) where previousSelectedContainer == container {
+            equipButtonPressed()
+        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -501,14 +504,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
         }
         else if (recognizer.state == .Changed && currentItemView.image != nil) {
-        //    if (currentItemView.image != nil) {
             let newLoc = recognizer.locationInView(self.view)
             currentItemView.center = newLoc
             if (newLoc.x > 0.8*screenSize.width || newLoc.x < screenSize.width*0.2) {
                 let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
                 inventoryCollection.setContentOffset(CGPoint(x:offsetX, y:0), animated: false)
             }
-       //     }
         }
         else if (recognizer.state == .Ended) {
             if let path = inventoryCollection.indexPathForItemAtPoint(recognizer.locationInView(self.inventoryCollection)), containerA = inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer  {

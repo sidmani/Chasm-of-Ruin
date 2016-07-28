@@ -70,15 +70,19 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
         (view as! SKView).scene?.paused = true
     }
     
+    @IBAction func loadCredits() {
+        let cvc = storyboard!.instantiateViewControllerWithIdentifier("creditsVC") as! CreditsViewController
+        cvc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
+        presentViewController(cvc, animated: true, completion: nil)
+        (view as! SKView).scene?.paused = true
+    }
+    
     @objc func loadCurrencyPurchaseView() {
         let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
         cpvc.dismissDelegate = self
         self.view.subviews.forEach({(view) in view.hidden = true})
         self.presentViewController(cpvc, animated: true, completion: nil)
         (view as! SKView).scene?.paused = true
-    }
-    
-    @IBAction func exitToMainMenu(segue: UIStoryboardSegue) {
-         (view as! SKView).scene?.paused = false
     }
 }
