@@ -430,10 +430,15 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LJo-ZC-rQu" userLabel="Proceed Button" customClass="ProgressRectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="150" y="518" width="300" height="34"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="top" id="02R-cG-7pF"/>
+                            <constraint firstItem="LJo-ZC-rQu" firstAttribute="leading" secondItem="9d2-oo-m9X" secondAttribute="trailing" constant="15" id="0mS-Yn-SGd"/>
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="centerX" secondItem="CwZ-pI-Qun" secondAttribute="centerX" id="1aZ-i5-fVQ"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="top" secondItem="ilu-46-eXo" secondAttribute="bottom" constant="10" id="2YI-a9-KIN"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="centerX" secondItem="8xQ-dL-goi" secondAttribute="centerX" id="380-8w-jl6"/>
@@ -452,22 +457,33 @@
                             <constraint firstItem="nvo-UH-QfJ" firstAttribute="centerY" secondItem="s4M-Ha-nct" secondAttribute="centerY" id="ONg-MP-6Rn"/>
                             <constraint firstItem="s4M-Ha-nct" firstAttribute="width" secondItem="0i1-qW-Q1v" secondAttribute="width" id="PMB-JS-JUk"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="height" secondItem="rkT-DA-yQp" secondAttribute="height" id="PVQ-xx-r4c"/>
+                            <constraint firstItem="LJo-ZC-rQu" firstAttribute="bottom" secondItem="CwZ-pI-Qun" secondAttribute="bottom" id="QYx-iq-USb"/>
                             <constraint firstItem="J9r-K3-eX4" firstAttribute="centerY" secondItem="0i1-qW-Q1v" secondAttribute="centerY" id="RC4-zZ-ccs"/>
                             <constraint firstItem="s4M-Ha-nct" firstAttribute="width" secondItem="s4M-Ha-nct" secondAttribute="height" multiplier="1:1" id="X0e-tk-MyB"/>
                             <constraint firstItem="f0Y-Qs-o21" firstAttribute="top" secondItem="CwZ-pI-Qun" secondAttribute="bottom" constant="15" id="ZCJ-Yh-Hov"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="centerX" secondItem="9d2-oo-m9X" secondAttribute="centerX" id="crP-kc-CYA"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="bottom" constant="15" id="eHu-bp-IKn"/>
                             <constraint firstItem="67Y-lJ-ZEt" firstAttribute="width" secondItem="rkT-DA-yQp" secondAttribute="width" constant="-24" id="ews-KC-uTi"/>
+                            <constraint firstItem="LJo-ZC-rQu" firstAttribute="height" secondItem="ZZN-eM-M4h" secondAttribute="height" id="f4f-fK-eVg"/>
                             <constraint firstItem="ZZN-eM-M4h" firstAttribute="width" secondItem="9d2-oo-m9X" secondAttribute="width" id="gxv-11-VRg"/>
                             <constraint firstItem="0i1-qW-Q1v" firstAttribute="leading" secondItem="rkT-DA-yQp" secondAttribute="trailing" constant="10" id="i5o-VF-gWA"/>
                             <constraint firstItem="67Y-lJ-ZEt" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="bottom" id="iB8-Ju-USD"/>
                             <constraint firstItem="9d2-oo-m9X" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="bottom" constant="15" id="iJF-Tb-fsM"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="leading" secondItem="ZZN-eM-M4h" secondAttribute="trailing" constant="5" id="lXN-fo-4bz"/>
                             <constraint firstItem="LF5-U2-EV1" firstAttribute="height" secondItem="rkT-DA-yQp" secondAttribute="height" id="oFm-N2-L9z"/>
+                            <constraint firstItem="LJo-ZC-rQu" firstAttribute="centerY" secondItem="CwZ-pI-Qun" secondAttribute="centerY" id="pfZ-hP-dGi"/>
                             <constraint firstItem="3qM-pQ-J3m" firstAttribute="top" secondItem="ZZN-eM-M4h" secondAttribute="top" id="qNK-md-Cbx"/>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="leading" secondItem="nvo-UH-QfJ" secondAttribute="trailing" constant="5" id="qld-fq-TqF"/>
+                            <constraint firstItem="LJo-ZC-rQu" firstAttribute="height" secondItem="CwZ-pI-Qun" secondAttribute="height" id="rMT-MH-hl5"/>
                             <constraint firstItem="s4M-Ha-nct" firstAttribute="leading" secondItem="J9r-K3-eX4" secondAttribute="trailing" constant="5" id="t0X-Vk-7XA"/>
+                            <constraint firstItem="CwZ-pI-Qun" firstAttribute="leading" secondItem="LJo-ZC-rQu" secondAttribute="trailing" constant="15" id="ynL-Yy-cYG"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="QYx-iq-USb"/>
+                                <exclude reference="rMT-MH-hl5"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="CoinLabel" destination="nvo-UH-QfJ" id="hU7-sP-aWT"/>
@@ -476,6 +492,7 @@
                         <outlet property="HPDisplayBar" destination="rkT-DA-yQp" id="wLp-PG-8A8"/>
                         <outlet property="InfoDisplay" destination="LF5-U2-EV1" id="biK-Wa-Xgn"/>
                         <outlet property="LeftJoystickControl" destination="9d2-oo-m9X" id="1qB-7I-Mpm"/>
+                        <outlet property="ProceedButton" destination="LJo-ZC-rQu" id="omo-MT-bKS"/>
                         <outlet property="RightJoystickControl" destination="CwZ-pI-Qun" id="TrL-BJ-nKT"/>
                         <outlet property="SkillButton" destination="3qM-pQ-J3m" id="bFi-qu-JWk"/>
                     </connections>

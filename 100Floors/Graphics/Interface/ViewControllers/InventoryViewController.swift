@@ -164,7 +164,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             popTip.showText("Swipe up to display your character's stats.", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
             popTip.shouldDismissOnTapOutside = true
         case 6:
-            popTip.showText("Now load a weapon and armor, and let's begin playing!", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+            popTip.showText("Now load a weapon and armor, and start playing!", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
         default:
             break
         }

@@ -10,11 +10,12 @@ import UIKit
 import SpriteKit
 
 struct UIElements {
-    static var LeftJoystick:JoystickControl!
-    static var RightJoystick:JoystickControl!
-    static var HPBar:VerticalProgressView!
-    static var EXPBar:UIProgressView!
-    static var SkillButton:ProgressRectButton!
+    static weak var LeftJoystick:JoystickControl!
+    static weak var RightJoystick:JoystickControl!
+    static weak var HPBar:VerticalProgressView!
+    static weak var EXPBar:UIProgressView!
+    static weak var SkillButton:ProgressRectButton!
+    static weak var ProceedButton:ProgressRectButton!
 }
 
 var enemyXML: AEXMLDocument! = nil
@@ -27,6 +28,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     @IBOutlet weak var HPDisplayBar: VerticalProgressView!
     @IBOutlet weak var EXPBar: UIProgressView!
     @IBOutlet weak var SkillButton: ProgressRectButton!
+    @IBOutlet weak var ProceedButton: ProgressRectButton!
     
     @IBOutlet weak var InfoDisplay: TextDisplay!
     
@@ -46,7 +48,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         UIElements.HPBar = HPDisplayBar
         UIElements.SkillButton = SkillButton
         UIElements.EXPBar = EXPBar
-        
+        UIElements.ProceedButton = ProceedButton
         InfoDisplay.hidden = true
         setCurrencyLabels()
         
@@ -65,7 +67,8 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
 
         //////////
         SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
-
+        ProceedButton.hidden = true
+        ProceedButton.setTitle("Proceed", forState: .Normal)
         /////NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
@@ -81,6 +84,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         skView.ignoresSiblingOrder = true
         
         skView.presentScene(InGameScene(size:skView.bounds.size))
+        ProceedButton.addTarget(gameScene, action: #selector(gameScene.proceedToNextWave), forControlEvents: .TouchUpInside)
     }
     
     var hasExecutedTutorial = false
@@ -276,6 +280,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     func willDismissModalVC(object: AnyObject?) {
         self.view.subviews.forEach({(view) in view.hidden = false})
         self.InfoDisplay.hidden = true
+        self.ProceedButton.hidden = true
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
         popTip1.hide()

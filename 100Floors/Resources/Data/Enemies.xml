@@ -13,6 +13,9 @@
         <stats name="EyeballA">MzB8NDB8MjB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="8">EyeballA</animation>
         <animation name="attack" frames="7">EyeballAAtk</animation>
+        <drop type="ItemBag" chance="1">w59</drop>
+        <drop type="ItemBag" chance="1">w59</drop>
+        <drop type="ItemBag" chance="1">w59</drop>
     </enemy>
     <!-- Sunlit Caverns -->
     <enemy id="sc3" name="BugB">

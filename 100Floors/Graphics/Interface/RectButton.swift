@@ -54,26 +54,30 @@ class ProgressRectButton:RectButton {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        progressFillLayer.position.y = self.bounds.midY
-        setProgress(1)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-    
+        setProgress(1)
+        progressFillLayer.position.y = self.bounds.midY
         progressFillLayer.path = UIBezierPath(rect: self.bounds).CGPath
         progressFillLayer.bounds = self.bounds
         progressFillLayer.fillColor = UIColor.greenColor().CGColor
         rectangleLayer.mask = progressFillLayer
-        
     }
     
-    func setProgress(to: CGFloat) {
+    func setProgress(to: CGFloat, animated:Bool = false) {
         progress = to
-        CATransaction.begin()
-        progressFillLayer.position.x = progress * self.bounds.width - self.bounds.midX
-        CATransaction.commit()
+        if (animated) {
+            CATransaction.begin()
+            progressFillLayer.position.x = progress * self.bounds.width - self.bounds.midX
+            CATransaction.commit()
+        }
+        else {
+            progressFillLayer.position.x = progress * self.bounds.width - self.bounds.midX
+        }
     }
+    
     
     func setEnabledTo(to:Bool) {
         self.enabled = to
