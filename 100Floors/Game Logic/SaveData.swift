@@ -311,9 +311,9 @@ class LevelHandler:NSCoding {
     
     var levelDict:[LevelDefinition] = [
         LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
-        LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
-        LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
-        LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)
+        LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"What horrors lurk in these caves?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
+        LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"Beasts untouched for millenia have awakened within...", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
+        LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"This cursed chamber has claimed the lives of all who enter.", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)
     ]
     
     var currentLevel:Int!

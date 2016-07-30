@@ -21,7 +21,7 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireProjectile(error: 0.5, rateOfFire: 500, projectileTexture: "projectile9", projectileSpeed: 70, range: 30),
+                FireProjectile(error: 0.5, rateOfFire: 300, projectileTexture: "projectile9", projectileSpeed: 70, range: 30),
                 MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 25, priority: 10)
                 ], runOnStruckMapBoundary: [
@@ -31,6 +31,7 @@ extension EnemyDictionary {
                 ])
             ])
     }
+    
     static func BatN(parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
@@ -39,21 +40,22 @@ extension EnemyDictionary {
                     Wander(triggerOutsideOfDistance: 0, priority: 5),
                 ],
                 transitions: [
-                    PlayerCloserThan(dest: "active", distance: 50)
+                    PlayerCloserThan(dest: "active", distance: 75)
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 3.14, direction: .TowardPlayer, projectileTexture: "projectile9", rateOfFire: 500, projectileSpeed: 50, range: 70),
-                MaintainDistance(distanceToMaintain: 30, triggerDistance: 50, priority: 5),
-                Wander(triggerOutsideOfDistance: 0, priority: 2)
+                FireProjectile(error: 0.5, rateOfFire: 300, projectileTexture: "projectile9", projectileSpeed: 70, range: 30),
+                MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
+                Circle(triggerInsideOfDistance: 25, priority: 10)
                 ], runOnStruckMapBoundary: [
-                    Flee(finalDist: 75, priority: 5)
+                    Wander(triggerOutsideOfDistance: 0, priority: 15)
                 ], transitions: [
-                    PlayerFartherThan(dest: "idle", distance: 50)
+                    PlayerFartherThan(dest: "idle", distance: 75)
                 ])
             ])
     }
-    static func BeardB(parent:Enemy) -> EnemyAI {
+    
+    static func BeardB(parent:Enemy) -> EnemyAI { //TODO: everything below here
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -97,26 +99,6 @@ extension EnemyDictionary {
             ])
     }
     
-    static func ChestA(parent:Enemy) -> EnemyAI { //below this hasn't been finished
-        return EnemyAI(parent:parent, startingState:"idle", withStates: [
-            State(name: "idle",
-                behaviors: [
-                    RunAnimationSequence(animationName: "default"),
-                    Wander(triggerOutsideOfDistance: 0, priority: 10)
-                ],
-                transitions: [
-                    PlayerCloserThan(dest: "active", distance: 75)
-                ]),
-            State(name: "active", behaviors: [
-                RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
-                ], transitions: [
-                    PlayerFartherThan(dest: "idle", distance: 75)
-                ])
-            ])
-    }
     
     static func CloudA(parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
@@ -160,7 +142,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func DiscA(parent:Enemy) -> EnemyAI {
+    static func ChestA(parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -180,28 +162,7 @@ extension EnemyDictionary {
                 ])
             ])
     }
-    
-    static func DyeB(parent:Enemy) -> EnemyAI {
-        return EnemyAI(parent:parent, startingState:"idle", withStates: [
-            State(name: "idle",
-                behaviors: [
-                    RunAnimationSequence(animationName: "default"),
-                    Wander(triggerOutsideOfDistance: 0, priority: 10)
-                ],
-                transitions: [
-                    PlayerCloserThan(dest: "active", distance: 75)
-                ]),
-            State(name: "active", behaviors: [
-                RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
-                ], transitions: [
-                    PlayerFartherThan(dest: "idle", distance: 75)
-                ])
-            ])
-    }
-    
+
     static func EyeballB(parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
@@ -243,4 +204,47 @@ extension EnemyDictionary {
                 ])
             ])
     }
+    
+    static func DyeB(parent:Enemy) -> EnemyAI {
+        return EnemyAI(parent:parent, startingState:"idle", withStates: [
+            State(name: "idle",
+                behaviors: [
+                    RunAnimationSequence(animationName: "default"),
+                    Wander(triggerOutsideOfDistance: 0, priority: 10)
+                ],
+                transitions: [
+                    PlayerCloserThan(dest: "active", distance: 75)
+                ]),
+            State(name: "active", behaviors: [
+                RunAnimationSequence(animationName: "default"),
+                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
+                Circle(triggerInsideOfDistance: 15, priority: 10)
+                ], transitions: [
+                    PlayerFartherThan(dest: "idle", distance: 75)
+                ])
+            ])
+    }
+    
+    static func DiscA(parent:Enemy) -> EnemyAI {
+        return EnemyAI(parent:parent, startingState:"idle", withStates: [
+            State(name: "idle",
+                behaviors: [
+                    RunAnimationSequence(animationName: "default"),
+                    Wander(triggerOutsideOfDistance: 0, priority: 10)
+                ],
+                transitions: [
+                    PlayerCloserThan(dest: "active", distance: 75)
+                ]),
+            State(name: "active", behaviors: [
+                RunAnimationSequence(animationName: "default"),
+                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
+                Circle(triggerInsideOfDistance: 15, priority: 10)
+                ], transitions: [
+                    PlayerFartherThan(dest: "idle", distance: 75)
+                ])
+            ])
+    }
+
 }

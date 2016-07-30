@@ -93,7 +93,7 @@ struct Stats {
 }
 
 struct StatLimits {
-    static let expForLevel:[Int] =  [0, 0, 250, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000] //TODO: balance this
+    static let expForLevel:[Int] =  [0, 0, 250, 500, 1000, 1750, 2750, 4500, 6500, 8500, 10500, 14000, 18000, 23000, 29000, 36000] //TODO: balance this
     static let MAX_LEVEL = 15
     
     static let MIN_LVLUP_STAT_GAIN:CGFloat = 10
@@ -427,8 +427,6 @@ class ThisCharacter: Entity {
         inventory.setItem(0, toItem: Item.initHandlerID("w9"))
         inventory.setItem(1, toItem: Item.initHandlerID("s7"))
         inventory.setItem(2, toItem: Item.initHandlerID("c11"))
-        inventory.setItem(3, toItem: Item.initHandlerID("w81"))
-        inventory.setItem(4, toItem: Item.initHandlerID("s24"))
 
 
      //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
@@ -529,10 +527,21 @@ class ThisCharacter: Entity {
         currentTextureSet = "standing3"
         UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
         UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
+        if (level < StatLimits.MAX_LEVEL) {
+            UIElements.EXPBar.setProgress(Float(expPoints - StatLimits.expForLevel[level])/Float(StatLimits.expForLevel[level+1] - StatLimits.expForLevel[level]), animated: true)
+        }
+        else {
+            UIElements.EXPBar.setProgress(1, animated: false)
+        }
     }
 
     func confirmDeath() {
         //delete random items
+        for i in 0..<inventory.baseSize {
+            if (randomBetweenNumbers(0, secondNum: 1) < 0.2) {
+                inventory.setItem(i, toItem: nil)
+            }
+        }
     }
     
     func killedEnemy(e:Enemy) {
@@ -553,7 +562,6 @@ class ThisCharacter: Entity {
             UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
             UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
             UIElements.EXPBar.setProgress(0, animated: false)
-            // add some other animation
         }
         if (level < StatLimits.MAX_LEVEL) {
             UIElements.EXPBar.setProgress(Float(expPoints - StatLimits.expForLevel[level])/Float(StatLimits.expForLevel[level+1] - StatLimits.expForLevel[level]), animated: true)

@@ -114,6 +114,7 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
                         if (defaultPurchaseHandler.makePurchase("UnlockLevel", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
                             defaultLevelHandler.levelDict[indexPath.item].unlocked = true
                             self.levelCollection.reloadItemsAtIndexPaths(self.levelCollection.indexPathsForVisibleItems())
+                            self.selectCenterCell()
                         }
                         else {
                             let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController

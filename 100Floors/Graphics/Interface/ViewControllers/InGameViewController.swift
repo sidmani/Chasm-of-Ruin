@@ -272,6 +272,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         self.ProceedButton.hidden = true
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
+        thisCharacter.adjustHealth(0, withPopup: false)
         popTip1.hide()
         if (gameScene.currentGroundBag?.parent == nil) { //TODO: check if necessary
             gameScene.currentGroundBag = nil

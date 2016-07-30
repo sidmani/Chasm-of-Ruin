@@ -61,6 +61,18 @@ class Inventory:NSObject, NSCoding {
         }
         let out = inventory[atIndex]
         inventory[atIndex] = toItem
+        switch(atIndex) {
+        case weaponIndex:
+            weaponIndex = -1
+        case enhancerIndex:
+            enhancerIndex = -1
+        case armorIndex:
+            armorIndex = -1
+        case skillIndex:
+            skillIndex = -1
+        default:
+            break
+        }
         return out
     }
     

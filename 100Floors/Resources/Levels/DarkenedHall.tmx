@@ -2,21 +2,21 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="12">
  <properties>
   <property name="NumWaves" value="15"/>
-  <property name="Wave1" value=""/>
-  <property name="Wave10" value=""/>
-  <property name="Wave11" value=""/>
-  <property name="Wave12" value=""/>
-  <property name="Wave13" value=""/>
-  <property name="Wave14" value=""/>
-  <property name="Wave15" value=""/>
-  <property name="Wave2" value=""/>
-  <property name="Wave3" value=""/>
-  <property name="Wave4" value=""/>
-  <property name="Wave5" value=""/>
-  <property name="Wave6" value=""/>
-  <property name="Wave7" value=""/>
-  <property name="Wave8" value=""/>
-  <property name="Wave9" value=""/>
+  <property name="Wave1" value="ZGgwOkh8ZGgwOkN8ZGgxOkl8ZGgxOkQ="/>
+  <property name="Wave10" value="ZGg5Okd8ZGg5OkV8ZGg5Okl8ZGg5OkM="/>
+  <property name="Wave11" value="ZGgxMDpBfGRoNDpHfGRoNDpD"/>
+  <property name="Wave12" value="ZGgxMDpIfGRoMTA6RHxkaDQ6QXxkaDQ6QnxkaDQ6Rg=="/>
+  <property name="Wave13" value="ZGg4OkF8ZGg5Okd8ZGg5OkM="/>
+  <property name="Wave14" value="ZGg4Okd8ZGg4OkN8ZGgxMDpBfGRoMTA6RA=="/>
+  <property name="Wave15" value="ZGg3OkF8ZGg4OkZ8ZGg4OkJ8ZGg5Okh8ZGg0OkU="/>
+  <property name="Wave2" value="ZGgzOkh8ZGgzOkR8ZGgwOkd8ZGgwOkV8ZGgwOkJ8ZGgxOkZ8ZGgxOkl8ZGgxOkM="/>
+  <property name="Wave3" value="ZGgzOkd8ZGgzOkV8ZGgzOkl8ZGgzOkM="/>
+  <property name="Wave4" value="ZGg1OkJ8ZGg1OkZ8ZGgwOkd8ZGgwOkM="/>
+  <property name="Wave5" value="ZGg1Okd8ZGg1OkV8ZGg1Okl8ZGg1OkM="/>
+  <property name="Wave6" value="ZGg2Okh8ZGg2OkR8ZGg1OkZ8ZGg1OkJ8ZGgwOkc="/>
+  <property name="Wave7" value="ZGg2Okd8ZGg2OkZ8ZGg2OkV8ZGg2OkI="/>
+  <property name="Wave8" value="ZGgyOkF8ZGg1Okd8ZGg1OkN8ZGg2Okg="/>
+  <property name="Wave9" value="ZGg0OkZ8ZGg0OkI="/>
  </properties>
  <tileset firstgid="1" name="DarkenedHall" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
   <image source="../Tilesets/Sprites00.png" trans="ffffff" width="1024" height="1024"/>

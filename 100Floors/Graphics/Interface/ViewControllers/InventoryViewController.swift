@@ -216,13 +216,23 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             else if (item is Consumable) {
                 thisCharacter.consumeItem(item as! Consumable)
-                inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
+                if (previousSelectedContainer!.correspondsToInventoryIndex == -2) {
+                    groundBag?.removeFromParent()
+                    groundBag = nil
+                } else {
+                    inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
+                }
             }
             else if (item is Sellable) {
                 defaultPurchaseHandler.sellPurchasable(item, withMoneyHandler: defaultMoneyHandler)
-                inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
+                if (previousSelectedContainer!.correspondsToInventoryIndex == -2) {
+                    groundBag?.removeFromParent()
+                    groundBag = nil
+                } else {
+                    inventory.setItem(previousSelectedContainer!.correspondsToInventoryIndex, toItem: nil)
+                }
             }
-            else {
+            else if (previousSelectedContainer!.correspondsToInventoryIndex != -2) {
                 if (inventory.equipItem(previousSelectedContainer!.correspondsToInventoryIndex)) {
                     EquipButton.setTitle("Unload", forState: .Normal)
                 }
@@ -356,7 +366,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 EquipButton.alpha = 0.3
             }
             
-            if (previousSelectedContainer!.correspondsToInventoryIndex == -2) {
+            if (previousSelectedContainer!.correspondsToInventoryIndex == -2 && !(previousSelectedContainer!.item is Consumable)) {
                 EquipButton.enabled = false
                 EquipButton.alpha = 0.3
             }

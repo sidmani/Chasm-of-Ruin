@@ -4,59 +4,93 @@
     <enemy id="t0" name="TargetDummy">
         <stats name="TargetDummy">MjV8MHwwfDB8NTB8NTB8MHww</stats>
         <animation name="default" frames="4">TargetDummy</animation>
+        <drop type="ItemBag" chance="0.5">w10</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="t1" name="SlimeSquareE">
         <stats name="SlimeSquareE">MjV8MjB8NDB8MHwxMDB8MTAwfDB8MA==</stats>
         <animation name="default" frames="5">SlimeSquareE</animation>
+        <drop type="ItemBag" chance="0.2">w10</drop>
+        <drop type="ItemBag" chance="0.05">w3</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <enemy id="t2" name="EyeballA">
         <stats name="EyeballA">MzB8NDB8MjB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="8">EyeballA</animation>
         <animation name="attack" frames="7">EyeballAAtk</animation>
+        <drop type="ItemBag" chance="0.8">w3</drop>
+        <drop type="ItemBag" chance="0.2">w8</drop>
+        <drop type="ItemBag" chance="0.5">s6</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <!-- Sunlit Caverns -->
     <enemy id="sc3" name="BugB">
         <stats name="BugB">MzV8MzB8NTB8MHw1MHw1MHwwfDA=</stats>
         <animation name="default" frames="15">BugB</animation>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="sc4" name="DuckA">
         <stats name="DuckA">NDB8NDV8MzV8MHw4MHw4MHwwfDA=</stats>
         <animation name="default" frames="6">DuckA</animation>
+        <drop type="ItemBag" chance="0.2">w54</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="sc9" name="OrbA">
         <stats name="OrbA">MzV8NTV8MjV8MHw5MHw5MHwwfDA=</stats>
         <animation name="default" frames="6">OrbA</animation>
         <animation name="attack" frames="2">OrbAOpen</animation>
+        <drop type="ItemBag" chance="0.2">w11</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <enemy id="sc0" name="AirA">
         <stats name="AirA">MjB8NTB8MjAwfDB8MjAwfDIwMHwwfDA=</stats>
         <animation name="default" frames="5">AirA</animation>
+        <drop type="ItemBag" chance="0.5">w28</drop>
     </enemy>
     <enemy id="sc1" name="BallA">
         <stats name="BallA">MzB8NTB8NDB8MHwxMjB8MTIwfDB8MA==</stats>
         <animation name="default" frames="6">BallA</animation>
         <animation name="attack" frames="2">BallAOpen</animation>
+        <drop type="ItemBag" chance="0.5">w55</drop>
+        <drop type="ItemBag" chance="0.5">s5</drop>
     </enemy>
     <enemy id="sc2" name="BrainC">
         <stats name="BrainC">NDB8NjB8MzV8MHwxNTB8MTUwfDB8MA==</stats>
         <animation name="default" frames="12">BrainC</animation>
+        <drop type="ItemBag" chance="0.3">w2</drop>
     </enemy>
     <enemy id="sc5" name="EarthA">
         <stats name="EarthA">NTB8NzV8MzB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="4">EarthA</animation>
+        <drop type="ItemBag" chance="0.3">w4</drop>
     </enemy>
     <enemy id="sc6" name="FactoryA">
         <stats name="FactoryA">NjB8ODB8MjN8MHwzMDB8MzAwfDB8MA==</stats>
         <animation name="default" frames="7">FactoryA</animation>
+        <drop type="ItemBag" chance="0.3">w19</drop>
+        <drop type="ItemBag" chance="0.3">w67</drop>
+        <drop type="ItemBag" chance="0.05">w56</drop>
+        <drop type="ItemBag" chance="0.5">s23</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="sc7" name="GolemA">
         <stats name="GolemA">NzV8OTB8MjV8MHwzNDB8MzQwfDB8MA==</stats>
         <animation name="default" frames="5">GolemA</animation>
         <animation name="attack" frames="2">GolemAAtk</animation>
+        <drop type="ItemBag" chance="0.3">w53</drop>
+        <drop type="ItemBag" chance="0.1">w27</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="sc8" name="MonolithA">
         <stats name="MonolithA">MTAwfDEwMHwyMHwwfDUwMHw1MDB8MHww</stats>
         <animation name="default" frames="5">MonolithA</animation>
+        <drop type="ItemBag" chance="0.3">w25</drop>
+        <drop type="ItemBag" chance="0.2">w75</drop>
+        <drop type="ItemBag" chance="0.3">w69</drop>
+        <drop type="ItemBag" chance="0.05">w5</drop>
+        <drop type="ItemBag" chance="0.5">s23</drop>
+        <drop type="ItemBag" chance="0.3">s0</drop>
     </enemy>
     <!-- Ancient Realm -->
     <enemy id="ar1" name="BatH">
@@ -71,41 +105,67 @@
         <stats name="BallD">NzB8OTB8ODB8MHwxNjB8MTYwfDB8MA==</stats>
         <animation name="default" frames="6">BallD</animation>
         <animation name="attack" frames="2">BallDOpen</animation>
+        <drop type="ItemBag" chance="0.2">w29</drop>
     </enemy>
     <enemy id="ar3" name="BrainE">
         <stats name="BrainE">OTB8MTE1fDEwMHwwfDIwMHwyMDB8MHww</stats>
         <animation name="default" frames="12">BrainE</animation>
+        <drop type="ItemBag" chance="0.2">w76</drop>
     </enemy>
     <enemy id="ar5" name="FrogC">
         <stats name="FrogC">MTAwfDExNXwxMTB8MHwyMzB8MjMwfDB8MA==</stats>
         <animation name="default" frames="6">FrogC</animation>
         <animation name="attack" frames="4">FrogCAtk</animation>
+        <drop type="ItemBag" chance="0.2">w45</drop>
+        <drop type="ItemBag" chance="0.5">s22</drop>
+
     </enemy>
     <enemy id="ar8" name="KlackonB">
         <stats name="KlackonB">NTB8MTAwfDEzMHwwfDI5MHwyOTB8MHww</stats>
         <animation name="default" frames="9">KlackonB</animation>
+        <drop type="ItemBag" chance="0.3">w33</drop>
+        <drop type="ItemBag" chance="0.2">s8</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="ar6" name="GhastB">
         <stats name="GhastB">OTV8MTUwfDEwMHwwfDM1MHwzNTB8MHww</stats>
         <animation name="default" frames="8">GhastB</animation>
+        <drop type="ItemBag" chance="0.3">w47</drop>
+        <drop type="ItemBag" chance="0.2">s14</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <enemy id="ar9" name="MonolithD">
         <stats name="MonolithD">MTc1fDE2NXwyNXwwfDUwMHw1MDB8MHww</stats>
         <animation name="default" frames="5">MonolithD</animation>
+        <drop type="ItemBag" chance="0.3">w13</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <enemy id="ar4" name="DyeD">
         <stats name="DyeD">MTE1fDIwMHw2MHwwfDU1MHw1NTB8MHww</stats>
         <animation name="default" frames="5">DyeD</animation>
         <animation name="attack" frames="7">DyeDAtk</animation>
+        <drop type="ItemBag" chance="0.3">w38</drop>
+        <drop type="ItemBag" chance="0.1">w0</drop>
+        <drop type="ItemBag" chance="0.3">s10</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.1">c38</drop>
     </enemy>
     <enemy id="ar7" name="HeadC">
         <stats name="HeadC">MTUwfDIxMHw5MHwwfDYwMHw2MDB8MHww</stats>
         <animation name="default" frames="9">HeadC</animation>
+        <drop type="ItemBag" chance="0.5">w38</drop>
+        <drop type="ItemBag" chance="0.3">w58</drop>
+        <drop type="ItemBag" chance="0.1">w31</drop>
+        <drop type="ItemBag" chance="0.2">s15</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.1">c36</drop>
+
     </enemy>
     <!-- Darkened Hall -->
     <enemy id="dh0" name="BatB">
         <stats name="BatB">MTE1fDk1fDEzMnwwfDEzMHwxMzB8MHww</stats>
         <animation name="default" frames="3">BatB</animation>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="dh1" name="BatN">
         <stats name="BatN">OTV8MTE1fDEzMnwwfDEzMHwxMzB8MHww</stats>
@@ -115,40 +175,70 @@
         <stats name="CatA">MTAwfDEzMHwxNDB8MHwxNTB8MTUwfDB8MA==</stats>
         <animation name="default" frames="3">CatA</animation>
         <animation name="attack" frames="2">CatAAtk</animation>
+        <drop type="ItemBag" chance="0.1">w77</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <enemy id="dh5" name="CloudA">
         <stats name="CloudA">MTI1fDE2MHwxNzV8MHwxNDB8MTQwfDB8MA==</stats>
         <animation name="default" frames="9">CloudA</animation>
+        <drop type="ItemBag" chance="0.2">w38</drop>
     </enemy>
     <enemy id="dh6" name="CrabE">
         <stats name="CrabE">MTY1fDE4NXwxNTB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="5">CrabE</animation>
+        <drop type="ItemBag" chance="0.1">w32</drop>
+        <drop type="ItemBag" chance="0.3">s17</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="dh2" name="BeardB">
         <stats name="BeardB">MTgwfDIxMHw5MHwwfDI1MHwyNTB8MHww</stats>
         <animation name="default" frames="10">BeardB</animation>
+        <drop type="ItemBag" chance="0.3">w46</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
     </enemy>
     <enemy id="dh4" name="ChestA">
         <stats name="ChestA">MjAwfDIzMHwwfDB8NDAwfDQwMHwwfDA=</stats>
         <animation name="locked" frames="1">ChestALocked</animation>
         <animation name="default" frames="9">ChestA</animation>
+        <drop type="ItemBag" chance="0.2">w41</drop>
+        <drop type="ItemBag" chance="0.3">s27</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="dh9" name="EyeballB">
         <stats name="EyeballB">MjMwfDI0MHwxNzV8MHw0MDB8NDAwfDB8MA==</stats>
         <animation name="default" frames="8">EyeballB</animation>
         <animation name="attack" frames="7">EyeballBAtk</animation>
+        <drop type="ItemBag" chance="0.2">w59</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
     </enemy>
     <enemy id="dh10" name="GhastA">
         <stats name="GhastA">MjYwfDIxMHwyMDB8MHw1MDB8NTAwfDB8MA==</stats>
         <animation name="default" frames="8">GhastA</animation>
+        <drop type="ItemBag" chance="0.5">w5</drop>
+        <drop type="ItemBag" chance="0.3">w78</drop>
+        <drop type="ItemBag" chance="0.2">s1</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.5">c12</drop>
+        <drop type="ItemBag" chance="0.1">c35</drop>
     </enemy>
     <enemy id="dh8" name="DyeB">
         <stats name="DyeB">MjQwfDI4MHwxNTB8MHw2MTB8NjEwfDB8MA==</stats>
         <animation name="default" frames="5">DyeB</animation>
         <animation name="attack" frames="7">DyeBAtk</animation>
+        <drop type="ItemBag" chance="0.5">w39</drop>
+        <drop type="ItemBag" chance="0.3">w35</drop>
+        <drop type="ItemBag" chance="0.1">w6</drop>
+        <drop type="ItemBag" chance="0.2">s19</drop>
+        <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.1">c37</drop>
     </enemy>
     <enemy id="dh7" name="DiscA">
         <stats name="DiscA">MzAwfDMwMHwyMDB8MHw3NTB8NzUwfDB8MA==</stats>
         <animation name="default" frames="5">DiscA</animation>
+        <drop type="ItemBag" chance="0.5">w51</drop>
+        <drop type="ItemBag" chance="0.3">w36</drop>
+        <drop type="ItemBag" chance="0.1">w79</drop>
+        <drop type="ItemBag" chance="0.3">s26</drop>
+        <drop type="ItemBag" chance="0.1">c36</drop>
     </enemy>
 </enemies>
