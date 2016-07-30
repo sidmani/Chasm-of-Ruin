@@ -310,7 +310,7 @@ class LevelHandler:NSCoding {
     }
     
     var levelDict:[LevelDefinition] = [
-        LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Quickly learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
+        LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
         LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
         LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
         LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)

@@ -32,8 +32,8 @@ class EnemyAI: Updatable{
         currState.beginState()
     }
     
-    func struckMapBoundary() {
-        currState.struckMapBoundary()
+    func struckMapBoundary(point:CGPoint) {
+        currState.struckMapBoundary(point)
     }
     
     func update(deltaT:Double) {
@@ -119,6 +119,9 @@ class State:Updatable {
         for transition in transitions {
             transition.setParent(to)
         }
+        for behavior in runOnStruckMapBoundary {
+            behavior.setParent(to)
+        }
     }
     
     func beginState() {
@@ -133,8 +136,11 @@ class State:Updatable {
         }
     }
     
-    func struckMapBoundary() {
+    func struckMapBoundary(point:CGPoint) {
         for behavior in runOnStruckMapBoundary {
+            if let b = behavior as? FleeFromPoint {
+                b.point = point
+            }
             behavior.executeBehavior(0)
         }
     }

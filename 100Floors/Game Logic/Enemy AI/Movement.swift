@@ -96,12 +96,6 @@ class Wander:Behavior {
                 currState = .Moving
                 stateTime = Double(randomBetweenNumbers(200, secondNum: 2000))
                 let randAngle = randomBetweenNumbers(0, secondNum: 6.28)
-//                if (randAngle < 1.57 || randAngle > 4.71) {
-//                    parent.xScale = abs(parent.xScale) * -startingFlip
-//                }
-//                else {
-//                    parent.xScale = abs(parent.xScale) * startingFlip
-//                }
                 parent.setVelocity(CGVectorMake(cos(randAngle), sin(randAngle)))
             }
         }
@@ -149,6 +143,73 @@ class Flee:Behavior {
     override func executeBehavior(timeSinceUpdate: Double) {
         let vect = -1 * parent.normalVectorToCharacter()
         parent.setVelocity(vect)
+    }
+}
+
+class FleeFromPoint:Behavior {
+    private let finalDist:CGFloat
+    var point:CGPoint
+    init(finalDist:CGFloat, point:CGPoint, priority:Int) {
+        self.finalDist = finalDist
+        self.point = point
+        super.init(idType: .Movement, updateRate: 200)
+        self.priority = priority
+    }
+    
+    override func getConditional() -> Bool {
+        return hypot(parent.position.x - point.x, parent.position.y - point.y) < finalDist
+    }
+    
+    override func executeBehavior(timeSinceUpdate: Double) {
+        let vect = (-1/hypot(parent.position.x - point.x, parent.position.y - point.y)) * CGVectorMake(parent.position.x - point.x, parent.position.y - point.y)
+        parent.setVelocity(vect)
+    }
+}
+
+class WanderReallyFast:Behavior {
+    private var nextLoc:CGPoint = CGPointZero
+    private var stateTime:Double = 0
+    
+    private enum States { case Waiting, Moving }
+    private var currState = States.Moving
+    
+    private let triggerOutsideOf:CGFloat
+    private let speedMultiplier:CGFloat
+    
+    init(triggerOutsideOfDistance:CGFloat, speedMultiplier:CGFloat, priority:Int) {
+        self.triggerOutsideOf = triggerOutsideOfDistance
+        self.speedMultiplier = speedMultiplier
+        super.init(idType: .Movement, updateRate: 30)
+        self.priority = priority
+    }
+    
+    override func setParent(to: Enemy) {
+        super.setParent(to)
+        self.nextLoc = parent.position
+    }
+    
+    override func getConditional() -> Bool {
+        return parent.distanceToCharacter() > triggerOutsideOf
+    }
+    
+    override func executeBehavior(timeSinceUpdate:Double) {
+        if (currState == .Moving) {
+            stateTime -= timeSinceUpdate
+            if (stateTime <= 0) {
+                currState = .Waiting
+                stateTime = Double(randomBetweenNumbers(750, secondNum: 1500))
+                parent.setVelocity(CGVector.zero)
+            }
+        }
+        else {
+            stateTime -= timeSinceUpdate
+            if (stateTime <= 0) {
+                currState = .Moving
+                stateTime = 60
+                let randAngle = randomBetweenNumbers(0, secondNum: 6.28)
+                parent.setVelocity(CGVectorMake(speedMultiplier*cos(randAngle), speedMultiplier*sin(randAngle)))
+            }
+        }
     }
 }
 

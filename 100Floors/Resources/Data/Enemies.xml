@@ -13,9 +13,6 @@
         <stats name="EyeballA">MzB8NDB8MjB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="8">EyeballA</animation>
         <animation name="attack" frames="7">EyeballAAtk</animation>
-        <drop type="ItemBag" chance="1">w59</drop>
-        <drop type="ItemBag" chance="1">w59</drop>
-        <drop type="ItemBag" chance="1">w59</drop>
     </enemy>
     <!-- Sunlit Caverns -->
     <enemy id="sc3" name="BugB">
@@ -32,7 +29,7 @@
         <animation name="attack" frames="2">OrbAOpen</animation>
     </enemy>
     <enemy id="sc0" name="AirA">
-        <stats name="AirA">MjB8NTB8MjAwfDB8NzB8NzB8MHww</stats>
+        <stats name="AirA">MjB8NTB8MjAwfDB8MjAwfDIwMHwwfDA=</stats>
         <animation name="default" frames="5">AirA</animation>
     </enemy>
     <enemy id="sc1" name="BallA">
@@ -61,76 +58,97 @@
         <stats name="MonolithA">MTAwfDEwMHwyMHwwfDUwMHw1MDB8MHww</stats>
         <animation name="default" frames="5">MonolithA</animation>
     </enemy>
+    <!-- Ancient Realm -->
+    <enemy id="ar1" name="BatH">
+        <stats name="BatH">NzV8NTV8OTB8MHw5MHw5MHwwfDA=</stats>
+        <animation name="default" frames="3">BatH</animation>
+    </enemy>
+    <enemy id="ar2" name="BatR">
+        <stats name="BatR">NTV8NzV8OTB8MHw5MHw5MHwwfDA=</stats>
+        <animation name="default" frames="3">BatR</animation>
+    </enemy>
+    <enemy id="ar0" name="BallD">
+        <stats name="BallD">NzB8OTB8ODB8MHwxNjB8MTYwfDB8MA==</stats>
+        <animation name="default" frames="6">BallD</animation>
+        <animation name="attack" frames="2">BallDOpen</animation>
+    </enemy>
+    <enemy id="ar3" name="BrainE">
+        <stats name="BrainE">OTB8MTE1fDEwMHwwfDIwMHwyMDB8MHww</stats>
+        <animation name="default" frames="12">BrainE</animation>
+    </enemy>
+    <enemy id="ar5" name="FrogC">
+        <stats name="FrogC">MTAwfDExNXwxMTB8MHwyMzB8MjMwfDB8MA==</stats>
+        <animation name="default" frames="6">FrogC</animation>
+        <animation name="attack" frames="4">FrogCAtk</animation>
+    </enemy>
+    <enemy id="ar8" name="KlackonB">
+        <stats name="KlackonB">NTB8MTAwfDEzMHwwfDI5MHwyOTB8MHww</stats>
+        <animation name="default" frames="9">KlackonB</animation>
+    </enemy>
+    <enemy id="ar6" name="GhastB">
+        <stats name="GhastB">OTV8MTUwfDEwMHwwfDM1MHwzNTB8MHww</stats>
+        <animation name="default" frames="8">GhastB</animation>
+    </enemy>
+    <enemy id="ar9" name="MonolithD">
+        <stats name="MonolithD">MTc1fDE2NXwyNXwwfDUwMHw1MDB8MHww</stats>
+        <animation name="default" frames="5">MonolithD</animation>
+    </enemy>
+    <enemy id="ar4" name="DyeD">
+        <stats name="DyeD">MTE1fDIwMHw2MHwwfDU1MHw1NTB8MHww</stats>
+        <animation name="default" frames="5">DyeD</animation>
+        <animation name="attack" frames="7">DyeDAtk</animation>
+    </enemy>
+    <enemy id="ar7" name="HeadC">
+        <stats name="HeadC">MTUwfDIxMHw5MHwwfDYwMHw2MDB8MHww</stats>
+        <animation name="default" frames="9">HeadC</animation>
+    </enemy>
     <!-- Darkened Hall -->
     <enemy id="dh0" name="BatB">
+        <stats name="BatB">MTE1fDk1fDEzMnwwfDEzMHwxMzB8MHww</stats>
         <animation name="default" frames="3">BatB</animation>
     </enemy>
     <enemy id="dh1" name="BatN">
+        <stats name="BatN">OTV8MTE1fDEzMnwwfDEzMHwxMzB8MHww</stats>
         <animation name="default" frames="3">BatN</animation>
     </enemy>
-    <enemy id="dh2" name="BeardB">
-        <animation name="default" frames="10">BeardB</animation>
-    </enemy>
     <enemy id="dh3" name="CatA">
+        <stats name="CatA">MTAwfDEzMHwxNDB8MHwxNTB8MTUwfDB8MA==</stats>
         <animation name="default" frames="3">CatA</animation>
-        <animation name="default" frames="2">CatAAtk</animation>
-    </enemy>
-    <enemy id="dh4" name="ChestA">
-        <animation name="locked" frames="1">ChestALocked</animation>
-        <animation name="default" frames="9">ChestA</animation>
+        <animation name="attack" frames="2">CatAAtk</animation>
     </enemy>
     <enemy id="dh5" name="CloudA">
+        <stats name="CloudA">MTI1fDE2MHwxNzV8MHwxNDB8MTQwfDB8MA==</stats>
         <animation name="default" frames="9">CloudA</animation>
     </enemy>
     <enemy id="dh6" name="CrabE">
+        <stats name="CrabE">MTY1fDE4NXwxNTB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="5">CrabE</animation>
     </enemy>
-    <enemy id="dh7" name="DiscA">
-        <animation name="default" frames="5">DiscA</animation>
+    <enemy id="dh2" name="BeardB">
+        <stats name="BeardB">MTgwfDIxMHw5MHwwfDI1MHwyNTB8MHww</stats>
+        <animation name="default" frames="10">BeardB</animation>
     </enemy>
-    <enemy id="dh8" name="DyeB">
-        <animation name="default" frames="5">DyeB</animation>
-        <animation name="attack" frames="7">DyeBAtk</animation>
+    <enemy id="dh4" name="ChestA">
+        <stats name="ChestA">MjAwfDIzMHwwfDB8NDAwfDQwMHwwfDA=</stats>
+        <animation name="locked" frames="1">ChestALocked</animation>
+        <animation name="default" frames="9">ChestA</animation>
     </enemy>
     <enemy id="dh9" name="EyeballB">
+        <stats name="EyeballB">MjMwfDI0MHwxNzV8MHw0MDB8NDAwfDB8MA==</stats>
         <animation name="default" frames="8">EyeballB</animation>
         <animation name="attack" frames="7">EyeballBAtk</animation>
     </enemy>
     <enemy id="dh10" name="GhastA">
+        <stats name="GhastA">MjYwfDIxMHwyMDB8MHw1MDB8NTAwfDB8MA==</stats>
         <animation name="default" frames="8">GhastA</animation>
     </enemy>
-    <!-- Ancient Realm -->
-    <enemy id="ar0" name="BallD">
-        <animation name="default" frames="6">BallD</animation>
-        <animation name="attack" frames="2">BallDOpen</animation>
+    <enemy id="dh8" name="DyeB">
+        <stats name="DyeB">MjQwfDI4MHwxNTB8MHw2MTB8NjEwfDB8MA==</stats>
+        <animation name="default" frames="5">DyeB</animation>
+        <animation name="attack" frames="7">DyeBAtk</animation>
     </enemy>
-    <enemy id="ar1" name="BatH">
-        <animation name="default" frames="3">BatH</animation>
-    </enemy>
-    <enemy id="ar2" name="BatR">
-        <animation name="default" frames="3">BatR</animation>
-    </enemy>
-    <enemy id="ar3" name="BrainE">
-        <animation name="default" frames="12">BrainE</animation>
-    </enemy>
-    <enemy id="ar4" name="DyeD">
-        <animation name="default" frames="5">DyeD</animation>
-        <animation name="attack" frames="7">DyeDAtk</animation>
-    </enemy>
-    <enemy id="ar5" name="FrogC">
-        <animation name="default" frames="6">FrogC</animation>
-        <animation name="attack" frames="4">FrogCAtk</animation>
-    </enemy>
-    <enemy id="ar6" name="GhastB">
-        <animation name="default" frames="8">GhastB</animation>
-    </enemy>
-    <enemy id="ar7" name="HeadC">
-        <animation name="default" frames="9">HeadC</animation>
-    </enemy>
-    <enemy id="ar8" name="KlackonB">
-        <animation name="default" frames="9">KlackonB</animation>
-    </enemy>
-    <enemy id="ar9" name="MonolithD">
-        <animation name="default" frames="5">MonolithD</animation>
+    <enemy id="dh7" name="DiscA">
+        <stats name="DiscA">MzAwfDMwMHwyMDB8MHw3NTB8NzUwfDB8MA==</stats>
+        <animation name="default" frames="5">DiscA</animation>
     </enemy>
 </enemies>

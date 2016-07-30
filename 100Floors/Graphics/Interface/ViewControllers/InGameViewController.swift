@@ -125,6 +125,8 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             self.view.viewWithTag(1)!.alpha = 0.3
             
             incrementTutorial()
+        } else {
+            hasExecutedTutorial = true
         }
     }
     

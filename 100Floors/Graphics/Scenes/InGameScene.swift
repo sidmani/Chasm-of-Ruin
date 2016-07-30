@@ -129,14 +129,14 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         ////// enemy hits map boundary
         else if (contact.bodyA.categoryBitMask == PhysicsCategory.Enemy && contact.bodyB.categoryBitMask == PhysicsCategory.MapBoundary) {
             if let enemy = contact.bodyA.node as? Enemy {
-                enemy.struckMapBoundary()
+                enemy.struckMapBoundary(contact.contactPoint)
             }
             return
         }
             
         else if (contact.bodyB.categoryBitMask == PhysicsCategory.Enemy && contact.bodyA.categoryBitMask == PhysicsCategory.MapBoundary) {
             if let enemy = contact.bodyB.node as? Enemy {
-                enemy.struckMapBoundary()
+                enemy.struckMapBoundary(contact.contactPoint)
             }
             return
         }
@@ -176,7 +176,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func currentWave() -> Int {
-        return (currentLevel != nil ? currentLevel!.currWave : 0)
+        return (currentLevel != nil ? currentLevel!.currWaveIndex : 0)
     }
     
     func setLevel(level:MapLevel) {
@@ -198,7 +198,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         self.paused = false
         if (!isTutorial()) {
             NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.definition.mapName)
-            self.camera!.addChild(CountdownTimer(time: 5, endText: "WAVE \(self.currentLevel!.currWave + 2)") {[unowned self] in
+            self.camera!.addChild(CountdownTimer(time: 5, endText: "WAVE \(self.currentLevel!.currWaveIndex + 2)") {[unowned self] in
                 self.currentLevel!.nextWave()
             })
         }
@@ -208,7 +208,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startCountdownAfterTutorial() {
-        self.camera!.addChild(CountdownTimer(time: 5, endText: "WAVE \(self.currentLevel!.currWave + 2)") {[unowned self] in
+        self.camera!.addChild(CountdownTimer(time: 5, endText: "WAVE \(self.currentLevel!.currWaveIndex + 2)") {[unowned self] in
             self.currentLevel!.nextWave()
         })
     }
@@ -237,12 +237,12 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity
                 if (currentLevel!.waveIsOver() && !hasMovedToNextWave) {
                     if (timeUntilProceedToNextWave <= 0) {
-                        if (currentLevel!.currWave == currentLevel!.numWaves - 1) {
+                        if (currentLevel!.currWaveIndex == currentLevel!.numWaves - 1) {
                             NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
                         }
                         else {
                             hasMovedToNextWave = true
-                            self.camera!.addChild(CountdownTimer(time: 5, endText: "\(currentLevel!.currWave == currentLevel!.numWaves - 2 ? "FINAL WAVE" : "WAVE \(self.currentLevel!.currWave + 2)")") {[unowned self] in
+                            self.camera!.addChild(CountdownTimer(time: 5, endText: "\(currentLevel!.currWaveIndex == currentLevel!.numWaves - 2 ? "FINAL WAVE" : "WAVE \(self.currentLevel!.currWaveIndex + 2)")") {[unowned self] in
                                 self.currentLevel!.nextWave()
                             })
                         }
@@ -270,19 +270,18 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 (node as? Updatable)?.update(deltaT)
             }
             currScreenBounds = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.height*camera!.yScale)
-            
         }
     }
 
     func proceedToNextWave() {
         if (!hasMovedToNextWave) {
             UIElements.ProceedButton.hidden = true
-            if (currentLevel!.currWave == currentLevel!.numWaves - 1) {
+            if (currentLevel!.currWaveIndex == currentLevel!.numWaves - 1) {
                 NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
             }
             else {
                 hasMovedToNextWave = true
-                self.camera!.addChild(CountdownTimer(time: 5, endText: "\(currentLevel!.currWave == currentLevel!.numWaves - 2 ? "FINAL WAVE" : "WAVE \(self.currentLevel!.currWave + 2)")") {[unowned self] in
+                self.camera!.addChild(CountdownTimer(time: 5, endText: "\(currentLevel!.currWaveIndex == currentLevel!.numWaves - 2 ? "FINAL WAVE" : "WAVE \(self.currentLevel!.currWaveIndex + 2)")") {[unowned self] in
                     self.currentLevel!.nextWave()
                     })
             }

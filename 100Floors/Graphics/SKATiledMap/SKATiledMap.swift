@@ -716,7 +716,6 @@ class SKATiledMap : SKNode{
                                             collisionSprites.append(floorSprite)
                                         }
                                         else if collisionType == "SKACollisionTypeShape"{
-                                        //    print("collision type shape")
                                             if object.polygon != nil{
                                                 let points = object.polygon!
                                                 let myPath = UIBezierPath();
@@ -725,7 +724,6 @@ class SKATiledMap : SKNode{
                                                 for set in points{
                                                     let x = set["x"]!
                                                     var y = set["y"]!
-                                                 //   print("\(x),\(y)")
                                                     //getting origin in the correct position based on draw order
                                                     if(objectLayer.drawOrder == "topdown")
                                                     {
@@ -754,9 +752,7 @@ class SKATiledMap : SKNode{
                                             }
                                         }
                                         else if collisionType == "SKACollisionTypeLine"{
-                                        //    print("SKACollisionTypeLine")
                                             if object.polyline != nil{
-                                       //         print("collision type edge-based shape")
                                                 let points = object.polyline!
                                                 let myPath = UIBezierPath();
                                                 var hasInitialPoint = false

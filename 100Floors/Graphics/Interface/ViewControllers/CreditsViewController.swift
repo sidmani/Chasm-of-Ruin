@@ -18,8 +18,8 @@ class CreditsViewController:UIViewController {
         self.view.addSubview(blur)
         UIView.animateWithDuration(0.5) {
             blur.effect = UIBlurEffect(style: .Light)
-            blur.alpha = 0.5
         }
+        blur.alpha = 0.5
         self.view.sendSubviewToBack(blur)
     }
     

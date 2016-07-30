@@ -427,6 +427,9 @@ class ThisCharacter: Entity {
         inventory.setItem(0, toItem: Item.initHandlerID("w9"))
         inventory.setItem(1, toItem: Item.initHandlerID("s7"))
         inventory.setItem(2, toItem: Item.initHandlerID("c11"))
+        inventory.setItem(3, toItem: Item.initHandlerID("w81"))
+        inventory.setItem(4, toItem: Item.initHandlerID("s24"))
+
 
      //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
@@ -668,12 +671,12 @@ class Enemy:Entity {
     }
     weak var wave:Wave?
     
-    private var drops:[(object:MapObject, chance:CGFloat)]
+    private var drops:[MapObject]
     let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
     private let textureFlip:Bool
     private let initialTextureOrientation:CGFloat
     
-    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[(object:MapObject, chance:CGFloat)], stats:Stats, atPosition:CGPoint, textureFlipEnabled:Bool = true, initialTextureOrientation:CGFloat = 1, wave:Wave? = nil) {
+    init(name:String, textureDict:[String:[SKTexture]], beginTexture:String, drops:[MapObject], stats:Stats, atPosition:CGPoint, textureFlipEnabled:Bool = true, initialTextureOrientation:CGFloat = 1, wave:Wave? = nil) {
         self.textureFlip = textureFlipEnabled
         self.initialTextureOrientation = initialTextureOrientation
         self.drops = drops
@@ -732,8 +735,8 @@ class Enemy:Entity {
         return (ret == nil ? false:ret!)
     }
     
-    func struckMapBoundary() {
-        AI?.struckMapBoundary()
+    func struckMapBoundary(point:CGPoint) {
+        AI?.struckMapBoundary(point)
     }
     
     func setVelocity(v:CGVector) { //v is unit vector
@@ -784,13 +787,11 @@ class Enemy:Entity {
     override func die() {
         thisCharacter.killedEnemy(self)
         for drop in self.drops {
-            if (randomBetweenNumbers(0, secondNum: 1) <= drop.chance) {
-                drop.object.position = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
-                drop.object.updateZPosition()
-                (self.scene as? InGameScene)?.addObject(drop.object)
-            }
+            drop.position = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
+            drop.updateZPosition()
+            (self.scene as? InGameScene)?.addObject(drop)
         }
-        wave?.enemyDied()
+        wave?.enemyDied(self)
         removeFromParent()
         indicatorArrow.removeFromParent()
     }

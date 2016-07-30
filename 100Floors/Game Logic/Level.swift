@@ -37,10 +37,8 @@ class MapLevel:SKNode, Updatable {
         static let MapTop:CGFloat = 3
     }
     let mapSize:CGSize
-  //  let tileEdge:CGFloat
     let mapSizeOnScreen: CGSize
     
-   // let startLoc:CGPoint
     let objects = SKNode()
 
     private let map:SKATiledMap
@@ -50,26 +48,29 @@ class MapLevel:SKNode, Updatable {
     var startLoc:CGPoint {
         return spawnPoints["StartLoc"]!
     }
-    private var waves:[Wave] = []
-    var currWave:Int = -1
-    let numWaves:Int
-    
+    private var waves:[String] = []
+    var currWaveIndex:Int = -1
+    private var currWave:Wave?
+    private var preloadedWave:Wave?
+
+    var numWaves:Int {
+        return waves.count
+    }
     init(level: LevelHandler.LevelDefinition) {
         definition = level
         map = SKATiledMap(mapName: level.fileName)
         
-       // let startLocPoint = CGPoint(map.mapProperties["StartLoc"] as! String)
         let mapSizeOnScreen = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
         let mapSize = CGSizeMake(CGFloat(map.mapWidth*map.tileWidth), CGFloat(map.mapHeight*map.tileHeight))
        
         
-        self.numWaves = Int(map.mapProperties["NumWaves"] as! String)!
-      //  self.startLoc = startLocPoint
-       // self.tileEdge = CGFloat(map.tileWidth)
+        let numWaves = Int(map.mapProperties["NumWaves"] as! String)!
         self.mapSize = mapSize
         self.mapSizeOnScreen = mapSizeOnScreen
         super.init()
         
+        SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "WarpB")], withCompletionHandler: {})
+
         for layer in map.objectLayers {
             for obj in layer.objects {
                 if (obj.type == "SpawnPoint") {
@@ -95,18 +96,26 @@ class MapLevel:SKNode, Updatable {
         }
         
         for i in 1...numWaves {
-            waves.append(Wave(fromBase64: map.mapProperties["Wave\(i)"] as! String, spawnPoints: spawnPoints))
+             waves.append(map.mapProperties["Wave\(i)"] as! String)
         }
+        preloadedWave = Wave(fromBase64: waves[0], spawnPoints: spawnPoints)
         
         self.addChild(map)
         self.addChild(objects)
     }
     
     func nextWave() {
-        currWave += 1
-        for enemy in waves[currWave].enemies {
+        currWaveIndex += 1
+        currWave = preloadedWave!
+        for enemy in currWave!.enemies {
             (self.scene as? InGameScene)?.addObject(enemy)
         }
+        if (currWaveIndex < waves.count-1) {
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [unowned self] in
+                self.preloadedWave = Wave(fromBase64: self.waves[self.currWaveIndex+1], spawnPoints: self.spawnPoints)
+            }
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -128,8 +137,8 @@ class MapLevel:SKNode, Updatable {
     }
     
     func waveIsOver() -> Bool {
-        if (currWave >= 0 && currWave < waves.count) {
-            return waves[currWave].waveIsOver()
+        if (currWaveIndex >= 0 && currWaveIndex < waves.count) {
+            return currWave!.waveIsOver()
         }
         return false
     }
@@ -141,17 +150,17 @@ class MapLevel:SKNode, Updatable {
 }
 
 class Wave {
-    private var enemiesLeft:Int
+   // private var enemiesLeft:Int
     var enemies:[Enemy] = []
     init(enemies:[Enemy]) {
-        enemiesLeft = enemies.count
         self.enemies = enemies
+    //    enemiesLeft = enemies.count
     }
     
     init(fromBase64:String, spawnPoints:[String:CGPoint]) {
         //enemy:A|enemy:spawnPointName...
         let enemyArr = fromBase64.splitBase64IntoArray("|")
-        enemiesLeft = enemyArr.count
+     //   enemiesLeft = enemyArr.count
         for pair in enemyArr {
             let pairArr = pair.componentsSeparatedByString(":")
             let loc = spawnPoints[pairArr[1]]!
@@ -176,16 +185,17 @@ class Wave {
                 }
             }
             // initalize drops
-            var drops:[(object:MapObject, chance:CGFloat)] = []
+            var drops:[MapObject] = []
             if let enemyDrops = thisEnemy["drop"].all {
                 for drop in enemyDrops {
-                    drops.append((object: MapObject.initHandler(drop.attributes["type"]!, fromBase64: drop.stringValue, loc: CGPointZero), chance: CGFloat(drop.attributes["chance"]!)))
+                    if (randomBetweenNumbers(0, secondNum: 1) <= CGFloat(drop.attributes["chance"]!)) {
+                        drops.append(MapObject.initHandler(drop.attributes["type"]!, fromBase64: drop.stringValue, loc: CGPointZero))
+                    }
                 }
             }
             
             enemies.append(Enemy(name: pairArr[0], textureDict: enemyTextureDict, beginTexture: beginTexture, drops: drops, stats: stats, atPosition: loc, wave: self))
         }
-        SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "WarpB")], withCompletionHandler: {})
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -193,10 +203,12 @@ class Wave {
     }
     
     func waveIsOver() -> Bool {
-        return (enemiesLeft == 0)
+        return (enemies.count == 0)
     }
     
-    func enemyDied() {
-        enemiesLeft -= 1
+    func enemyDied(enemy:Enemy) {
+        //enemiesLeft -= 1
+        enemies = enemies.filter() { $0 !== enemy }
+        //print("Enemies left: \(enemies.count)")
     }
 }

@@ -12,7 +12,7 @@ import UIKit
 class RunSimultaneously:Behavior {
     let behaviorsToRun:[Behavior]
     let useConditionalOfIndex:Int
-    init(behaviorsToRun:[Behavior], useConditionalOfIndex:Int, idType:BehaviorIDType = .Nonexclusive) {
+    init(behaviorsToRun:[Behavior], useConditionalOfIndex:Int, idType:BehaviorIDType = .Nonexclusive, priority:Int = 5) {
         self.behaviorsToRun = behaviorsToRun
         self.useConditionalOfIndex = useConditionalOfIndex
         var updateRate:Double = 10000
@@ -22,6 +22,7 @@ class RunSimultaneously:Behavior {
             }
         }
         super.init(idType: idType, updateRate: updateRate)
+        self.priority = priority
     }
     
     override func setParent(to: Enemy) {

@@ -45,7 +45,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
 
     var groundBag:ItemBag?
     
-    var hasExecutedTutorial = false
+    var hasExecutedTutorial = true
     let popTip = AMPopTip()
     var popupNum = 0
     

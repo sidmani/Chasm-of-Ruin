@@ -2,7 +2,6 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" nextobjectid="9">
  <properties>
   <property name="NumWaves" value="3"/>
-  <property name="StartLoc" value="12,10"/>
   <property name="Wave1" value="dDA6QXx0MDpCfHQwOkM="/>
   <property name="Wave2" value="dDE6QXx0MTpCfHQxOkM="/>
   <property name="Wave3" value="dDE6QXx0MTpCfHQxOkN8dDI6RA=="/>

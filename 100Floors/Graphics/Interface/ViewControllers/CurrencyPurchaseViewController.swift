@@ -35,7 +35,7 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
         self.view.sendSubviewToBack(blur)
         
         if (SKPaymentQueue.canMakePayments()) {
-            var productID:NSSet = NSSet(object: crystalPurchases[0])
+            var productID:NSSet = NSSet(objects: "com.B7F.ChasmOfRuin.100ChasmCrystals")
             var productsRequest = SKProductsRequest(productIdentifiers: productID as! Set<String>)
             productsRequest.delegate = self
             productsRequest.start()
@@ -58,7 +58,7 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
     func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
         print("received products")
         print("\(response.products.count) products received")
-        
+    
     }
     
     
