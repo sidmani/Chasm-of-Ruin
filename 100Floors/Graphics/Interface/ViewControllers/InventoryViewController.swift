@@ -399,7 +399,6 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
                         self.inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: self.inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
                         self.inventory.purchasedSlot()
-                        //TODO: actually increase inventory size
                         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
                             sender.enabled = false
                             sender.alpha = 0.3

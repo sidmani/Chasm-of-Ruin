@@ -436,8 +436,6 @@
 		1F0684D91D3885B000579225 /* scroll9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0684CE1D3885B000579225 /* scroll9.png */; };
 		1F0684DA1D3885B000579225 /* scroll10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0684CF1D3885B000579225 /* scroll10.png */; };
 		1F07A2C41D19AE2E00A5170D /* Attack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F07A2C31D19AE2E00A5170D /* Attack.swift */; };
-		1F07A2C71D1A153900A5170D /* ProjectileParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1F07A2C51D1A153900A5170D /* ProjectileParticle.sks */; };
-		1F07A2C81D1A153900A5170D /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F07A2C61D1A153900A5170D /* spark.png */; };
 		1F1690CD1D0B233A0006C504 /* LevelSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */; };
 		1F1690CF1D0B250F0006C504 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1690CE1D0B250F0006C504 /* Container.swift */; };
 		1F2220DF1D170E89007F1B56 /* TextDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2220DE1D170E89007F1B56 /* TextDisplay.swift */; };
@@ -543,11 +541,39 @@
 		1F70894E1D1084EB00F9486F /* EnemyDict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70894D1D1084EB00F9486F /* EnemyDict.swift */; };
 		1F7089501D10995A00F9486F /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70894F1D10995A00F9486F /* Transition.swift */; };
 		1F724D0C1D0B6EE200984611 /* RectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F724D0B1D0B6EE200984611 /* RectButton.swift */; };
+		1F73AE911D4E6F8F006A2B65 /* DiscA0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE7A1D4E6F8F006A2B65 /* DiscA0.png */; };
+		1F73AE921D4E6F8F006A2B65 /* DiscA1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE7B1D4E6F8F006A2B65 /* DiscA1.png */; };
+		1F73AE931D4E6F8F006A2B65 /* DiscA2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE7C1D4E6F8F006A2B65 /* DiscA2.png */; };
+		1F73AE941D4E6F8F006A2B65 /* DiscA3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE7D1D4E6F8F006A2B65 /* DiscA3.png */; };
+		1F73AE951D4E6F8F006A2B65 /* DiscA4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE7E1D4E6F8F006A2B65 /* DiscA4.png */; };
+		1F73AE961D4E6F8F006A2B65 /* DyeD0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE7F1D4E6F8F006A2B65 /* DyeD0.png */; };
+		1F73AE971D4E6F8F006A2B65 /* DyeD1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE801D4E6F8F006A2B65 /* DyeD1.png */; };
+		1F73AE981D4E6F8F006A2B65 /* DyeD2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE811D4E6F8F006A2B65 /* DyeD2.png */; };
+		1F73AE991D4E6F8F006A2B65 /* DyeD3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE821D4E6F8F006A2B65 /* DyeD3.png */; };
+		1F73AE9A1D4E6F8F006A2B65 /* DyeD4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE831D4E6F8F006A2B65 /* DyeD4.png */; };
+		1F73AE9B1D4E6F8F006A2B65 /* EyeBallA0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE841D4E6F8F006A2B65 /* EyeBallA0.png */; };
+		1F73AE9C1D4E6F8F006A2B65 /* EyeBallA1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE851D4E6F8F006A2B65 /* EyeBallA1.png */; };
+		1F73AE9D1D4E6F8F006A2B65 /* EyeBallA2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE861D4E6F8F006A2B65 /* EyeBallA2.png */; };
+		1F73AE9E1D4E6F8F006A2B65 /* EyeBallA3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE871D4E6F8F006A2B65 /* EyeBallA3.png */; };
+		1F73AE9F1D4E6F8F006A2B65 /* EyeBallA4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE881D4E6F8F006A2B65 /* EyeBallA4.png */; };
+		1F73AEA01D4E6F8F006A2B65 /* EyeBallA5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE891D4E6F8F006A2B65 /* EyeBallA5.png */; };
+		1F73AEA11D4E6F8F006A2B65 /* EyeBallA6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE8A1D4E6F8F006A2B65 /* EyeBallA6.png */; };
+		1F73AEA21D4E6F8F006A2B65 /* EyeBallA7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE8B1D4E6F8F006A2B65 /* EyeBallA7.png */; };
+		1F73AEA31D4E6F8F006A2B65 /* MonolithA0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE8C1D4E6F8F006A2B65 /* MonolithA0.png */; };
+		1F73AEA41D4E6F8F006A2B65 /* MonolithA1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE8D1D4E6F8F006A2B65 /* MonolithA1.png */; };
+		1F73AEA51D4E6F8F006A2B65 /* MonolithA2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE8E1D4E6F8F006A2B65 /* MonolithA2.png */; };
+		1F73AEA61D4E6F8F006A2B65 /* MonolithA3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE8F1D4E6F8F006A2B65 /* MonolithA3.png */; };
+		1F73AEA71D4E6F8F006A2B65 /* MonolithA4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F73AE901D4E6F8F006A2B65 /* MonolithA4.png */; };
 		1F7415161CB03DA8000A2D48 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7415151CB03DA8000A2D48 /* Popup.swift */; };
 		1F8DC44F1D4BED29008ECE53 /* AncientRealmEnemies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DC44E1D4BED29008ECE53 /* AncientRealmEnemies.swift */; };
 		1F8DC4511D4BED32008ECE53 /* DarkenedHallEnemies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DC4501D4BED32008ECE53 /* DarkenedHallEnemies.swift */; };
 		1F8DC4541D4C04BE008ECE53 /* Level2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DC4521D4C04BE008ECE53 /* Level2.atlas */; };
 		1F8DC4551D4C04BE008ECE53 /* Level3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DC4531D4C04BE008ECE53 /* Level3.atlas */; };
+		1F9A4B481D4D6816002374F9 /* familiarfaces.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F9A4B431D4D6816002374F9 /* familiarfaces.mp3 */; };
+		1F9A4B491D4D6816002374F9 /* goodasdead.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F9A4B441D4D6816002374F9 /* goodasdead.mp3 */; };
+		1F9A4B4A1D4D6816002374F9 /* modulatedmind.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F9A4B451D4D6816002374F9 /* modulatedmind.mp3 */; };
+		1F9A4B4B1D4D6816002374F9 /* sunnydaysahead.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F9A4B461D4D6816002374F9 /* sunnydaysahead.mp3 */; };
+		1F9A4B4C1D4D6816002374F9 /* throwawayfantasy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F9A4B471D4D6816002374F9 /* throwawayfantasy.mp3 */; };
 		1FA359FA1D4AC04C003538D8 /* SunlitCavernsEnemies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA359F91D4AC04C003538D8 /* SunlitCavernsEnemies.swift */; };
 		1FA359FC1D4AC592003538D8 /* Level1.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1FA359FB1D4AC592003538D8 /* Level1.atlas */; };
 		1FA7D9391C67C0E100ECA534 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA7D9381C67C0E100ECA534 /* AEXML.swift */; };
@@ -1011,8 +1037,6 @@
 		1F0684CE1D3885B000579225 /* scroll9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scroll9.png; sourceTree = "<group>"; };
 		1F0684CF1D3885B000579225 /* scroll10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scroll10.png; sourceTree = "<group>"; };
 		1F07A2C31D19AE2E00A5170D /* Attack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attack.swift; sourceTree = "<group>"; };
-		1F07A2C51D1A153900A5170D /* ProjectileParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ProjectileParticle.sks; path = "100Floors/Resources/Particle Effects/ProjectileParticle.sks"; sourceTree = SOURCE_ROOT; };
-		1F07A2C61D1A153900A5170D /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spark.png; path = "100Floors/Resources/Particle Effects/spark.png"; sourceTree = SOURCE_ROOT; };
 		1F1690CC1D0B233A0006C504 /* LevelSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectViewController.swift; sourceTree = "<group>"; };
 		1F1690CE1D0B250F0006C504 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		1F2220DE1D170E89007F1B56 /* TextDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDisplay.swift; sourceTree = "<group>"; };
@@ -1119,11 +1143,39 @@
 		1F70894D1D1084EB00F9486F /* EnemyDict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyDict.swift; sourceTree = "<group>"; };
 		1F70894F1D10995A00F9486F /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		1F724D0B1D0B6EE200984611 /* RectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectButton.swift; sourceTree = "<group>"; };
+		1F73AE7A1D4E6F8F006A2B65 /* DiscA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiscA0.png; sourceTree = "<group>"; };
+		1F73AE7B1D4E6F8F006A2B65 /* DiscA1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiscA1.png; sourceTree = "<group>"; };
+		1F73AE7C1D4E6F8F006A2B65 /* DiscA2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiscA2.png; sourceTree = "<group>"; };
+		1F73AE7D1D4E6F8F006A2B65 /* DiscA3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiscA3.png; sourceTree = "<group>"; };
+		1F73AE7E1D4E6F8F006A2B65 /* DiscA4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiscA4.png; sourceTree = "<group>"; };
+		1F73AE7F1D4E6F8F006A2B65 /* DyeD0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DyeD0.png; sourceTree = "<group>"; };
+		1F73AE801D4E6F8F006A2B65 /* DyeD1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DyeD1.png; sourceTree = "<group>"; };
+		1F73AE811D4E6F8F006A2B65 /* DyeD2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DyeD2.png; sourceTree = "<group>"; };
+		1F73AE821D4E6F8F006A2B65 /* DyeD3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DyeD3.png; sourceTree = "<group>"; };
+		1F73AE831D4E6F8F006A2B65 /* DyeD4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DyeD4.png; sourceTree = "<group>"; };
+		1F73AE841D4E6F8F006A2B65 /* EyeBallA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA0.png; sourceTree = "<group>"; };
+		1F73AE851D4E6F8F006A2B65 /* EyeBallA1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA1.png; sourceTree = "<group>"; };
+		1F73AE861D4E6F8F006A2B65 /* EyeBallA2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA2.png; sourceTree = "<group>"; };
+		1F73AE871D4E6F8F006A2B65 /* EyeBallA3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA3.png; sourceTree = "<group>"; };
+		1F73AE881D4E6F8F006A2B65 /* EyeBallA4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA4.png; sourceTree = "<group>"; };
+		1F73AE891D4E6F8F006A2B65 /* EyeBallA5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA5.png; sourceTree = "<group>"; };
+		1F73AE8A1D4E6F8F006A2B65 /* EyeBallA6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA6.png; sourceTree = "<group>"; };
+		1F73AE8B1D4E6F8F006A2B65 /* EyeBallA7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EyeBallA7.png; sourceTree = "<group>"; };
+		1F73AE8C1D4E6F8F006A2B65 /* MonolithA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MonolithA0.png; sourceTree = "<group>"; };
+		1F73AE8D1D4E6F8F006A2B65 /* MonolithA1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MonolithA1.png; sourceTree = "<group>"; };
+		1F73AE8E1D4E6F8F006A2B65 /* MonolithA2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MonolithA2.png; sourceTree = "<group>"; };
+		1F73AE8F1D4E6F8F006A2B65 /* MonolithA3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MonolithA3.png; sourceTree = "<group>"; };
+		1F73AE901D4E6F8F006A2B65 /* MonolithA4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MonolithA4.png; sourceTree = "<group>"; };
 		1F7415151CB03DA8000A2D48 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		1F8DC44E1D4BED29008ECE53 /* AncientRealmEnemies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AncientRealmEnemies.swift; sourceTree = "<group>"; };
 		1F8DC4501D4BED32008ECE53 /* DarkenedHallEnemies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkenedHallEnemies.swift; sourceTree = "<group>"; };
 		1F8DC4521D4C04BE008ECE53 /* Level2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Level2.atlas; sourceTree = "<group>"; };
 		1F8DC4531D4C04BE008ECE53 /* Level3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Level3.atlas; sourceTree = "<group>"; };
+		1F9A4B431D4D6816002374F9 /* familiarfaces.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = familiarfaces.mp3; sourceTree = "<group>"; };
+		1F9A4B441D4D6816002374F9 /* goodasdead.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goodasdead.mp3; sourceTree = "<group>"; };
+		1F9A4B451D4D6816002374F9 /* modulatedmind.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = modulatedmind.mp3; sourceTree = "<group>"; };
+		1F9A4B461D4D6816002374F9 /* sunnydaysahead.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sunnydaysahead.mp3; sourceTree = "<group>"; };
+		1F9A4B471D4D6816002374F9 /* throwawayfantasy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = throwawayfantasy.mp3; sourceTree = "<group>"; };
 		1FA359F91D4AC04C003538D8 /* SunlitCavernsEnemies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SunlitCavernsEnemies.swift; sourceTree = "<group>"; };
 		1FA359FB1D4AC592003538D8 /* Level1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Level1.atlas; sourceTree = "<group>"; };
 		1FA7D9381C67C0E100ECA534 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
@@ -1872,6 +1924,7 @@
 		1F45F9B31C4CAE9A00334AB5 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
+				1F73AE791D4E6F8F006A2B65 /* LevelAnimation */,
 				1F280E921D20E72D00C1070B /* Effects */,
 				1F280CD81D20DD3B00C1070B /* Menu.atlas */,
 				1FAEA0F51D209F14003F9F41 /* Level0.atlas */,
@@ -1906,8 +1959,7 @@
 		1F4A47AB1C4B514100813143 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1F07A2C51D1A153900A5170D /* ProjectileParticle.sks */,
-				1F07A2C61D1A153900A5170D /* spark.png */,
+				1F9A4B421D4D6816002374F9 /* Music */,
 				1FD187631D1207450038192D /* Data */,
 				1F45F9B41C4CAEA400334AB5 /* Levels */,
 				1F45F9B31C4CAE9A00334AB5 /* Tilesets */,
@@ -1959,6 +2011,48 @@
 				1F8DC4501D4BED32008ECE53 /* DarkenedHallEnemies.swift */,
 			);
 			path = "AI Database";
+			sourceTree = "<group>";
+		};
+		1F73AE791D4E6F8F006A2B65 /* LevelAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				1F73AE7A1D4E6F8F006A2B65 /* DiscA0.png */,
+				1F73AE7B1D4E6F8F006A2B65 /* DiscA1.png */,
+				1F73AE7C1D4E6F8F006A2B65 /* DiscA2.png */,
+				1F73AE7D1D4E6F8F006A2B65 /* DiscA3.png */,
+				1F73AE7E1D4E6F8F006A2B65 /* DiscA4.png */,
+				1F73AE7F1D4E6F8F006A2B65 /* DyeD0.png */,
+				1F73AE801D4E6F8F006A2B65 /* DyeD1.png */,
+				1F73AE811D4E6F8F006A2B65 /* DyeD2.png */,
+				1F73AE821D4E6F8F006A2B65 /* DyeD3.png */,
+				1F73AE831D4E6F8F006A2B65 /* DyeD4.png */,
+				1F73AE841D4E6F8F006A2B65 /* EyeBallA0.png */,
+				1F73AE851D4E6F8F006A2B65 /* EyeBallA1.png */,
+				1F73AE861D4E6F8F006A2B65 /* EyeBallA2.png */,
+				1F73AE871D4E6F8F006A2B65 /* EyeBallA3.png */,
+				1F73AE881D4E6F8F006A2B65 /* EyeBallA4.png */,
+				1F73AE891D4E6F8F006A2B65 /* EyeBallA5.png */,
+				1F73AE8A1D4E6F8F006A2B65 /* EyeBallA6.png */,
+				1F73AE8B1D4E6F8F006A2B65 /* EyeBallA7.png */,
+				1F73AE8C1D4E6F8F006A2B65 /* MonolithA0.png */,
+				1F73AE8D1D4E6F8F006A2B65 /* MonolithA1.png */,
+				1F73AE8E1D4E6F8F006A2B65 /* MonolithA2.png */,
+				1F73AE8F1D4E6F8F006A2B65 /* MonolithA3.png */,
+				1F73AE901D4E6F8F006A2B65 /* MonolithA4.png */,
+			);
+			path = LevelAnimation;
+			sourceTree = "<group>";
+		};
+		1F9A4B421D4D6816002374F9 /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				1F9A4B431D4D6816002374F9 /* familiarfaces.mp3 */,
+				1F9A4B441D4D6816002374F9 /* goodasdead.mp3 */,
+				1F9A4B451D4D6816002374F9 /* modulatedmind.mp3 */,
+				1F9A4B461D4D6816002374F9 /* sunnydaysahead.mp3 */,
+				1F9A4B471D4D6816002374F9 /* throwawayfantasy.mp3 */,
+			);
+			path = Music;
 			sourceTree = "<group>";
 		};
 		1FD187631D1207450038192D /* Data */ = {
@@ -2072,6 +2166,7 @@
 				1F0683ED1D3810CE00579225 /* RuneStone42.png in Resources */,
 				1F0683271D3810CE00579225 /* Grenade1.png in Resources */,
 				1F06847A1D3810CE00579225 /* cons26.png in Resources */,
+				1F9A4B491D4D6816002374F9 /* goodasdead.mp3 in Resources */,
 				1F06847C1D3810CE00579225 /* cons28.png in Resources */,
 				1F280E4A1D20E71A00C1070B /* BloodSplatterA.atlas in Resources */,
 				1F280E4B1D20E71A00C1070B /* BloodSplatterB.atlas in Resources */,
@@ -2093,8 +2188,10 @@
 				1F06836B1D3810CE00579225 /* weapon40.png in Resources */,
 				1F280E4E1D20E71A00C1070B /* Box.atlas in Resources */,
 				1F0683131D3810CE00579225 /* armor18.png in Resources */,
+				1F73AE9D1D4E6F8F006A2B65 /* EyeBallA2.png in Resources */,
 				1F280E4F1D20E71A00C1070B /* Bubble.atlas in Resources */,
 				1F0684211D3810CE00579225 /* Scarab8.png in Resources */,
+				1F73AE941D4E6F8F006A2B65 /* DiscA3.png in Resources */,
 				1F0683141D3810CE00579225 /* armor19.png in Resources */,
 				1F06843A1D3810CE00579225 /* Hide1.png in Resources */,
 				1F0683DD1D3810CE00579225 /* RuneStone28.png in Resources */,
@@ -2122,6 +2219,7 @@
 				1F0684B01D38110E00579225 /* shield14.png in Resources */,
 				1F0683C51D3810CE00579225 /* Idol1.png in Resources */,
 				1F0684B31D38110E00579225 /* shield18.png in Resources */,
+				1F73AE961D4E6F8F006A2B65 /* DyeD0.png in Resources */,
 				1F0684801D3810CE00579225 /* cons31.png in Resources */,
 				1F0684B71D38110E00579225 /* shield21.png in Resources */,
 				1F06841D1D3810CE00579225 /* Scarab4.png in Resources */,
@@ -2149,6 +2247,7 @@
 				1F06835F1D3810CE00579225 /* weapon3.png in Resources */,
 				1F0684311D3810CE00579225 /* Ankh.png in Resources */,
 				1F0684B61D38110E00579225 /* shield20.png in Resources */,
+				1F9A4B4C1D4D6816002374F9 /* throwawayfantasy.mp3 in Resources */,
 				1F0683081D3810CE00579225 /* Book5.png in Resources */,
 				1F0683121D3810CE00579225 /* armor17.png in Resources */,
 				1F280E571D20E71A00C1070B /* EarthB.atlas in Resources */,
@@ -2182,6 +2281,7 @@
 				1F280E5D1D20E71A00C1070B /* ExplodeD.atlas in Resources */,
 				1F06832A1D3810CE00579225 /* Hourglass.png in Resources */,
 				1F0683871D3810CE00579225 /* weapon68.png in Resources */,
+				1F9A4B481D4D6816002374F9 /* familiarfaces.mp3 in Resources */,
 				1F06844A1D3810CE00579225 /* NeckCopper1.png in Resources */,
 				1F06840C1D3810CE00579225 /* RuneStone70.png in Resources */,
 				1F0683E21D3810CE00579225 /* RuneStone32.png in Resources */,
@@ -2197,6 +2297,7 @@
 				1F0683281D3810CE00579225 /* Grenade2.png in Resources */,
 				1F280E5E1D20E71A00C1070B /* ExplodeE.atlas in Resources */,
 				1F0683A51D3810CE00579225 /* sell4.png in Resources */,
+				1F73AEA31D4E6F8F006A2B65 /* MonolithA0.png in Resources */,
 				1F06838C1D3810CE00579225 /* weapon72.png in Resources */,
 				1F0683761D3810CE00579225 /* weapon50.png in Resources */,
 				1F280E5F1D20E71A00C1070B /* FireA.atlas in Resources */,
@@ -2211,7 +2312,9 @@
 				1F06830D1D3810CE00579225 /* armor12.png in Resources */,
 				1F0684D91D3885B000579225 /* scroll9.png in Resources */,
 				1F0683901D3810CE00579225 /* weapon76.png in Resources */,
+				1F73AE9F1D4E6F8F006A2B65 /* EyeBallA4.png in Resources */,
 				1F0683411D3810CE00579225 /* Skull9.png in Resources */,
+				1F73AEA71D4E6F8F006A2B65 /* MonolithA4.png in Resources */,
 				1F0683211D3810CE00579225 /* CrystalBall1.png in Resources */,
 				1F06846A1D3810CE00579225 /* cons11.png in Resources */,
 				1F06830F1D3810CE00579225 /* armor14.png in Resources */,
@@ -2222,6 +2325,8 @@
 				1F0683021D3810CE00579225 /* Bomb.png in Resources */,
 				1F06844D1D3810CE00579225 /* NeckTooth0.png in Resources */,
 				1F0683E11D3810CE00579225 /* RuneStone31.png in Resources */,
+				1F73AE9B1D4E6F8F006A2B65 /* EyeBallA0.png in Resources */,
+				1F9A4B4A1D4D6816002374F9 /* modulatedmind.mp3 in Resources */,
 				1F06841F1D3810CE00579225 /* Scarab6.png in Resources */,
 				1F0684BF1D38110E00579225 /* shield4.png in Resources */,
 				1F280E611D20E71A00C1070B /* FireC.atlas in Resources */,
@@ -2229,18 +2334,22 @@
 				1F06836C1D3810CE00579225 /* weapon41.png in Resources */,
 				1F0684831D3810CE00579225 /* cons34.png in Resources */,
 				1F06839A1D3810CE00579225 /* sell11.png in Resources */,
+				1F73AE9C1D4E6F8F006A2B65 /* EyeBallA1.png in Resources */,
 				1F0683B41D3810CE00579225 /* EggC1.png in Resources */,
 				1F0684891D3810CE00579225 /* cons4.png in Resources */,
 				1F280E621D20E71A00C1070B /* Flame.atlas in Resources */,
 				1F280E631D20E71A00C1070B /* FlameAlt.atlas in Resources */,
 				1F06843E1D3810CE00579225 /* Neck10.png in Resources */,
 				1F0683151D3810CE00579225 /* armor2.png in Resources */,
+				1F73AE991D4E6F8F006A2B65 /* DyeD3.png in Resources */,
 				1F0684691D3810CE00579225 /* cons10.png in Resources */,
 				1F06830B1D3810CE00579225 /* armor10.png in Resources */,
+				1F73AEA41D4E6F8F006A2B65 /* MonolithA1.png in Resources */,
 				1F0684781D3810CE00579225 /* cons24.png in Resources */,
 				1F06831E1D3810CE00579225 /* armor8.png in Resources */,
 				1F0683E71D3810CE00579225 /* RuneStone37.png in Resources */,
 				1F280E641D20E71A00C1070B /* Footprints.atlas in Resources */,
+				1F73AE9A1D4E6F8F006A2B65 /* DyeD4.png in Resources */,
 				1F280E651D20E71A00C1070B /* FootprintsSand.atlas in Resources */,
 				1F0683B71D3810CE00579225 /* Fossil0.png in Resources */,
 				1F0683241D3810CE00579225 /* Feather.png in Resources */,
@@ -2253,6 +2362,8 @@
 				1F0684881D3810CE00579225 /* cons39.png in Resources */,
 				1F280E661D20E71A00C1070B /* FootprintsSandNight.atlas in Resources */,
 				1F06838B1D3810CE00579225 /* weapon71.png in Resources */,
+				1F9A4B4B1D4D6816002374F9 /* sunnydaysahead.mp3 in Resources */,
+				1F73AEA11D4E6F8F006A2B65 /* EyeBallA6.png in Resources */,
 				1F06836A1D3810CE00579225 /* weapon4.png in Resources */,
 				1F0683EC1D3810CE00579225 /* RuneStone41.png in Resources */,
 				1F280E671D20E71A00C1070B /* Glint.atlas in Resources */,
@@ -2266,6 +2377,7 @@
 				1F0684741D3810CE00579225 /* cons20.png in Resources */,
 				1F0684BD1D38110E00579225 /* shield27.png in Resources */,
 				1F280E681D20E71A00C1070B /* Heal0.atlas in Resources */,
+				1F73AEA21D4E6F8F006A2B65 /* EyeBallA7.png in Resources */,
 				1F280E691D20E71A00C1070B /* Heal1.atlas in Resources */,
 				1F0684271D3810CE00579225 /* ShellC3.png in Resources */,
 				1F06848D1D3810CE00579225 /* cons6.png in Resources */,
@@ -2288,6 +2400,7 @@
 				1F0683621D3810CE00579225 /* weapon32.png in Resources */,
 				1F0684B51D38110E00579225 /* shield2.png in Resources */,
 				1F280E6B1D20E71A00C1070B /* IceB.atlas in Resources */,
+				1F73AEA61D4E6F8F006A2B65 /* MonolithA3.png in Resources */,
 				1F0684151D3810CE00579225 /* RuneStone79.png in Resources */,
 				1F06848B1D3810CE00579225 /* cons41.png in Resources */,
 				1F0684DA1D3885B000579225 /* scroll10.png in Resources */,
@@ -2297,6 +2410,7 @@
 				1F0683811D3810CE00579225 /* weapon61.png in Resources */,
 				1F0683F01D3810CE00579225 /* RuneStone45.png in Resources */,
 				1F0683F21D3810CE00579225 /* RuneStone47.png in Resources */,
+				1F73AEA01D4E6F8F006A2B65 /* EyeBallA5.png in Resources */,
 				1F0683AB1D3810CE00579225 /* EggA0.png in Resources */,
 				1F0683A91D3810CE00579225 /* sell8.png in Resources */,
 				1F06830E1D3810CE00579225 /* armor13.png in Resources */,
@@ -2324,6 +2438,7 @@
 				1F0684321D3810CE00579225 /* ArrowHead.png in Resources */,
 				1F06831C1D3810CE00579225 /* armor6.png in Resources */,
 				1F06842A1D3810CE00579225 /* VaseA0.png in Resources */,
+				1F73AE9E1D4E6F8F006A2B65 /* EyeBallA3.png in Resources */,
 				1F0684791D3810CE00579225 /* cons25.png in Resources */,
 				1F280E6F1D20E71A00C1070B /* NuclearB.atlas in Resources */,
 				1F0684561D3810CE00579225 /* RingB5.png in Resources */,
@@ -2370,9 +2485,11 @@
 				1F0684B21D38110E00579225 /* shield17.png in Resources */,
 				1F0683531D3810CE00579225 /* weapon19.png in Resources */,
 				1F0683961D3810CE00579225 /* weapon81.png in Resources */,
+				1F73AE971D4E6F8F006A2B65 /* DyeD1.png in Resources */,
 				1F0683A31D3810CE00579225 /* sell24.png in Resources */,
 				1F0683A71D3810CE00579225 /* sell6.png in Resources */,
 				1F280E7B1D20E71A00C1070B /* Sick.atlas in Resources */,
+				1F73AE911D4E6F8F006A2B65 /* DiscA0.png in Resources */,
 				1F0683711D3810CE00579225 /* weapon46.png in Resources */,
 				1FB7B56C1D3DE3AB00D50B1A /* AncientRealm.tmx in Resources */,
 				1F280E7C1D20E71A00C1070B /* SlashA.atlas in Resources */,
@@ -2393,6 +2510,7 @@
 				1F0684101D3810CE00579225 /* RuneStone74.png in Resources */,
 				1F0684251D3810CE00579225 /* ShellC1.png in Resources */,
 				1F280E7F1D20E71A00C1070B /* SleepFlip.atlas in Resources */,
+				1F73AE931D4E6F8F006A2B65 /* DiscA2.png in Resources */,
 				1F0683B01D3810CE00579225 /* EggB1.png in Resources */,
 				1F0684041D3810CE00579225 /* RuneStone63.png in Resources */,
 				1F06833D1D3810CE00579225 /* Skull13.png in Resources */,
@@ -2404,6 +2522,7 @@
 				1F0683EE1D3810CE00579225 /* RuneStone43.png in Resources */,
 				1F0683D31D3810CE00579225 /* RuneStone19.png in Resources */,
 				1F06840E1D3810CE00579225 /* RuneStone72.png in Resources */,
+				1F73AE981D4E6F8F006A2B65 /* DyeD2.png in Resources */,
 				1F0683D11D3810CE00579225 /* RuneStone17.png in Resources */,
 				1F0684901D3810CE00579225 /* cons9.png in Resources */,
 				1F06832E1D3810CE00579225 /* Scale1.png in Resources */,
@@ -2434,6 +2553,7 @@
 				1F0683C11D3810CE00579225 /* Goblet6.png in Resources */,
 				1F06842C1D3810CE00579225 /* VaseB0.png in Resources */,
 				1F06835C1D3810CE00579225 /* weapon27.png in Resources */,
+				1F73AE951D4E6F8F006A2B65 /* DiscA4.png in Resources */,
 				1F0683071D3810CE00579225 /* Book17.png in Resources */,
 				1F0683771D3810CE00579225 /* weapon51.png in Resources */,
 				1F0683951D3810CE00579225 /* weapon80.png in Resources */,
@@ -2519,7 +2639,6 @@
 				1F06845A1D3810CE00579225 /* RingD9.png in Resources */,
 				1F0684661D3810CE00579225 /* RingF2.png in Resources */,
 				1F2CEE121C387B1F00E4FB2E /* Main.storyboard in Resources */,
-				1F07A2C71D1A153900A5170D /* ProjectileParticle.sks in Resources */,
 				1FC9AC571C9E08CB00E80D30 /* Enemies.xml in Resources */,
 				1F06845C1D3810CE00579225 /* RingE1.png in Resources */,
 				1F0684181D3810CE00579225 /* RuneStone9.png in Resources */,
@@ -2527,6 +2646,7 @@
 				1F06830C1D3810CE00579225 /* armor11.png in Resources */,
 				1F06846B1D3810CE00579225 /* cons12.png in Resources */,
 				1F0683781D3810CE00579225 /* weapon53.png in Resources */,
+				1F73AE921D4E6F8F006A2B65 /* DiscA1.png in Resources */,
 				1F0684231D3810CE00579225 /* ShellB.png in Resources */,
 				1F06839C1D3810CE00579225 /* sell13.png in Resources */,
 				1F06841A1D3810CE00579225 /* Scarab1.png in Resources */,
@@ -2542,6 +2662,7 @@
 				1F06842D1D3810CE00579225 /* VaseB1.png in Resources */,
 				1F0684D01D3885B000579225 /* scroll0.png in Resources */,
 				1F06832B1D3810CE00579225 /* Lyre.png in Resources */,
+				1F73AEA51D4E6F8F006A2B65 /* MonolithA2.png in Resources */,
 				1F06837C1D3810CE00579225 /* weapon57.png in Resources */,
 				1F06840F1D3810CE00579225 /* RuneStone73.png in Resources */,
 				1F0683C71D3810CE00579225 /* Idol3.png in Resources */,
@@ -2562,7 +2683,6 @@
 				1F0684021D3810CE00579225 /* RuneStone61.png in Resources */,
 				1F0683D81D3810CE00579225 /* RuneStone23.png in Resources */,
 				1F0683CF1D3810CE00579225 /* RuneStone15.png in Resources */,
-				1F07A2C81D1A153900A5170D /* spark.png in Resources */,
 				1F06839F1D3810CE00579225 /* sell2.png in Resources */,
 				1F0684471D3810CE00579225 /* Neck6.png in Resources */,
 				1FCDBE951D39D8F10061C85D /* Menu.tmx in Resources */,

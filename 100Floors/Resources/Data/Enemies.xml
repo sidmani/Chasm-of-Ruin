@@ -23,6 +23,7 @@
         <drop type="ItemBag" chance="0.5">s6</drop>
         <drop type="ItemBag" chance="0.8">c11</drop>
         <drop type="ItemBag" chance="0.5">c12</drop>
+        <drop type="ItemBag" chance="0.5">sc2</drop>
     </enemy>
     <!-- Sunlit Caverns -->
     <enemy id="sc3" name="BugB">
@@ -54,6 +55,7 @@
         <animation name="attack" frames="2">BallAOpen</animation>
         <drop type="ItemBag" chance="0.5">w55</drop>
         <drop type="ItemBag" chance="0.5">s5</drop>
+        <drop type="ItemBag" chance="0.5">sc2</drop>
     </enemy>
     <enemy id="sc2" name="BrainC">
         <stats name="BrainC">NDB8NjB8MzV8MHwxNTB8MTUwfDB8MA==</stats>
@@ -64,6 +66,7 @@
         <stats name="EarthA">NTB8NzV8MzB8MHwyMDB8MjAwfDB8MA==</stats>
         <animation name="default" frames="4">EarthA</animation>
         <drop type="ItemBag" chance="0.3">w4</drop>
+        <drop type="ItemBag" chance="0.3">sc4</drop>
     </enemy>
     <enemy id="sc6" name="FactoryA">
         <stats name="FactoryA">NjB8ODB8MjN8MHwzMDB8MzAwfDB8MA==</stats>
@@ -81,6 +84,7 @@
         <drop type="ItemBag" chance="0.3">w53</drop>
         <drop type="ItemBag" chance="0.1">w27</drop>
         <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.3">sc5</drop>
     </enemy>
     <enemy id="sc8" name="MonolithA">
         <stats name="MonolithA">MTAwfDEwMHwyMHwwfDUwMHw1MDB8MHww</stats>
@@ -91,6 +95,8 @@
         <drop type="ItemBag" chance="0.05">w5</drop>
         <drop type="ItemBag" chance="0.5">s23</drop>
         <drop type="ItemBag" chance="0.3">s0</drop>
+        <drop type="ItemBag" chance="0.3">sc6</drop>
+        <drop type="ItemBag" chance="0.3">sc5</drop>
     </enemy>
     <!-- Ancient Realm -->
     <enemy id="ar1" name="BatH">
@@ -118,7 +124,7 @@
         <animation name="attack" frames="4">FrogCAtk</animation>
         <drop type="ItemBag" chance="0.2">w45</drop>
         <drop type="ItemBag" chance="0.5">s22</drop>
-
+        <drop type="ItemBag" chance="0.3">sc6</drop>
     </enemy>
     <enemy id="ar8" name="KlackonB">
         <stats name="KlackonB">NTB8MTAwfDEzMHwwfDI5MHwyOTB8MHww</stats>
@@ -139,6 +145,7 @@
         <animation name="default" frames="5">MonolithD</animation>
         <drop type="ItemBag" chance="0.3">w13</drop>
         <drop type="ItemBag" chance="0.5">c12</drop>
+        <drop type="ItemBag" chance="0.3">sc7</drop>
     </enemy>
     <enemy id="ar4" name="DyeD">
         <stats name="DyeD">MTE1fDIwMHw2MHwwfDU1MHw1NTB8MHww</stats>
@@ -157,8 +164,8 @@
         <drop type="ItemBag" chance="0.3">w58</drop>
         <drop type="ItemBag" chance="0.1">w31</drop>
         <drop type="ItemBag" chance="0.2">s15</drop>
-        <drop type="ItemBag" chance="0.8">c11</drop>
         <drop type="ItemBag" chance="0.1">c36</drop>
+        <drop type="ItemBag" chance="0.3">sc8</drop>
 
     </enemy>
     <!-- Darkened Hall -->
@@ -189,6 +196,7 @@
         <drop type="ItemBag" chance="0.1">w32</drop>
         <drop type="ItemBag" chance="0.3">s17</drop>
         <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.3">sc9</drop>
     </enemy>
     <enemy id="dh2" name="BeardB">
         <stats name="BeardB">MTgwfDIxMHw5MHwwfDI1MHwyNTB8MHww</stats>
@@ -203,6 +211,7 @@
         <drop type="ItemBag" chance="0.2">w41</drop>
         <drop type="ItemBag" chance="0.3">s27</drop>
         <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.5">sc9</drop>
     </enemy>
     <enemy id="dh9" name="EyeballB">
         <stats name="EyeballB">MjMwfDI0MHwxNzV8MHw0MDB8NDAwfDB8MA==</stats>
@@ -210,6 +219,7 @@
         <animation name="attack" frames="7">EyeballBAtk</animation>
         <drop type="ItemBag" chance="0.2">w59</drop>
         <drop type="ItemBag" chance="0.8">c11</drop>
+        <drop type="ItemBag" chance="0.3">sc10</drop>
     </enemy>
     <enemy id="dh10" name="GhastA">
         <stats name="GhastA">MjYwfDIxMHwyMDB8MHw1MDB8NTAwfDB8MA==</stats>
@@ -220,6 +230,7 @@
         <drop type="ItemBag" chance="0.8">c11</drop>
         <drop type="ItemBag" chance="0.5">c12</drop>
         <drop type="ItemBag" chance="0.1">c35</drop>
+        <drop type="ItemBag" chance="0.8">sc10</drop>
     </enemy>
     <enemy id="dh8" name="DyeB">
         <stats name="DyeB">MjQwfDI4MHwxNTB8MHw2MTB8NjEwfDB8MA==</stats>

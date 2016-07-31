@@ -104,12 +104,10 @@ class DisplaySpawner:MapObject, Updatable {
     var elapsedTime:Double = 0
     func update(deltaT: Double) {
         if (currNumOfEnemies < maxNumEnemies && elapsedTime > rateOfSpawning) {
-           // dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) { //TODO: fix concurrency
             let newEnemy = DisplayEnemy(name: "DisplayEnemy", textureDict: ["default":textureArr], beginTexture: "default", drops: [], stats: Stats.nilStats, atPosition: CGPointMake(randomBetweenNumbers(20, secondNum: screenSize.width-20), randomBetweenNumbers(20, secondNum: screenSize.height-20)))
             newEnemy.parentSpawner = self
             newEnemy.setScale(screenSize.width/160)
             self.scene?.addChild(newEnemy)
-            //}
             currNumOfEnemies += 1
             elapsedTime = 0
         }
@@ -257,7 +255,7 @@ class DisplaySpawner:MapObject, Updatable {
 //
 //    override func update(deltaT: Double) {
 //        if (playerIsWithinRadius && currNumOfEnemies < maxNumOfEnemies && elapsedTime > rateOfSpawning) {
-//            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) { //TODO: fix concurrency
+//            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) {
 //                let newEnemy = Enemy(name: self.enemyID, textureDict: self.enemyTextureDict, beginTexture: self.beginTexture, drops: self.drops, stats: self.stats, atPosition: self.position, spawnedFrom: self)
 //                (self.scene as! InGameScene).addObject(newEnemy)
 //            }
@@ -324,7 +322,7 @@ class DisplaySpawner:MapObject, Updatable {
 //        self.endsLevel = endsLevel
 //        
 //        super.init(loc: loc)
-//        self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
+//        self.physicsBody = SKPhysicsBody(circleOfRadius: 20)
 //        self.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.Interactive
 //        self.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
 //        self.physicsBody!.collisionBitMask = InGameScene.PhysicsCategory.None
@@ -396,7 +394,7 @@ class ItemBag:MapObject, Interactive {
         bagNode.setScale(0.5)
         bagNode.zPosition = 0
         super.init(loc: loc)
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 20) //TODO: standardize interaction radius
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         self.physicsBody?.categoryBitMask = InGameScene.PhysicsCategory.Interactive
         self.physicsBody?.contactTestBitMask = InGameScene.PhysicsCategory.None
         self.physicsBody?.collisionBitMask = InGameScene.PhysicsCategory.None

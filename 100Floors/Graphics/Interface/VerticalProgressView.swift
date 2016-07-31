@@ -31,7 +31,6 @@ public class VerticalProgressView : UIView {
         modifierLabel.textColor = ColorScheme.strokeColor
 
         if (self.vertical) {
-         //   vertical = true
             label.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 10, 30)
             label.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
             label.textAlignment = .Right
@@ -42,7 +41,6 @@ public class VerticalProgressView : UIView {
             modifierLabel.textAlignment = .Left
         }
         else {
-        //    vertical = false
             label.center = CGPointMake(self.bounds.width/2, self.bounds.height/2)
             label.textAlignment = .Center
             label.textColor = UIColor.blackColor() //TODO: check this

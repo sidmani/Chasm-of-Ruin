@@ -8,6 +8,7 @@
 
 
 import SpriteKit
+import AVFoundation
 
 let screenSize = UIScreen.mainScreen().bounds
 
@@ -28,7 +29,6 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private var currentLevel:MapLevel?
     private var oldTime:CFTimeInterval = 0
     private let mainCamera = SKCameraNode()
-    
     private var nonCharNodes = SKNode()
     private var itemBags = SKNode()
     private var cameraBounds:CGRect = CGRectZero
@@ -191,7 +191,19 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         thisCharacter.setTextureDict()
         thisCharacter.reset()
         cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
-       
+        globalAudioPlayer?.stop()
+        let url = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(level.definition.bgMusic, ofType: "mp3")!)
+        do {
+            globalAudioPlayer = try AVAudioPlayer(contentsOfURL:url)
+            globalAudioPlayer!.numberOfLoops = -1
+            globalAudioPlayer!.prepareToPlay()
+            if (audioEnabled) {
+                globalAudioPlayer!.play()
+            }
+        } catch {
+            print("Error getting the audio file")
+        }
+
         ///////////////////////////
         thisCharacter.hidden = false
         nonCharNodes.hidden = false

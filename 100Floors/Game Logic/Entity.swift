@@ -93,7 +93,7 @@ struct Stats {
 }
 
 struct StatLimits {
-    static let expForLevel:[Int] =  [0, 0, 250, 500, 1000, 1750, 2750, 4500, 6500, 8500, 10500, 14000, 18000, 23000, 29000, 36000] //TODO: balance this
+    static let expForLevel:[Int] =  [0, 0, 250, 500, 1000, 1750, 2750, 4500, 6500, 8500, 10500, 14000, 18000, 23000, 29000, 36000]
     static let MAX_LEVEL = 15
     
     static let MIN_LVLUP_STAT_GAIN:CGFloat = 10
@@ -168,7 +168,7 @@ class Entity:SKSpriteNode, Updatable {
         stats = withStats
         super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeZero)
         
-        self.physicsBody = SKPhysicsBody(circleOfRadius: 6) //TODO: fix this
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 5)
         self.physicsBody!.allowsRotation = false
         self.physicsBody!.friction = 0
         self.physicsBody!.restitution = 0
@@ -236,7 +236,7 @@ class Entity:SKSpriteNode, Updatable {
         
     }
     /////////////////////
-    func enableCondition(type:StatusCondition, duration:Double) { //TODO: finish status effects
+    func enableCondition(type:StatusCondition, duration:Double) { 
         if (condition == nil) {
             removeAllPopups()
             condition = (type, type.rawValue)
@@ -256,7 +256,7 @@ class Entity:SKSpriteNode, Updatable {
                 statusFactors.healthRegenMod = -10
                 runEffect("Poison")
             case .Blinded:
-                addPopup(UIColor.whiteColor(), text: "BLINDED") //probably unnecessary
+                addPopup(UIColor.whiteColor(), text: "BLINDED")
             case .Disturbed:
                 addPopup(UIColor.magentaColor(), text: "DISTURBED")
                 statusFactors.manaRegenMod = -10
@@ -426,10 +426,10 @@ class ThisCharacter: Entity {
 
         inventory.setItem(0, toItem: Item.initHandlerID("w9"))
         inventory.setItem(1, toItem: Item.initHandlerID("s7"))
-        inventory.setItem(2, toItem: Item.initHandlerID("c11"))
+        inventory.setItem(2, toItem: Item.initHandlerID("sc1"))
+        inventory.setItem(3, toItem: Item.initHandlerID("c11"))
+        
 
-
-     //   inventory.setItem(1, toItem: Scroll(fromBase64: "NSx0ZXN0c2tpbGwsdGVzdGRlc2Msbm9uZSwxMCwxMCwwLEVhcnRoQywwLjUsMjAwMCwwLjU="))
         stats.maxHealth = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.maxMana = StatLimits.GLOBAL_STAT_MIN + randomBetweenNumbers(0, secondNum: 10)
         stats.health = stats.maxHealth
@@ -493,7 +493,7 @@ class ThisCharacter: Entity {
         else if (stats.mana > stats.maxMana) {
             stats.mana = stats.maxMana
         }
-        UIElements.SkillButton.setProgress(stats.mana/stats.maxMana)
+        UIElements.SkillButton.setProgress(stats.mana/stats.maxMana, animated: true)
     }
     
     override func getStats() -> Stats {
@@ -591,7 +591,14 @@ class ThisCharacter: Entity {
 
     func fireProjectile(withVelocity:CGVector, withSpeed:CGFloat) {
         if (weapon != nil) {
-            let projectiles = weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withAngle: atan2(withVelocity.dy, withVelocity.dx), withSpeed: withSpeed, isFriendly: true)
+            var velocity:CGVector
+            if (condition?.conditionType == .Confused) {
+                velocity = -1 * withVelocity
+            }
+            else {
+                velocity = withVelocity
+            }
+            let projectiles = weapon!.getProjectile((stats.attack + inventory.stats.attack) * statusFactors.atkMod, fromPoint: position, withAngle: atan2(velocity.dy, velocity.dx), withSpeed: withSpeed, isFriendly: true)
             for projectile in projectiles {
                 (self.scene as! InGameScene).addObject(projectile)
             }
@@ -604,10 +611,11 @@ class ThisCharacter: Entity {
     @objc func useSkill(sender:UIButton) {
         if let skill = skill {
             if (stats.mana >= skill.mana && condition?.conditionType != .Disturbed) {
-                skill.execute(self)
-                adjustMana(-skill.mana)
-                if (skill.mana > stats.mana) {
-                    (sender as! ProgressRectButton).setEnabledTo(false)
+                if (skill.execute(self)) {
+                    adjustMana(-skill.mana)
+                    if (skill.mana > stats.mana) {
+                        (sender as! ProgressRectButton).setEnabledTo(false)
+                    }
                 }
             }
         }
@@ -620,12 +628,13 @@ class ThisCharacter: Entity {
     private var statRegenTimeElapsed:Double = 0
     private let statRegenInterval:Double = 1000
     
-    override func update(deltaT:Double) {         super.update(deltaT)
+    override func update(deltaT:Double) {
+        super.update(deltaT)
         if (statRegenTimeElapsed >= statRegenInterval) {
             statRegenTimeElapsed = 0
-            adjustHealth(0.005*stats.maxHealth*statusFactors.healthRegenMod, withPopup: false)
-            adjustMana(0.01*stats.maxMana*statusFactors.manaRegenMod)
-            if (skill != nil && skill!.mana <= stats.mana) { 
+            adjustHealth(0.01*stats.maxHealth*statusFactors.healthRegenMod, withPopup: false)
+            adjustMana(0.02*stats.maxMana*statusFactors.manaRegenMod)
+            if (skill != nil && skill!.mana <= stats.mana) {
                 UIElements.SkillButton.setEnabledTo(true)
             }
         }
@@ -705,8 +714,18 @@ class Enemy:Entity {
     }
         
     func fireProjectile(texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
-        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, withAngle: atan2(withVelocity.dy, withVelocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
+        var velocity:CGVector
+        if (condition?.conditionType == .Confused) {
+            velocity = -1 * withVelocity
+        }
+        else {
+            velocity = withVelocity
+        }
+        let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: velocity, withAngle: atan2(velocity.dy, velocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         (self.scene as? InGameScene)?.addObject(newProjectile)
+        if (condition?.conditionType == .Cursed && randomBetweenNumbers(0, secondNum: 1) < 0.02) {
+            adjustHealth(-0.01*stats.maxHealth, withPopup: true)
+        }
     }
     
     func getEnemiesWithID(id:String) -> [Enemy] {
@@ -735,6 +754,10 @@ class Enemy:Entity {
     func normalVectorToCharacter() -> CGVector {
         let dist = distanceToCharacter()
         if (dist == 0) { return CGVector.zero }
+        if (condition?.conditionType == .Blinded) {
+            let angle = randomBetweenNumbers(0, secondNum: 6.27)
+            return CGVectorMake(cos(angle), sin(angle))
+        }
         return CGVectorMake((thisCharacter.position.x - self.position.x)/dist, (thisCharacter.position.y - self.position.y)/dist)
     }
     
@@ -779,6 +802,13 @@ class Enemy:Entity {
         }
         else if (condition != nil) {
             currentStatusElapsed += deltaT
+        }
+        
+        if (thisCharacter.condition?.conditionType == .Blinded) {
+            self.alpha = 0
+        }
+        else {
+            self.alpha = 1
         }
         
         if (!isOnScreen()) {

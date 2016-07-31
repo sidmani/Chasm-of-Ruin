@@ -39,26 +39,28 @@ class CountdownTimer:SKNode {
     }
     
     func runTimer() {
-        currTime -= 1
-        if (currTime > 0) {
-            node.removeAllActions()
-            node.setScale(1)
-            node.alpha = 1
-            node.text = "\(currTime)"
-            node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
-        }
-        else if (currTime == 0) {
-            node.removeAllActions()
-            node.setScale(1)
-            node.alpha = 1
-            node.text = finalText
-            node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
-        }
-        else {
-            //do some animation
-            completion()
-            timer?.invalidate()
-            self.removeFromParent()
+        if (node.scene != nil && node.scene!.paused == false) {
+            currTime -= 1
+            if (currTime > 0) {
+                node.removeAllActions()
+                node.setScale(1)
+                node.alpha = 1
+                node.text = "\(currTime)"
+                node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
+            }
+            else if (currTime == 0) {
+                node.removeAllActions()
+                node.setScale(1)
+                node.alpha = 1
+                node.text = finalText
+                node.runAction(SKAction.group([SKAction.fadeAlphaTo(0.2, duration: 1), SKAction.scaleBy(2, duration: 1)]))
+            }
+            else {
+                //do some animation
+                completion()
+                timer?.invalidate()
+                self.removeFromParent()
+            }
         }
     }
     

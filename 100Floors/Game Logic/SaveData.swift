@@ -258,6 +258,7 @@ class LevelHandler:NSCoding {
         let mapName:String
         let desc:String
         let thumb:String
+        let thumbFrames:Int
         var unlocked:Bool
         let free:Bool
         let unlocksIndex:Int
@@ -265,12 +266,14 @@ class LevelHandler:NSCoding {
         var playCount:Int
         let numWaves:CGFloat
         var bestWave:CGFloat
+        let bgMusic:String
         
-        init(fileName:String, mapName:String, desc:String, thumb:String, unlocked:Bool, free:Bool, unlocksIndex:Int, playCount:Int = 0, cleared:Bool = false, numWaves:CGFloat, bestWave:CGFloat = 0) {
+        init(fileName:String, mapName:String, desc:String, thumb:String, thumbFrames:Int, unlocked:Bool, free:Bool, unlocksIndex:Int, playCount:Int = 0, cleared:Bool = false, numWaves:CGFloat, bestWave:CGFloat = 0, bgMusic:String = "") {
             self.fileName = fileName
             self.mapName = mapName
             self.desc = desc
             self.thumb = thumb
+            self.thumbFrames = thumbFrames
             self.unlocked = unlocked
             self.free = free
             self.unlocksIndex = unlocksIndex
@@ -278,42 +281,39 @@ class LevelHandler:NSCoding {
             self.cleared = cleared
             self.bestWave = bestWave
             self.numWaves = numWaves
+            self.bgMusic = bgMusic
         }
         
         @objc required init?(coder aDecoder: NSCoder) {
-            fileName = aDecoder.decodeObjectForKey("fileName") as! String
-            mapName = aDecoder.decodeObjectForKey("mapName") as! String
-            desc = aDecoder.decodeObjectForKey("desc") as! String
-            thumb = aDecoder.decodeObjectForKey("thumb") as! String
             unlocked = aDecoder.decodeObjectForKey("unlocked") as! Bool
-            free = aDecoder.decodeObjectForKey("free") as! Bool
-            unlocksIndex = aDecoder.decodeObjectForKey("unlocks") as! Int
             playCount = aDecoder.decodeObjectForKey("playcount") as! Int
             cleared = aDecoder.decodeObjectForKey("cleared") as! Bool
             bestWave = aDecoder.decodeObjectForKey("bestWave") as! CGFloat
-            numWaves = aDecoder.decodeObjectForKey("numWaves") as! CGFloat
+            
+            fileName = ""
+            mapName = ""
+            desc = ""
+            thumb = ""
+            thumbFrames = 0
+            free = true
+            unlocksIndex = -1
+            numWaves = 0
+            bgMusic = ""
         }
         
         @objc func encodeWithCoder(aCoder: NSCoder) {
-            aCoder.encodeObject(fileName, forKey: "fileName")
-            aCoder.encodeObject(mapName, forKey: "mapName")
-            aCoder.encodeObject(desc, forKey: "desc")
-            aCoder.encodeObject(thumb, forKey: "thumb")
             aCoder.encodeObject(unlocked, forKey: "unlocked")
-            aCoder.encodeObject(free, forKey: "free")
-            aCoder.encodeObject(unlocksIndex, forKey: "unlocks")
             aCoder.encodeObject(playCount, forKey: "playcount")
             aCoder.encodeObject(cleared, forKey: "cleared")
             aCoder.encodeObject(bestWave, forKey: "bestWave")
-            aCoder.encodeObject(numWaves, forKey: "numWaves")
         }
     }
     
     var levelDict:[LevelDefinition] = [
-        LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Learn how to play!", thumb:"thumbnail", unlocked:true, free:true, unlocksIndex: 1, numWaves:3),
-        LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"What horrors lurk in these caves?", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 2, numWaves: 15),
-        LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"Beasts untouched for millenia have awakened within...", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: 3, numWaves: 15),
-        LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"This cursed chamber has claimed the lives of all who enter.", thumb:"thumbnail", unlocked:false, free:true, unlocksIndex: -1, numWaves:15)
+        LevelDefinition(fileName:"Tutorial", mapName:"Tutorial", desc:"Learn how to play!", thumb:"EyeBallA", thumbFrames: 8, unlocked:true, free:true, unlocksIndex: 1, numWaves:3, bgMusic: "throwawayfantasy"),
+        LevelDefinition(fileName:"SunlitCaverns", mapName:"Sunlit Caverns", desc:"What horrors lurk in these caves?", thumb:"MonolithA", thumbFrames: 5, unlocked:false, free:true, unlocksIndex: 2, numWaves: 15, bgMusic: "familiarfaces"),
+        LevelDefinition(fileName:"AncientRealm", mapName:"Ancient Realm", desc:"Beasts untouched for millenia have awakened within...", thumb:"DyeD", thumbFrames: 5, unlocked:false, free:true, unlocksIndex: 3, numWaves: 15, bgMusic: "goodasdead"),
+        LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"This cursed chamber has claimed the lives of all who enter.", thumb:"DiscA", thumbFrames: 5, unlocked:false, free:true, unlocksIndex: -1, numWaves:15, bgMusic: "modulatedmind")
     ]
     
     var currentLevel:Int!
@@ -327,12 +327,13 @@ class LevelHandler:NSCoding {
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
-        levelDict = aDecoder.decodeObjectForKey("levelDict") as! [LevelDefinition]
-//        for (key, value) in levelDict {
-//            if (!value.free) {
-//                //verify purchases
-//            }
-//        }
+        let newLevelDict = aDecoder.decodeObjectForKey("levelDict") as! [LevelDefinition]
+        for i in 0..<newLevelDict.count {
+            levelDict[i].unlocked = newLevelDict[i].unlocked
+            levelDict[i].bestWave = newLevelDict[i].bestWave
+            levelDict[i].cleared = newLevelDict[i].cleared
+            levelDict[i].playCount = newLevelDict[i].playCount
+        }
     }
     
     func maxUnlockedLevel() -> Int {

@@ -50,7 +50,7 @@ class RectButton:UIButton {
 class ProgressRectButton:RectButton {
     private let progressFillLayer = CAShapeLayer()
     var progress:CGFloat = 1
-    
+    var resetWithLayout = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -58,13 +58,17 @@ class ProgressRectButton:RectButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setProgress(1, animated: false)
+        if (resetWithLayout) {
+            self.setProgress(1)
+        }
         progressFillLayer.position.y = self.bounds.midY
         progressFillLayer.path = UIBezierPath(rect: self.bounds).CGPath
         progressFillLayer.bounds = self.bounds
         progressFillLayer.fillColor = UIColor.greenColor().CGColor
         rectangleLayer.mask = progressFillLayer
     }
+    
+    
     
     func setProgress(to: CGFloat, animated:Bool = false, withDuration:Double = 0.25) {
         progress = to

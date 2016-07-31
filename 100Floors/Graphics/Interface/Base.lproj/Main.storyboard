@@ -38,14 +38,6 @@
                                     <action selector="loadCredits" destination="BV1-FR-VrT" eventType="touchUpInside" id="qhP-SV-Bdf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAn-6B-34a" userLabel="Settings">
-                                <rect key="frame" x="553" y="30" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="rTL-ZI-Phy"/>
-                                    <constraint firstAttribute="width" secondItem="IAn-6B-34a" secondAttribute="height" multiplier="1:1" id="yar-IS-gwG"/>
-                                </constraints>
-                                <state key="normal" image="settings_gear"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="234" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -58,14 +50,14 @@
                                 </connections>
                             </button>
                             <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="eUX-KF-vu2">
-                                <rect key="frame" x="410" y="26" width="40" height="40"/>
+                                <rect key="frame" x="447" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="ApQ-bb-yTx"/>
                                     <constraint firstAttribute="width" secondItem="eUX-KF-vu2" secondAttribute="height" multiplier="1:1" id="zNf-z0-PGm"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ig-39-D0u" userLabel="CrystalNumber">
-                                <rect key="frame" x="450" y="34" width="25" height="25"/>
+                                <rect key="frame" x="487" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -73,56 +65,58 @@
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="ktH-PX-kht" userLabel="Coin">
-                                <rect key="frame" x="480" y="26" width="40" height="40"/>
+                                <rect key="frame" x="517" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="gCv-l2-ncW"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xg8-EA-6WM" userLabel="CoinNumber">
-                                <rect key="frame" x="518" y="34" width="25" height="25"/>
+                                <rect key="frame" x="555" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
+                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxE-Ra-EEP">
+                                <rect key="frame" x="10" y="550" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ZxE-Ra-EEP" secondAttribute="height" multiplier="1:1" id="it3-3l-5Bd"/>
+                                </constraints>
+                                <state key="normal" image="unmute"/>
+                                <connections>
+                                    <action selector="muteButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="det-hr-SUp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eUX-KF-vu2" firstAttribute="width" secondItem="eUX-KF-vu2" secondAttribute="height" multiplier="1:1" id="1Ji-TA-E1q"/>
+                            <constraint firstItem="0qp-w4-PXh" firstAttribute="top" secondItem="ZxE-Ra-EEP" secondAttribute="bottom" constant="10" id="0V9-tG-gff"/>
                             <constraint firstItem="ktH-PX-kht" firstAttribute="width" secondItem="ktH-PX-kht" secondAttribute="height" multiplier="1:1" id="1e0-jd-H8a"/>
-                            <constraint firstItem="ktH-PX-kht" firstAttribute="centerY" secondItem="IAn-6B-34a" secondAttribute="centerY" id="5vV-T3-4hx"/>
-                            <constraint firstItem="IAn-6B-34a" firstAttribute="top" secondItem="wrK-6a-TQb" secondAttribute="bottom" constant="10" id="63m-63-ddW"/>
                             <constraint firstItem="8YR-dd-PT4" firstAttribute="width" secondItem="EWh-dv-4PY" secondAttribute="width" id="C1x-HP-peH"/>
                             <constraint firstItem="Xg8-EA-6WM" firstAttribute="centerY" secondItem="ktH-PX-kht" secondAttribute="centerY" id="CCL-G5-Rfy"/>
                             <constraint firstItem="9ig-39-D0u" firstAttribute="centerY" secondItem="eUX-KF-vu2" secondAttribute="centerY" id="Fpe-Tj-bTT"/>
+                            <constraint firstItem="ZxE-Ra-EEP" firstAttribute="width" secondItem="eUX-KF-vu2" secondAttribute="width" id="HB6-Mb-rL9"/>
                             <constraint firstItem="FPo-w9-bh8" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="KxB-zw-oFi"/>
                             <constraint firstItem="ktH-PX-kht" firstAttribute="width" secondItem="eUX-KF-vu2" secondAttribute="width" id="Nr9-ae-jpe"/>
+                            <constraint firstItem="ktH-PX-kht" firstAttribute="top" secondItem="wrK-6a-TQb" secondAttribute="bottom" constant="6" id="O8p-u1-fKR"/>
                             <constraint firstItem="8YR-dd-PT4" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="RTE-vA-eWD"/>
                             <constraint firstItem="8YR-dd-PT4" firstAttribute="height" secondItem="EWh-dv-4PY" secondAttribute="height" id="Vd4-7I-hhg"/>
-                            <constraint firstItem="IAn-6B-34a" firstAttribute="leading" secondItem="Xg8-EA-6WM" secondAttribute="trailing" constant="10" id="aGb-Ww-3B4"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="IAn-6B-34a" secondAttribute="trailing" constant="-5" id="bRq-Wg-nzW"/>
+                            <constraint firstItem="ZxE-Ra-EEP" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="-10" id="gtk-Ih-XKL"/>
                             <constraint firstItem="8YR-dd-PT4" firstAttribute="top" secondItem="FPo-w9-bh8" secondAttribute="bottom" constant="15" id="kRp-kB-NhT"/>
                             <constraint firstItem="EWh-dv-4PY" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="kba-Fg-O4v"/>
                             <constraint firstItem="FPo-w9-bh8" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="lOe-G2-U3i"/>
                             <constraint firstItem="9ig-39-D0u" firstAttribute="leading" secondItem="eUX-KF-vu2" secondAttribute="trailing" id="qGz-DE-coK"/>
                             <constraint firstItem="ktH-PX-kht" firstAttribute="leading" secondItem="9ig-39-D0u" secondAttribute="trailing" constant="5" id="r8H-I4-8W0"/>
-                            <constraint firstItem="ktH-PX-kht" firstAttribute="top" secondItem="wrK-6a-TQb" secondAttribute="bottom" constant="10" id="s9u-CU-hGj"/>
                             <constraint firstItem="FPo-w9-bh8" firstAttribute="top" secondItem="EWh-dv-4PY" secondAttribute="bottom" constant="15" id="tIi-et-s0X"/>
                             <constraint firstItem="ktH-PX-kht" firstAttribute="top" secondItem="eUX-KF-vu2" secondAttribute="top" id="vXc-Ng-IiY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xg8-EA-6WM" secondAttribute="trailing" id="xJB-uH-MB7"/>
                             <constraint firstItem="Xg8-EA-6WM" firstAttribute="leading" secondItem="ktH-PX-kht" secondAttribute="trailing" constant="-2" id="yn0-Yi-TN7"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="1Ji-TA-E1q"/>
-                                <exclude reference="s9u-CU-hGj"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="CoinLabel" destination="Xg8-EA-6WM" id="DaJ-wz-8XL"/>
                         <outlet property="CrystalLabel" destination="9ig-39-D0u" id="pe6-3f-DOR"/>
-                        <outlet property="SettingsButton" destination="IAn-6B-34a" id="0mi-aY-YKu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -147,10 +141,11 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gvg-cp-kGr">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gvg-cp-kGr">
                                 <rect key="frame" x="40" y="76" width="520" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <string key="text">Chasm of Ruin © 2016 Sid Mani. All rights reserved.  Coding and game design by Sid Mani.  Music by pxlwlkr: https://soundcloud.com/pxlwlkr  DawnLike tileset by DawnBringer and DragonDePlatino.  Characters, items, map, and effects by Henry Software:  https://henrysoftware.itch.io  Gem image by yinakoSGA. Downloaded from http://opengameart.org  Berry Garden by Bart Kelsey. Downloaded from http://opengameart.org
+ Libraries used: AMPopTip © 2015 Andrea Mazzini. License: https://opensource.org/licenses/MIT  SKATiledMap © 2015 Sprite Kit Alliance. License: https://opensource.org/licenses/MIT</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -818,11 +813,6 @@
                                     <action selector="presentStore" destination="vb3-7V-c1Z" eventType="touchUpInside" id="rKK-lP-hOb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ti9-Gv-vQF" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="332" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Settings"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blG-tC-wGQ" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="225" y="234" width="150" height="34"/>
                                 <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -868,11 +858,31 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
+                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBw-ZB-rrU">
+                                <rect key="frame" x="10" y="550" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hBw-ZB-rrU" secondAttribute="height" multiplier="1:1" id="IDN-it-LVe"/>
+                                </constraints>
+                                <state key="normal" image="unmute"/>
+                                <connections>
+                                    <action selector="muteButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="2hN-UH-hJH"/>
+                                    <action selector="muteButtonPressed:" destination="vb3-7V-c1Z" eventType="touchUpInside" id="Zdr-aU-pmN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7O8-PW-91U" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <rect key="frame" x="225" y="332" width="150" height="34"/>
+                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Credits"/>
+                                <connections>
+                                    <action selector="loadCredits" destination="BV1-FR-VrT" eventType="touchUpInside" id="Elu-Kz-EBH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ti9-Gv-vQF" firstAttribute="height" secondItem="FL0-vz-VNk" secondAttribute="height" id="1O5-Ah-8VM"/>
-                            <constraint firstItem="ti9-Gv-vQF" firstAttribute="centerX" secondItem="veO-m4-WIr" secondAttribute="centerX" id="32O-aA-1ab"/>
+                            <constraint firstItem="hBw-ZB-rrU" firstAttribute="leading" secondItem="veO-m4-WIr" secondAttribute="leadingMargin" constant="-10" id="1Pw-dy-3j6"/>
+                            <constraint firstItem="3gB-3g-vgw" firstAttribute="top" secondItem="hBw-ZB-rrU" secondAttribute="bottom" constant="10" id="1YN-va-iQg"/>
+                            <constraint firstItem="hBw-ZB-rrU" firstAttribute="width" secondItem="hBw-ZB-rrU" secondAttribute="height" multiplier="1:1" id="77r-in-liD"/>
                             <constraint firstItem="fV2-rM-xLE" firstAttribute="width" secondItem="yNV-7T-r3R" secondAttribute="width" id="9jJ-Lx-WSI"/>
                             <constraint firstItem="FL0-vz-VNk" firstAttribute="centerX" secondItem="veO-m4-WIr" secondAttribute="centerX" id="BQW-1o-PWB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="k9n-dR-gDP" secondAttribute="trailing" constant="-5" id="BRa-nB-CVz"/>
@@ -882,15 +892,18 @@
                             <constraint firstItem="o0D-0q-wWf" firstAttribute="leading" secondItem="fV2-rM-xLE" secondAttribute="trailing" constant="-2" id="Lv0-Qr-FQP"/>
                             <constraint firstItem="k9n-dR-gDP" firstAttribute="height" secondItem="fV2-rM-xLE" secondAttribute="height" id="MzJ-xX-8rO"/>
                             <constraint firstItem="o0D-0q-wWf" firstAttribute="centerY" secondItem="fV2-rM-xLE" secondAttribute="centerY" id="OFz-bC-r3n"/>
+                            <constraint firstItem="7O8-PW-91U" firstAttribute="top" secondItem="FL0-vz-VNk" secondAttribute="bottom" constant="15" id="QKG-dI-oWB"/>
+                            <constraint firstItem="7O8-PW-91U" firstAttribute="height" secondItem="FL0-vz-VNk" secondAttribute="height" id="STN-n5-ma7"/>
+                            <constraint firstItem="hBw-ZB-rrU" firstAttribute="width" secondItem="yNV-7T-r3R" secondAttribute="width" id="Tal-bd-fZQ"/>
+                            <constraint firstItem="7O8-PW-91U" firstAttribute="leading" secondItem="FL0-vz-VNk" secondAttribute="leading" id="WuW-C8-Wau"/>
                             <constraint firstItem="fV2-rM-xLE" firstAttribute="leading" secondItem="D4o-MY-wzi" secondAttribute="trailing" constant="5" id="Ybv-bv-5C5"/>
                             <constraint firstItem="fV2-rM-xLE" firstAttribute="width" secondItem="fV2-rM-xLE" secondAttribute="height" multiplier="1:1" id="afE-Rh-fke"/>
                             <constraint firstItem="FL0-vz-VNk" firstAttribute="centerY" secondItem="veO-m4-WIr" secondAttribute="centerY" id="b1f-aY-XT5"/>
-                            <constraint firstItem="ti9-Gv-vQF" firstAttribute="top" secondItem="FL0-vz-VNk" secondAttribute="bottom" constant="15" id="bKq-YU-eHE"/>
                             <constraint firstItem="k9n-dR-gDP" firstAttribute="top" secondItem="Chk-cv-qsX" secondAttribute="bottom" constant="10" id="e1C-3P-J8M"/>
                             <constraint firstItem="yNV-7T-r3R" firstAttribute="width" secondItem="yNV-7T-r3R" secondAttribute="height" multiplier="1:1" id="g6v-aO-UCR"/>
                             <constraint firstItem="D4o-MY-wzi" firstAttribute="leading" secondItem="yNV-7T-r3R" secondAttribute="trailing" id="g8R-HR-9tG"/>
-                            <constraint firstItem="ti9-Gv-vQF" firstAttribute="width" secondItem="FL0-vz-VNk" secondAttribute="width" id="l9U-kG-N2i"/>
                             <constraint firstItem="blG-tC-wGQ" firstAttribute="centerX" secondItem="veO-m4-WIr" secondAttribute="centerX" id="o64-gY-0TX"/>
+                            <constraint firstItem="7O8-PW-91U" firstAttribute="width" secondItem="FL0-vz-VNk" secondAttribute="width" id="oCF-Nn-Y3c"/>
                             <constraint firstItem="D4o-MY-wzi" firstAttribute="centerY" secondItem="yNV-7T-r3R" secondAttribute="centerY" id="urT-x3-9aA"/>
                             <constraint firstItem="k9n-dR-gDP" firstAttribute="leading" secondItem="o0D-0q-wWf" secondAttribute="trailing" constant="10" id="xcx-0x-07T"/>
                             <constraint firstItem="k9n-dR-gDP" firstAttribute="width" secondItem="k9n-dR-gDP" secondAttribute="height" multiplier="9:3" id="xzr-tB-tUW"/>
@@ -898,6 +911,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="MzJ-xX-8rO"/>
+                                <exclude reference="77r-in-liD"/>
                             </mask>
                         </variation>
                     </view>
@@ -1390,6 +1404,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9W-Xl-wOL" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
                                 <rect key="frame" x="210" y="400" width="180" height="180"/>
                                 <state key="normal" image="Stats"/>
+                                <connections>
+                                    <action selector="loadStats:" destination="auq-MV-pOY" eventType="touchUpInside" id="2Ay-rq-RrI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1504,7 +1521,7 @@
         <image name="levelselect" width="512" height="512"/>
         <image name="menu" width="512" height="512"/>
         <image name="retry" width="512" height="512"/>
-        <image name="settings_gear" width="512" height="512"/>
+        <image name="unmute" width="64" height="64"/>
     </resources>
     <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>
 </document>

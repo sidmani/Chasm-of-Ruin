@@ -108,7 +108,7 @@ class SmoothWander:Behavior {
 
 class Circle:Behavior {
     private let triggerInsideOf:CGFloat
-    
+    private var direction:CGFloat = 1
     init(triggerInsideOfDistance:CGFloat, priority:Int) {
         self.triggerInsideOf = triggerInsideOfDistance
         super.init(idType: .Movement, updateRate: 100)
@@ -116,12 +116,13 @@ class Circle:Behavior {
     }
     
     override func getConditional() -> Bool {
+        direction = -direction
         return parent.distanceToCharacter() < triggerInsideOf
     }
     
     override func executeBehavior(timeSinceUpdate: Double) {
         let v = parent.normalVectorToCharacter()
-        parent.setVelocity(CGVectorMake(-v.dy, v.dx))
+        parent.setVelocity(CGVectorMake(direction * v.dy, -direction * v.dx))
     }
     
     

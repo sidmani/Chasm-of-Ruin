@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     private var previousSelectedContainer:LevelContainer?
@@ -150,6 +151,19 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         maxUnlockedLevel = defaultLevelHandler.maxUnlockedLevel()
         levelCollection.reloadData()
         levelCollection.setContentOffset(CGPointMake(CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, 0), animated: true)
+        globalAudioPlayer?.stop()
+        let url = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("sunnydaysahead", ofType: "mp3")!)
+        do {
+            globalAudioPlayer = try AVAudioPlayer(contentsOfURL:url)
+            globalAudioPlayer!.numberOfLoops = -1
+            globalAudioPlayer!.prepareToPlay()
+            if (audioEnabled) {
+                globalAudioPlayer!.play()
+            }
+        } catch {
+            print("Error getting the audio file")
+        }
+
     }
     
     func setCurrencyLabels() {

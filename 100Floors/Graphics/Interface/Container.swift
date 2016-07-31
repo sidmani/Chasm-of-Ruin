@@ -66,18 +66,19 @@ class LevelContainer:Container {
     
     private let levelView = UIImageView()
     private let numberLabel = UILabel()
-
+    private var animationImages:[UIImage] = []
     var level:LevelHandler.LevelDefinition?
     private let lockView = UIImageView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        levelView.bounds = self.bounds
+        levelView.bounds = CGRectMake(10, self.bounds.height - 10, self.bounds.width-20, self.bounds.height-20)
         levelView.userInteractionEnabled = false
+        levelView.multipleTouchEnabled = false
         levelView.center = centerPoint
         levelView.contentMode = .ScaleAspectFit
         levelView.layer.magnificationFilter = kCAFilterNearest
+        levelView.animationRepeatCount = -1
         
         lockView.bounds = self.bounds
         lockView.center = centerPoint
@@ -111,9 +112,17 @@ class LevelContainer:Container {
     func setLevelTo(l:LevelHandler.LevelDefinition) {
         level = l
         lockView.hidden = level!.unlocked
-        levelView.image = UIImage(named:level!.thumb)
+        animationImages = []
+        for i in 0..<level!.thumbFrames {
+            animationImages.append(UIImage(named: "\(level!.thumb)\(i)")!)
+        }
+        if (level!.unlocked) {
+            levelView.image = UIImage.animatedImageWithImages(animationImages, duration: Double(level!.thumbFrames) * 0.125)
+        }
+        else {
+            levelView.image = animationImages[0]
+        }
         if (level!.cleared) {
-            //numberLabel.text = String(count: min(Int(5*level!.bestWave / level!.numWaves)+1, 5), repeatedValue: "⭐" as Character)
             numberLabel.text = "⭐"
         }
         else if (level!.playCount == 0 && level!.unlocked) {

@@ -21,7 +21,7 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireProjectile(error: 0.5, rateOfFire: 300, projectileTexture: "projectile9", projectileSpeed: 70, range: 30),
+                FireProjectile(error: 0.5, rateOfFire: 300, projectileTexture: "projectile32", projectileSpeed: 70, range: 30),
                 MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 25, priority: 10)
                 ], runOnStruckMapBoundary: [
@@ -44,7 +44,7 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireProjectile(error: 0.5, rateOfFire: 300, projectileTexture: "projectile9", projectileSpeed: 70, range: 30),
+                FireProjectile(error: 0.5, rateOfFire: 300, projectileTexture: "projectile41", projectileSpeed: 70, range: 30),
                 MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 25, priority: 10)
                 ], runOnStruckMapBoundary: [
@@ -55,7 +55,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func BeardB(parent:Enemy) -> EnemyAI { //TODO: everything below here
+    static func BeardB(parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -66,12 +66,9 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                RunSimultaneously(behaviorsToRun: [
-                    FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.2, projectileTexture: "projectile9", rateOfFire: 200, projectileSpeed: 60, range: 75),
-                    RunAnimationSequence(animationName: "attack")
-                    ], useConditionalOfIndex: 0),
                 Wander(triggerOutsideOfDistance: 40, priority: 5),
-                Circle(triggerInsideOfDistance: 40, priority: 10)
+                Circle(triggerInsideOfDistance: 40, priority: 10),
+                FireProjectilesInSpiral(numStreams: 2, offsetStep: 0.1, projectileTexture: "projectile12", rateOfFire: 200, projectileSpeed: 80, range: 100)
                 ], transitions: [
                     PlayerFartherThan(dest: "idle", distance: 75)
                 ])
@@ -90,7 +87,10 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                RunSimultaneously(behaviorsToRun: [
+                    FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile15", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                    RunAnimationSequence(animationName: "attack")
+                    ], useConditionalOfIndex: 0),
                 MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10)
                 ], transitions: [
@@ -105,23 +105,22 @@ extension EnemyDictionary {
             State(name: "idle",
                 behaviors: [
                     RunAnimationSequence(animationName: "default"),
-                    Wander(triggerOutsideOfDistance: 0, priority: 10)
                 ],
                 transitions: [
                     PlayerCloserThan(dest: "active", distance: 75)
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
+                Wander(triggerOutsideOfDistance: 40, priority: 5),
+                Circle(triggerInsideOfDistance: 40, priority: 10),
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile66", rateOfFire: 200, projectileSpeed: 80, range: 100)
                 ], transitions: [
                     PlayerFartherThan(dest: "idle", distance: 75)
                 ])
             ])
     }
     
-    static func CrabE(parent:Enemy) -> EnemyAI {
+    static func CrabE(parent:Enemy) -> EnemyAI { 
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -133,7 +132,8 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .Random, projectileTexture: "projectile21", rateOfFire: 1000, projectileSpeed: 75, range: 70),
+                FireNProjectilesAtEqualIntervals(numProjectiles: 10, projectileTexture: "projectile73", rateOfFire: 500, projectileSpeed: 70, range: 70),
                 MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10)
                 ], transitions: [
@@ -146,15 +146,15 @@ extension EnemyDictionary {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
-                    RunAnimationSequence(animationName: "default"),
-                    Wander(triggerOutsideOfDistance: 0, priority: 10)
+                    RunAnimationSequence(animationName: "locked"),
                 ],
                 transitions: [
                     PlayerCloserThan(dest: "active", distance: 75)
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile51", rateOfFire: 250, projectileSpeed: 80, range: 100),
+                FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 3.14, direction: .TowardPlayer, projectileTexture: "projectile60", rateOfFire: 300, projectileSpeed: 90, range: 130),
                 MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10)
                 ], transitions: [
@@ -164,22 +164,27 @@ extension EnemyDictionary {
     }
 
     static func EyeballB(parent:Enemy) -> EnemyAI {
-        return EnemyAI(parent:parent, startingState:"idle", withStates: [
-            State(name: "idle",
+        return EnemyAI(parent:parent, startingState:"Idle", withStates: [
+            State(name:"Idle",
                 behaviors: [
                     RunAnimationSequence(animationName: "default"),
-                    Wander(triggerOutsideOfDistance: 0, priority: 10)
+                    Wander(triggerOutsideOfDistance: 0, priority: 5)
                 ],
                 transitions: [
-                    PlayerCloserThan(dest: "active", distance: 75)
-                ]),
-            State(name: "active", behaviors: [
-                RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
-                ], transitions: [
-                    PlayerFartherThan(dest: "idle", distance: 75)
+                    PlayerCloserThan(dest: "Engage", distance: 50)
+                ]
+            ),
+            State(name: "Engage",
+                behaviors: [
+                    RunAnimationSequence(animationName: "default", priority: 5),
+                    RunSimultaneously(behaviorsToRun: [
+                        RunAnimationSequence(animationName: "attack"),
+                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile74", rateOfFire: 1000, projectileSpeed: 35, range: 50)
+                        ], useConditionalOfIndex: 1, idType: .Animation, priority: 10),
+                    Wander(triggerOutsideOfDistance: 0, priority: 5)
+                ],
+                transitions: [
+                    PlayerFartherThan(dest: "Idle", distance: 50)
                 ])
             ])
     }
@@ -196,9 +201,9 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
+                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile35", rateOfFire: 250, projectileSpeed: 80, range: 60),
+                MaintainDistance(distanceToMaintain: 40, triggerDistance: 75, priority: 5),
+                WanderReallyFast(triggerOutsideOfDistance: 0, speedMultiplier: 3, priority: 1)
                 ], transitions: [
                     PlayerFartherThan(dest: "idle", distance: 75)
                 ])
@@ -213,15 +218,35 @@ extension EnemyDictionary {
                     Wander(triggerOutsideOfDistance: 0, priority: 10)
                 ],
                 transitions: [
-                    PlayerCloserThan(dest: "active", distance: 75)
+                    PlayerCloserThan(dest: "awakened", distance: 75),
+                    HPLessThan(dest: "enraged", hpLevel: 0.5)
                 ]),
-            State(name: "active", behaviors: [
+            State(name: "awakened", behaviors: [
+                Wander(triggerOutsideOfDistance: 0, priority: 10),
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile74", rateOfFire: 300, projectileSpeed: 50, range: 75)
                 ], transitions: [
-                    PlayerFartherThan(dest: "idle", distance: 75)
+                    PlayerFartherThan(dest: "idle", distance: 75),
+                    HPLessThan(dest: "enraged", hpLevel: 0.7)
+                ]),
+            State(name: "enraged", behaviors: [
+                MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
+                Circle(triggerInsideOfDistance: 15, priority: 10),
+                RunSimultaneously(behaviorsToRun: [
+                    FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile74", rateOfFire: 300, projectileSpeed: 50, range: 75),
+                    RunAnimationSequence(animationName: "attack")
+                    ], useConditionalOfIndex: 0),
+                RunSimultaneously(behaviorsToRun: [
+                    FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile54", rateOfFire: 500, projectileSpeed: 80, range: 60),
+                    RunAnimationSequence(animationName: "attack")
+                    ], useConditionalOfIndex: 0),
+                ], transitions: [
+                    HPLessThan(dest: "finalEffort", hpLevel: 0.4)
+                ]),
+            State(name: "finalEffort", behaviors: [
+                MaintainDistance(distanceToMaintain: 5, triggerDistance: 50, priority: 5),
+                FireProjectilesInSpiral(numStreams: 4, offsetStep: 0.2, projectileTexture: "projectile74", rateOfFire: 200, projectileSpeed: 80, range: 100)
+                ], transitions: [
                 ])
             ])
     }
@@ -234,15 +259,30 @@ extension EnemyDictionary {
                     Wander(triggerOutsideOfDistance: 0, priority: 10)
                 ],
                 transitions: [
-                    PlayerCloserThan(dest: "active", distance: 75)
+                    PlayerCloserThan(dest: "awakened", distance: 75),
+                    HPLessThan(dest: "enraged", hpLevel: 0.5)
                 ]),
-            State(name: "active", behaviors: [
+            State(name: "awakened", behaviors: [
+                MaintainDistance(distanceToMaintain: 40, triggerDistance: 75, priority: 5),
                 RunAnimationSequence(animationName: "default"),
-                FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile9", rateOfFire: 250, projectileSpeed: 80, range: 60),
-                MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
-                Circle(triggerInsideOfDistance: 15, priority: 10)
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile76", rateOfFire: 300, projectileSpeed: 50, range: 75)
                 ], transitions: [
-                    PlayerFartherThan(dest: "idle", distance: 75)
+                    PlayerFartherThan(dest: "idle", distance: 75),
+                    HPLessThan(dest: "enraged", hpLevel: 0.7)
+                ]),
+            State(name: "enraged", behaviors: [
+                MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
+                Circle(triggerInsideOfDistance: 15, priority: 10),
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.2, projectileTexture: "projectile79", rateOfFire: 300, projectileSpeed: 50, range: 75),
+                FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile43", rateOfFire: 500, projectileSpeed: 50, range: 60)
+                ], transitions: [
+                    HPLessThan(dest: "finalEffort", hpLevel: 0.4)
+                ]),
+            State(name: "finalEffort", behaviors: [
+                MaintainDistance(distanceToMaintain: 30, triggerDistance: 50, priority: 5),
+                WanderReallyFast(triggerOutsideOfDistance: 0, speedMultiplier: 4, priority: 2),
+                FireProjectilesInSpiral(numStreams: 6, offsetStep: 0.2, projectileTexture: "projectile81", rateOfFire: 300, projectileSpeed: 50, range: 75)
+                ], transitions: [
                 ])
             ])
     }

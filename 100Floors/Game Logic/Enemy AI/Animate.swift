@@ -17,7 +17,7 @@ class RunSimultaneously:Behavior {
         self.useConditionalOfIndex = useConditionalOfIndex
         var updateRate:Double = 10000
         for behavior in behaviorsToRun {
-            if behavior.updateRate < updateRate {
+            if (behavior.updateRate < updateRate && behavior.idType != .Animation) {
                 updateRate = behavior.updateRate
             }
         }
@@ -41,14 +41,6 @@ class RunSimultaneously:Behavior {
             behavior.executeBehavior(timeSinceUpdate)
         }
     }
-    
-}
-
-class RunSequentially:Behavior {
-    
-}
-
-class SetTextureTo:Behavior {
     
 }
 

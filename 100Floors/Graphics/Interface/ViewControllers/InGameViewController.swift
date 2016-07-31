@@ -48,6 +48,8 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         UIElements.SkillButton = SkillButton
         UIElements.EXPBar = EXPBar
         UIElements.ProceedButton = ProceedButton
+        
+        ProceedButton.resetWithLayout = true
         InfoDisplay.hidden = true
         setCurrencyLabels()
         
@@ -56,7 +58,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         
         HPDisplayBar.setProgress(1, animated: false)
 
-        //MenuButton.tintColor = ColorScheme.strokeColor
         view.viewWithTag(1)?.tintColor = ColorScheme.fillColor
         //////////
         CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
@@ -274,7 +275,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         RightJoystickControl.resetControl()
         thisCharacter.adjustHealth(0, withPopup: false)
         popTip1.hide()
-        if (gameScene.currentGroundBag?.parent == nil) { //TODO: check if necessary
+        if (gameScene.currentGroundBag?.parent == nil) { 
             gameScene.currentGroundBag = nil
         }
         if let bag = object as? ItemBag {

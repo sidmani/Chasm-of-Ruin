@@ -88,7 +88,7 @@ struct EnemyDictionary {
             State(name: "Engage",
                 behaviors: [
                     RunAnimationSequence(animationName: "default"),
-                    FireProjectile(error: 1, rateOfFire: 1500, projectileTexture: "projectile9", projectileSpeed: 60, range: 50),
+                    FireProjectile(error: 1, rateOfFire: 1500, projectileTexture: "projectile69", projectileSpeed: 60, range: 50),
                     MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                     Circle(triggerInsideOfDistance: 25, priority: 10)
                 ],
@@ -122,7 +122,7 @@ struct EnemyDictionary {
                     RunAnimationSequence(animationName: "default", priority: 5),
                     RunSimultaneously(behaviorsToRun: [
                         RunAnimationSequence(animationName: "attack"),
-                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile9", rateOfFire: 1000, projectileSpeed: 35, range: 50)
+                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile51", rateOfFire: 1000, projectileSpeed: 35, range: 50)
                         ], useConditionalOfIndex: 1, idType: .Animation, priority: 10),
                     Wander(triggerOutsideOfDistance: 0, priority: 5)
                 ],

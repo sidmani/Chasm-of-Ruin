@@ -19,11 +19,8 @@ class Skill: Item {
         super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!), id: id)
     }
     
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
-    func execute(character:ThisCharacter) {
+    func execute(character:ThisCharacter) -> Bool {
+        return false
         //override me
     }
     
@@ -32,21 +29,6 @@ class Skill: Item {
     }
 }
 
-
-//class HealSelf:Skill {
-//    
-//    required init(fromBase64: String) {
-//        super.init(fromBase64: fromBase64)
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//    
-//    override func execute(character:ThisCharacter) {
-//        thisCharacter.setHealth(1, withPopup: true)
-//    }
-//}
 
 class Scroll:Skill {
     private let effect:String
@@ -57,30 +39,25 @@ class Scroll:Skill {
         //requiredMana, name, desc, img, priceCC, priceCoins, designatedCurrency, animation name, attack, status effect raw value, probability
         let optArr = fromBase64.splitBase64IntoArray("|")
         effect = optArr[7]
-        attack = -CGFloat(optArr[8])
+        attack = CGFloat(optArr[8])
         statusEffect = StatusCondition(rawValue: Double(optArr[9])!)!
         statusProbability = CGFloat(optArr[10])
+        SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: effect)], withCompletionHandler: {})
         super.init(fromBase64: fromBase64, id: id)
     }
     
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//    
-    override func execute(character:ThisCharacter) {
-        //for all enemies on screen
-        //apply status effect
-        //do damage
-        for enemy in (character.scene! as! InGameScene).enemiesOnScreen() {
+    override func execute(character:ThisCharacter) -> Bool {
+        var ret = false
+        for enemy in (character.scene! as! InGameScene).enemiesOnScreen() where hypot(enemy.position.x - character.position.x, enemy.position.y-character.position.y) < 75 {
             enemy.runEffect(effect, completion: {[unowned self] in
                 if (randomBetweenNumbers(0, secondNum: 1) < self.statusProbability) {
                     enemy.enableCondition(self.statusEffect, duration: self.statusEffect.rawValue)
                 }
-                //enemy.adjustHealth(self.damagePercent * enemy.getStats().maxHealth, withPopup: true)
                 enemy.adjustHealth(-enemy.getDamage(character.getStats().attack + self.attack), withPopup: true)
                 enemy.setVelocity(CGVector.zero)
             })
-
+            ret = true
         }
+        return ret
     }
 }

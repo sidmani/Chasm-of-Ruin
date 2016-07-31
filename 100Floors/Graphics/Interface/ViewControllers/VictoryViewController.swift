@@ -23,6 +23,16 @@ class VictoryViewController: UIViewController {
         self.view.sendSubviewToBack(blur)
     }
     
+    @IBAction func loadStats(sender: RectButton) {
+        let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+        alert.text = "Game Center integration coming in a future version!"
+        alert.yesText = "Gotcha"
+        alert.noButton.alpha = 0.3
+        alert.noButton.enabled = false
+        alert.noText = ""
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func respawn(sender: AnyObject) {
         self.dismissDelegate?.willDismissModalVC("victoryRespawn")
         self.dismissViewControllerAnimated(true, completion: {[unowned self] in

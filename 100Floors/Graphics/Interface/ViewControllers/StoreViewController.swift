@@ -161,7 +161,7 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
                     else if (defaultPurchaseHandler.makePurchase(cell.item!, withMoneyHandler:defaultMoneyHandler, currency: cell.item!.designatedCurrencyType!)) {
-                        if (thisCharacter.inventory.setItem(thisCharacter.inventory.lowestEmptySlot(), toItem: cell.item!) != nil) {  //TODO: remove fatalError()
+                        if (thisCharacter.inventory.setItem(thisCharacter.inventory.lowestEmptySlot(), toItem: cell.item!) != nil) {
                             fatalError()
                         }
                     }

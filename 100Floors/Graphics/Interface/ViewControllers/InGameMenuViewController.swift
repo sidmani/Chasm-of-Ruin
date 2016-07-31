@@ -28,6 +28,12 @@ class InGameMenuViewController: UIViewController, ModalDismissDelegate {
         CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         self.view.viewWithTag(5)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
+        if (audioEnabled) {
+            (view.viewWithTag(11) as? UIButton)?.setImage(UIImage(named: "unmute"), forState: .Normal)
+        }
+        else {
+            (view.viewWithTag(11) as? UIButton)?.setImage(UIImage(named: "mute"), forState: .Normal)
+        }
 
     }
     
@@ -44,6 +50,26 @@ class InGameMenuViewController: UIViewController, ModalDismissDelegate {
     
     func didDismissModalVC(object: AnyObject?) {
         
+    }
+    
+    @IBAction func loadCredits() {
+        let cvc = storyboard!.instantiateViewControllerWithIdentifier("creditsVC") as! CreditsViewController
+        cvc.dismissDelegate = self
+        self.view.subviews.forEach({(view) in view.hidden = true})
+        presentViewController(cvc, animated: true, completion: nil)
+    }
+    
+    @IBAction func muteButtonPressed(sender: AnyObject) {
+        if (audioEnabled) {
+            audioEnabled = false
+            globalAudioPlayer?.pause()
+            (sender as? UIButton)?.setImage(UIImage(named: "mute"), forState: .Normal)
+        }
+        else {
+            audioEnabled = true
+            globalAudioPlayer?.play()
+            (sender as? UIButton)?.setImage(UIImage(named: "unmute"), forState: .Normal)
+        }
     }
     
     @IBAction func levelSelectPressed(sender: AnyObject) {

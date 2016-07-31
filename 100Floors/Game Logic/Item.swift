@@ -23,7 +23,8 @@ class Item:NSObject, Purchasable {
         "Armor":Armor.self,
         "Enhancer":Enhancer.self,
         "Sellable":Sellable.self,
-        "Usable":Usable.self
+        "Usable":Usable.self,
+        "Scroll":Scroll.self
     ]
 
     var statMods:Stats

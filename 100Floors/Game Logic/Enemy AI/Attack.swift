@@ -48,35 +48,22 @@ class FireProjectile:Behavior {
 }
 
 class FireNProjectilesAtEqualIntervals:FireProjectile {
-    private var vectors:[CGVector] = []
-  //  private let projectileTexture:SKTexture
-  //  private let projectileSpeed:CGFloat
-  //  private let statusInflicted:(StatusCondition, CGFloat)?
- //   private let range:CGFloat
-    
+    private var angles:[CGFloat] = []
     init(numProjectiles:Int, projectileTexture:String, rateOfFire:Double, projectileSpeed:CGFloat, range:CGFloat, priority:Int = 5, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         let angleBetween = CGFloat(2*M_PI) / CGFloat(numProjectiles)
         for i in 0..<numProjectiles {
-            let currAngle = CGFloat(i)*angleBetween
-            vectors.append(CGVectorMake(cos(currAngle), sin(currAngle)))
+            let currAngle = CGFloat(i)*angleBetween+randomBetweenNumbers(0, secondNum: 0.5)
+            angles.append(currAngle)
         }
         
-      //  self.projectileSpeed = projectileSpeed
-      //  self.projectileTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed(projectileTexture)
-      //  self.statusInflicted = statusInflicted
-      //  self.range = range
-      //  super.init(parent: parent, idType: .Nonexclusive, updateRate: rateOfFire)
         super.init(error: 0, rateOfFire: rateOfFire, projectileTexture: projectileTexture, projectileSpeed: projectileSpeed, range: range, statusInflicted: statusInflicted)
-      //  self.priority = priority
+        self.priority = priority
     }
     
-   // override func getConditional() -> Bool {
-   //     return parent.distanceToCharacter() < range
-   // }
-    
     override func executeBehavior(timeSinceUpdate: Double) {
-        for vector in vectors {
-            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*vector, status: statusInflicted)
+        for currAngle in angles {
+            let angle = currAngle + randomBetweenNumbers(-0.5, secondNum: 0.5)
+            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVectorMake(cos(angle), sin(angle)), status: statusInflicted)
         }
     }
 }
