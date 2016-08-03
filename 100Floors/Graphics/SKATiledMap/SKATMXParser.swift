@@ -8,10 +8,10 @@
 
 import Foundation
 
-class SKATMXParser : NSObject, NSXMLParserDelegate {
+class SKATMXParser : NSObject, XMLParserDelegate {
     
     //MARK: - Public Properties
-    var parser = NSXMLParser()
+    var parser = XMLParser()
     var mapDictionary = ["properties" : [String: AnyObject]()] as [String : AnyObject]
     //MARK: - Private Properties
     /**
@@ -76,11 +76,11 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         
         //attemps to load tmx as xml
         do{
-            let tmxData = try NSData(contentsOfFile: filePath, options: .DataReadingMappedIfSafe)
+            let tmxData = try Data(contentsOf: URL(fileURLWithPath: filePath), options: .mappedIfSafe)
             
-            if (tmxData.length > 0)
+            if (tmxData.count > 0)
             {
-                parser = NSXMLParser(data: tmxData)
+                parser = XMLParser(data: tmxData)
             }
             else{
                 fatalError("Unable to load tmx file: \(filePath)")
@@ -116,7 +116,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
     /**
     XML Parser returns strings so we need to convert and clean where needed
     */
-    private func cleanDictionary(dictionary: [String : AnyObject]) -> [String : AnyObject] {
+    private func cleanDictionary(_ dictionary: [String : AnyObject]) -> [String : AnyObject] {
         var dictCopy = dictionary
         let intTypes = ["width", "height", "x", "y", "tilewidth", "tileheight", "firstgid", "imagewidth", "imageheight", "spacing", "margin"]
         let floatTypes = ["opacity", "rotation"]
@@ -143,7 +143,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         return dictCopy
     }
     //MARK: - NSXMLParserDelegate Methods
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         //Filling correct data holders based on element name
         //When appropriate data holders are prefilled with required values that may not be in xml
         switch elementName{
@@ -233,13 +233,13 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
             if let pairsString = attributeDict["points"] {
                 
                 var polygons = [[String: Int]]()
-                let pairs = pairsString.componentsSeparatedByString(" ")
+                let pairs = pairsString.components(separatedBy: " ")
                 
                 for pair in pairs{
-                    let xy = pair.componentsSeparatedByString(",")
+                    let xy = pair.components(separatedBy: ",")
                     if xy.count == 2 {
-                        let x = Int(NSNumberFormatter().numberFromString(xy[0])!.intValue)
-                        let y = Int(NSNumberFormatter().numberFromString(xy[1])!.intValue)
+                        let x = Int(NumberFormatter().number(from: xy[0])!.int32Value)
+                        let y = Int(NumberFormatter().number(from: xy[1])!.int32Value)
                         polygons.append(["x": x, "y": y])
                     }else{
                         fatalError("TMXParser Error: expected x,y pair but got \(xy)")
@@ -252,13 +252,13 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
             if let pairsString = attributeDict["points"] {
                 
                 var polygons = [[String: Int]]()
-                let pairs = pairsString.componentsSeparatedByString(" ")
+                let pairs = pairsString.components(separatedBy: " ")
                 
                 for pair in pairs{
-                    let xy = pair.componentsSeparatedByString(",")
+                    let xy = pair.components(separatedBy: ",")
                     if xy.count == 2 {
-                        let x = Int(NSNumberFormatter().numberFromString(xy[0])!.intValue)
-                        let y = Int(NSNumberFormatter().numberFromString(xy[1])!.intValue)
+                        let x = Int(NumberFormatter().number(from: xy[0])!.int32Value)
+                        let y = Int(NumberFormatter().number(from: xy[1])!.int32Value)
                         polygons.append(["x": x, "y": y])
                     }else{
                         fatalError("TMXParser Error: expected x,y pair but got \(xy)")
@@ -275,14 +275,14 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
         
         //this gets called for every element but only data encoding matters
         if let encoding = data["encoding"] as? String{
             if encoding == "csv"{
                 //converting csv to something useful
-                let numberString = string.stringByReplacingOccurrencesOfString("\n", withString: "")
-                let numbers = numberString.componentsSeparatedByString(",")
+                let numberString = string.replacingOccurrences(of: "\n", with: "")
+                let numbers = numberString.components(separatedBy: ",")
                 
                 var tileIDs = [Int]()
                 
@@ -297,7 +297,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
         //Setting and cleaning up elements
         switch elementName{
@@ -360,7 +360,7 @@ class SKATMXParser : NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parserDidEndDocument(parser: NSXMLParser) {
+    func parserDidEndDocument(_ parser: XMLParser) {
         //final clean up
         mapDictionary["tilesets"] = tileSets
         mapDictionary["layers"] = layers

@@ -19,7 +19,7 @@ class JoystickControl:UIControl{
     private let ringLayer = CAShapeLayer()
     private let stickLayer = CAShapeLayer()
 
-    var currentPoint = CGPointZero
+    var currentPoint = CGPoint.zero
    
     private var distance: CGFloat = 0
   
@@ -27,7 +27,7 @@ class JoystickControl:UIControl{
         if (distance == 0) {
             return CGVector(dx: 0, dy: 0)
         }
-        return CGVectorMake(stickView.center.x/distance, -stickView.center.y/distance)
+        return CGVector(dx: stickView.center.x/distance, dy: -stickView.center.y/distance)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,15 +36,15 @@ class JoystickControl:UIControl{
         
         //set up paths
         let ringPath = UIBezierPath(arcCenter: CGPoint(x: center_offset,y: center_offset), radius: ring_size+15, startAngle: 0, endAngle:CGFloat(M_PI) * 2, clockwise: true)
-        ringLayer.path = ringPath.CGPath
-        ringLayer.fillColor = UIColor.clearColor().CGColor
-        ringLayer.strokeColor = ColorScheme.strokeColor.CGColor
+        ringLayer.path = ringPath.cgPath
+        ringLayer.fillColor = UIColor.clear.cgColor
+        ringLayer.strokeColor = ColorScheme.strokeColor.cgColor
         ringLayer.lineWidth = 2.0
         
         let stickPath = UIBezierPath(arcCenter: CGPoint(x: center_offset,y: center_offset), radius: ring_size, startAngle: 0, endAngle:CGFloat(M_PI) * 2, clockwise: true)
-        stickLayer.path = stickPath.CGPath
-        stickLayer.fillColor = ColorScheme.fillColor.CGColor
-        stickLayer.strokeColor = ColorScheme.strokeColor.CGColor
+        stickLayer.path = stickPath.cgPath
+        stickLayer.fillColor = ColorScheme.fillColor.cgColor
+        stickLayer.strokeColor = ColorScheme.strokeColor.cgColor
         stickLayer.lineWidth = 2.0
         //add layer to views
         ringView.layer.addSublayer(ringLayer)
@@ -59,9 +59,9 @@ class JoystickControl:UIControl{
     ///////////////
 
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            currentPoint = touch.locationInView(self)
+            currentPoint = touch.location(in: self)
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
             if (distance < ring_size) {
@@ -69,17 +69,17 @@ class JoystickControl:UIControl{
             }
             else
             {
-                stickView.center = CGPointMake(ring_size*currentPoint.x/distance, ring_size*currentPoint.y/distance)
+                stickView.center = CGPoint(x: ring_size*currentPoint.x/distance, y: ring_size*currentPoint.y/distance)
                 distance = ring_size
             }
-            ringLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
+            ringLayer.strokeColor = ColorScheme.strokeColorSelected.cgColor
         }
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            currentPoint = touch.locationInView(self)
+            currentPoint = touch.location(in: self)
             
             currentPoint = CGPoint(x: currentPoint.x - center_offset, y: currentPoint.y - center_offset)
             distance = hypot(currentPoint.x, currentPoint.y)
@@ -88,23 +88,23 @@ class JoystickControl:UIControl{
             }
             else
             {
-                stickView.center = CGPointMake(ring_size*currentPoint.x/distance, ring_size*currentPoint.y/distance)
+                stickView.center = CGPoint(x: ring_size*currentPoint.x/distance, y: ring_size*currentPoint.y/distance)
                 distance = ring_size
             }
         }
-        super.touchesMoved(touches, withEvent: event)
+        super.touchesMoved(touches, with: event)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetControl()
-        super.touchesEnded(touches, withEvent: event)
+        super.touchesEnded(touches, with: event)
     }
     
     func resetControl() {
-        stickView.center = CGPointZero
-        currentPoint = CGPointZero
+        stickView.center = CGPoint.zero
+        currentPoint = CGPoint.zero
         distance = 0
-        ringLayer.strokeColor = ColorScheme.strokeColor.CGColor
+        ringLayer.strokeColor = ColorScheme.strokeColor.cgColor
     }
     
     func getAngle() -> CGFloat {

@@ -23,14 +23,14 @@ class Inventory:NSObject, NSCoding {
     init(withSize: Int)
     {
         baseSize = withSize
-        inventory = [Item?](count:12, repeatedValue: nil)
+        inventory = [Item?](repeating: nil, count: 12)
     }
     
     private var ignoreStats = false
     
     
     //////////
-    func swapItems(atIndexA: Int, atIndexB: Int) {
+    func swapItems(_ atIndexA: Int, atIndexB: Int) {
         if (atIndexA >= baseSize || atIndexB >= baseSize || atIndexA < 0 || atIndexB < 0 || atIndexA == atIndexB) {
             return
         }
@@ -48,14 +48,14 @@ class Inventory:NSObject, NSCoding {
 
     }
 
-    func getItem(atIndex:Int) -> Item? {
+    func getItem(_ atIndex:Int) -> Item? {
         if (atIndex >= baseSize || atIndex < 0) {
             return nil
         }
         return inventory[atIndex]
     }
     
-    func setItem(atIndex:Int, toItem:Item?) -> Item? { //UNSAFE: could cause crash due to setting an equipped index to the wrong type
+    @discardableResult func setItem(_ atIndex:Int, toItem:Item?) -> Item? { //UNSAFE: could cause crash due to setting an equipped index to the wrong type
         if (atIndex >= baseSize || atIndex < 0) {
             return toItem
         }
@@ -76,7 +76,7 @@ class Inventory:NSObject, NSCoding {
         return out
     }
     
-    private func forceEquipItem(atIndex:Int) {
+    private func forceEquipItem(_ atIndex:Int) {
         let item = getItem(atIndex)
         if (item is Weapon) {
             weaponIndex = atIndex
@@ -95,7 +95,7 @@ class Inventory:NSObject, NSCoding {
         }
     }
     
-    func equipItem(atIndex:Int) -> Bool { //equipped -> true, unloaded -> false
+    @discardableResult func equipItem(_ atIndex:Int) -> Bool { //equipped -> true, unloaded -> false
         var equipped = false
         switch(atIndex) {
         case weaponIndex:
@@ -131,7 +131,7 @@ class Inventory:NSObject, NSCoding {
         return equipped
     }
     
-    func isEquipped(index:Int) -> Bool {
+    func isEquipped(_ index:Int) -> Bool {
         return (weaponIndex == index || skillIndex == index || armorIndex == index || enhancerIndex == index)
     }
     
@@ -178,26 +178,26 @@ class Inventory:NSObject, NSCoding {
         static let enhancerKey = "enhancer"
     }
     required convenience init?(coder aDecoder: NSCoder) {
-        let size = aDecoder.decodeObjectForKey(PropertyKey.baseSizeKey) as! Int
+        let size = aDecoder.decodeObject(forKey: PropertyKey.baseSizeKey) as! Int
         self.init(withSize: size)
-        let arr = aDecoder.decodeObjectForKey(PropertyKey.inventoryArrKey) as! NSArray        
+        let arr = aDecoder.decodeObject(forKey: PropertyKey.inventoryArrKey) as! NSArray        
         for i in 0..<arr.count {
             if let id = arr[i] as? String {
                 self.setItem(i, toItem: Item.initHandlerID(id))
             }
         }
-        self.weaponIndex = aDecoder.decodeObjectForKey(PropertyKey.weaponKey) as! Int
-        self.armorIndex = aDecoder.decodeObjectForKey(PropertyKey.armorKey) as! Int
-        self.skillIndex = aDecoder.decodeObjectForKey(PropertyKey.skillKey) as! Int
-        self.enhancerIndex = aDecoder.decodeObjectForKey(PropertyKey.enhancerKey) as! Int
+        self.weaponIndex = aDecoder.decodeObject(forKey: PropertyKey.weaponKey) as! Int
+        self.armorIndex = aDecoder.decodeObject(forKey: PropertyKey.armorKey) as! Int
+        self.skillIndex = aDecoder.decodeObject(forKey: PropertyKey.skillKey) as! Int
+        self.enhancerIndex = aDecoder.decodeObject(forKey: PropertyKey.enhancerKey) as! Int
     }
-    func encodeWithCoder(aCoder: NSCoder) {
-        let arr:[AnyObject!] = self.inventory.map({$0 == nil ? NSNull():$0!.id})
-        aCoder.encodeObject(arr, forKey: PropertyKey.inventoryArrKey)
-        aCoder.encodeObject(baseSize, forKey: PropertyKey.baseSizeKey)
-        aCoder.encodeObject(weaponIndex, forKey: PropertyKey.weaponKey)
-        aCoder.encodeObject(armorIndex, forKey: PropertyKey.armorKey)
-        aCoder.encodeObject(skillIndex, forKey: PropertyKey.skillKey)
-        aCoder.encodeObject(enhancerIndex, forKey: PropertyKey.enhancerKey)
+    func encode(with aCoder: NSCoder) {
+        let arr:[AnyObject] = self.inventory.map({$0 == nil ? NSNull():$0!.id})
+        aCoder.encode(arr, forKey: PropertyKey.inventoryArrKey)
+        aCoder.encode(baseSize, forKey: PropertyKey.baseSizeKey)
+        aCoder.encode(weaponIndex, forKey: PropertyKey.weaponKey)
+        aCoder.encode(armorIndex, forKey: PropertyKey.armorKey)
+        aCoder.encode(skillIndex, forKey: PropertyKey.skillKey)
+        aCoder.encode(enhancerIndex, forKey: PropertyKey.enhancerKey)
     }
 }

@@ -17,7 +17,7 @@ class Transition {
         destinationState = dest
     }
     
-    func setParent(to:Enemy) {
+    func setParent(_ to:Enemy) {
         parent = to
     }
     

@@ -53,7 +53,7 @@ struct EnemyDictionary {
         "dh10":EnemyDictionary.GhastA
     ]
     //MENU
-    static func DisplayEnemy(parent:Enemy) -> EnemyAI {
+    static func DisplayEnemy(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"default", withStates: [
             State(name: "default",
                 behaviors: [
@@ -65,7 +65,7 @@ struct EnemyDictionary {
             ])
     }
     //TUTORIAL
-    static func TargetDummy(parent:Enemy) -> EnemyAI {
+    static func TargetDummy(_ parent:Enemy) -> EnemyAI {
        return EnemyAI(parent:parent, startingState:"default", withStates: [
             State(name: "default",
                 behaviors: [
@@ -74,7 +74,7 @@ struct EnemyDictionary {
                 transitions: []),
         ])
     }
-    static func SlimeSquareE(parent:Enemy) -> EnemyAI {
+    static func SlimeSquareE(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"Idle", withStates: [
             State(name:"Idle",
                 behaviors: [
@@ -106,7 +106,7 @@ struct EnemyDictionary {
         ])
     }
     
-    static func EyeballA(parent:Enemy) -> EnemyAI {
+    static func EyeballA(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"Idle", withStates: [
             State(name:"Idle",
                 behaviors: [
@@ -122,8 +122,8 @@ struct EnemyDictionary {
                     RunAnimationSequence(animationName: "default", priority: 5),
                     RunSimultaneously(behaviorsToRun: [
                         RunAnimationSequence(animationName: "attack"),
-                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile51", rateOfFire: 1000, projectileSpeed: 35, range: 50)
-                        ], useConditionalOfIndex: 1, idType: .Animation, priority: 10),
+                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .towardPlayer, projectileTexture: "projectile51", rateOfFire: 1000, projectileSpeed: 65, range: 50)
+                        ], useConditionalOfIndex: 1, idType: .animation, priority: 10),
                     Wander(triggerOutsideOfDistance: 0, priority: 5)
                 ],
                 transitions: [

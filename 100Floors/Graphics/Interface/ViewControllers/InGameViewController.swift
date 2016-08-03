@@ -34,7 +34,6 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     
     @IBOutlet weak var CrystalLabel: UILabel!
     @IBOutlet weak var CoinLabel: UILabel!
- //   private var gameScene:InGameScene!
     private var gameScene:InGameScene {
         return (view as! SKView).scene as! InGameScene
     }
@@ -50,7 +49,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         UIElements.ProceedButton = ProceedButton
         
         ProceedButton.resetWithLayout = true
-        InfoDisplay.hidden = true
+        InfoDisplay.isHidden = true
         setCurrencyLabels()
         
         EXPBar.trackTintColor = ColorScheme.strokeColor
@@ -66,17 +65,17 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
 
         //////////
-        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forControlEvents: .TouchUpInside)
-        ProceedButton.hidden = true
-        ProceedButton.setTitle("Continue", forState: .Normal)
+        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), for: .touchUpInside)
+        ProceedButton.isHidden = true
+        ProceedButton.setTitle("Continue", for: UIControlState())
         /////NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(levelEndedDefeat), name: "levelEndedDefeat", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(levelEndedVictory), name: "levelEndedVictory", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped" as NSNotification.Name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay" as NSNotification.Name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(levelEndedDefeat), name: "levelEndedDefeat" as NSNotification.Name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(levelEndedVictory), name: "levelEndedVictory" as NSNotification.Name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade" as NSNotification.Name, object: nil)
         /////////////////////////
-        self.view.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.clear
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -84,16 +83,16 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         skView.ignoresSiblingOrder = true
         
         skView.presentScene(InGameScene(size:skView.bounds.size))
-        ProceedButton.addTarget(gameScene, action: #selector(gameScene.proceedToNextWave), forControlEvents: .TouchUpInside)
+        ProceedButton.addTarget(gameScene, action: #selector(gameScene.proceedToNextWave), for: .touchUpInside)
     }
     
     var hasExecutedTutorial = false
     
-    func loadLevel(level:LevelHandler.LevelDefinition) {
+    func loadLevel(_ level:LevelHandler.LevelDefinition) {
         gameScene.setLevel(MapLevel(level:level))
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if (gameScene.isTutorial() && !hasExecutedTutorial) {
             popTip1.shouldDismissOnTapOutside = true
             popTip1.shouldDismissOnTap = true
@@ -102,9 +101,9 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             popTip1.borderColor = ColorScheme.strokeColor
             popTip1.borderWidth = 2.0
             
-            popTip1.actionAnimation = .Float
-            popTip1.entranceAnimation = .Scale
-            popTip1.exitAnimation = .Scale
+            popTip1.actionAnimation = .float
+            popTip1.entranceAnimation = .scale
+            popTip1.exitAnimation = .scale
             popTip1.dismissHandler = {[unowned self] in
                 self.incrementTutorial()
             }
@@ -114,15 +113,15 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
                 }
             }
             
-            LeftJoystickControl.userInteractionEnabled = false
+            LeftJoystickControl.isUserInteractionEnabled = false
             LeftJoystickControl.alpha = 0.3
-            RightJoystickControl.userInteractionEnabled = false
+            RightJoystickControl.isUserInteractionEnabled = false
             RightJoystickControl.alpha = 0.3
-            SkillButton.userInteractionEnabled = false
+            SkillButton.isUserInteractionEnabled = false
             SkillButton.alpha = 0.3
-            self.view.viewWithTag(7)!.userInteractionEnabled = false
+            self.view.viewWithTag(7)!.isUserInteractionEnabled = false
             self.view.viewWithTag(7)!.alpha = 0.3
-            self.view.viewWithTag(1)!.userInteractionEnabled = false
+            self.view.viewWithTag(1)!.isUserInteractionEnabled = false
             self.view.viewWithTag(1)!.alpha = 0.3
             
             incrementTutorial()
@@ -137,64 +136,64 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     func incrementTutorial() {
         switch (popupNum) {
         case -1:
-            popTip1.showText("Welcome to Chasm of Ruin!", direction: .None, maxWidth: self.view.frame.width-20, inView: self.view, fromFrame: self.view.frame)
+            popTip1.showText("Welcome to Chasm of Ruin!", direction: .none, maxWidth: self.view.frame.width-20, in: self.view, fromFrame: self.view.frame)
         case 0:
-            popTip1.showText("This displays your health and experience points.", direction: .Down, maxWidth: 150, inView: self.view, fromFrame: HPDisplayBar.frame)
+            popTip1.showText("This displays your health and experience points.", direction: .down, maxWidth: 150, in: self.view, fromFrame: HPDisplayBar.frame)
         case 1:
-            popTip1.showText("Chasm Crystals are used to purchase upgrades and items.", direction: .Down, maxWidth: 150, inView: self.view, fromFrame: self.view.viewWithTag(5)!.frame)
+            popTip1.showText("Chasm Crystals are used to purchase upgrades and items.", direction: .down, maxWidth: 150, in: self.view, fromFrame: self.view.viewWithTag(5)!.frame)
         case 2:
-            popTip1.showText("Coins are used to purchase items.", direction: .Down, maxWidth: 150, inView: self.view, fromFrame: self.view.viewWithTag(6)!.frame)
+            popTip1.showText("Coins are used to purchase items.", direction: .down, maxWidth: 150, in: self.view, fromFrame: self.view.viewWithTag(6)!.frame)
             popTip1.dismissHandler = { [unowned self] in
-                self.view.viewWithTag(7)!.userInteractionEnabled = true
+                self.view.viewWithTag(7)!.isUserInteractionEnabled = true
                 self.view.viewWithTag(7)!.alpha = 1
                 self.incrementTutorial()
             }
         case 3:
-            popTip1.showText("Open your inventory by pressing here.", direction: .Right, maxWidth: 150, inView: self.view, fromFrame: self.view.viewWithTag(7)!.frame)
+            popTip1.showText("Open your inventory by pressing here.", direction: .right, maxWidth: 150, in: self.view, fromFrame: self.view.viewWithTag(7)!.frame)
             popTip1.shouldDismissOnTapOutside = false
             popTip1.shouldDismissOnTap = false
             popTip1.dismissHandler = { [unowned self] in
-                self.LeftJoystickControl.userInteractionEnabled = true
+                self.LeftJoystickControl.isUserInteractionEnabled = true
                 self.LeftJoystickControl.alpha = 1
                 self.incrementTutorial()
             }
         case 4:
-            popTip1.showText("Use this joystick to move.", direction: .Right, maxWidth: 150, inView: self.view, fromFrame: LeftJoystickControl.frame, duration: 3)
+            popTip1.showText("Use this joystick to move.", direction: .right, maxWidth: 150, in: self.view, fromFrame: LeftJoystickControl.frame, duration: 3)
             popTip1.shouldDismissOnTapOutside = true
             popTip1.shouldDismissOnTap = true
             popTip1.dismissHandler = { [unowned self] in
-                self.RightJoystickControl.userInteractionEnabled = true
+                self.RightJoystickControl.isUserInteractionEnabled = true
                 self.RightJoystickControl.alpha = 1
                 self.incrementTutorial()
             }
 
         case 5:
-            popTip1.showText("Use this joystick to attack.", direction: .Left, maxWidth: 150, inView: self.view, fromFrame: RightJoystickControl.frame, duration: 3)
+            popTip1.showText("Use this joystick to attack.", direction: .left, maxWidth: 150, in: self.view, fromFrame: RightJoystickControl.frame, duration: 3)
             popTip1.dismissHandler = { [unowned self] in
-                self.SkillButton.userInteractionEnabled = true
+                self.SkillButton.isUserInteractionEnabled = true
                 self.SkillButton.alpha = 1
                 self.incrementTutorial()
             }
         case 6:
-            popTip1.showText("Press this button to use your skill.", direction: .Left, maxWidth: 150, inView: self.view, fromFrame: SkillButton.frame)
+            popTip1.showText("Press this button to use your skill.", direction: .left, maxWidth: 150, in: self.view, fromFrame: SkillButton.frame)
             popTip1.dismissHandler = { [unowned self] in
                 self.incrementTutorial()
             }
         case 7:
-            popTip1.showText("The red arrows point at enemies. Go after them!", direction: .None, maxWidth: 150, inView: self.view, fromFrame: self.view.frame)
+            popTip1.showText("The red arrows point at enemies. Go after them!", direction: .none, maxWidth: 150, in: self.view, fromFrame: self.view.frame)
             popTip1.dismissHandler = { [unowned self] in
-                self.view.viewWithTag(1)!.userInteractionEnabled = true
+                self.view.viewWithTag(1)!.isUserInteractionEnabled = true
                 self.view.viewWithTag(1)!.alpha = 1
                 self.incrementTutorial()
             }
         default:
             hasExecutedTutorial = true
-            NSNotificationCenter.defaultCenter().postNotificationName("TutorialEnded", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "TutorialEnded"), object: nil)
         }
         popupNum += 1
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return !(touch.view is JoystickControl)
     }
     
@@ -207,9 +206,9 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             gameStateChangedWhilePresentingVC = 1
         }
         else if (presentedViewController == nil) {
-            let dvc = storyboard!.instantiateViewControllerWithIdentifier("DefeatViewController") as! DefeatViewController
+            let dvc = storyboard!.instantiateViewController(withIdentifier: "DefeatViewController") as! DefeatViewController
             dvc.dismissDelegate = self
-            presentViewController(dvc, animated: false, completion: nil)
+            present(dvc, animated: false, completion: nil)
         }
     }
     
@@ -220,13 +219,13 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             gameStateChangedWhilePresentingVC = 2
         }
         else if (presentedViewController == nil) {
-            let vvc = storyboard!.instantiateViewControllerWithIdentifier("VictoryViewController") as! VictoryViewController
+            let vvc = storyboard!.instantiateViewController(withIdentifier: "VictoryViewController") as! VictoryViewController
             vvc.dismissDelegate = self
-            presentViewController(vvc, animated: false, completion: nil)
+            present(vvc, animated: false, completion: nil)
         }
     }
     
-    func setInfoDisplayText(notification:NSNotification) {
+    func setInfoDisplayText(_ notification:Notification) {
         let text = notification.object as! String
         InfoDisplay.setText(text, letterDelay: 1.5/Double(text.characters.count), hideAfter: 2)
     }
@@ -238,39 +237,45 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
     
     @IBAction func menuButtonPressed() {
         presentingOtherViewController()
-        let igmvc = storyboard!.instantiateViewControllerWithIdentifier("igmvc") as! InGameMenuViewController
+        let igmvc = storyboard!.instantiateViewController(withIdentifier: "igmvc") as! InGameMenuViewController
         igmvc.dismissDelegate = self
-        self.presentViewController(igmvc, animated: true, completion: nil)
+        self.present(igmvc, animated: true, completion: nil)
     }
     
     @objc func loadCurrencyPurchaseView() {
         presentingOtherViewController()
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
+        let cpvc = storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC") as! CurrencyPurchaseViewController
         cpvc.dismissDelegate = self
-        self.presentViewController(cpvc, animated: true, completion: nil)
+        self.present(cpvc, animated: true, completion: nil)
     }
     
-    func groundBagTapped(notification: NSNotification) {
-        loadInventoryView(notification.object as? ItemBag)
+    func groundBagTapped(_ notification: Notification) {
+        if (!thisCharacter.inventory.isFull()) {
+            thisCharacter.inventory.setItem(thisCharacter.inventory.lowestEmptySlot(), toItem: (notification.object as! ItemBag).item)
+            (notification.object as! ItemBag).removeFromParent()
+            gameScene.currentGroundBag = nil
+        } else {
+            loadInventoryView(notification.object as? ItemBag)
+        }
     }
 
-    @IBAction func inventoryButtonPressed(sender: UIButton?) {
+    @IBAction func inventoryButtonPressed(_ sender: UIButton?) {
         loadInventoryView(gameScene.currentGroundBag)
     }
     
-    func loadInventoryView(groundBag:ItemBag?) {
+    func loadInventoryView(_ groundBag:ItemBag?) {
         presentingOtherViewController()
-        let inventoryController = storyboard?.instantiateViewControllerWithIdentifier("inventoryView") as! InventoryViewController
+        let inventoryController = storyboard?.instantiateViewController(withIdentifier: "inventoryView") as! InventoryViewController
         inventoryController.groundBag = groundBag
         inventoryController.dismissDelegate = self
         inventoryController.hasExecutedTutorial = hasExecutedTutorial
-        presentViewController(inventoryController, animated: true, completion: nil)
+        present(inventoryController, animated: true, completion: nil)
     }
     
-    func willDismissModalVC(object: AnyObject?) {
-        self.view.subviews.forEach({(view) in view.hidden = false})
-        self.InfoDisplay.hidden = true
-        self.ProceedButton.hidden = true
+    func willDismissModalVC(_ object: AnyObject?) {
+        self.view.subviews.forEach({(view) in view.isHidden = false})
+        self.InfoDisplay.isHidden = true
+        self.ProceedButton.isHidden = true
         LeftJoystickControl.resetControl()
         RightJoystickControl.resetControl()
         thisCharacter.adjustHealth(0, withPopup: false)
@@ -285,7 +290,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             switch (flag) {
             case "Revive":
                 thisCharacter.reset()
-                thisCharacter.enableCondition(.Invincible, duration:StatusCondition.Invincible.rawValue)
+                thisCharacter.enableCondition(.invincible, duration:StatusCondition.invincible.rawValue)
             case "defeatRespawn":
                 thisCharacter.confirmDeath()
                 thisCharacter.reset()
@@ -298,7 +303,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         }
     }
     
-    func didDismissModalVC(object:AnyObject? = nil) {
+    func didDismissModalVC(_ object:AnyObject? = nil) {
         if (gameStateChangedWhilePresentingVC == 1) {
             levelEndedDefeat()
             gameStateChangedWhilePresentingVC = 0
@@ -307,12 +312,12 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             levelEndedVictory()
             gameStateChangedWhilePresentingVC = 0
         }
-        self.gameScene.paused = false
+        self.gameScene.isPaused = false
         
     }
     
     func presentingOtherViewController() {
-        self.view.subviews.forEach({(view) in view.hidden = true})
-        gameScene.paused = true
+        self.view.subviews.forEach({(view) in view.isHidden = true})
+        gameScene.isPaused = true
     }
 }

@@ -37,21 +37,21 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
     override func viewDidLoad() {
         super.viewDidLoad()
         let blur = UIVisualEffectView(frame: self.view.bounds)
-        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(blur)
-        UIView.animateWithDuration(0.5) {
-            blur.effect = UIBlurEffect(style: .Light)
+        UIView.animate(withDuration: 0.5) {
+            blur.effect = UIBlurEffect(style: .light)
         }
-        self.view.sendSubviewToBack(blur)
+        self.view.sendSubview(toBack: blur)
         
         let layout = storeCollection.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.scrollDirection = .Horizontal
-        layout.minimumInteritemSpacing = CGFloat.max
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = CGFloat.greatestFiniteMagnitude
         itemWidth = layout.itemSize.width
 
         storeCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         storeCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
-        storeCollection.backgroundColor = UIColor.clearColor()
+        storeCollection.backgroundColor = UIColor.clear
         switch (thisCharacter.level) { //add items depending on char level
         case 1:
             break
@@ -84,35 +84,35 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
     
     @IBAction func exit() {
         self.dismissDelegate?.willDismissModalVC(nil)
-        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+        self.dismiss(animated: true, completion: {[unowned self] in
             self.dismissDelegate?.didDismissModalVC(nil)
         })
     }
     
     @objc func loadCurrencyPurchaseView() {
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC") as! CurrencyPurchaseViewController
+        let cpvc = storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC") as! CurrencyPurchaseViewController
         cpvc.dismissDelegate = self
-        self.presentViewController(cpvc, animated: true, completion: nil)
-        self.view.subviews.forEach({(view) in view.hidden = true})
+        self.present(cpvc, animated: true, completion: nil)
+        self.view.subviews.forEach({(view) in view.isHidden = true})
     }
     
-    func willDismissModalVC(object: AnyObject?) {
-        self.view.subviews.forEach({(view) in view.hidden = false})
+    func willDismissModalVC(_ object: AnyObject?) {
+        self.view.subviews.forEach({(view) in view.isHidden = false})
     }
     
-    func didDismissModalVC(object: AnyObject?) {
+    func didDismissModalVC(_ object: AnyObject?) {
         
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemIDs.count
     }
     
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
-        cell.setItemTo(Item.initHandlerID(itemIDs[indexPath.item]))
-        if (indexPath.item == 0 && previousSelectedContainer == nil) {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ItemContainer
+        cell.setItemTo(Item.initHandlerID(itemIDs[(indexPath as NSIndexPath).item]))
+        if ((indexPath as NSIndexPath).item == 0 && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
             updateInfoDisplay()
@@ -124,21 +124,21 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
         return cell
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (selectCenterCell()) {
             updateInfoDisplay()
         }
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ItemContainer
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ItemContainer
         if (cell == previousSelectedContainer) {
-            let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
-            alert.text = "Purchase \(cell.item!.name) for \(cell.item!.designatedCurrencyType == .ChasmCrystal ? "\(cell.item!.priceCrystals!) Chasm Crystals" : "\(cell.item!.priceCoins!) Coins")?"
+            let alert = storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
+            alert.text = "Purchase \(cell.item!.name) for \(cell.item!.designatedCurrencyType == .chasmCrystal ? "\(cell.item!.priceCrystals!) Chasm Crystals" : "\(cell.item!.priceCoins!) Coins")?"
             alert.completion = {(response) in
                 if (response) {
                     if (thisCharacter.inventory.isFull()) {
-                        let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                        let alert = self.storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
                         alert.text = "Your inventory is full! Replace item in slot \(thisCharacter.inventory.baseSize) (\(thisCharacter.inventory.getItem(thisCharacter.inventory.baseSize-1)!.name))?"
                         alert.completion = {(response) in
                             if (response) {
@@ -146,19 +146,19 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
                                     thisCharacter.inventory.setItem(thisCharacter.inventory.baseSize-1, toItem: cell.item!)
                                 }
                                 else {
-                                    let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
-                                    alert.text = "You don't have enough \(cell.item!.designatedCurrencyType == .ChasmCrystal ? "Crystals" : "Coins") for that! Buy some more?"
+                                    let alert = self.storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
+                                    alert.text = "You don't have enough \(cell.item!.designatedCurrencyType == .chasmCrystal ? "Crystals" : "Coins") for that! Buy some more?"
                                     alert.completion = {(response) in
                                         if (response) {
-                                            let cpvc = self.storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
-                                            self.presentViewController(cpvc, animated: true, completion: nil)
+                                            let cpvc = self.storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC")
+                                            self.present(cpvc, animated: true, completion: nil)
                                         }
                                     }
-                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    self.present(alert, animated: true, completion: nil)
                                 }
                             }
                         }
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                     else if (defaultPurchaseHandler.makePurchase(cell.item!, withMoneyHandler:defaultMoneyHandler, currency: cell.item!.designatedCurrencyType!)) {
                         if (thisCharacter.inventory.setItem(thisCharacter.inventory.lowestEmptySlot(), toItem: cell.item!) != nil) {
@@ -166,27 +166,27 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
                         }
                     }
                     else {
-                        let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
-                        alert.text = "You don't have enough \(cell.item!.designatedCurrencyType == .ChasmCrystal ? "Crystals" : "Coins") for that! Buy some more?"
+                        let alert = self.storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
+                        alert.text = "You don't have enough \(cell.item!.designatedCurrencyType == .chasmCrystal ? "Crystals" : "Coins") for that! Buy some more?"
                         alert.completion = {(response) in
                             if (response) {
-                                let cpvc = self.storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
-                                self.presentViewController(cpvc, animated: true, completion: nil)
+                                let cpvc = self.storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC")
+                                self.present(cpvc, animated: true, completion: nil)
                             }
                         }
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
         else {
-            collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth - collectionView.contentInset.left, 0), animated: true)
+            collectionView.setContentOffset(CGPoint(x: CGFloat((indexPath as NSIndexPath).item) * itemWidth - collectionView.contentInset.left, y: 0), animated: true)
         }
     }
     
-    func selectCenterCell() -> Bool {
-        if let path = storeCollection.indexPathForItemAtPoint(self.view.convertPoint(storeCollection.center, toView: storeCollection)), container = (storeCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
+    @discardableResult func selectCenterCell() -> Bool {
+        if let path = storeCollection.indexPathForItem(at: self.view.convert(storeCollection.center, to: storeCollection)), let container = (storeCollection.cellForItem(at: path) as? ItemContainer) {
             if (previousSelectedContainer != container) {
                 previousSelectedContainer?.setSelectedTo(false)
                 container.setSelectedTo(true)
@@ -202,18 +202,18 @@ class StoreViewController: UIViewController, ModalDismissDelegate, UICollectionV
         if (previousSelectedContainer != nil) {
             if let item = previousSelectedContainer!.item {
                 switch (item.designatedCurrencyType!) {
-                case .Coin:
+                case .coin:
                     CoinLabel.text = "\(item.priceCoins!)"
-                    CoinLabel.hidden = false
-                    self.view.viewWithTag(6)!.hidden = false
-                    CrystalLabel.hidden = true
-                    self.view.viewWithTag(5)!.hidden = true
-                case .ChasmCrystal:
+                    CoinLabel.isHidden = false
+                    self.view.viewWithTag(6)!.isHidden = false
+                    CrystalLabel.isHidden = true
+                    self.view.viewWithTag(5)!.isHidden = true
+                case .chasmCrystal:
                     CrystalLabel.text = "\(item.priceCrystals!)"
-                    CoinLabel.hidden = true
-                    self.view.viewWithTag(6)!.hidden = true
-                    CrystalLabel.hidden = false
-                    self.view.viewWithTag(5)!.hidden = false
+                    CoinLabel.isHidden = true
+                    self.view.viewWithTag(6)!.isHidden = true
+                    CrystalLabel.isHidden = false
+                    self.view.viewWithTag(5)!.isHidden = false
                 }
                 ItemNameLabel.text = item.name
                 TypeLabel.text = item.getType()

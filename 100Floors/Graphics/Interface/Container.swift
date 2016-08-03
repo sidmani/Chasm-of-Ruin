@@ -17,13 +17,13 @@ import Foundation
 import UIKit
 
 struct ColorScheme {
-    static let HPColor = UIColor.greenColor()
+    static let HPColor = UIColor.green
     static let SPDColor = UIColor(red: 2/255, green: 164/255, blue: 239/255, alpha: 1)
-    static let ATKColor = UIColor.redColor()
+    static let ATKColor = UIColor.red
     static let EXPColor = UIColor(red: 107/255, green: 121/255, blue: 224/255, alpha: 1)
     static let MANAColor = UIColor(red: 105/255, green: 2/255, blue: 201/255, alpha: 1)
     //static let DEFColor = UIColor(red: 132/255, green: 140/255, blue: 150/255, alpha: 1)
-    static let DEFColor = UIColor.blackColor()
+    static let DEFColor = UIColor.black
     static let DEXColor = UIColor(red: 249/255, green: 159/255, blue: 2/255, alpha: 1)
     
     static let strokeColor =  UIColor(colorLiteralRed: 0.95, green: 0.95, blue: 0.95, alpha: 0.9)
@@ -34,14 +34,14 @@ struct ColorScheme {
 }
 
 class Container:UICollectionViewCell {
-    private var centerPoint = CGPointZero
+    private var centerPoint = CGPoint.zero
     private let rectangleLayer = CAShapeLayer()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        centerPoint =  CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
+        centerPoint =  CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: self.bounds.width-4, height: self.bounds.width-4), cornerRadius: 12)
-        rectangleLayer.path = rectanglePath.CGPath
+        rectangleLayer.path = rectanglePath.cgPath
         rectangleLayer.lineWidth = 2.0
         self.layer.addSublayer(rectangleLayer)
         setSelectedTo(false)
@@ -49,14 +49,14 @@ class Container:UICollectionViewCell {
         //self.addSubview(containerView)
     }
     
-    func setSelectedTo(val:Bool) {
+    func setSelectedTo(_ val:Bool) {
         if (val) {
-            rectangleLayer.fillColor = ColorScheme.fillColorSelected.CGColor
-            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
+            rectangleLayer.fillColor = ColorScheme.fillColorSelected.cgColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.cgColor
         }
         else {
-            rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
-            rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
+            rectangleLayer.fillColor = ColorScheme.fillColor.cgColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColor.cgColor
         }
     }
     
@@ -72,11 +72,11 @@ class LevelContainer:Container {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        levelView.bounds = CGRectMake(10, self.bounds.height - 10, self.bounds.width-20, self.bounds.height-20)
-        levelView.userInteractionEnabled = false
-        levelView.multipleTouchEnabled = false
+        levelView.bounds = CGRect(x: 10, y: self.bounds.height - 10, width: self.bounds.width-20, height: self.bounds.height-20)
+        levelView.isUserInteractionEnabled = false
+        levelView.isMultipleTouchEnabled = false
         levelView.center = centerPoint
-        levelView.contentMode = .ScaleAspectFit
+        levelView.contentMode = .scaleAspectFit
         levelView.layer.magnificationFilter = kCAFilterNearest
         levelView.animationRepeatCount = -1
         
@@ -86,38 +86,38 @@ class LevelContainer:Container {
         lockView.tintColor = ColorScheme.strokeColor
         
         numberLabel.text = ""
-        numberLabel.textAlignment = .Right
+        numberLabel.textAlignment = .right
         numberLabel.textColor = ColorScheme.strokeColorSelected
-        numberLabel.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 5, 30)
-        numberLabel.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
+        numberLabel.bounds = CGRect(x: 0, y: self.bounds.height - 30, width: self.bounds.width - 5, height: 30)
+        numberLabel.center = CGPoint(x: self.bounds.width/2 - 2.5, y: self.bounds.height - 15)
         ////////////////////////////
         self.addSubview(levelView)
         self.addSubview(lockView)
         self.addSubview(numberLabel)
     }
     
-    override func setSelectedTo(val: Bool) {
+    override func setSelectedTo(_ val: Bool) {
         if (val) {
-            rectangleLayer.fillColor = ColorScheme.fillColorSelected.CGColor
-            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
+            rectangleLayer.fillColor = ColorScheme.fillColorSelected.cgColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.cgColor
             lockView.tintColor = ColorScheme.strokeColorSelected
         }
         else {
-            rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
-            rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
+            rectangleLayer.fillColor = ColorScheme.fillColor.cgColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColor.cgColor
             lockView.tintColor = ColorScheme.strokeColor
         }
     }
     
-    func setLevelTo(l:LevelHandler.LevelDefinition) {
+    func setLevelTo(_ l:LevelHandler.LevelDefinition) {
         level = l
-        lockView.hidden = level!.unlocked
+        lockView.isHidden = level!.unlocked
         animationImages = []
         for i in 0..<level!.thumbFrames {
             animationImages.append(UIImage(named: "\(level!.thumb)\(i)")!)
         }
         if (level!.unlocked) {
-            levelView.image = UIImage.animatedImageWithImages(animationImages, duration: Double(level!.thumbFrames) * 0.125)
+            levelView.image = UIImage.animatedImage(with: animationImages, duration: Double(level!.thumbFrames) * 0.125)
         }
         else {
             levelView.image = animationImages[0]
@@ -146,25 +146,25 @@ class ItemContainer:Container {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        itemView.bounds = CGRectMake(10, self.bounds.height - 10, self.bounds.width-20, self.bounds.height-20)
-        itemView.userInteractionEnabled = false
+        itemView.bounds = CGRect(x: 10, y: self.bounds.height - 10, width: self.bounds.width-20, height: self.bounds.height-20)
+        itemView.isUserInteractionEnabled = false
         itemView.center = centerPoint
-        itemView.contentMode = .ScaleAspectFit
+        itemView.contentMode = .scaleAspectFit
         itemView.layer.magnificationFilter = kCAFilterNearest
         itemView.clipsToBounds = true
         ////////////////////////////
         numberLabel.text = ""
-        numberLabel.textAlignment = .Right
+        numberLabel.textAlignment = .right
         numberLabel.textColor = ColorScheme.strokeColor
-        numberLabel.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width-10, 30)
-        numberLabel.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
+        numberLabel.bounds = CGRect(x: 0, y: self.bounds.height - 30, width: self.bounds.width-10, height: 30)
+        numberLabel.center = CGPoint(x: self.bounds.width/2 - 2.5, y: self.bounds.height - 15)
         ////////////////////////////
         self.addSubview(itemView)
         self.addSubview(numberLabel)
         
     }
     
-    func updateIndex(index:Int) {
+    func updateIndex(_ index:Int) {
         correspondsToInventoryIndex = index
         if (index == -2) {
             numberLabel.text = "Ground"
@@ -177,46 +177,46 @@ class ItemContainer:Container {
     
     func resetItemView() {
         itemView.center = centerPoint
-        itemView.hidden = false
+        itemView.isHidden = false
     }
     
-    override func setSelectedTo(val:Bool) {
+    override func setSelectedTo(_ val:Bool) {
         if (item == nil) {
             isEquipped = false
         }
         if (val) {
             numberLabel.textColor = ColorScheme.strokeColorSelected
-            rectangleLayer.fillColor = ColorScheme.fillColorSelected.CGColor
+            rectangleLayer.fillColor = ColorScheme.fillColorSelected.cgColor
         }
         else {
             numberLabel.textColor = ColorScheme.strokeColor
-            rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
+            rectangleLayer.fillColor = ColorScheme.fillColor.cgColor
         }
         
         if (isEquipped) {
             if (item! is Weapon) {
-                rectangleLayer.strokeColor = ColorScheme.ATKColor.CGColor
+                rectangleLayer.strokeColor = ColorScheme.ATKColor.cgColor
             }
             else if (item! is Armor) {
-                rectangleLayer.strokeColor = ColorScheme.DEFColor.CGColor
+                rectangleLayer.strokeColor = ColorScheme.DEFColor.cgColor
             }
             else if (item! is Enhancer) {
-                rectangleLayer.strokeColor = ColorScheme.SPDColor.CGColor
+                rectangleLayer.strokeColor = ColorScheme.SPDColor.cgColor
             }
             else if (item! is Skill) {
-                rectangleLayer.strokeColor = ColorScheme.MANAColor.CGColor
+                rectangleLayer.strokeColor = ColorScheme.MANAColor.cgColor
             }
         }
         else if (val) {
-            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColorSelected.cgColor
         }
         else {
-            rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
+            rectangleLayer.strokeColor = ColorScheme.strokeColor.cgColor
         }
         
     }
     
-    func setItemTo(newItem:Item?) -> Item?
+    @discardableResult func setItemTo(_ newItem:Item?) -> Item?
     {
         let oldItem:Item? = item
         item = newItem

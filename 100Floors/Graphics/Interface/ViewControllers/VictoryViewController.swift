@@ -15,27 +15,27 @@ class VictoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let blur = UIVisualEffectView(frame: self.view.bounds)
-        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(blur)
-        UIView.animateWithDuration(0.5) {
-            blur.effect = UIBlurEffect(style: .Light)
+        UIView.animate(withDuration: 0.5) {
+            blur.effect = UIBlurEffect(style: .light)
         }
-        self.view.sendSubviewToBack(blur)
+        self.view.sendSubview(toBack: blur)
     }
     
-    @IBAction func loadStats(sender: RectButton) {
-        let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+    @IBAction func loadStats(_ sender: RectButton) {
+        let alert = storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
         alert.text = "Game Center integration coming in a future version!"
         alert.yesText = "Gotcha"
         alert.noButton.alpha = 0.3
-        alert.noButton.enabled = false
+        alert.noButton.isEnabled = false
         alert.noText = ""
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func respawn(sender: AnyObject) {
+    @IBAction func respawn(_ sender: AnyObject) {
         self.dismissDelegate?.willDismissModalVC("victoryRespawn")
-        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+        self.dismiss(animated: true, completion: {[unowned self] in
             self.dismissDelegate?.didDismissModalVC(nil)
         })
     }

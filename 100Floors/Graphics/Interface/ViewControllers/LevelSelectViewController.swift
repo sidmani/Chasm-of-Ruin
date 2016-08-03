@@ -25,22 +25,22 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         super.viewDidLoad()
         
         let layout = levelCollection.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.scrollDirection = .Horizontal
-        layout.minimumInteritemSpacing = CGFloat.max
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = CGFloat.greatestFiniteMagnitude
         let blur = UIVisualEffectView(frame: self.view.bounds)
-        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(blur)
-        UIView.animateWithDuration(0.5) {
-            blur.effect = UIBlurEffect(style: .Light)
+        UIView.animate(withDuration: 0.5) {
+            blur.effect = UIBlurEffect(style: .light)
         }
         blur.alpha = 0.5
-        self.view.sendSubviewToBack(blur)
+        self.view.sendSubview(toBack: blur)
         itemWidth = layout.itemSize.width
         levelCollection.contentInset.left = (screenSize.width/2 - layout.itemSize.width/2)
         levelCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
-        levelCollection.setContentOffset(CGPointMake(CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, 0), animated: true)
+        levelCollection.setContentOffset(CGPoint(x: CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, y: 0), animated: true)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade" as NSNotification.Name, object: nil)
 
         CrystalLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
         CoinLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
@@ -52,13 +52,13 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     }
 
     @objc func loadCurrencyPurchaseView() {
-        let cpvc = storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
-        self.presentViewController(cpvc, animated: true, completion: nil)
+        let cpvc = storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC")
+        self.present(cpvc, animated: true, completion: nil)
     }
     
-    @IBAction func exit(sender: AnyObject) {
+    @IBAction func exit(_ sender: AnyObject) {
         self.dismissDelegate?.willDismissModalVC(nil)
-        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+        self.dismiss(animated: true, completion: {[unowned self] in
             self.dismissDelegate?.didDismissModalVC(nil)
         })
     }
@@ -66,14 +66,14 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
     ///////////////
     //Collection View
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return defaultLevelHandler.levelDict.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! LevelContainer
-        cell.setLevelTo(defaultLevelHandler.levelDict[indexPath.item])
-        if (indexPath.item == maxUnlockedLevel && previousSelectedContainer == nil) {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! LevelContainer
+        cell.setLevelTo(defaultLevelHandler.levelDict[(indexPath as NSIndexPath).item])
+        if ((indexPath as NSIndexPath).item == maxUnlockedLevel && previousSelectedContainer == nil) {
             previousSelectedContainer = cell
             cell.setSelectedTo(true)
             NameLabel.text = cell.level!.mapName
@@ -82,8 +82,8 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         return cell
     }
     
-    func selectCenterCell() -> Bool {
-        if let path = levelCollection.indexPathForItemAtPoint(self.view.convertPoint(levelCollection.center, toView: levelCollection)), container = (levelCollection.cellForItemAtIndexPath(path) as? LevelContainer) {
+    @discardableResult func selectCenterCell() -> Bool {
+        if let path = levelCollection.indexPathForItem(at: self.view.convert(levelCollection.center, to: levelCollection)), let container = (levelCollection.cellForItem(at: path) as? LevelContainer) {
             if (previousSelectedContainer != container) {
                 previousSelectedContainer?.setSelectedTo(false)
                 container.setSelectedTo(true)
@@ -97,64 +97,64 @@ class LevelSelectViewController: UIViewController, UICollectionViewDelegate, UIC
         return false
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         selectCenterCell()
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (collectionView.cellForItemAtIndexPath(indexPath) == previousSelectedContainer) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (collectionView.cellForItem(at: indexPath) == previousSelectedContainer) {
             if (previousSelectedContainer?.level?.unlocked == true) {
-                defaultLevelHandler.currentLevel = indexPath.item
+                defaultLevelHandler.currentLevel = (indexPath as NSIndexPath).item
                 loadLevel(previousSelectedContainer!.level!)
             }
             else {
-                let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                let alert = storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
                 alert.text = "This level is still locked! Unlock it for 25 Crystals?"
                 alert.completion = {(response) in
                     if (response) {
-                        if (defaultPurchaseHandler.makePurchase("UnlockLevel", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
-                            defaultLevelHandler.levelDict[indexPath.item].unlocked = true
-                            self.levelCollection.reloadItemsAtIndexPaths(self.levelCollection.indexPathsForVisibleItems())
+                        if (defaultPurchaseHandler.makePurchase("UnlockLevel", withMoneyHandler: defaultMoneyHandler, currency: .chasmCrystal)) {
+                            defaultLevelHandler.levelDict[(indexPath as NSIndexPath).item].unlocked = true
+                            self.levelCollection.reloadItems(at: self.levelCollection.indexPathsForVisibleItems)
                             self.selectCenterCell()
                         }
                         else {
-                            let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                            let alert = self.storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
                             alert.text = "You don't have enough Crystals for that! Buy some more?"
                             alert.completion = {(response) in
                                 if (response) {
-                                    let cpvc = self.storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
-                                    self.presentViewController(cpvc, animated: true, completion: nil)
+                                    let cpvc = self.storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC")
+                                    self.present(cpvc, animated: true, completion: nil)
                                 }
                             }
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.present(alert, animated: true, completion: nil)
                         }
                     }
                 }
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
         }
         else {
-            collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth - collectionView.contentInset.left, 0), animated: true)
+            collectionView.setContentOffset(CGPoint(x: CGFloat((indexPath as NSIndexPath).item) * itemWidth - collectionView.contentInset.left, y: 0), animated: true)
         }
     }
     
-    func loadLevel(level:LevelHandler.LevelDefinition) {
-        let igvc = storyboard?.instantiateViewControllerWithIdentifier("igvc") as! InGameViewController
-        igvc.modalTransitionStyle = .CrossDissolve
-        presentViewController(igvc, animated: true, completion: nil)
+    func loadLevel(_ level:LevelHandler.LevelDefinition) {
+        let igvc = storyboard?.instantiateViewController(withIdentifier: "igvc") as! InGameViewController
+        igvc.modalTransitionStyle = .crossDissolve
+        present(igvc, animated: true, completion: nil)
         previousSelectedContainer?.setSelectedTo(false)
         previousSelectedContainer = nil
         igvc.loadLevel(level)
     }
 
-    @IBAction func exitToLevelSelect(segue:UIStoryboardSegue) {
+    @IBAction func exitToLevelSelect(_ segue:UIStoryboardSegue) {
         maxUnlockedLevel = defaultLevelHandler.maxUnlockedLevel()
         levelCollection.reloadData()
-        levelCollection.setContentOffset(CGPointMake(CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, 0), animated: true)
+        levelCollection.setContentOffset(CGPoint(x: CGFloat(maxUnlockedLevel) * itemWidth - levelCollection.contentInset.left, y: 0), animated: true)
         globalAudioPlayer?.stop()
-        let url = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("sunnydaysahead", ofType: "mp3")!)
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: "sunnydaysahead", ofType: "mp3")!)
         do {
-            globalAudioPlayer = try AVAudioPlayer(contentsOfURL:url)
+            globalAudioPlayer = try AVAudioPlayer(contentsOf:url)
             globalAudioPlayer!.numberOfLoops = -1
             globalAudioPlayer!.prepareToPlay()
             if (audioEnabled) {

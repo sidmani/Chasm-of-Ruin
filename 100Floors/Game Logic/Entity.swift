@@ -21,7 +21,7 @@ struct Stats {
     var mana:CGFloat      // Mana (used when casting spells)
     var maxMana:CGFloat
 
-    func getIndex(index:Int) -> CGFloat {
+    func getIndex(_ index:Int) -> CGFloat {
         switch (index) {
         case 0: return health
         case 1: return defense
@@ -35,7 +35,7 @@ struct Stats {
         }
     }
     
-    mutating func setIndex(index:Int, toVal:CGFloat) {
+    mutating func setIndex(_ index:Int, toVal:CGFloat) {
         switch (index) {
         case 0: health = toVal
         case 1: defense = toVal
@@ -57,13 +57,13 @@ struct Stats {
         return [health,defense,attack,speed,dexterity,mana, maxHealth, maxMana]
     }
     
-    mutating func capAt(maxVal:CGFloat) {
+    mutating func capAt(_ maxVal:CGFloat) {
         for i in 0..<Stats.numStats {
             setIndex(i, toVal: min(getIndex(i), maxVal))
         }
     }
     
-    static func statsFrom(Array:NSArray) -> Stats {
+    static func statsFrom(_ Array:NSArray) -> Stats {
         var out = nilStats
         for i in 0..<numStats {
             out.setIndex(i, toVal: Array[i] as! CGFloat)
@@ -71,7 +71,7 @@ struct Stats {
         return out
     }
     
-    static func statsFrom(fromBase64:String) -> Stats {
+    static func statsFrom(_ fromBase64:String) -> Stats {
         let optArr = fromBase64.splitBase64IntoArray("|")
         return Stats(
             defense: CGFloat(optArr[0]),
@@ -93,7 +93,7 @@ struct Stats {
 }
 
 struct StatLimits {
-    static let expForLevel:[Int] =  [0, 0, 250, 500, 1000, 1750, 2750, 4500, 6500, 8500, 10500, 14000, 18000, 23000, 29000, 36000]
+    static let expForLevel:[Int] =  [0, 0, 500, 1000, 2500, 5000, 8000, 12000, 17000, 23000, 30000, 38000, 49000, 60000, 72000, 85000]
     static let MAX_LEVEL = 15
     
     static let MIN_LVLUP_STAT_GAIN:CGFloat = 10
@@ -135,7 +135,7 @@ enum StatusCondition:Double {
     // Bleeding - same as poisoned, but stats drop by half x
     // Invincible - cannot be affected by anything x
     // Burned - lose HP every second, dex dropped by half x
-    case Stuck = 2000, Confused = 3000, Weak = 5000, Poisoned = 10000, Blinded = 1500, Disturbed = 5001, Chilled = 5002, Cursed = 3001, Bleeding = 4000, Invincible = 5003, Burned = 8000
+    case stuck = 2000, confused = 3000, weak = 5000, poisoned = 10000, blinded = 1500, disturbed = 5001, chilled = 5002, cursed = 3001, bleeding = 4000, invincible = 5003, burned = 8000
 }
 
 //////////////////////
@@ -166,7 +166,7 @@ class Entity:SKSpriteNode, Updatable {
     init(withStats:Stats)
     {
         stats = withStats
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeZero)
+        super.init(texture: nil, color: UIColor.clear, size: CGSize.zero)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 5)
         self.physicsBody!.allowsRotation = false
@@ -177,7 +177,7 @@ class Entity:SKSpriteNode, Updatable {
         popups.zPosition = 50
     }
     
-    func setTextureDict(to:[String:[SKTexture]], beginTexture:String) {
+    func setTextureDict(_ to:[String:[SKTexture]], beginTexture:String) {
         currentTextureSet = beginTexture
         textureDict = to
         self.texture = textureDict[beginTexture]![0]
@@ -188,10 +188,10 @@ class Entity:SKSpriteNode, Updatable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func struckByProjectile(p:Projectile) {
-        if (condition?.conditionType != .Invincible) {
-            if (self.actionForKey("flash") == nil) {
-                self.runAction(SKAction.sequence([SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.125), SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.125)]), withKey:"flash")
+    func struckByProjectile(_ p:Projectile) {
+        if (condition?.conditionType != .invincible) {
+            if (self.action(forKey: "flash") == nil) {
+                self.run(SKAction.sequence([SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 0.125), SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.125)]), withKey:"flash")
             }
             if let cond = p.statusCondition {
                 if (randomBetweenNumbers(0, secondNum: 1) <= cond.probability) {
@@ -202,17 +202,17 @@ class Entity:SKSpriteNode, Updatable {
             adjustHealth(-damage, withPopup: true)
         }}
 
-    func adjustHealth(amount:CGFloat, withPopup:Bool) {
+    func adjustHealth(_ amount:CGFloat, withPopup:Bool) {
         if (amount == 0) {
             return
         }
         stats.health += amount
         if (withPopup) {
             if (amount < 0) {
-                addPopup(UIColor.redColor(), text: "\(Int(amount))")
+                addPopup(UIColor.red, text: "\(Int(amount))")
             }
             else {
-                addPopup(UIColor.greenColor(), text: "+\(Int(amount))")
+                addPopup(UIColor.green, text: "+\(Int(amount))")
             }
         }
         if (stats.health <= 0) {
@@ -224,7 +224,7 @@ class Entity:SKSpriteNode, Updatable {
         }
     }
     
-    func getDamage(attack: CGFloat) -> CGFloat {
+    func getDamage(_ attack: CGFloat) -> CGFloat {
         return max(5,randomBetweenNumbers(0.9, secondNum: 1.2)*(10*attack / (stats.defense*statusFactors.defMod))) * statusFactors.damageMod
     }
     
@@ -236,50 +236,50 @@ class Entity:SKSpriteNode, Updatable {
         
     }
     /////////////////////
-    func enableCondition(type:StatusCondition, duration:Double) { 
+    func enableCondition(_ type:StatusCondition, duration:Double) { 
         if (condition == nil) {
             removeAllPopups()
             condition = (type, type.rawValue)
             switch (type) {
-            case .Stuck:
-                addPopup(UIColor.yellowColor(), text: "STUCK")
+            case .stuck:
+                addPopup(UIColor.yellow, text: "STUCK")
                 self.physicsBody?.velocity = CGVector.zero
                 statusFactors.movementMod = 0
-            case .Confused:
-                addPopup(UIColor.greenColor(), text: "CONFUSED")
+            case .confused:
+                addPopup(UIColor.green, text: "CONFUSED")
                 statusFactors.movementMod = -1
-            case .Weak:
-                addPopup(UIColor.blueColor(), text: "WEAKENED")
+            case .weak:
+                addPopup(UIColor.blue, text: "WEAKENED")
                 statusFactors.atkMod = 0.5
-            case .Poisoned:
-                addPopup(UIColor.purpleColor(), text: "POISONED")
+            case .poisoned:
+                addPopup(UIColor.purple, text: "POISONED")
                 statusFactors.healthRegenMod = -10
                 runEffect("Poison")
-            case .Blinded:
-                addPopup(UIColor.whiteColor(), text: "BLINDED")
-            case .Disturbed:
-                addPopup(UIColor.magentaColor(), text: "DISTURBED")
+            case .blinded:
+                addPopup(UIColor.white, text: "BLINDED")
+            case .disturbed:
+                addPopup(UIColor.magenta, text: "DISTURBED")
                 statusFactors.manaRegenMod = -10
-            case .Chilled:
-                addPopup(UIColor.cyanColor(), text: "CHILLED")
+            case .chilled:
+                addPopup(UIColor.cyan, text: "CHILLED")
                 statusFactors.movementMod = 0.5
-            case .Cursed:
-                addPopup(UIColor.purpleColor(), text: "CURSED")
+            case .cursed:
+                addPopup(UIColor.purple, text: "CURSED")
                 runEffect("Dark")
-            case .Bleeding:
-                addPopup(UIColor.redColor(), text: "BLEEDING")
+            case .bleeding:
+                addPopup(UIColor.red, text: "BLEEDING")
                 statusFactors.atkMod = 0.5
                 statusFactors.defMod = 0.5
                 statusFactors.movementMod = 0.5
                 statusFactors.dexMod = 0.5
                 statusFactors.healthRegenMod = -5
                 runEffect("BloodSplatterA")
-            case .Invincible:
+            case .invincible:
                 statusFactors.damageMod = 0
-                addPopup(UIColor.blueColor(), text: "INVINCIBLE")
+                addPopup(UIColor.blue, text: "INVINCIBLE")
                 
-            case .Burned:
-                addPopup(UIColor.orangeColor(), text: "BURNED")
+            case .burned:
+                addPopup(UIColor.orange, text: "BURNED")
                 statusFactors.dexMod = 0.5
                 statusFactors.healthRegenMod = -10
                 statusFactors.manaRegenMod = 0
@@ -293,7 +293,7 @@ class Entity:SKSpriteNode, Updatable {
     
     private var effectNode:PixelEffect?
     
-    func runEffect(name:String, completion:() -> () = {}) {
+    func runEffect(_ name:String, completion:() -> () = {}) {
         if (effectNode?.parent != nil) {
             effectNode?.completion()
             effectNode?.removeFromParent()
@@ -301,7 +301,7 @@ class Entity:SKSpriteNode, Updatable {
         effectNode = PixelEffect(name:name, completion: completion)
         effectNode!.setScale(0.5)
         switch (effectNode!.alignment) {
-        case .Bottom:
+        case .bottom:
         effectNode!.position.y = (effectNode!.size.height*effectNode!.xScale)-self.size.height/2
         default: break
         }
@@ -313,35 +313,35 @@ class Entity:SKSpriteNode, Updatable {
         popups.removeAllChildren()
     }
     
-    private func addPopup(color:UIColor, text:String) {
+    private func addPopup(_ color:UIColor, text:String) {
         if (popups.children.count > 5){
             popups.children.first?.removeFromParent()
         }
-        let newPopup = StatUpdatePopup(color: color, text: text, velocity: CGVectorMake(5, 5), zoomRate: 1.2)
+        let newPopup = StatUpdatePopup(color: color, text: text, velocity: CGVector(dx: 5, dy: 5), zoomRate: 1.2)
         popups.addChild(newPopup)
     }
     
-    func runAnimation(frameDuration:Double) {
-        runAction(SKAction.animateWithTextures(textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
+    func runAnimation(_ frameDuration:Double) {
+        run(SKAction.animate(with: textureDict[currentTextureSet]!, timePerFrame: frameDuration, resize: false, restore: false), withKey: "animation")
     }
     
     func isCurrentlyAnimating() -> Bool {
-        return actionForKey("animation") != nil
+        return action(forKey: "animation") != nil
     }
     
-    func setCurrentTextures(to:String) {
+    func setCurrentTextures(_ to:String) {
         currentTextureSet = to
     }
     
     ////////////////
    
     
-    func update(deltaT: Double) {
+    func update(_ deltaT: Double) {
         if (condition != nil) {
             condition!.timeLeft -= deltaT
             if (condition!.timeLeft <= 0) {
                 removeAllPopups()
-                addPopup(UIColor.greenColor(), text: "STATUS CLEARED")
+                addPopup(UIColor.green, text: "STATUS CLEARED")
                 statusFactors = StatusFactors()
                 condition = nil
             }
@@ -395,26 +395,26 @@ class ThisCharacter: Entity {
             var standingArr:[SKTexture] = []
             for i in 0...4 {
                 let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Hero\(n)\(i)")
-                newTexture.filteringMode = .Nearest
+                newTexture.filteringMode = .nearest
                 standingArr.append(newTexture)
             }
             dict["standing\(n)"] = standingArr
             var walkingArr:[SKTexture] = []
             for i in 5...6 {
                 let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Hero\(n)\(i)")
-                newTexture.filteringMode = .Nearest
+                newTexture.filteringMode = .nearest
                 walkingArr.append(newTexture)
             }
             dict["walking\(n)"] = walkingArr
         }
         super.setTextureDict(dict, beginTexture: "standing3")
-        self.size = CGSizeMake(8, 8)
+        self.size = CGSize(width: 8, height: 8)
         SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named: "Heal1")], withCompletionHandler: {})
         let shadowTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("Shadow")
         let shadow = SKSpriteNode(texture: shadowTexture)
         shadow.zPosition = -0.01
         shadow.setScale(0.5)
-        shadow.position = CGPointMake(0,-2)
+        shadow.position = CGPoint(x: 0,y: -2)
         self.addChild(shadow)
         //self.reset()
         inventory.setTextureDict()
@@ -449,28 +449,28 @@ class ThisCharacter: Entity {
         static let statsKey = "stats"
     }
     required convenience init?(coder aDecoder: NSCoder) {
-        var newStats = Stats.statsFrom(aDecoder.decodeObjectForKey(PropertyKey.statsKey) as! NSArray)
+        var newStats = Stats.statsFrom(aDecoder.decodeObject(forKey: PropertyKey.statsKey) as! NSArray)
         newStats.health = newStats.maxHealth
         newStats.mana = newStats.maxMana
-        let level = aDecoder.decodeObjectForKey(PropertyKey.levelKey) as! Int
-        let exp = aDecoder.decodeObjectForKey(PropertyKey.expKey) as! Int
-        let inv = aDecoder.decodeObjectForKey(PropertyKey.inventoryKey) as! Inventory
+        let level = aDecoder.decodeObject(forKey: PropertyKey.levelKey) as! Int
+        let exp = aDecoder.decodeObject(forKey: PropertyKey.expKey) as! Int
+        let inv = aDecoder.decodeObject(forKey: PropertyKey.inventoryKey) as! Inventory
         self.init(withStats: newStats, withInventory: inv, withLevel: level, withExp: exp)
     }
     
-    override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(inventory, forKey: PropertyKey.inventoryKey)
-        aCoder.encodeObject(stats.toArray(), forKey: PropertyKey.statsKey)
-        aCoder.encodeObject(expPoints, forKey: PropertyKey.expKey)
-        aCoder.encodeObject(level, forKey: PropertyKey.levelKey)
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(inventory, forKey: PropertyKey.inventoryKey)
+        aCoder.encode(stats.toArray(), forKey: PropertyKey.statsKey)
+        aCoder.encode(expPoints, forKey: PropertyKey.expKey)
+        aCoder.encode(level, forKey: PropertyKey.levelKey)
     }
     
-    override func adjustHealth(amount: CGFloat, withPopup: Bool) {
+    override func adjustHealth(_ amount: CGFloat, withPopup: Bool) {
         super.adjustHealth(amount, withPopup: withPopup)
         var color:UIColor
         let progress = stats.health/stats.maxHealth
         if progress <= 0.2 {
-            color = UIColor.redColor()
+            color = UIColor.red
         }
         else if progress < 0.7 {
             color = UIColor(red: 255, green: (progress-0.2)/0.3, blue: 0, alpha: 1.0)
@@ -482,7 +482,7 @@ class ThisCharacter: Entity {
         UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
     }
     //////
-    func adjustMana(amount:CGFloat) {
+    func adjustMana(_ amount:CGFloat) {
         if (amount == 0) {
             return
         }
@@ -500,18 +500,18 @@ class ThisCharacter: Entity {
         return stats + inventory.stats
     }
   
-    private func setHealth(to:CGFloat, withPopup:Bool) {
+    private func setHealth(_ to:CGFloat, withPopup:Bool) {
         let amount = to*(stats.maxHealth) - stats.health
         adjustHealth(amount, withPopup: withPopup)
     }
     
-    override func getDamage(attack: CGFloat) -> CGFloat {
+    override func getDamage(_ attack: CGFloat) -> CGFloat {
         return max(randomBetweenNumbers(1, secondNum: 4),randomBetweenNumbers(0.9, secondNum: 1.2)*(10 * attack / (stats.defense + inventory.stats.defense)*statusFactors.defMod)) * statusFactors.damageMod
     }
 
     override func die() {
-        NSNotificationCenter.defaultCenter().postNotificationName("levelEndedDefeat", object: nil)
-        self.scene?.paused = true
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "levelEndedDefeat"), object: nil)
+        self.scene?.isPaused = true
     }
     
     func reset() {
@@ -522,10 +522,10 @@ class ThisCharacter: Entity {
         pointers.removeAllChildren()
         removeAllPopups()
         removeAllActions()
-        runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0))
+        run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0))
         timeSinceProjectile = 0
         currentTextureSet = "standing3"
-        UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
+        UIElements.HPBar.setProgress(UIColor.green, progress: 1, animated: true)
         UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
         if (level < StatLimits.MAX_LEVEL) {
             UIElements.EXPBar.setProgress(Float(expPoints - StatLimits.expForLevel[level])/Float(StatLimits.expForLevel[level+1] - StatLimits.expForLevel[level]), animated: true)
@@ -544,14 +544,14 @@ class ThisCharacter: Entity {
         }
     }
     
-    func killedEnemy(e:Enemy) {
+    func killedEnemy(_ e:Enemy) {
         let newExp = e.stats.sumStats()
         expPoints += newExp
-        addPopup(UIColor.greenColor(), text: "+\(newExp)EXP")
+        addPopup(UIColor.green, text: "+\(newExp)EXP")
         if (level < StatLimits.MAX_LEVEL && expPoints >= StatLimits.expForLevel[level+1]) {
             level += 1
             removeAllPopups()
-            addPopup(UIColor.greenColor(), text: "LEVEL UP: \(level)")
+            addPopup(UIColor.green, text: "LEVEL UP: \(level)")
             runEffect("Heal1")
             for i in 0..<Stats.numStats {
                 stats.setIndex(i, toVal: stats.getIndex(i) + randomBetweenNumbers(StatLimits.MIN_LVLUP_STAT_GAIN, secondNum: StatLimits.MAX_LVLUP_STAT_GAIN))
@@ -559,7 +559,7 @@ class ThisCharacter: Entity {
             stats.health = stats.maxHealth
             stats.mana = stats.maxMana
             stats.capAt(StatLimits.BASE_STAT_MAX)
-            UIElements.HPBar.setProgress(UIColor.greenColor(), progress: 1, animated: true)
+            UIElements.HPBar.setProgress(UIColor.green, progress: 1, animated: true)
             UIElements.HPBar.label.text = "\(Int(max(stats.health,1)))/\(Int(stats.maxHealth))"
             UIElements.EXPBar.setProgress(0, animated: false)
         }
@@ -571,13 +571,13 @@ class ThisCharacter: Entity {
         }
         //add to kills
     }
-    override func enableCondition(type: StatusCondition, duration: Double) {
+    override func enableCondition(_ type: StatusCondition, duration: Double) {
         if (type != armor?.protectsAgainst) {
             super.enableCondition(type, duration: duration)
         }
     }
     
-    func consumeItem(c:Consumable) {
+    func consumeItem(_ c:Consumable) {
         stats = stats + c.statMods
         stats.capAt(StatLimits.BASE_STAT_MAX)
         adjustHealth(0, withPopup: false)
@@ -589,10 +589,10 @@ class ThisCharacter: Entity {
         }
     }
 
-    func fireProjectile(withVelocity:CGVector, withSpeed:CGFloat) {
+    func fireProjectile(_ withVelocity:CGVector, withSpeed:CGFloat) {
         if (weapon != nil) {
             var velocity:CGVector
-            if (condition?.conditionType == .Confused) {
+            if (condition?.conditionType == .confused) {
                 velocity = -1 * withVelocity
             }
             else {
@@ -602,15 +602,15 @@ class ThisCharacter: Entity {
             for projectile in projectiles {
                 (self.scene as! InGameScene).addObject(projectile)
             }
-            if (condition?.conditionType == .Cursed) {
+            if (condition?.conditionType == .cursed) {
                 adjustHealth(-0.01*stats.maxHealth, withPopup: true)
             }
         }
     }
     
-    @objc func useSkill(sender:UIButton) {
+    @objc func useSkill(_ sender:UIButton) {
         if let skill = skill {
-            if (stats.mana >= skill.mana && condition?.conditionType != .Disturbed) {
+            if (stats.mana >= skill.mana && condition?.conditionType != .disturbed) {
                 if (skill.execute(self)) {
                     adjustMana(-skill.mana)
                     if (skill.mana > stats.mana) {
@@ -620,7 +620,7 @@ class ThisCharacter: Entity {
             }
         }
         else {
-            NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: "Press Inventory to equip a skill!")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "postInfoToDisplay"), object: "Press Inventory to equip a skill!")
         }
     }
 
@@ -628,7 +628,7 @@ class ThisCharacter: Entity {
     private var statRegenTimeElapsed:Double = 0
     private let statRegenInterval:Double = 1000
     
-    override func update(deltaT:Double) {
+    override func update(_ deltaT:Double) {
         super.update(deltaT)
         if (statRegenTimeElapsed >= statRegenInterval) {
             statRegenTimeElapsed = 0
@@ -642,15 +642,15 @@ class ThisCharacter: Entity {
             statRegenTimeElapsed += deltaT
         }
         var animationType:String
-        if (UIElements.RightJoystick!.currentPoint != CGPointZero) {
+        if (UIElements.RightJoystick!.currentPoint != CGPoint.zero) {
             currentDirection = ((Int(UIElements.RightJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
-            animationType = UIElements.LeftJoystick.currentPoint != CGPointZero ? "walking" : "standing"
+            animationType = UIElements.LeftJoystick.currentPoint != CGPoint.zero ? "walking" : "standing"
             if (timeSinceProjectile > 500-0.4*Double((stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod) && weapon != nil) { //as dex goes from 0-1000, time between projectiles goes from 1000 to 100 ms
                 fireProjectile(UIElements.RightJoystick!.normalDisplacement, withSpeed: (stats.dexterity+inventory.stats.dexterity)*statusFactors.dexMod/20 + 100)
                 timeSinceProjectile = 0
             }
             else if (weapon == nil && !didNotifyNilWeapon) {
-                NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: "Press Inventory to equip a weapon!")
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "postInfoToDisplay"), object: "Press Inventory to equip a weapon!")
                 didNotifyNilWeapon = true
             }
             else {
@@ -659,7 +659,7 @@ class ThisCharacter: Entity {
         }
         else {
             didNotifyNilWeapon = false
-            if (UIElements.LeftJoystick.currentPoint != CGPointZero) {
+            if (UIElements.LeftJoystick.currentPoint != CGPoint.zero) {
                 currentDirection = ((Int(UIElements.LeftJoystick.getAngle() * 1.274 + 3.987) + 5) % 8)/2
                 animationType = "walking"
             }
@@ -689,7 +689,7 @@ class Enemy:Entity {
     weak var wave:Wave?
     
     private var drops:[MapObject]
-    let indicatorArrow = IndicatorArrow(color: UIColor.redColor(), radius: 20)
+    let indicatorArrow = IndicatorArrow(color: UIColor.red, radius: 20)
     private let textureFlip:Bool
     private let initialTextureOrientation:CGFloat
     
@@ -713,9 +713,9 @@ class Enemy:Entity {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func fireProjectile(texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
+    func fireProjectile(_ texture:SKTexture, range:CGFloat, reflects:Bool = false, withVelocity:CGVector, status:(StatusCondition, CGFloat)? = nil) {
         var velocity:CGVector
-        if (condition?.conditionType == .Confused) {
+        if (condition?.conditionType == .confused) {
             velocity = -1 * withVelocity
         }
         else {
@@ -723,12 +723,12 @@ class Enemy:Entity {
         }
         let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: velocity, withAngle: atan2(velocity.dy, velocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         (self.scene as? InGameScene)?.addObject(newProjectile)
-        if (condition?.conditionType == .Cursed && randomBetweenNumbers(0, secondNum: 1) < 0.02) {
+        if (condition?.conditionType == .cursed && randomBetweenNumbers(0, secondNum: 1) < 0.02) {
             adjustHealth(-0.01*stats.maxHealth, withPopup: true)
         }
     }
     
-    func getEnemiesWithID(id:String) -> [Enemy] {
+    func getEnemiesWithID(_ id:String) -> [Enemy] {
         var ret:[Enemy] = []
         for enemy in (self.scene as! InGameScene).enemiesOnScreen() where enemy.name == id {
             ret.append(enemy)
@@ -742,8 +742,8 @@ class Enemy:Entity {
     
     func angleToCharacter() -> CGFloat {
         var loc:CGPoint
-        if (condition?.conditionType == .Blinded) {
-            loc = CGPointMake(randomBetweenNumbers(position.x-20, secondNum: position.x+20), randomBetweenNumbers(position.y-20, secondNum: position.y+20))
+        if (condition?.conditionType == .blinded) {
+            loc = CGPoint(x: randomBetweenNumbers(position.x-20, secondNum: position.x+20), y: randomBetweenNumbers(position.y-20, secondNum: position.y+20))
         }
         else {
             loc = thisCharacter.position
@@ -754,11 +754,11 @@ class Enemy:Entity {
     func normalVectorToCharacter() -> CGVector {
         let dist = distanceToCharacter()
         if (dist == 0) { return CGVector.zero }
-        if (condition?.conditionType == .Blinded) {
+        if (condition?.conditionType == .blinded) {
             let angle = randomBetweenNumbers(0, secondNum: 6.27)
-            return CGVectorMake(cos(angle), sin(angle))
+            return CGVector(dx: cos(angle), dy: sin(angle))
         }
-        return CGVectorMake((thisCharacter.position.x - self.position.x)/dist, (thisCharacter.position.y - self.position.y)/dist)
+        return CGVector(dx: (thisCharacter.position.x - self.position.x)/dist, dy: (thisCharacter.position.y - self.position.y)/dist)
     }
     
     func isOnScreen() -> Bool {
@@ -766,11 +766,11 @@ class Enemy:Entity {
         return (ret == nil ? false:ret!)
     }
     
-    func struckMapBoundary(point:CGPoint) {
+    func struckMapBoundary(_ point:CGPoint) {
         AI?.struckMapBoundary(point)
     }
     
-    func setVelocity(v:CGVector) { //v is unit vector
+    func setVelocity(_ v:CGVector) { //v is unit vector
         physicsBody?.velocity = (0.03 * (stats.speed) + 30) * statusFactors.movementMod * v
         if (textureFlip) {
             if (physicsBody!.velocity.dx < 0) {
@@ -791,7 +791,7 @@ class Enemy:Entity {
     let statusHarmInterval:Double = 2000
     var currentStatusElapsed:Double = 0
     
-    override func update(deltaT:Double) {
+    override func update(_ deltaT:Double) {
         super.update(deltaT)
         AI?.update(deltaT)
         if (condition != nil && currentStatusElapsed > statusHarmInterval) {
@@ -804,7 +804,7 @@ class Enemy:Entity {
             currentStatusElapsed += deltaT
         }
         
-        if (thisCharacter.condition?.conditionType == .Blinded) {
+        if (thisCharacter.condition?.conditionType == .blinded) {
             self.alpha = 0
         }
         else {
@@ -825,7 +825,7 @@ class Enemy:Entity {
     override func die() {
         thisCharacter.killedEnemy(self)
         for drop in self.drops {
-            drop.position = CGPointMake(randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
+            drop.position = CGPoint(x: randomBetweenNumbers(self.position.x-10, secondNum: self.position.x+10), y: randomBetweenNumbers(self.position.y-10, secondNum: self.position.y+10))
             drop.updateZPosition()
             (self.scene as? InGameScene)?.addObject(drop)
         }
@@ -837,7 +837,7 @@ class Enemy:Entity {
 
 class DisplayEnemy:Enemy {
     var parentSpawner:DisplaySpawner? = nil
-    override func setVelocity(v:CGVector) { //v is unit vector
+    override func setVelocity(_ v:CGVector) { //v is unit vector
         physicsBody?.velocity = 30 * v
         if (textureFlip) {
             if (physicsBody!.velocity.dx < 0) {
@@ -859,14 +859,14 @@ class DisplayEnemy:Enemy {
     
     override func normalVectorToCharacter() -> CGVector {
         let angle = angleToCharacter()
-        return CGVectorMake(cos(angle), sin(angle))
+        return CGVector(dx: cos(angle), dy: sin(angle))
     }
     
     override func isOnScreen() -> Bool {
         return screenSize.contains(self.position)
     }
     var elapsedSinceCheck:Double = 0
-    override func update(deltaT: Double) {
+    override func update(_ deltaT: Double) {
         AI?.update(deltaT)
         if (elapsedSinceCheck > 1000) {
             if (!isOnScreen()) {
@@ -880,7 +880,7 @@ class DisplayEnemy:Enemy {
         self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y - self.frame.height/2)
     }
     
-    override func fireProjectile(texture: SKTexture, range: CGFloat, reflects: Bool, withVelocity: CGVector, status: (StatusCondition, CGFloat)?) {
+    override func fireProjectile(_ texture: SKTexture, range: CGFloat, reflects: Bool, withVelocity: CGVector, status: (StatusCondition, CGFloat)?) {
         let newProjectile = Projectile(fromTexture: texture, fromPoint: self.position, withVelocity: withVelocity, withAngle: atan2(withVelocity.dy, withVelocity.dx), isFriendly: false, withRange: range, withAtk: statusFactors.atkMod * stats.attack, reflects: reflects, statusInflicted: status)
         parent?.addChild(newProjectile)
     }

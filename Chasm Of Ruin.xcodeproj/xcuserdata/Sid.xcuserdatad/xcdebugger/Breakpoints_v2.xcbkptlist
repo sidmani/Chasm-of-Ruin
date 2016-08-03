@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "100Floors/Graphics/Interface/VerticalProgressView.swift"
-            timestampString = "490317897.089346"
+            timestampString = "491896555.251545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
             landmarkName = "layoutSubviews()"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "100Floors/Graphics/Interface/VerticalProgressView.swift"
-            timestampString = "491690417.194392"
+            timestampString = "491896555.251545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
             landmarkName = "layoutSubviews()"
             landmarkType = "5">
          </BreakpointContent>
@@ -182,22 +182,6 @@
             startingLineNumber = "43"
             endingLineNumber = "43"
             landmarkName = "runTimer()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "100Floors/Graphics/Interface/ViewControllers/InGameViewController.swift"
-            timestampString = "491691338.212377"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "willDismissModalVC(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

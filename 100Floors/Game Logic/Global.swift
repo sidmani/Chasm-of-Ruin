@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 protocol Updatable {
-    func update(deltaT:Double)
+    func update(_ deltaT:Double)
 }
 
 //////////////////
@@ -20,12 +20,12 @@ func *(left: CGFloat, right: CGVector) -> CGVector {
     return CGVector(dx: left*right.dx, dy: left*right.dy)
 }
 
-func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
+func randomBetweenNumbers(_ firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
     return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)
 }
 
 // test overloads
-func print(point:CGPoint)
+func print(_ point:CGPoint)
 {
     print("(\(point.x),\(point.y))")
 }

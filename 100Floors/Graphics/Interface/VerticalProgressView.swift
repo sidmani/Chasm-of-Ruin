@@ -12,7 +12,7 @@ import UIKit
 @IBDesignable
 public class VerticalProgressView : UIView {
     
-    public var fillDoneColor : UIColor = UIColor.greenColor()
+    public var fillDoneColor : UIColor = UIColor.green
     @IBInspectable public var vertical = true
 
     var progress: CGFloat = 0
@@ -24,35 +24,35 @@ public class VerticalProgressView : UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        self.filledView.backgroundColor = self.fillDoneColor.CGColor
+        self.filledView.backgroundColor = self.fillDoneColor.cgColor
         self.filledView.frame = self.bounds
 
         self.layer.addSublayer(filledView)
         modifierLabel.textColor = ColorScheme.strokeColor
 
         if (self.vertical) {
-            label.bounds = CGRectMake(0, self.bounds.height - 30, self.bounds.width - 10, 30)
-            label.center = CGPointMake(self.bounds.width/2 - 2.5, self.bounds.height - 15)
-            label.textAlignment = .Right
+            label.bounds = CGRect(x: 0, y: self.bounds.height - 30, width: self.bounds.width - 10, height: 30)
+            label.center = CGPoint(x: self.bounds.width/2 - 2.5, y: self.bounds.height - 15)
+            label.textAlignment = .right
             label.textColor = ColorScheme.strokeColor
 
-            modifierLabel.bounds = CGRectMake(10, 30, self.bounds.width, 30)
-            modifierLabel.center = CGPointMake(self.bounds.width/2 + 2.5, 15)
-            modifierLabel.textAlignment = .Left
+            modifierLabel.bounds = CGRect(x: 10, y: 30, width: self.bounds.width, height: 30)
+            modifierLabel.center = CGPoint(x: self.bounds.width/2 + 2.5, y: 15)
+            modifierLabel.textAlignment = .left
         }
         else {
-            label.center = CGPointMake(self.bounds.width/2, self.bounds.height/2)
-            label.textAlignment = .Center
-            label.textColor = UIColor.blackColor() //TODO: check this
+            label.center = CGPoint(x: self.bounds.width/2, y: self.bounds.height/2)
+            label.textAlignment = .center
+            label.textColor = UIColor.black //TODO: check this
             label.alpha = 0.4
-            label.bounds = CGRectMake(0, label.center.y-15, self.bounds.width, 30)
+            label.bounds = CGRect(x: 0, y: label.center.y-15, width: self.bounds.width, height: 30)
             self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(enableHPLabel)))
-            label.userInteractionEnabled = true
+            label.isUserInteractionEnabled = true
         }
         
         self.addSubview(modifierLabel)
         self.addSubview(label)
-        self.layer.borderColor = ColorScheme.strokeColor.CGColor
+        self.layer.borderColor = ColorScheme.strokeColor.cgColor
         self.layer.borderWidth = 2.0
         self.backgroundColor = ColorScheme.fillColor
         self.layer.cornerRadius = 12
@@ -60,21 +60,21 @@ public class VerticalProgressView : UIView {
     }
     
     @objc func enableHPLabel() {
-        label.hidden = !label.hidden
+        label.isHidden = !label.isHidden
     }
     
-    override public func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override public func draw(_ rect: CGRect) {
+        super.draw(rect)
         if (vertical) {
             let filledHeight = rect.size.height * progress
             let y = self.frame.size.height - filledHeight
-            self.filledView.frame = CGRectMake(0, y, rect.size.width, rect.size.height)
+            self.filledView.frame = CGRect(x: 0, y: y, width: rect.size.width, height: rect.size.height)
 
         }
         else {
             let filledWidth = rect.size.width * progress
             let x = filledWidth - self.frame.size.width
-            self.filledView.frame = CGRectMake(x, 0, rect.size.width, rect.size.height)
+            self.filledView.frame = CGRect(x: x, y: 0, width: rect.size.width, height: rect.size.height)
         }
         
     }
@@ -88,9 +88,9 @@ public class VerticalProgressView : UIView {
         }
     }
     
-    private func setFilledPosition(position: CGFloat, animated: Bool) {
+    private func setFilledPosition(_ position: CGFloat, animated: Bool) {
         //animated
-        let duration: NSTimeInterval = animated ? self.animationDuration : 0;
+        let duration: TimeInterval = animated ? self.animationDuration : 0;
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
 
@@ -104,9 +104,9 @@ public class VerticalProgressView : UIView {
         CATransaction.commit()
     }
     
-    private func setFilledPosition(color:UIColor, position: CGFloat, animated: Bool) {
+    private func setFilledPosition(_ color:UIColor, position: CGFloat, animated: Bool) {
         //animated
-        let duration: NSTimeInterval = animated ? self.animationDuration : 0;
+        let duration: TimeInterval = animated ? self.animationDuration : 0;
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
         
@@ -116,25 +116,25 @@ public class VerticalProgressView : UIView {
         else {
             self.filledView.frame.origin.x = position
         }
-        self.filledView.backgroundColor = color.CGColor
+        self.filledView.backgroundColor = color.cgColor
         
         CATransaction.commit()
         
     }
     
-    public func setProgress(progress: CGFloat, animated: Bool){
+    public func setProgress(_ progress: CGFloat, animated: Bool){
         //bounds check
         self.progress = max(0, min(progress, 1))
         setFilledPosition(self.shouldHavePosition(), animated: animated)
     }
     
-    public func setProgress(color:UIColor, progress: CGFloat, animated: Bool){
+    public func setProgress(_ color:UIColor, progress: CGFloat, animated: Bool){
         //bounds check
         self.progress = max(0, min(progress, 1))
         setFilledPosition(color, position: self.shouldHavePosition(), animated: animated)
     }
     
-    public func setColor(color:UIColor) {
+    public func setColor(_ color:UIColor) {
         setFilledPosition(color, position: self.shouldHavePosition(), animated: true)
     }
 

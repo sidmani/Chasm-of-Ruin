@@ -23,39 +23,39 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         setCurrencyLabels()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setCurrencyLabels), name: "transactionMade" as NSNotification.Name, object: nil)
 
         let blur = UIVisualEffectView(frame: self.view.bounds)
-        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(blur)
-        UIView.animateWithDuration(0.5) {
-            blur.effect = UIBlurEffect(style: .Light)
+        UIView.animate(withDuration: 0.5) {
+            blur.effect = UIBlurEffect(style: .light)
  //           self.presentingViewController?.view.subviews.forEach({(view) in view.hidden = true})
         }
-        self.view.sendSubviewToBack(blur)
+        self.view.sendSubview(toBack: blur)
         
         if (SKPaymentQueue.canMakePayments()) {
-            var productID:NSSet = NSSet(objects: "com.B7F.ChasmOfRuin.100ChasmCrystals")
-            var productsRequest = SKProductsRequest(productIdentifiers: productID as! Set<String>)
+            let productID:NSSet = NSSet(objects: "com.B7F.ChasmOfRuin.100ChasmCrystals")
+            let productsRequest = SKProductsRequest(productIdentifiers: productID as! Set<String>)
             productsRequest.delegate = self
             productsRequest.start()
         }
         else {
-            let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+            let alert = storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
             alert.text = "You can't make purchases! Check your purchase information..."
             alert.noText = "Back"
             alert.yesText = "OK"
             alert.completion = {(response) in
                 if (response) {
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
 
     }
     
-    func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         print("received products")
         print("\(response.products.count) products received")
     
@@ -69,16 +69,16 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
     }
 
     
-    @IBAction func exit(sender: AnyObject) {
+    @IBAction func exit(_ sender: AnyObject) {
         self.dismissDelegate?.willDismissModalVC(nil)
-        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+        self.dismiss(animated: true, completion: {[unowned self] in
             self.dismissDelegate?.didDismissModalVC(nil)
         })
     }
     
     
     ////////tableview
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
             //return # of crystal purchases
             return 3
@@ -90,17 +90,17 @@ class CurrencyPurchaseViewController: UIViewController, UITableViewDelegate, UIT
         return 0
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("currencyDisplay")!
-        cell.backgroundColor = UIColor.clearColor()
-        if (indexPath.section == 0) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "currencyDisplay")!
+        cell.backgroundColor = UIColor.clear
+        if ((indexPath as NSIndexPath).section == 0) {
             (cell.contentView.viewWithTag(2) as! UIImageView).image = UIImage(named: "ChasmCrystal")
         }
-        else if (indexPath.section == 1) {
+        else if ((indexPath as NSIndexPath).section == 1) {
             (cell.contentView.viewWithTag(2) as! UIImageView).image = UIImage(named: "Coin")
         }
         

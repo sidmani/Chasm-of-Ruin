@@ -51,7 +51,7 @@ class Item:NSObject, Purchasable {
         self.designatedCurrencyType = designatedCurrencyType
     }
     
-    static func initHandlerID(withID:String) -> Item {
+    static func initHandlerID(_ withID:String) -> Item {
         let thisItem = itemXML.root["item"].allWithAttributes(["id":withID])!.first!
         return ItemTypeDict[thisItem.attributes["type"]!]!.init(fromBase64: thisItem.stringValue, id:withID)
     }
@@ -61,7 +61,7 @@ class Item:NSObject, Purchasable {
     }
     
     func getMaxStat() -> CGFloat {
-        return statMods.toSwiftArray().maxElement()!
+        return statMods.toSwiftArray().max()!
     }
 
 }
@@ -103,10 +103,10 @@ class Weapon: Item {
         super.init(statMods: Stats.statsFrom(optArr[6]), name: optArr[7], description: optArr[8], img: optArr[9], priceCrystals: Int(optArr[10])!, priceCoins: Int(optArr[11])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[12])!), id: id)
     }
         
-    func getProjectile(withAtk:CGFloat, fromPoint:CGPoint, withAngle:CGFloat, withSpeed:CGFloat, isFriendly:Bool) -> [Projectile] {
+    func getProjectile(_ withAtk:CGFloat, fromPoint:CGPoint, withAngle:CGFloat, withSpeed:CGFloat, isFriendly:Bool) -> [Projectile] {
         var out = [Projectile]()
         for angle in angles {
-            out.append(Projectile(fromTexture: projectile, fromPoint: fromPoint, withVelocity: withSpeed*CGVectorMake(cos(angle+withAngle), sin(angle+withAngle)), withAngle: angle+withAngle, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition))
+            out.append(Projectile(fromTexture: projectile, fromPoint: fromPoint, withVelocity: withSpeed*CGVector(dx: cos(angle+withAngle), dy: sin(angle+withAngle)), withAngle: angle+withAngle, isFriendly: isFriendly, withRange: self.range, withAtk: withAtk, reflects: self.projectileReflects, statusInflicted: statusCondition))
         }
         return out
     }
@@ -170,11 +170,11 @@ class Usable:Item {
         //eventKey, name, desc, img, priceCrystal
         let optArr = fromBase64.splitBase64IntoArray("|")
         eventKey = optArr[0]
-        super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: 0, designatedCurrencyType: CurrencyType.ChasmCrystal, id: id)
+        super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: 0, designatedCurrencyType: CurrencyType.chasmCrystal, id: id)
     }
     
     func use() {
-        NSNotificationCenter.defaultCenter().postNotificationName("UsableItemUsed", object: eventKey)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "UsableItemUsed"), object: eventKey)
     }
    
     override func getType() -> String {
@@ -186,7 +186,7 @@ class Sellable:Item {
     required init(fromBase64:String, id:String) {
         //name, img, priceCoin
         let optArr = fromBase64.splitBase64IntoArray("|")
-        super.init(statMods: Stats.nilStats, name: optArr[0], description: "Worth: \(optArr[2]) Coins", img: optArr[1], priceCrystals: 0, priceCoins: Int(optArr[2])!, designatedCurrencyType: CurrencyType.Coin, id: id)
+        super.init(statMods: Stats.nilStats, name: optArr[0], description: "Worth: \(optArr[2]) Coins", img: optArr[1], priceCrystals: 0, priceCoins: Int(optArr[2])!, designatedCurrencyType: CurrencyType.coin, id: id)
     }
     override func getType() -> String {
         return "Valuable"

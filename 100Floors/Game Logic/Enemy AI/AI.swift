@@ -26,17 +26,17 @@ class EnemyAI: Updatable{
         currState = states[startingState]!
     }
     
-    func changeState(to:String) {
+    func changeState(_ to:String) {
         currState.endState()
         currState = states[to]!
         currState.beginState()
     }
     
-    func struckMapBoundary(point:CGPoint) {
+    func struckMapBoundary(_ point:CGPoint) {
         currState.struckMapBoundary(point)
     }
     
-    func update(deltaT:Double) {
+    func update(_ deltaT:Double) {
         if (elapsedSinceUpdate >= EnemyAI.transition_update_interval) {
             let out = currState.evaluateTransitions()
             if (out != "") {
@@ -73,15 +73,15 @@ class State:Updatable {
         self.runOnEndState = runOnEndState
         self.runOnBeginState = runOnBeginState
         self.runOnStruckMapBoundary = runOnStruckMapBoundary
-        self.behaviors.sortInPlace({$0.priority > $1.priority})
+        self.behaviors.sort(by: {$0.priority > $1.priority})
     }
     
-    func update(deltaT: Double) {
+    func update(_ deltaT: Double) {
         if (elapsedSinceUpdate >= State.behavior_update_interval) {
             behaviorsToRun = []
             var selectedIDs: [Behavior.BehaviorIDType] = []
             for behavior in behaviors {
-                if (behavior.getConditional() && (behavior.idType == .Nonexclusive || !selectedIDs.contains(behavior.idType))) {
+                if (behavior.getConditional() && (behavior.idType == .nonexclusive || !selectedIDs.contains(behavior.idType))) {
                     behaviorsToRun.append(behavior)
                     selectedIDs.append(behavior.idType)
                 }
@@ -106,7 +106,7 @@ class State:Updatable {
         return ""
     }
     
-    func setParent(to:Enemy) {
+    func setParent(_ to:Enemy) {
         for behavior in runOnBeginState {
             behavior.setParent(to)
         }
@@ -136,7 +136,7 @@ class State:Updatable {
         }
     }
     
-    func struckMapBoundary(point:CGPoint) {
+    func struckMapBoundary(_ point:CGPoint) {
         for behavior in runOnStruckMapBoundary {
             if let b = behavior as? FleeFromPoint {
                 b.point = point

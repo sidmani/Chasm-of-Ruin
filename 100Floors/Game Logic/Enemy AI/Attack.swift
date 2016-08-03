@@ -32,7 +32,7 @@ class FireProjectile:Behavior {
         self.projectileReflects = projectileReflects
         self.statusInflicted = statusInflicted
         self.range = range
-        super.init(idType: .Nonexclusive, updateRate: rateOfFire)
+        super.init(idType: .nonexclusive, updateRate: rateOfFire)
         self.priority = priority
     }
     
@@ -40,9 +40,9 @@ class FireProjectile:Behavior {
         return parent.distanceToCharacter() < range
     }
     
-    override func executeBehavior(timeSinceUpdate: Double) {
+    override func executeBehavior(_ timeSinceUpdate: Double) {
         let angle = parent.angleToCharacter() + randomBetweenNumbers(-maxError, secondNum: maxError)
-        let velocity = projectileSpeed * CGVectorMake(cos(angle), sin(angle))
+        let velocity = projectileSpeed * CGVector(dx: cos(angle), dy: sin(angle))
         parent.fireProjectile(projectileTexture, range: range, reflects: projectileReflects, withVelocity: velocity, status: statusInflicted)
     }
 }
@@ -60,10 +60,10 @@ class FireNProjectilesAtEqualIntervals:FireProjectile {
         self.priority = priority
     }
     
-    override func executeBehavior(timeSinceUpdate: Double) {
+    override func executeBehavior(_ timeSinceUpdate: Double) {
         for currAngle in angles {
             let angle = currAngle + randomBetweenNumbers(-0.5, secondNum: 0.5)
-            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVectorMake(cos(angle), sin(angle)), status: statusInflicted)
+            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVector(dx: cos(angle), dy: sin(angle)), status: statusInflicted)
         }
     }
 }
@@ -73,7 +73,7 @@ class FireProjectilesAtAngularRange:FireProjectile {
     private let numProjectiles:Int
     private var angles:[CGFloat] = []
     enum Direction {
-        case TowardPlayer, Random
+        case towardPlayer, random
     }
     init(numProjectiles:Int, angularRange:CGFloat, direction:Direction, projectileTexture:String, rateOfFire:Double, projectileSpeed:CGFloat, range:CGFloat, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         
@@ -98,9 +98,9 @@ class FireProjectilesAtAngularRange:FireProjectile {
         super.init(error: 0, rateOfFire: rateOfFire, projectileTexture: projectileTexture, projectileSpeed: projectileSpeed, range: range, statusInflicted: statusInflicted)
     }
     
-    override func executeBehavior(timeSinceUpdate: Double) {
+    override func executeBehavior(_ timeSinceUpdate: Double) {
         let centerAngle:CGFloat
-        if (direction == .Random) {
+        if (direction == .random) {
             centerAngle = randomBetweenNumbers(0, secondNum: 6.28)
         }
         else {
@@ -110,7 +110,7 @@ class FireProjectilesAtAngularRange:FireProjectile {
             //let diff = interprojectileAngle*CGFloat(i)
             //parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVectorMake(cos(centerAngle-diff), sin(centerAngle-diff)))
             //parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVectorMake(cos(centerAngle+diff), sin(centerAngle+diff)))
-            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVectorMake(cos(angle+centerAngle), sin(angle+centerAngle)))
+            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVector(dx: cos(angle+centerAngle), dy: sin(angle+centerAngle)))
         }
     }
 
@@ -136,9 +136,9 @@ class FireProjectilesInSpiral:FireProjectile {
         return parent.distanceToCharacter() < range
     }
     
-    override func executeBehavior(timeSinceUpdate: Double) {
+    override func executeBehavior(_ timeSinceUpdate: Double) {
         for i in 0..<angles.count {
-            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVectorMake(cos(angles[i]), sin(angles[i])))
+            parent.fireProjectile(projectileTexture, range: range, withVelocity: projectileSpeed*CGVector(dx: cos(angles[i]), dy: sin(angles[i])))
             angles[i] += offsetStep
         }
     }

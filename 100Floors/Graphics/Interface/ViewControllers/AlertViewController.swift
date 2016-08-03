@@ -21,36 +21,18 @@ class AlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        noButton.setTitle(noText, forState: .Normal)
-        yesButton.setTitle(yesText, forState: .Normal)
+        noButton.setTitle(noText, for: UIControlState())
+        yesButton.setTitle(yesText, for: UIControlState())
         label.text = text
     }
     
     @IBAction func yesButtonPressed() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         self.completion(true)
     }
     
     @IBAction func noButtonPressed() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         self.completion(false)
     }
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Landscape
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
 }

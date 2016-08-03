@@ -12,17 +12,17 @@ import UIKit
 class TextDisplay:UIView {
     private let rectangleLayer = CAShapeLayer()
     private let textView = UILabel()
-    private var printLetterTimer:NSTimer?
+    private var printLetterTimer:Timer?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        rectangleLayer.fillColor = ColorScheme.fillColor.CGColor
-        rectangleLayer.strokeColor = ColorScheme.strokeColor.CGColor
+        rectangleLayer.fillColor = ColorScheme.fillColor.cgColor
+        rectangleLayer.strokeColor = ColorScheme.strokeColor.cgColor
         rectangleLayer.lineWidth = 2
         let rectangleView = UIView()
         rectangleView.layer.addSublayer(rectangleLayer)
         
-        textView.textAlignment = .Center
-        textView.textColor = UIColor.whiteColor()
+        textView.textAlignment = .center
+        textView.textColor = UIColor.white
         self.addSubview(rectangleView)
         self.addSubview(textView)
         
@@ -31,30 +31,30 @@ class TextDisplay:UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        rectangleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height), cornerRadius: 12).CGPath
+        rectangleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height), cornerRadius: 12).cgPath
         textView.bounds = self.bounds
-        textView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
+        textView.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
     }
     
     private var letterIndex = 0
     private var chars:[String] = []
     
-    func setText(to:String, letterDelay:Double, hideAfter:Double) {
+    func setText(_ to:String, letterDelay:Double, hideAfter:Double) {
         hideSelfTimer?.invalidate()
         printLetterTimer?.invalidate()
-        self.hidden = false
+        self.isHidden = false
         textView.text = ""
         letterIndex = 0
         self.chars = to.characters.map {String($0)}
-        printLetterTimer = NSTimer.scheduledTimerWithTimeInterval(letterDelay, target: self, selector: #selector(printLetter), userInfo: nil, repeats: true)
-        hideSelfTimer = NSTimer.scheduledTimerWithTimeInterval(hideAfter + Double(chars.count) * letterDelay, target: self, selector: #selector(hideSelf), userInfo: nil, repeats: false)
+        printLetterTimer = Timer.scheduledTimer(timeInterval: letterDelay, target: self, selector: #selector(printLetter), userInfo: nil, repeats: true)
+        hideSelfTimer = Timer.scheduledTimer(timeInterval: hideAfter + Double(chars.count) * letterDelay, target: self, selector: #selector(hideSelf), userInfo: nil, repeats: false)
     }
     
     @objc func hideSelf() {
-        self.hidden = true
+        self.isHidden = true
     }
     
-    private var hideSelfTimer:NSTimer?
+    private var hideSelfTimer:Timer?
     
     @objc func printLetter() {
         if (letterIndex >= chars.count) {

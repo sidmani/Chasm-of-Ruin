@@ -16,29 +16,29 @@ class PopUp:SKNode {
         super.init()
 
         let tile = SKShapeNode()
-        tile.antialiased = false
-        tile.path = CGPathCreateWithRoundedRect(CGRectMake(self.position.x, self.position.y+size.height/2, size.width, size.height), size.width/8, size.height/8, nil)
+        tile.isAntialiased = false
+        tile.path = CGPath(roundedRect: CGRect(x: self.position.x, y: self.position.y+size.height/2, width: size.width, height: size.height), cornerWidth: size.width/8, cornerHeight: size.height/8, transform: nil)
         tile.strokeColor = ColorScheme.strokeColor
         tile.fillColor = ColorScheme.fillColor
-        tile.userInteractionEnabled = false
+        tile.isUserInteractionEnabled = false
         addChild(tile)
         
         let imgNode = SKSpriteNode(imageNamed: image)
         imgNode.size = size
-        imgNode.texture?.filteringMode = .Nearest
-        imgNode.position = CGPointMake(tile.position.x + imgNode.size.width/2, tile.position.y + imgNode.size.height)
-        imgNode.userInteractionEnabled = false
+        imgNode.texture?.filteringMode = .nearest
+        imgNode.position = CGPoint(x: tile.position.x + imgNode.size.width/2, y: tile.position.y + imgNode.size.height)
+        imgNode.isUserInteractionEnabled = false
         imgNode.zPosition = 0
         addChild(imgNode)
         
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
         zPosition = MapLevel.LayerDef.PopUps
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         (parentObject as! Interactive).trigger()
     }
     

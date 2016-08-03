@@ -18,13 +18,13 @@ class Projectile:SKSpriteNode, Updatable{
     
     init (fromTexture:SKTexture, fromPoint:CGPoint, withVelocity:CGVector, withAngle:CGFloat, isFriendly:Bool, withRange:CGFloat, withAtk: CGFloat, reflects:Bool = false, statusInflicted:(StatusCondition, CGFloat)? = nil) {
         let size = fromTexture.size()
-        fromTexture.filteringMode = .Nearest
+        fromTexture.filteringMode = .nearest
         self.range = withRange
         self.attack = withAtk
         self.spd = abs(hypot(withVelocity.dx, withVelocity.dy))
         self.reflects = reflects
         self.statusCondition = statusInflicted
-        super.init(texture: fromTexture, color: UIColor.clearColor(), size: size)
+        super.init(texture: fromTexture, color: UIColor.clear, size: size)
         
         self.zRotation = withAngle - CGFloat(M_PI_4)
         self.physicsBody = SKPhysicsBody(circleOfRadius: 2)
@@ -37,7 +37,7 @@ class Projectile:SKSpriteNode, Updatable{
         let shadow = SKSpriteNode(texture: texture)
             shadow.zPosition = -0.01
             shadow.setScale(0.25)
-            shadow.position = CGPointMake(2*cos(withAngle - CGFloat(M_PI_4)), 2*sin(withAngle - CGFloat(M_PI_4)))
+            shadow.position = CGPoint(x: 2*cos(withAngle - CGFloat(M_PI_4)), y: 2*sin(withAngle - CGFloat(M_PI_4)))
             shadow.zRotation = -self.zRotation
             shadow.name = "shadow"
             self.addChild(shadow)
@@ -70,21 +70,21 @@ class Projectile:SKSpriteNode, Updatable{
         //do some kind of animation
         if (reflects) {
             hasChangedOrientation = false
-            self.hidden = true
+            self.isHidden = true
         }
         else {
             removeFromParent()
         }
     }
     
-    func update(deltaT:Double) {
+    func update(_ deltaT:Double) {
         distanceTraveled += CGFloat(deltaT/1000) * spd
        // self.zPosition = MapLevel.LayerDef.Projectiles - 0.0001 * (self.position.y - self.frame.height/2)
         self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y)
         if (reflects && !hasChangedOrientation) {
             self.zRotation = atan2(self.physicsBody!.velocity.dy, self.physicsBody!.velocity.dx) - CGFloat(M_PI_4)
             hasChangedOrientation = true
-            hidden = false
+            isHidden = false
         }
         if (distanceTraveled > range) {
             removeFromParent()

@@ -29,13 +29,13 @@ var defaultPurchaseHandler:InternalPurchaseHandler! {
 
 
 class SaveData:NSObject, NSCoding {
-    static let SaveDir = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let SaveURL = SaveDir.URLByAppendingPathComponent("SaveGame")
+    static let SaveDir = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let SaveURL = SaveDir.appendingPathComponent("SaveGame")
     
     static var currentSave:SaveData!
     
-    static func loadSaveGame() -> Bool {
-        if let currentSave = NSKeyedUnarchiver.unarchiveObjectWithFile(SaveData.SaveURL.path!) as? SaveData  {
+    @discardableResult static func loadSaveGame() -> Bool {
+        if let currentSave = NSKeyedUnarchiver.unarchiveObject(withFile: SaveData.SaveURL.path) as? SaveData  {
             SaveData.currentSave = currentSave
             return true
         }
@@ -46,7 +46,7 @@ class SaveData:NSObject, NSCoding {
     }
 
     static func saveGame() -> Bool {
-       return NSKeyedArchiver.archiveRootObject(SaveData.currentSave, toFile: SaveData.SaveURL.path!)
+       return NSKeyedArchiver.archiveRootObject(SaveData.currentSave, toFile: SaveData.SaveURL.path)
     }
     
     private struct PropertyKey {
@@ -69,28 +69,28 @@ class SaveData:NSObject, NSCoding {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        character = aDecoder.decodeObjectForKey(PropertyKey.charKey) as! ThisCharacter
-        levelHandler = aDecoder.decodeObjectForKey(PropertyKey.levelHandlerKey) as! LevelHandler
-        moneyHandler = aDecoder.decodeObjectForKey(PropertyKey.moneyHandlerKey) as! MoneyHandler
-        purchaseHandler = aDecoder.decodeObjectForKey(PropertyKey.purchaseHandlerKey) as! InternalPurchaseHandler
+        character = aDecoder.decodeObject(forKey: PropertyKey.charKey) as! ThisCharacter
+        levelHandler = aDecoder.decodeObject(forKey: PropertyKey.levelHandlerKey) as! LevelHandler
+        moneyHandler = aDecoder.decodeObject(forKey: PropertyKey.moneyHandlerKey) as! MoneyHandler
+        purchaseHandler = aDecoder.decodeObject(forKey: PropertyKey.purchaseHandlerKey) as! InternalPurchaseHandler
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(character, forKey: PropertyKey.charKey)
-        aCoder.encodeObject(levelHandler, forKey: PropertyKey.levelHandlerKey)
-        aCoder.encodeObject(moneyHandler, forKey: PropertyKey.moneyHandlerKey)
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(character, forKey: PropertyKey.charKey)
+        aCoder.encode(levelHandler, forKey: PropertyKey.levelHandlerKey)
+        aCoder.encode(moneyHandler, forKey: PropertyKey.moneyHandlerKey)
     }
 }
 
 class MoneyHandler:NSCoding {
     private var ChasmCrystals:Int {
         didSet {
-        NSNotificationCenter.defaultCenter().postNotificationName("transactionMade", object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "transactionMade"), object: nil)
         }
     }
     private var Coins:Int {
         didSet {
-            NSNotificationCenter.defaultCenter().postNotificationName("transactionMade", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "transactionMade"), object: nil)
         }
     }
     private var CrystalTransactions:[Int] = []
@@ -100,7 +100,7 @@ class MoneyHandler:NSCoding {
         Coins = 500
     }
     
-    func addCoins(num:Int) -> Bool {
+    @discardableResult func addCoins(_ num:Int) -> Bool {
         if (num <= 0) {
             return false
         }
@@ -108,7 +108,7 @@ class MoneyHandler:NSCoding {
         return true
     }
     
-    func removeCoins(num:Int) -> Bool{
+    @discardableResult func removeCoins(_ num:Int) -> Bool{
         if (num <= Coins) {
             Coins -= num
             return true
@@ -116,7 +116,7 @@ class MoneyHandler:NSCoding {
         return false
     }
     
-    func addCrystals(num:Int) -> Bool {
+    @discardableResult func addCrystals(_ num:Int) -> Bool {
         if (num <= 0) {
             return false
         }
@@ -124,7 +124,7 @@ class MoneyHandler:NSCoding {
         return true
     }
     
-    func removeCrystals(num:Int) -> Bool {
+    @discardableResult func removeCrystals(_ num:Int) -> Bool {
         if (num <= ChasmCrystals) {
             ChasmCrystals -= num
             return true
@@ -152,18 +152,18 @@ class MoneyHandler:NSCoding {
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
-        ChasmCrystals = aDecoder.decodeObjectForKey("ChasmCrystals") as! Int
-        Coins = aDecoder.decodeObjectForKey("Coins") as! Int
+        ChasmCrystals = aDecoder.decodeObject(forKey: "ChasmCrystals") as! Int
+        Coins = aDecoder.decodeObject(forKey: "Coins") as! Int
     }
     
-    @objc func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(ChasmCrystals, forKey: "ChasmCrystals")
-        aCoder.encodeObject(Coins, forKey: "Coins")
+    @objc func encode(with aCoder: NSCoder) {
+        aCoder.encode(ChasmCrystals, forKey: "ChasmCrystals")
+        aCoder.encode(Coins, forKey: "Coins")
     }
 }
 
 enum CurrencyType:Int {
-    case ChasmCrystal = 0, Coin = 1
+    case chasmCrystal = 0, coin = 1
 }
 
 protocol Purchasable {
@@ -189,9 +189,9 @@ class InternalPurchaseHandler:NSCoding {
     }
     
     private var Purchases:[String:Purchase] = [
-        "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 50, designatedCurrencyType: .ChasmCrystal),
-        "ReviveSelf":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .ChasmCrystal),
-        "UnlockLevel":Purchase(priceCoins: nil, priceCrystals: 25, designatedCurrencyType: .ChasmCrystal)
+        "addInventorySlot":Purchase(priceCoins: nil, priceCrystals: 50, designatedCurrencyType: .chasmCrystal),
+        "ReviveSelf":Purchase(priceCoins: nil, priceCrystals: 10, designatedCurrencyType: .chasmCrystal),
+        "UnlockLevel":Purchase(priceCoins: nil, priceCrystals: 25, designatedCurrencyType: .chasmCrystal)
     ]
     
     init() {
@@ -199,21 +199,21 @@ class InternalPurchaseHandler:NSCoding {
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
-        let hasBeenPurchasedDict = aDecoder.decodeObjectForKey("hbpd") as! [String:Int]
+        let hasBeenPurchasedDict = aDecoder.decodeObject(forKey: "hbpd") as! [String:Int]
         for (key,_) in Purchases {
             Purchases[key]?.hasBeenPurchased = hasBeenPurchasedDict[key]!
         }
     }
     
-    @objc func encodeWithCoder(aCoder: NSCoder) {
+    @objc func encode(with aCoder: NSCoder) {
         var hasBeenPurchasedDict:[String:Int] = [:]
         for (key,value) in Purchases {
             hasBeenPurchasedDict[key] = value.hasBeenPurchased
         }
-        aCoder.encodeObject(hasBeenPurchasedDict, forKey: "hbpd")
+        aCoder.encode(hasBeenPurchasedDict, forKey: "hbpd")
     }
     
-    func makePurchase(forKey:String, withMoneyHandler:MoneyHandler, currency:CurrencyType) -> Bool {
+    func makePurchase(_ forKey:String, withMoneyHandler:MoneyHandler, currency:CurrencyType) -> Bool {
         if let purchase = Purchases[forKey] {
             if (makePurchase(purchase, withMoneyHandler: withMoneyHandler, currency: currency)) {
                 purchase.hasBeenPurchased += 1
@@ -223,25 +223,25 @@ class InternalPurchaseHandler:NSCoding {
         return false
     }
     
-    func makePurchase(ofPurchasable:Purchasable, withMoneyHandler:MoneyHandler, currency:CurrencyType) -> Bool {
+    func makePurchase(_ ofPurchasable:Purchasable, withMoneyHandler:MoneyHandler, currency:CurrencyType) -> Bool {
         switch (currency) {
-        case .ChasmCrystal:
-            if (ofPurchasable.designatedCurrencyType != .Coin && withMoneyHandler.getCrystals() >= ofPurchasable.priceCrystals!) {
+        case .chasmCrystal:
+            if (ofPurchasable.designatedCurrencyType != .coin && withMoneyHandler.getCrystals() >= ofPurchasable.priceCrystals!) {
                 return (withMoneyHandler.removeCrystals(ofPurchasable.priceCrystals!))
             }
-        case .Coin:
-            if (ofPurchasable.designatedCurrencyType != .ChasmCrystal && withMoneyHandler.getCoins() >= ofPurchasable.priceCoins!) {
+        case .coin:
+            if (ofPurchasable.designatedCurrencyType != .chasmCrystal && withMoneyHandler.getCoins() >= ofPurchasable.priceCoins!) {
                 return (withMoneyHandler.removeCoins(ofPurchasable.priceCoins!))
             }
         }
         return false
     }
     
-    func sellPurchasable(purchasable:Purchasable, withMoneyHandler:MoneyHandler) {
+    func sellPurchasable(_ purchasable:Purchasable, withMoneyHandler:MoneyHandler) {
         withMoneyHandler.addCoins(purchasable.priceCoins!)
     }
     
-    func checkPurchase(forKey:String) -> Int {
+    func checkPurchase(_ forKey:String) -> Int {
         if let purchase = Purchases[forKey] {
             return purchase.hasBeenPurchased
         }
@@ -285,10 +285,10 @@ class LevelHandler:NSCoding {
         }
         
         @objc required init?(coder aDecoder: NSCoder) {
-            unlocked = aDecoder.decodeObjectForKey("unlocked") as! Bool
-            playCount = aDecoder.decodeObjectForKey("playcount") as! Int
-            cleared = aDecoder.decodeObjectForKey("cleared") as! Bool
-            bestWave = aDecoder.decodeObjectForKey("bestWave") as! CGFloat
+            unlocked = aDecoder.decodeObject(forKey: "unlocked") as! Bool
+            playCount = aDecoder.decodeObject(forKey: "playcount") as! Int
+            cleared = aDecoder.decodeObject(forKey: "cleared") as! Bool
+            bestWave = aDecoder.decodeObject(forKey: "bestWave") as! CGFloat
             
             fileName = ""
             mapName = ""
@@ -301,11 +301,11 @@ class LevelHandler:NSCoding {
             bgMusic = ""
         }
         
-        @objc func encodeWithCoder(aCoder: NSCoder) {
-            aCoder.encodeObject(unlocked, forKey: "unlocked")
-            aCoder.encodeObject(playCount, forKey: "playcount")
-            aCoder.encodeObject(cleared, forKey: "cleared")
-            aCoder.encodeObject(bestWave, forKey: "bestWave")
+        @objc func encode(with aCoder: NSCoder) {
+            aCoder.encode(unlocked, forKey: "unlocked")
+            aCoder.encode(playCount, forKey: "playcount")
+            aCoder.encode(cleared, forKey: "cleared")
+            aCoder.encode(bestWave, forKey: "bestWave")
         }
     }
     
@@ -316,7 +316,7 @@ class LevelHandler:NSCoding {
         LevelDefinition(fileName:"DarkenedHall", mapName:"Darkened Hall", desc:"This cursed chamber has claimed the lives of all who enter.", thumb:"DiscA", thumbFrames: 5, unlocked:false, free:true, unlocksIndex: -1, numWaves:15, bgMusic: "modulatedmind")
     ]
     
-    var currentLevel:Int!
+    var currentLevel:Int = -1
     
     func getCurrentLevelAtlas() -> SKTextureAtlas {
         return SKTextureAtlas(named: "Level\(currentLevel)")
@@ -327,7 +327,7 @@ class LevelHandler:NSCoding {
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
-        let newLevelDict = aDecoder.decodeObjectForKey("levelDict") as! [LevelDefinition]
+        let newLevelDict = aDecoder.decodeObject(forKey: "levelDict") as! [LevelDefinition]
         for i in 0..<newLevelDict.count {
             levelDict[i].unlocked = newLevelDict[i].unlocked
             levelDict[i].bestWave = newLevelDict[i].bestWave
@@ -346,11 +346,11 @@ class LevelHandler:NSCoding {
         return min(leastIndex, defaultLevelHandler.levelDict.count)
     }
     
-    @objc func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(levelDict, forKey: "levelDict")
+    @objc func encode(with aCoder: NSCoder) {
+        aCoder.encode(levelDict, forKey: "levelDict")
     }
     
-    func levelCompleted(victory:Bool, wave:Int) {
+    func levelCompleted(_ victory:Bool, wave:Int) {
         levelDict[currentLevel].playCount += 1
         levelDict[currentLevel].bestWave = CGFloat(wave)
         if (victory) {
@@ -359,7 +359,7 @@ class LevelHandler:NSCoding {
         }
     }
     
-    func setLevelUnlocked(index:Int) {
+    func setLevelUnlocked(_ index:Int) {
         levelDict[index].unlocked = true
     }
 }

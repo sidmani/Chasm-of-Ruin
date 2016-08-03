@@ -60,8 +60,8 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.scrollDirection = .Horizontal
-        layout.minimumInteritemSpacing = CGFloat.max
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = CGFloat.greatestFiniteMagnitude
 
         let longPressGR = UILongPressGestureRecognizer()
         inventoryCollection.addGestureRecognizer(longPressGR)
@@ -109,24 +109,24 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         inventoryCollection.contentInset.right = (screenSize.width/2 - layout.itemSize.width/2)
         itemWidth = layout.itemSize.width
         leftScrollBound = -inventoryCollection.contentInset.left
-        inventoryCollection.setContentOffset(CGPointMake(leftScrollBound+itemWidth,0), animated: false)
+        inventoryCollection.setContentOffset(CGPoint(x: leftScrollBound+itemWidth,y: 0), animated: false)
 
         
-        currentItemView.contentMode = .ScaleAspectFit
+        currentItemView.contentMode = .scaleAspectFit
         currentItemView.layer.magnificationFilter = kCAFilterNearest
         
         let blur = UIVisualEffectView(frame: self.view.bounds)
-        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(blur)
-        UIView.animateWithDuration(0.5) {
-            blur.effect = UIBlurEffect(style: .Light)
+        UIView.animate(withDuration: 0.5) {
+            blur.effect = UIBlurEffect(style: .light)
         }
-        self.view.sendSubviewToBack(blur)
+        self.view.sendSubview(toBack: blur)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
-        rightScrollBound = layout.collectionViewContentSize().width - screenSize.width/2 - layout.itemSize.width/2
+        rightScrollBound = layout.collectionViewContentSize.width - screenSize.width/2 - layout.itemSize.width/2
         if (!hasExecutedTutorial) {
             popTip.shouldDismissOnTapOutside = true
             popTip.shouldDismissOnTap = true
@@ -135,9 +135,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             popTip.borderColor = ColorScheme.strokeColor
             popTip.borderWidth = 2.0
             
-            popTip.actionAnimation = .Float
-            popTip.entranceAnimation = .Scale
-            popTip.exitAnimation = .Scale
+            popTip.actionAnimation = .float
+            popTip.entranceAnimation = .scale
+            popTip.exitAnimation = .scale
             popTip.dismissHandler = {[unowned self] in
                 self.incrementTutorial()
             }
@@ -149,21 +149,21 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     func incrementTutorial() {
         switch (popupNum) {
         case 0:
-            popTip.showText("This is your inventory.", direction: .Up, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: CGRectMake(inventoryCollection.frame.minX, inventoryCollection.frame.minY + 20, inventoryCollection.frame.width, inventoryCollection.frame.height))
+            popTip.showText("This is your inventory.", direction: .up, maxWidth: self.view.frame.width-50, in: self.view, fromFrame: CGRect(x: inventoryCollection.frame.minX, y: inventoryCollection.frame.minY + 20, width: inventoryCollection.frame.width, height: inventoryCollection.frame.height))
         case 1:
-            popTip.showText("Press and drag an item to move it to a different slot.", direction: .Up, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: CGRectMake(inventoryCollection.frame.minX, inventoryCollection.frame.minY + 20, inventoryCollection.frame.width, inventoryCollection.frame.height))
+            popTip.showText("Press and drag an item to move it to a different slot.", direction: .up, maxWidth: self.view.frame.width-50, in: self.view, fromFrame: CGRect(x: inventoryCollection.frame.minX, y: inventoryCollection.frame.minY + 20, width: inventoryCollection.frame.width, height: inventoryCollection.frame.height))
         case 2:
-            popTip.showText("The leftmost slot shows items on the ground. Use it to drop or pick up items.", direction: .Up, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: CGRectMake(inventoryCollection.frame.minX, inventoryCollection.frame.minY + 20, inventoryCollection.frame.width, inventoryCollection.frame.height))
+            popTip.showText("The leftmost slot shows items on the ground. Use it to drop or pick up items.", direction: .up, maxWidth: self.view.frame.width-50, in: self.view, fromFrame: CGRect(x: inventoryCollection.frame.minX, y: inventoryCollection.frame.minY + 20, width: inventoryCollection.frame.width, height: inventoryCollection.frame.height))
         case 3:
-            popTip.showText("Press this button to load or use the selected item.", direction: .Up, maxWidth: EquipButton.frame.width*2, inView: self.view, fromFrame: EquipButton.frame)
+            popTip.showText("Press this button to load or use the selected item.", direction: .up, maxWidth: EquipButton.frame.width*2, in: self.view, fromFrame: EquipButton.frame)
         case 4:
-            popTip.showText("These display the individual stats for each item.", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
+            popTip.showText("These display the individual stats for each item.", direction: .up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, in: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
             popTip.shouldDismissOnTapOutside = false
         case 5:
-            popTip.showText("Swipe up to display your character's stats.", direction: .Up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, inView: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
+            popTip.showText("Swipe up to display your character's stats.", direction: .up, maxWidth: self.view.viewWithTag(10)!.frame.width-20, in: self.view, fromFrame: self.view.viewWithTag(10)!.frame)
             popTip.shouldDismissOnTapOutside = true
         case 6:
-            popTip.showText("Now load armor and a weapon, and start playing!", direction: .None, maxWidth: self.view.frame.width-50, inView: self.view, fromFrame: self.view.frame)
+            popTip.showText("Now load armor and a weapon, and start playing!", direction: .none, maxWidth: self.view.frame.width-50, in: self.view, fromFrame: self.view.frame)
         default:
             break
         }
@@ -171,7 +171,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     
-    func itemDropped(indexA:Int, indexB:Int) {
+    func itemDropped(_ indexA:Int, indexB:Int) {
         if (indexA == indexB) {return}
         if (indexA == -2) {
             if let item = inventory.getItem(indexB) {
@@ -201,9 +201,9 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             inventory.swapItems(indexA, atIndexB: indexB)
         }
     }
-    @IBAction func exit(sender: AnyObject) {
+    @IBAction func exit(_ sender: AnyObject) {
         self.dismissDelegate?.willDismissModalVC(self.groundBag)
-        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+        self.dismiss(animated: true, completion: {[unowned self] in
             self.dismissDelegate?.didDismissModalVC(nil)
         })
     }
@@ -234,13 +234,13 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             }
             else if (previousSelectedContainer!.correspondsToInventoryIndex != -2) {
                 if (inventory.equipItem(previousSelectedContainer!.correspondsToInventoryIndex)) {
-                    EquipButton.setTitle("Unload", forState: .Normal)
+                    EquipButton.setTitle("Unload", for: UIControlState())
                 }
                 else {
-                    EquipButton.setTitle("Load", forState: .Normal)
+                    EquipButton.setTitle("Load", for: UIControlState())
                 }
             }
-            inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
+            inventoryCollection.reloadItems(at: inventoryCollection.indexPathsForVisibleItems)
             selectCenterCell()
             updateInfoDisplay()
             updatePermanentStatsDisplay()
@@ -303,21 +303,21 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                             view.alpha = 0.3
                         }
                     }
-                    EquipButton.setTitle("Consume", forState: .Normal)
+                    EquipButton.setTitle("Consume", for: UIControlState())
                 }
                 else if (item is Usable) {
                     for view in StatsDisplay {
                         view.alpha = 0
                     }
                     DescriptionLabel.alpha = 1
-                    EquipButton.setTitle("Use", forState: .Normal)
+                    EquipButton.setTitle("Use", for: UIControlState())
                 }
                 else if (item is Sellable) {
                     for view in StatsDisplay {
                         view.alpha = 0
                     }
                     DescriptionLabel.alpha = 1
-                    EquipButton.setTitle("Sell", forState: .Normal)
+                    EquipButton.setTitle("Sell", for: UIControlState())
                 }
                 else if (item is Weapon || item is Armor || item is Enhancer) {
                     HPProgressView.alpha = 0
@@ -328,10 +328,10 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     DEXProgressView.alpha = 1
                     DescriptionLabel.alpha = 1
                     if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
-                        EquipButton.setTitle("Unload", forState: .Normal)
+                        EquipButton.setTitle("Unload", for: UIControlState())
                     }
                     else {
-                        EquipButton.setTitle("Load", forState: .Normal)
+                        EquipButton.setTitle("Load", for: UIControlState())
                     }
                 }
                 else if item is Skill {
@@ -340,16 +340,16 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                     }
                     DescriptionLabel.alpha = 1
                     if (inventory.isEquipped(previousSelectedContainer!.correspondsToInventoryIndex)) {
-                        EquipButton.setTitle("Unload", forState: .Normal)
+                        EquipButton.setTitle("Unload", for: UIControlState())
                     }
                     else {
-                        EquipButton.setTitle("Load", forState: .Normal)
+                        EquipButton.setTitle("Load", for: UIControlState())
                     }
                 }
                 
                 DescriptionLabel.text = item.desc
                 
-                EquipButton.enabled = true
+                EquipButton.isEnabled = true
                 EquipButton.alpha = 1
 
             }
@@ -362,12 +362,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 DescriptionLabel.alpha = 0
                 DescriptionLabel.text = ""
                 TypeLabel.text = ""
-                EquipButton.enabled = false
+                EquipButton.isEnabled = false
                 EquipButton.alpha = 0.3
             }
             
             if (previousSelectedContainer!.correspondsToInventoryIndex == -2 && !(previousSelectedContainer!.item is Consumable)) {
-                EquipButton.enabled = false
+                EquipButton.isEnabled = false
                 EquipButton.alpha = 0.3
             }
         }
@@ -379,66 +379,66 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
             DescriptionLabel.text = ""
             TypeLabel.text = ""
             ItemNameLabel.text = "Purchase More Inventory Slots"
-            EquipButton.enabled = false
+            EquipButton.isEnabled = false
             EquipButton.alpha = 0.3
         }
     }
 
     ////////////////////////////
     //UICollectionView handling
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10 + defaultPurchaseHandler.checkPurchase("addInventorySlot")
     }
     
-    @IBAction func addMoreSlotsButtonPressed(sender:UIButton) {
+    @IBAction func addMoreSlotsButtonPressed(_ sender:UIButton) {
         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") < 4) {
-            let alert = storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+            let alert = storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
             alert.text = "Purchase another inventory slot for 50 Crystals?"
             alert.completion = {(response) in
                 if (response) {
-                    if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .ChasmCrystal)) {
-                        self.inventoryCollection.insertItemsAtIndexPaths([NSIndexPath.init(forItem: self.inventoryCollection.numberOfItemsInSection(0)-1, inSection: 0)])
+                    if (defaultPurchaseHandler.makePurchase("addInventorySlot", withMoneyHandler: defaultMoneyHandler, currency: .chasmCrystal)) {
+                        self.inventoryCollection.insertItems(at: [IndexPath.init(item: self.inventoryCollection.numberOfItems(inSection: 0)-1, section: 0)])
                         self.inventory.purchasedSlot()
                         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") == 4) {
-                            sender.enabled = false
+                            sender.isEnabled = false
                             sender.alpha = 0.3
                         }
                     }
                     else {
-                        let alert = self.storyboard!.instantiateViewControllerWithIdentifier("alertViewController") as! AlertViewController
+                        let alert = self.storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
                         alert.text = "You don't have enough Crystals for that! Buy some more?"
                         alert.completion = {(response) in
                             if (response) {
-                                let cpvc = self.storyboard!.instantiateViewControllerWithIdentifier("currencyPurchaseVC")
-                                self.presentViewController(cpvc, animated: true, completion: nil)
+                                let cpvc = self.storyboard!.instantiateViewController(withIdentifier: "currencyPurchaseVC")
+                                self.present(cpvc, animated: true, completion: nil)
                             }
                         }
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if (indexPath.item == collectionView.numberOfItemsInSection(0)-1) {
-            return collectionView.dequeueReusableCellWithReuseIdentifier("AddSlots", forIndexPath: indexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if ((indexPath as NSIndexPath).item == collectionView.numberOfItems(inSection: 0)-1) {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "AddSlots", for: indexPath)
         }
         else {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ItemContainer
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ItemContainer
             
-            cell.updateIndex((indexPath.item == 0 ? -2 : indexPath.item - 1))
+            cell.updateIndex(((indexPath as NSIndexPath).item == 0 ? -2 : (indexPath as NSIndexPath).item - 1))
             if (cell.correspondsToInventoryIndex != currentIndex) {
                 cell.resetItemView()
             }
             else {
-                cell.itemView.hidden = true
+                cell.itemView.isHidden = true
             }
         
             cell.isEquipped = inventory.isEquipped(cell.correspondsToInventoryIndex)
-            cell.setItemTo((indexPath.item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
-            if (indexPath.item == 1 && previousSelectedContainer == nil) {
+            cell.setItemTo(((indexPath as NSIndexPath).item == 0 ? groundBag?.item : inventory.getItem(cell.correspondsToInventoryIndex)))
+            if ((indexPath as NSIndexPath).item == 1 && previousSelectedContainer == nil) {
                 previousSelectedContainer = cell
                 cell.setSelectedTo(true)
                 updateInfoDisplay()
@@ -451,22 +451,22 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        collectionView.setContentOffset(CGPointMake(CGFloat(indexPath.item) * itemWidth + leftScrollBound, 0), animated: true)
-        if let container = (inventoryCollection.cellForItemAtIndexPath(indexPath) as? ItemContainer) where previousSelectedContainer == container {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.setContentOffset(CGPoint(x: CGFloat((indexPath as NSIndexPath).item) * itemWidth + leftScrollBound, y: 0), animated: true)
+        if let container = (inventoryCollection.cellForItem(at: indexPath) as? ItemContainer), previousSelectedContainer == container {
             equipButtonPressed()
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (selectCenterCell()) {
             updateInfoDisplay()
         }
     }
     
-    func selectCenterCell() -> Bool {
-        if let path = inventoryCollection.indexPathForItemAtPoint(self.view.convertPoint(inventoryCollection.center, toView: inventoryCollection)) {
-            if let container = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer) {
+    @discardableResult func selectCenterCell() -> Bool {
+        if let path = inventoryCollection.indexPathForItem(at: self.view.convert(inventoryCollection.center, to: inventoryCollection)) {
+            if let container = (inventoryCollection.cellForItem(at: path) as? ItemContainer) {
                 if (previousSelectedContainer != container) {
                     previousSelectedContainer?.setSelectedTo(false)
                     container.setSelectedTo(true)
@@ -475,7 +475,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
                 currentItemIsButton = false
             }
-            else if (inventoryCollection.cellForItemAtIndexPath(path) != nil && !currentItemIsButton) {
+            else if (inventoryCollection.cellForItem(at: path) != nil && !currentItemIsButton) {
                 previousSelectedContainer?.setSelectedTo(false)
                 previousSelectedContainer = nil
                 currentItemIsButton = true
@@ -485,18 +485,18 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         return false
     }
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if (touch.view is UIButton) {
             return false
         }
         return true
     }
     
-    @IBAction func handleLongPress(recognizer:UILongPressGestureRecognizer) {
-        if (recognizer.state == .Began) {
-            if let path = inventoryCollection.indexPathForItemAtPoint(recognizer.locationInView(self.inventoryCollection))
+    @IBAction func handleLongPress(_ recognizer:UILongPressGestureRecognizer) {
+        if (recognizer.state == .began) {
+            if let path = inventoryCollection.indexPathForItem(at: recognizer.location(in: self.inventoryCollection))
             {
-                currentContainer = (inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer)
+                currentContainer = (inventoryCollection.cellForItem(at: path) as? ItemContainer)
                 if (currentContainer?.item == nil) {
                     currentContainer = nil
                     return
@@ -505,26 +505,26 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                 currentItemView.image = currentContainer!.itemView.image
                 let bounds = currentContainer!.itemView.bounds
                 
-                currentItemView.bounds = CGRectMake(bounds.minX, bounds.minY, bounds.width*1.5, bounds.height*1.5)
-                currentItemView.center = recognizer.locationInView(self.view)
-                currentContainer!.itemView.hidden = true
+                currentItemView.bounds = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width*1.5, height: bounds.height*1.5)
+                currentItemView.center = recognizer.location(in: self.view)
+                currentContainer!.itemView.isHidden = true
         
                 self.view.addSubview(currentItemView)
             }
         }
-        else if (recognizer.state == .Changed && currentItemView.image != nil) {
-            let newLoc = recognizer.locationInView(self.view)
+        else if (recognizer.state == .changed && currentItemView.image != nil) {
+            let newLoc = recognizer.location(in: self.view)
             currentItemView.center = newLoc
             if (newLoc.x > 0.8*screenSize.width || newLoc.x < screenSize.width*0.2) {
                 let offsetX = constrain((currentItemView.center.x-inventoryCollection.center.x)/7+inventoryCollection.contentOffset.x, lower: leftScrollBound, upper: rightScrollBound)
                 inventoryCollection.setContentOffset(CGPoint(x:offsetX, y:0), animated: false)
             }
         }
-        else if (recognizer.state == .Ended) {
-            if let path = inventoryCollection.indexPathForItemAtPoint(recognizer.locationInView(self.inventoryCollection)), containerA = inventoryCollection.cellForItemAtIndexPath(path) as? ItemContainer  {
+        else if (recognizer.state == .ended) {
+            if let path = inventoryCollection.indexPathForItem(at: recognizer.location(in: self.inventoryCollection)), let containerA = inventoryCollection.cellForItem(at: path) as? ItemContainer  {
                 itemDropped(containerA.correspondsToInventoryIndex, indexB: currentIndex)
                 currentIndex = -1
-                inventoryCollection.reloadItemsAtIndexPaths(inventoryCollection.indexPathsForVisibleItems())
+                inventoryCollection.reloadItems(at: inventoryCollection.indexPathsForVisibleItems)
                 selectCenterCell()
                 updateInfoDisplay()
             }
@@ -537,7 +537,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     ////////////////////////
-    private func constrain(x:CGFloat, lower:CGFloat, upper:CGFloat) -> CGFloat{
+    private func constrain(_ x:CGFloat, lower:CGFloat, upper:CGFloat) -> CGFloat{
         return max(lower, min(x,upper))
     }
 }

@@ -12,7 +12,7 @@ import UIKit
 
 class Behavior: Updatable {
     enum BehaviorIDType {
-        case Movement, Attack, Animation, Nonexclusive
+        case movement, attack, animation, nonexclusive
     }
     
     var idType:BehaviorIDType
@@ -29,11 +29,11 @@ class Behavior: Updatable {
         self.updateRate = updateRate
     }
     
-    func setParent(to:Enemy) {
+    func setParent(_ to:Enemy) {
         parent = to
     }
     
-    final func update(deltaT: Double) {
+    final func update(_ deltaT: Double) {
         if (timeSinceUpdate >= updateRate) {
             executeBehavior(timeSinceUpdate)
             timeSinceUpdate = 0
@@ -47,7 +47,7 @@ class Behavior: Updatable {
         return false
     }
     
-    func executeBehavior(timeSinceUpdate:Double) {
+    func executeBehavior(_ timeSinceUpdate:Double) {
         
     }
 }

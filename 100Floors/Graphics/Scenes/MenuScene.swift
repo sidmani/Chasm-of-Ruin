@@ -13,7 +13,7 @@ import AVFoundation
 class MenuScene: SKScene {
     private var oldTime:Double = 0
     var touchLocation:CGPoint?
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         //add random display enemies
         //add map
         self.physicsWorld.gravity = CGVector.zero
@@ -31,30 +31,30 @@ class MenuScene: SKScene {
         SKTextureAtlas.preloadTextureAtlases([SKTextureAtlas(named:"ExplodeA")], withCompletionHandler: {})
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            if let touchedNode = self.nodeAtPoint(touch.locationInNode(self)) as? DisplayEnemy {
+            if let touchedNode = self.atPoint(touch.location(in: self)) as? DisplayEnemy {
                 touchedNode.runEffect("ExplodeA") { [unowned touchedNode] in
-                    touchedNode.runAction(SKAction.fadeAlphaTo(0, duration: 0.25)) { [unowned touchedNode] in
+                    touchedNode.run(SKAction.fadeAlpha(to: 0, duration: 0.25)) { [unowned touchedNode] in
                         touchedNode.die()
                     }
                 }
             }
             else {
-                touchLocation = touch.locationInNode(self)
+                touchLocation = touch.location(in: self)
             }
         }
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            touchLocation = touch.locationInNode(self)
+            touchLocation = touch.location(in: self)
         }
     }
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchLocation = nil
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
         for child in children {

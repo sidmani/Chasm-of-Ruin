@@ -12,7 +12,7 @@ protocol Interactive {
     var thumbnailImg:String { get }
     var autotrigger:Bool { get }
     func trigger()
-    func displayPopup(state:Bool)
+    func displayPopup(_ state:Bool)
 }
 
 protocol Activate {
@@ -23,23 +23,23 @@ protocol Activate {
 
 extension String {
     func base64Encoded() -> String {
-        let plainData = dataUsingEncoding(NSUTF8StringEncoding)
-        let base64String = plainData?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        let plainData = data(using: String.Encoding.utf8)
+        let base64String = plainData?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         return base64String!
     }
     
     func base64Decoded() -> String {
-        let decodedData = NSData(base64EncodedString: self, options:NSDataBase64DecodingOptions(rawValue: 0))
-        return NSString(data: decodedData!, encoding: NSUTF8StringEncoding)! as String
+        let decodedData = Data(base64Encoded: self, options:NSData.Base64DecodingOptions(rawValue: 0))
+        return NSString(data: decodedData!, encoding: String.Encoding.utf8.rawValue)! as String
     }
     
-    func splitBase64IntoArray(separator:String) -> [String] {
-        return self.base64Decoded().componentsSeparatedByString(separator)
+    func splitBase64IntoArray(_ separator:String) -> [String] {
+        return self.base64Decoded().components(separatedBy: separator)
     }
 }
 
 class MapObject:SKNode {
-    static func initHandler(type:String, fromBase64:String, loc:CGPoint) -> MapObject {
+    static func initHandler(_ type:String, fromBase64:String, loc:CGPoint) -> MapObject {
         switch (type) {
     //    case "Portal":
     //       return Portal(fromBase64: fromBase64, loc: loc)
@@ -91,10 +91,10 @@ class DisplaySpawner:MapObject, Updatable {
         self.maxNumEnemies = maxNumEnemies
         for i in 0..<numFrames {
             let newTexture = SKTextureAtlas(named: "Menu").textureNamed("\(enemyImageName)\(i)")
-            newTexture.filteringMode = .Nearest
+            newTexture.filteringMode = .nearest
             textureArr.append(newTexture)
         }
-        super.init(loc: CGPointZero)
+        super.init(loc: CGPoint.zero)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -102,9 +102,9 @@ class DisplaySpawner:MapObject, Updatable {
     }
     let rateOfSpawning:Double = Double(randomBetweenNumbers(3000, secondNum: 6000))
     var elapsedTime:Double = 0
-    func update(deltaT: Double) {
+    func update(_ deltaT: Double) {
         if (currNumOfEnemies < maxNumEnemies && elapsedTime > rateOfSpawning) {
-            let newEnemy = DisplayEnemy(name: "DisplayEnemy", textureDict: ["default":textureArr], beginTexture: "default", drops: [], stats: Stats.nilStats, atPosition: CGPointMake(randomBetweenNumbers(20, secondNum: screenSize.width-20), randomBetweenNumbers(20, secondNum: screenSize.height-20)))
+            let newEnemy = DisplayEnemy(name: "DisplayEnemy", textureDict: ["default":textureArr], beginTexture: "default", drops: [], stats: Stats.nilStats, atPosition: CGPoint(x: randomBetweenNumbers(20, secondNum: screenSize.width-20), y: randomBetweenNumbers(20, secondNum: screenSize.height-20)))
             newEnemy.parentSpawner = self
             newEnemy.setScale(screenSize.width/160)
             self.scene?.addChild(newEnemy)
@@ -401,10 +401,10 @@ class ItemBag:MapObject, Interactive {
         self.physicsBody?.pinned = true
 
         self.addChild(bagNode)
-        popup = PopUp(image: thumbnailImg, size: CGSizeMake(8, 8), parent:self)
-        popup!.hidden = true
+        popup = PopUp(image: thumbnailImg, size: CGSize(width: 8, height: 8), parent:self)
+        popup!.isHidden = true
         self.addChild(popup!)
-        self.runAction(SKAction.waitForDuration(20, withRange: 2), completion: {[unowned self] in
+        self.run(SKAction.wait(forDuration: 20, withRange: 2), completion: {[unowned self] in
             self.removeAllChildren()
             self.removeFromParent()
         })
@@ -415,28 +415,28 @@ class ItemBag:MapObject, Interactive {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         trigger()
     }
     
     func trigger() {
-        NSNotificationCenter.defaultCenter().postNotificationName("groundBagTapped", object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "groundBagTapped"), object: self)
     }
     
     override func updateZPosition() {
         self.zPosition = MapLevel.LayerDef.Entity - 0.0001 * (self.position.y - bagNode.frame.height/2)
     }
     
-    func displayPopup(state:Bool) {
+    func displayPopup(_ state:Bool) {
         if (state) {
-            self.popup?.hidden = false
+            self.popup?.isHidden = false
         }
         else {
-            self.popup?.hidden = true
+            self.popup?.isHidden = true
         }
     }
     
-    func setItemTo(_item:Item?) {
+    func setItemTo(_ _item:Item?) {
         if (_item == nil) {
             removeFromParent()
         }
@@ -469,10 +469,10 @@ class InfoDisplay:MapObject, Activate {
     }
     
     var currInfo = 0
-    var timer:NSTimer?
+    var timer:Timer?
     
     func postNextInfo() {
-        NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: infoToDisplay[currInfo])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "postInfoToDisplay"), object: infoToDisplay[currInfo])
         currInfo += 1
         if (currInfo == infoToDisplay.count) {
             timer?.invalidate()
@@ -480,7 +480,7 @@ class InfoDisplay:MapObject, Activate {
     }
     
     func activate() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: #selector(postNextInfo), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(postNextInfo), userInfo: nil, repeats: true)
     }
     
     func deactivate() {
@@ -498,8 +498,8 @@ class Trap:MapObject, Activate {
         //texture name, damage, trigger distance, side effect rawvalue
         let optArr = fromBase64.splitBase64IntoArray("|")
         node = SKSpriteNode(imageNamed: optArr[0])
-        node.texture?.filteringMode = .Nearest
-        node.hidden = true
+        node.texture?.filteringMode = .nearest
+        node.isHidden = true
         damage = CGFloat(optArr[1])
         triggerDistance = CGFloat(optArr[2])
         statusInflicted = StatusCondition(rawValue: Double(optArr[3])!)
@@ -518,7 +518,7 @@ class Trap:MapObject, Activate {
     }
     
     func activate() {
-        node.hidden = false
+        node.isHidden = false
     }
     func deactivate() {
         
@@ -531,10 +531,10 @@ class UsableItemResponder:MapObject {
     init(loc:CGPoint, eventKey:String) {
         self.eventKey = eventKey
         super.init(loc: loc)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(eventTriggered), name: "UsableItemUsed", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(eventTriggered), name: "UsableItemUsed" as NSNotification.Name, object: nil)
     }
     
-    @objc final private func eventTriggered(notification:NSNotification) {
+    @objc final private func eventTriggered(_ notification:Notification) {
         if (notification.object as! String == eventKey) {
             triggerAction()
         }

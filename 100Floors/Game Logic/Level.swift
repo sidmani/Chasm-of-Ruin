@@ -10,18 +10,18 @@ import SpriteKit
 import UIKit
 extension CGPoint {
     init(_ s:String) {
-        let stringArr = s.componentsSeparatedByString(",")
+        let stringArr = s.components(separatedBy: ",")
         self.init(x: stringArr[0], y: stringArr[1])
     }
     
     init(x:String, y:String) {
-        self.init(x: CGFloat(NSNumberFormatter().numberFromString(x)!), y: CGFloat(NSNumberFormatter().numberFromString(y)!))
+        self.init(x: CGFloat(NumberFormatter().number(from: x)!), y: CGFloat(NumberFormatter().number(from: y)!))
     }
 }
 
 extension CGFloat {
     init(_ s:String) {
-        self.init(NSNumberFormatter().numberFromString(s)!)
+        self.init(NumberFormatter().number(from: s)!)
     }
 }
 
@@ -61,7 +61,7 @@ class MapLevel:SKNode, Updatable {
         map = SKATiledMap(mapName: level.fileName)
         
         let mapSizeOnScreen = CGSize(width: Int(screenSize.width/CGFloat(map.tileWidth)), height: Int(screenSize.height/CGFloat(map.tileHeight)))
-        let mapSize = CGSizeMake(CGFloat(map.mapWidth*map.tileWidth), CGFloat(map.mapHeight*map.tileHeight))
+        let mapSize = CGSize(width: CGFloat(map.mapWidth*map.tileWidth), height: CGFloat(map.mapHeight*map.tileHeight))
        
         
         let numWaves = Int(map.mapProperties["NumWaves"] as! String)!
@@ -77,18 +77,18 @@ class MapLevel:SKNode, Updatable {
                     spawnPoints[obj.name] = CGPoint(x: obj.x, y: obj.y)
                 }
                 else if (obj.properties?["Data"] != nil) {
-                    let loc = CGPointMake(CGFloat(obj.x), CGFloat(obj.y))
+                    let loc = CGPoint(x: CGFloat(obj.x), y: CGFloat(obj.y))
                     objects.addChild(MapObject.initHandler(obj.type, fromBase64: obj.properties!["Data"] as! String, loc: loc))
                 }
             }
         }
         
         for i in 0..<map.spriteLayers.count {
-            if let isAbovePlayer = (map.spriteLayers[i].properties["AbovePlayer"] as? String) where isAbovePlayer == "true" {
+            if let isAbovePlayer = (map.spriteLayers[i].properties["AbovePlayer"] as? String), isAbovePlayer == "true" {
                 map.spriteLayers[i].zPosition = LayerDef.MapAbovePlayer + 0.001 * CGFloat(i)
             }
-            else if let animationLayer = (map.spriteLayers[i].properties["AnimationLayer"] as? String) where animationLayer == "true" {
-                SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock() { [unowned self] in self.map.spriteLayers[i].hidden = !self.map.spriteLayers[i].hidden }, SKAction.waitForDuration(0.5)]))
+            else if let animationLayer = (map.spriteLayers[i].properties["AnimationLayer"] as? String), animationLayer == "true" {
+                SKAction.repeatForever(SKAction.sequence([SKAction.run() { [unowned self] in self.map.spriteLayers[i].isHidden = !self.map.spriteLayers[i].isHidden }, SKAction.wait(forDuration: 0.5)]))
             }
             else {
                 map.spriteLayers[i].zPosition = LayerDef.MapTop + 0.001 * CGFloat(i)
@@ -111,7 +111,7 @@ class MapLevel:SKNode, Updatable {
             (self.scene as? InGameScene)?.addObject(enemy)
         }
         if (currWaveIndex < waves.count-1) {
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [unowned self] in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [unowned self] in
                 self.preloadedWave = Wave(fromBase64: self.waves[self.currWaveIndex+1], spawnPoints: self.spawnPoints)
             }
         }
@@ -122,15 +122,15 @@ class MapLevel:SKNode, Updatable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func indexForPoint(p:CGPoint) -> CGPoint {
+    func indexForPoint(_ p:CGPoint) -> CGPoint {
         return map.index(p)
     }
     
-    func cull(x:Int, y:Int, width:Int, height:Int) {
+    func cull(_ x:Int, y:Int, width:Int, height:Int) {
         map.cullAround(x, y: y, width: width, height: height)
     }
     
-    func update(deltaT: Double) {
+    func update(_ deltaT: Double) {
         for object in objects.children {
             (object as? Updatable)?.update(deltaT)
         }
@@ -143,7 +143,7 @@ class MapLevel:SKNode, Updatable {
         return false
     }
     
-    func speedModForIndex(point:CGPoint) -> CGFloat {
+    func speedModForIndex(_ point:CGPoint) -> CGFloat {
         let sprite = map.spriteFor(0, x: Int(point.x), y: Int(point.y))
         return sprite.speedMod
     }
@@ -162,7 +162,7 @@ class Wave {
         let enemyArr = fromBase64.splitBase64IntoArray("|")
      //   enemiesLeft = enemyArr.count
         for pair in enemyArr {
-            let pairArr = pair.componentsSeparatedByString(":")
+            let pairArr = pair.components(separatedBy: ":")
             let loc = spawnPoints[pairArr[1]]!
             let thisEnemy = enemyXML.root["enemy"].allWithAttributes(["id":pairArr[0]])!.first!
             let stats = Stats.statsFrom(thisEnemy["stats"].stringValue)
@@ -175,7 +175,7 @@ class Wave {
                     let frames = Int(animation.attributes["frames"]!)!
                     for i in 0..<frames {
                         let newTexture = defaultLevelHandler.getCurrentLevelAtlas().textureNamed("\(animation.stringValue)\(i)")
-                        newTexture.filteringMode = .Nearest
+                        newTexture.filteringMode = .nearest
                         textArr.append(newTexture)
                     }
                     enemyTextureDict[animation.attributes["name"]!] = textArr
@@ -189,7 +189,7 @@ class Wave {
             if let enemyDrops = thisEnemy["drop"].all {
                 for drop in enemyDrops {
                     if (randomBetweenNumbers(0, secondNum: 1) <= CGFloat(drop.attributes["chance"]!)) {
-                        drops.append(MapObject.initHandler(drop.attributes["type"]!, fromBase64: drop.stringValue, loc: CGPointZero))
+                        drops.append(MapObject.initHandler(drop.attributes["type"]!, fromBase64: drop.stringValue, loc: CGPoint.zero))
                     }
                 }
             }
@@ -206,7 +206,7 @@ class Wave {
         return (enemies.count == 0)
     }
     
-    func enemyDied(enemy:Enemy) {
+    func enemyDied(_ enemy:Enemy) {
         //enemiesLeft -= 1
         enemies = enemies.filter() { $0 !== enemy }
         //print("Enemies left: \(enemies.count)")

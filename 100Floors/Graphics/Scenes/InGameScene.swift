@@ -10,7 +10,7 @@
 import SpriteKit
 import AVFoundation
 
-let screenSize = UIScreen.mainScreen().bounds
+let screenSize = UIScreen.main.bounds
 
 class InGameScene: SKScene, SKPhysicsContactDelegate {
 
@@ -31,18 +31,18 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     private let mainCamera = SKCameraNode()
     private var nonCharNodes = SKNode()
     private var itemBags = SKNode()
-    private var cameraBounds:CGRect = CGRectZero
-    var currScreenBounds:CGRect = CGRectZero
+    private var cameraBounds:CGRect = CGRect.zero
+    var currScreenBounds:CGRect = CGRect.zero
     weak var currentGroundBag:ItemBag?
     
-    override func didMoveToView(view: SKView) {
-        self.physicsWorld.gravity = CGVectorMake(0,0)
+    override func didMove(to view: SKView) {
+        self.physicsWorld.gravity = CGVector(dx: 0,dy: 0)
         self.physicsWorld.contactDelegate = self
-        self.scaleMode = .AspectFill
+        self.scaleMode = .aspectFill
         self.camera = mainCamera
         self.camera!.position = thisCharacter.position
         self.camera!.setScale(0.2)
-        self.paused = true
+        self.isPaused = true
         //////////////////////////////////////////
         self.addChild(self.camera!)
         //////////////////////////////////////////
@@ -51,7 +51,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         addChild(thisCharacter)
     }
 
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         /////// player contacts interactive object
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive) {
             let object = contact.bodyA.node as! Interactive
@@ -142,7 +142,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didEndContact(contact: SKPhysicsContact) {
+    func didEnd(_ contact: SKPhysicsContact) {
         if (contact.bodyA.categoryBitMask == PhysicsCategory.Interactive && contact.bodyB.categoryBitMask == PhysicsCategory.ThisPlayer) {
             let object = contact.bodyA.node as! Interactive
             object.displayPopup(false)
@@ -163,7 +163,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didFinishUpdate() {
-        var newLoc = CGPointMake(floor(thisCharacter.position.x*10)/10, floor(thisCharacter.position.y*10)/10)
+        var newLoc = CGPoint(x: floor(thisCharacter.position.x*10)/10, y: floor(thisCharacter.position.y*10)/10)
         newLoc.x = min(cameraBounds.maxX, newLoc.x)
         newLoc.x = max(cameraBounds.minX, newLoc.x)
         newLoc.y = min(cameraBounds.maxY, newLoc.y)
@@ -179,9 +179,9 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         return (currentLevel != nil ? currentLevel!.currWaveIndex : 0)
     }
     
-    func setLevel(level:MapLevel) {
-        thisCharacter.hidden = true
-        nonCharNodes.hidden = true
+    func setLevel(_ level:MapLevel) {
+        thisCharacter.isHidden = true
+        nonCharNodes.isHidden = true
         nonCharNodes.removeAllChildren()
         thisCharacter.pointers.removeAllChildren()
         ///////////////////////////
@@ -190,11 +190,11 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         thisCharacter.position = currentLevel!.startLoc
         thisCharacter.setTextureDict()
         thisCharacter.reset()
-        cameraBounds = CGRectMake(camera!.xScale*screenSize.width/2, camera!.yScale*screenSize.height/2,  (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
+        cameraBounds = CGRect(x: camera!.xScale*screenSize.width/2, y: camera!.yScale*screenSize.height/2,  width: (currentLevel!.mapSize.width) - camera!.xScale*(screenSize.width), height: (currentLevel!.mapSize.height) - camera!.yScale*(screenSize.height))
         globalAudioPlayer?.stop()
-        let url = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(level.definition.bgMusic, ofType: "mp3")!)
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: level.definition.bgMusic, ofType: "mp3")!)
         do {
-            globalAudioPlayer = try AVAudioPlayer(contentsOfURL:url)
+            globalAudioPlayer = try AVAudioPlayer(contentsOf:url)
             globalAudioPlayer!.numberOfLoops = -1
             globalAudioPlayer!.prepareToPlay()
             if (audioEnabled) {
@@ -205,17 +205,17 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         ///////////////////////////
-        thisCharacter.hidden = false
-        nonCharNodes.hidden = false
-        self.paused = false
+        thisCharacter.isHidden = false
+        nonCharNodes.isHidden = false
+        self.isPaused = false
         if (!isTutorial()) {
-            NSNotificationCenter.defaultCenter().postNotificationName("postInfoToDisplay", object: currentLevel!.definition.mapName)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "postInfoToDisplay"), object: currentLevel!.definition.mapName)
             self.camera!.addChild(CountdownTimer(time: 5, endText: "WAVE \(self.currentLevel!.currWaveIndex + 2)") {[unowned self] in
                 self.currentLevel!.nextWave()
             })
         }
         else {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(startCountdownAfterTutorial), name: "TutorialEnded", object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(startCountdownAfterTutorial), name: "TutorialEnded" as NSNotification.Name, object: nil)
         }
     }
     
@@ -236,7 +236,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
     var hasMovedToNextWave = false
     var timeUntilProceedToNextWave:Double = 15000
     var progressUpdateTime:Double = 0
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         let deltaT = (currentTime-oldTime)*1000
         oldTime = currentTime
         if (deltaT < 100) {
@@ -250,7 +250,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                 if (currentLevel!.waveIsOver() && !hasMovedToNextWave) {
                     if (timeUntilProceedToNextWave <= 0) {
                         if (currentLevel!.currWaveIndex == currentLevel!.numWaves - 1) {
-                            NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "levelEndedVictory"), object: nil)
                         }
                         else {
                             hasMovedToNextWave = true
@@ -259,7 +259,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                             })
                         }
                         timeUntilProceedToNextWave = 15000
-                        UIElements.ProceedButton.hidden = true
+                        UIElements.ProceedButton.isHidden = true
                         UIElements.ProceedButton.setProgress(1, animated: false)
                     }
                     else {
@@ -271,7 +271,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
                             progressUpdateTime += deltaT
                         }
                         timeUntilProceedToNextWave -= deltaT
-                        UIElements.ProceedButton.hidden = false
+                        UIElements.ProceedButton.isHidden = false
                     }
                 }
                 else if (!currentLevel!.waveIsOver()){
@@ -281,15 +281,15 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             for node in nonCharNodes.children {
                 (node as? Updatable)?.update(deltaT)
             }
-            currScreenBounds = CGRectMake(camera!.position.x - camera!.xScale*screenSize.width/2, camera!.position.y - camera!.yScale*screenSize.height/2, screenSize.width*camera!.xScale, screenSize.height*camera!.yScale)
+            currScreenBounds = CGRect(x: camera!.position.x - camera!.xScale*screenSize.width/2, y: camera!.position.y - camera!.yScale*screenSize.height/2, width: screenSize.width*camera!.xScale, height: screenSize.height*camera!.yScale)
         }
     }
 
     func proceedToNextWave() {
         if (!hasMovedToNextWave) {
-            UIElements.ProceedButton.hidden = true
+            UIElements.ProceedButton.isHidden = true
             if (currentLevel!.currWaveIndex == currentLevel!.numWaves - 1) {
-                NSNotificationCenter.defaultCenter().postNotificationName("levelEndedVictory", object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "levelEndedVictory"), object: nil)
             }
             else {
                 hasMovedToNextWave = true
@@ -302,7 +302,7 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func addObject(node:SKNode) {
+    func addObject(_ node:SKNode) {
         if (node.parent == nil) {
             if let obj = node as? MapObject {
                 currentLevel?.objects.addChild(obj)

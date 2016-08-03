@@ -14,18 +14,18 @@ class CreditsViewController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let blur = UIVisualEffectView(frame: self.view.bounds)
-        blur.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blur.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(blur)
-        UIView.animateWithDuration(0.5) {
-            blur.effect = UIBlurEffect(style: .Light)
+        UIView.animate(withDuration: 0.5) {
+            blur.effect = UIBlurEffect(style: .light)
         }
         blur.alpha = 0.5
-        self.view.sendSubviewToBack(blur)
+        self.view.sendSubview(toBack: blur)
     }
     
     @IBAction func exit() {
         dismissDelegate?.willDismissModalVC(nil)
-        self.dismissViewControllerAnimated(true, completion: {[unowned self] in
+        self.dismiss(animated: true, completion: {[unowned self] in
             self.dismissDelegate?.didDismissModalVC(nil)
         })
     }

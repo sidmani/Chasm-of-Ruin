@@ -112,17 +112,17 @@ class SKATiledMap : SKNode{
      Looks for tmx or json file based on a map name and loads map data
      @param fileName the name of the map without a file extension
      */
-    func loadFile(fileName: String)
+    func loadFile(_ fileName: String)
     {
         //checks for tmx first then trys json if a tmx file can not be found
-        if let filePath = NSBundle.mainBundle().pathForResource(fileName, ofType: "tmx"){
+        if let filePath = Bundle.main.path(forResource: fileName, ofType: "tmx"){
             tmxParser = SKATMXParser(filePath:filePath)
             loadMap((tmxParser?.mapDictionary)!)
         }
         else
         {
             //looks for tmx file
-            if let filePath = NSBundle.mainBundle().pathForResource(fileName, ofType: "json"){
+            if let filePath = Bundle.main.path(forResource: fileName, ofType: "json"){
                 mapDictionaryForJSONFile(filePath)
             }
 
@@ -136,9 +136,9 @@ class SKATiledMap : SKNode{
         
         if (autoFollowNode != nil && scene?.view != nil)
         {
-            position = CGPointMake(
-                -autoFollowNode!.position.x + scene!.size.width / 2,
-                -autoFollowNode!.position.y + scene!.size.height / 2);
+            position = CGPoint(
+                x: -autoFollowNode!.position.x + scene!.size.width / 2,
+                y: -autoFollowNode!.position.y + scene!.size.height / 2);
             
             //check position of the minimap and stop it from going off screen
             var tempPosition = position;
@@ -173,7 +173,7 @@ class SKATiledMap : SKNode{
     @param width the number of tiles wide you would like to keep
     @param height the number of tiles high you would like to keep
     */
-    func cullAround(x : Int, y : Int, width : Int, height : Int) {
+    func cullAround(_ x : Int, y : Int, width : Int, height : Int) {
         if(self.lastX != x || self.lastY != y || self.lastWidth != width || self.lastHeight != height)
         {
             
@@ -210,11 +210,11 @@ class SKATiledMap : SKNode{
                 startingY = endingY - height
             }
      //       var spritesToTrash = [SKASprite]();
-            for (idx, sprite) in visibleArray.enumerate() {
+            for (idx, sprite) in visibleArray.enumerated() {
                 if (sprite.positionOnMap != nil && (sprite.positionOnMap!.x < startingX || sprite.positionOnMap!.x >= endingX || sprite.positionOnMap!.y < startingY || sprite.positionOnMap!.y >= endingY)) {
                     sprite.removeFromParent();
                     //spritesToTrash.append(sprite)
-                    self.visibleArray.removeAtIndex(idx)
+                    self.visibleArray.remove(at: idx)
                 }
             }
            // self.visibleArray = Array(Set(self.visibleArray).subtract(Set(spritesToTrash)))
@@ -247,10 +247,10 @@ class SKATiledMap : SKNode{
      Returns a CGPoint that can be used as an x and y index
      @param point the point in which to calculate the index
      */
-    func index(point : CGPoint) -> CGPoint{
+    func index(_ point : CGPoint) -> CGPoint{
         let x = Int(point.x)/tileWidth
         let y = Int(point.y)/tileHeight
-        return CGPointMake(CGFloat(x), CGFloat(y));
+        return CGPoint(x: CGFloat(x), y: CGFloat(y));
     }
     
     /**
@@ -258,7 +258,7 @@ class SKATiledMap : SKNode{
      for spawning enemies, player start positions, or any other custom game logic you 
      made a object for.
      */
-    func objectsOn(layerNumber: Int, name: String) -> [SKAObject]?{
+    func objectsOn(_ layerNumber: Int, name: String) -> [SKAObject]?{
         let objects = objectLayers[layerNumber].objects
         return  objects.filter({$0.name == name})
     }
@@ -270,7 +270,7 @@ class SKATiledMap : SKNode{
      @param index the CGPoint that will be used as a x and y index
      @param layerNumber the layer in which you would like your tiles
      */
-    func tilesAround(index : CGPoint, layerNumber : Int)-> [SKASprite?]{
+    func tilesAround(_ index : CGPoint, layerNumber : Int)-> [SKASprite?]{
         
         let x = Int(index.x)
         let y = Int(index.y)
@@ -324,7 +324,7 @@ class SKATiledMap : SKNode{
      @param x the x index to use
      @param y the y index to use
      */
-    func spriteFor(layerNumber : Int, x : Int, y : Int) -> SKASprite{
+    func spriteFor(_ layerNumber : Int, x : Int, y : Int) -> SKASprite{
         let layer = spriteLayers[layerNumber]
         let sprite = layer.sprites[x][y]
         return sprite
@@ -336,16 +336,16 @@ class SKATiledMap : SKNode{
      Creates the key value pair needed for map creation based on json file
      @param filePath the path to the JSON file
      */
-    func mapDictionaryForJSONFile(filePath : String){
+    func mapDictionaryForJSONFile(_ filePath : String){
         
         //attemps to return convert json file over to a key value pairs
         do{
-            let JSONData = try NSData(contentsOfFile: filePath, options: .DataReadingMappedIfSafe)
+            let JSONData = try Data(contentsOf: URL(fileURLWithPath: filePath), options: .mappedIfSafe)
             
-            if (JSONData.length > 0)
+            if (JSONData.count > 0)
             {
                 do{
-                    let mapDictionary = try NSJSONSerialization.JSONObjectWithData(JSONData, options:.AllowFragments) as! [String:AnyObject]
+                    let mapDictionary = try JSONSerialization.jsonObject(with: JSONData, options:.allowFragments) as! [String:AnyObject]
                     loadMap(mapDictionary)
                 }
                 catch
@@ -364,7 +364,7 @@ class SKATiledMap : SKNode{
      Generates a map based on pre determined keys and values
      @param mapDictionary the key value set that originated from a tmx or json file
      */
-    private func loadMap(mapDictionary : [String : AnyObject]){
+    private func loadMap(_ mapDictionary : [String : AnyObject]){
 
         //getting additional user generated properties for map
         guard let _ = mapDictionary["properties"] as? [String : AnyObject] else {
@@ -403,7 +403,7 @@ class SKATiledMap : SKNode{
         }
         
         //setting up all tile set layers
-        for (_, element) in tileSets.enumerate() {
+        for (_, element) in tileSets.enumerated() {
             
             guard let tileSet = element as? [String : AnyObject] else{
                 fatalError("Error: tile sets are not properly formatted")
@@ -424,7 +424,7 @@ class SKATiledMap : SKNode{
                 
                 //parsing out the image name
                 let component = path.lastPathComponent as NSString
-                let imageName = component.stringByDeletingPathExtension
+                let imageName = component.deletingPathExtension
                 let imageExtension = component.pathExtension
                 
                 var textureImage : UIImage?
@@ -436,7 +436,7 @@ class SKATiledMap : SKNode{
                 else
                 {
                     //resorting to absolute path if reference folders are used
-                    if let filePath = NSBundle.mainBundle().pathForResource(imageName, ofType: imageExtension){
+                    if let filePath = Bundle.main.path(forResource: imageName, ofType: imageExtension){
                         
                         textureImage = UIImage(contentsOfFile: filePath)
                     }else{
@@ -448,7 +448,7 @@ class SKATiledMap : SKNode{
                 if (textureImage != nil) {
                 
                     let mainTexture = SKTexture(image: textureImage!)
-                    mainTexture.filteringMode = .Nearest
+                    mainTexture.filteringMode = .nearest
                     
                     //geting sprite sheet information
                     guard let imageWidth = tileSet["imagewidth"] as? Int else {
@@ -502,9 +502,9 @@ class SKATiledMap : SKNode{
                             let yTileHeight = Float(tileHeightPercent + spacingPercentHeight)
                             let y = CGFloat(1.0 - (yOffset + (Float(rowID) * yTileHeight)))
                             
-                            let texture = SKTexture(rect: CGRectMake(x, y, CGFloat(tileWidthPercent), CGFloat(tileHeightPercent)), inTexture: mainTexture)
+                            let texture = SKTexture(rect: CGRect(x: x, y: y, width: CGFloat(tileWidthPercent), height: CGFloat(tileHeightPercent)), in: mainTexture)
                             
-                            texture.filteringMode = .Nearest
+                            texture.filteringMode = .nearest
                             
                             //creating mapTile object to store texture and sprite properties
                             let mapTile = SKAMapTile(texture: texture)
@@ -560,8 +560,8 @@ class SKATiledMap : SKNode{
                         if (imageName != nil) {
                             
                             //creating mapTile object to store texture and sprite properties
-                            let texture = SKTexture(imageNamed: (imageName!.stringByDeletingPathExtension))
-                            texture.filteringMode = .Nearest
+                            let texture = SKTexture(imageNamed: (imageName!.deletingPathExtension))
+                            texture.filteringMode = .nearest
                             
                             let index = Int(key)! + firstIndex
                             
@@ -610,11 +610,11 @@ class SKATiledMap : SKNode{
                         }
                         
                         //creating a 2d array to make it easy to locate sprites by index
-                        var sprites = Array(count: mapWidth, repeatedValue:Array(count: mapHeight, repeatedValue: SKASprite()))
+                        var sprites = Array(repeating: Array(repeating: SKASprite(), count: mapHeight), count: mapWidth)
                         
                         //adding sprites
-                        for (rowIndex, row) in rowArray.enumerate(){
-                            for (columnIndex, number) in row.enumerate(){
+                        for (rowIndex, row) in rowArray.enumerated(){
+                            for (columnIndex, number) in row.enumerated(){
                                 let key = String(number)
                                 if let mapTile = mapTiles[key]{
                                     
@@ -625,7 +625,7 @@ class SKATiledMap : SKNode{
                                     let yOffset = Int(tileHeight / 2)
                                     let x = (Int(sprite.size.width / 2) - xOffset) + xOffset + columnIndex * tileWidth
                                     let y = (Int(sprite.size.height / 2) - yOffset) + yOffset + rowIndex * tileHeight
-                                    sprite.position = CGPointMake(CGFloat(x), CGFloat(y))
+                                    sprite.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
                                     
                                     sprite.properties = mapTile.properties
                                     if let speedMod = sprite.properties?["SpeedMod"] as? String {
@@ -635,8 +635,8 @@ class SKATiledMap : SKNode{
                                     if  let properties = sprite.properties{
                                         if let collisionType = properties["SKACollisionType"] as? String{
                                             if collisionType == "SKACollisionTypeRect"{
-                                                sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
-                                                sprite.physicsBody!.dynamic = false
+                                                sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
+                                                sprite.physicsBody!.isDynamic = false
                                                 sprite.physicsBody!.restitution = 0
                                                 sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                 sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
@@ -644,7 +644,7 @@ class SKATiledMap : SKNode{
                                             } else if collisionType == "SKACollisionTypeTexture"{
                                                 sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
                                                 if sprite.physicsBody != nil{
-                                                    sprite.physicsBody!.dynamic = false
+                                                    sprite.physicsBody!.isDynamic = false
                                                     sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                     sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                  //   sprite.zPosition = 20;
@@ -654,7 +654,7 @@ class SKATiledMap : SKNode{
                                                
                                             } else if collisionType == "SKACollisionTypeCircle"{
                                                 sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
-                                                sprite.physicsBody!.dynamic = false
+                                                sprite.physicsBody!.isDynamic = false
                                                 sprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                 sprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                               //  sprite.zPosition = 20;
@@ -703,13 +703,13 @@ class SKATiledMap : SKNode{
                                     if let collisionType = objectProperties["SKACollisionType"] as? String{
                                         if collisionType == "SKACollisionTypeRect"{
                                             
-                                            let floorSprite = SKASprite(color: SKColor.clearColor(), size: CGSizeMake(CGFloat(object.width), CGFloat(object.height)))
+                                            let floorSprite = SKASprite(color: SKColor.clear, size: CGSize(width: CGFloat(object.width), height: CGFloat(object.height)))
                                             floorSprite.zPosition = CGFloat(layerNumber)
                                             let centerX = CGFloat(object.x+object.width/2)
                                             let centerY = CGFloat(object.y+object.height/2)
-                                            floorSprite.position = CGPointMake(centerX, centerY)
-                                            floorSprite.physicsBody = SKPhysicsBody(rectangleOfSize: floorSprite.size)
-                                            floorSprite.physicsBody?.dynamic = false
+                                            floorSprite.position = CGPoint(x: centerX, y: centerY)
+                                            floorSprite.physicsBody = SKPhysicsBody(rectangleOf: floorSprite.size)
+                                            floorSprite.physicsBody?.isDynamic = false
                                             floorSprite.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
                                             floorSprite.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
                                             addChild(floorSprite)
@@ -719,7 +719,7 @@ class SKATiledMap : SKNode{
                                             if object.polygon != nil{
                                                 let points = object.polygon!
                                                 let myPath = UIBezierPath();
-                                                myPath.moveToPoint(CGPoint(x: 0,y: 0))
+                                                myPath.move(to: CGPoint(x: 0,y: 0))
                                                 
                                                 for set in points{
                                                     let x = set["x"]!
@@ -731,7 +731,7 @@ class SKATiledMap : SKNode{
                                                     }
                                                     
                                                     if x != 0 && y != 0{
-                                                        myPath.addLineToPoint(CGPoint(x: x,y: y))
+                                                        myPath.addLine(to: CGPoint(x: x,y: y))
                                                     }
                                                 }
                                                 
@@ -739,9 +739,9 @@ class SKATiledMap : SKNode{
                                                 node.zPosition = CGFloat(layerNumber)
                                                 let centerX = CGFloat(object.x+object.width/2)
                                                 let centerY = CGFloat(object.y+object.height/2)
-                                                node.position = CGPointMake(centerX, centerY)
-                                                node.physicsBody = SKPhysicsBody(polygonFromPath: myPath.CGPath)
-                                                node.physicsBody?.dynamic = false
+                                                node.position = CGPoint(x: centerX, y: centerY)
+                                                node.physicsBody = SKPhysicsBody(polygonFrom: myPath.cgPath)
+                                                node.physicsBody?.isDynamic = false
                                                 node.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
                                                 node.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
                                                 
@@ -769,11 +769,11 @@ class SKATiledMap : SKNode{
                                                     //getting origin in the correct position based on draw order
                         
                                                     if (!hasInitialPoint) {
-                                                        myPath.moveToPoint(CGPoint(x: x,y: y))
+                                                        myPath.move(to: CGPoint(x: x,y: y))
                                                         hasInitialPoint = true
                                                     }
                                                     else if x != 0 && y != 0{
-                                                        myPath.addLineToPoint(CGPoint(x: x,y: y))
+                                                        myPath.addLine(to: CGPoint(x: x,y: y))
                                                     }
                                                 }
                                                 
@@ -781,9 +781,9 @@ class SKATiledMap : SKNode{
                                                 node.zPosition = CGFloat(layerNumber)
                                                 let centerX = CGFloat(object.x+object.width/2)
                                                 let centerY = CGFloat(object.y+object.height/2)
-                                                node.position = CGPointMake(centerX, centerY)
-                                                node.physicsBody = SKPhysicsBody(edgeLoopFromPath: myPath.CGPath)
-                                                node.physicsBody?.dynamic = false
+                                                node.position = CGPoint(x: centerX, y: centerY)
+                                                node.physicsBody = SKPhysicsBody(edgeLoopFrom: myPath.cgPath)
+                                                node.physicsBody?.isDynamic = false
                                                 node.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary;
                                                 node.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None;
                                                 
@@ -791,17 +791,17 @@ class SKATiledMap : SKNode{
                                                 addChild(node)
                                                 collisionSprites.append(node)
                                         }   else if object.isEllipse{
-                                                let shapeNode = SKShapeNode(ellipseOfSize: CGSize(width: object.width, height:object.height))
+                                                let shapeNode = SKShapeNode(ellipseOf: CGSize(width: object.width, height:object.height))
                                                 shapeNode.zPosition = CGFloat(layerNumber)
-                                                shapeNode.fillColor = SKColor.clearColor()
-                                                shapeNode.strokeColor = SKColor.clearColor()
+                                                shapeNode.fillColor = SKColor.clear
+                                                shapeNode.strokeColor = SKColor.clear
                                                 
                                                 let centerX = CGFloat(object.x+object.width/2)
                                                 let centerY = CGFloat(object.y+object.height/2)
-                                                shapeNode.position = CGPointMake(centerX, centerY)
+                                                shapeNode.position = CGPoint(x: centerX, y: centerY)
                                                 
-                                                shapeNode.physicsBody = SKPhysicsBody(polygonFromPath: CGPathCreateWithEllipseInRect(CGRectMake(CGFloat(-object.width/2), CGFloat(-object.height/2), CGFloat(object.width), CGFloat(object.height)), nil))
-                                                shapeNode.physicsBody?.dynamic = false
+                                                shapeNode.physicsBody = SKPhysicsBody(polygonFrom: CGPath(ellipseIn: CGRect(x: CGFloat(-object.width/2), y: CGFloat(-object.height/2), width: CGFloat(object.width), height: CGFloat(object.height)), transform: nil))
+                                                shapeNode.physicsBody?.isDynamic = false
                                                 shapeNode.physicsBody!.categoryBitMask = InGameScene.PhysicsCategory.MapBoundary
                                                 shapeNode.physicsBody!.contactTestBitMask = InGameScene.PhysicsCategory.None
                                                 addChild(shapeNode)

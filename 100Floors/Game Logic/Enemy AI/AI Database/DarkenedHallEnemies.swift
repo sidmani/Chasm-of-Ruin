@@ -9,7 +9,7 @@
 import Foundation
 
 extension EnemyDictionary {
-    static func BatB(parent:Enemy) -> EnemyAI {
+    static func BatB(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -32,7 +32,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func BatN(parent:Enemy) -> EnemyAI {
+    static func BatN(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -55,7 +55,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func BeardB(parent:Enemy) -> EnemyAI {
+    static func BeardB(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -75,7 +75,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func CatA(parent:Enemy) -> EnemyAI {
+    static func CatA(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -100,7 +100,7 @@ extension EnemyDictionary {
     }
     
     
-    static func CloudA(parent:Enemy) -> EnemyAI {
+    static func CloudA(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -120,7 +120,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func CrabE(parent:Enemy) -> EnemyAI { 
+    static func CrabE(_ parent:Enemy) -> EnemyAI { 
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -132,7 +132,7 @@ extension EnemyDictionary {
                 ]),
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
-                FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .Random, projectileTexture: "projectile21", rateOfFire: 1000, projectileSpeed: 75, range: 70),
+                FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .random, projectileTexture: "projectile21", rateOfFire: 1000, projectileSpeed: 75, range: 70),
                 FireNProjectilesAtEqualIntervals(numProjectiles: 10, projectileTexture: "projectile73", rateOfFire: 500, projectileSpeed: 70, range: 70),
                 MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10)
@@ -142,7 +142,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func ChestA(parent:Enemy) -> EnemyAI {
+    static func ChestA(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -154,7 +154,7 @@ extension EnemyDictionary {
             State(name: "active", behaviors: [
                 RunAnimationSequence(animationName: "default"),
                 FireNProjectilesAtEqualIntervals(numProjectiles: 5, projectileTexture: "projectile51", rateOfFire: 250, projectileSpeed: 80, range: 100),
-                FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 3.14, direction: .TowardPlayer, projectileTexture: "projectile60", rateOfFire: 300, projectileSpeed: 90, range: 130),
+                FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 3.14, direction: .towardPlayer, projectileTexture: "projectile60", rateOfFire: 300, projectileSpeed: 90, range: 130),
                 MaintainDistance(distanceToMaintain: 15, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10)
                 ], transitions: [
@@ -163,7 +163,7 @@ extension EnemyDictionary {
             ])
     }
 
-    static func EyeballB(parent:Enemy) -> EnemyAI {
+    static func EyeballB(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"Idle", withStates: [
             State(name:"Idle",
                 behaviors: [
@@ -179,8 +179,8 @@ extension EnemyDictionary {
                     RunAnimationSequence(animationName: "default", priority: 5),
                     RunSimultaneously(behaviorsToRun: [
                         RunAnimationSequence(animationName: "attack"),
-                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile74", rateOfFire: 1000, projectileSpeed: 35, range: 50)
-                        ], useConditionalOfIndex: 1, idType: .Animation, priority: 10),
+                        FireProjectilesAtAngularRange(numProjectiles: 3, angularRange: 1, direction: .towardPlayer, projectileTexture: "projectile74", rateOfFire: 1000, projectileSpeed: 65, range: 50)
+                        ], useConditionalOfIndex: 1, idType: .animation, priority: 10),
                     Wander(triggerOutsideOfDistance: 0, priority: 5)
                 ],
                 transitions: [
@@ -189,7 +189,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func GhastA(parent:Enemy) -> EnemyAI {
+    static func GhastA(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -210,7 +210,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func DyeB(parent:Enemy) -> EnemyAI {
+    static func DyeB(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -224,7 +224,7 @@ extension EnemyDictionary {
             State(name: "awakened", behaviors: [
                 Wander(triggerOutsideOfDistance: 0, priority: 10),
                 RunAnimationSequence(animationName: "default"),
-                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile74", rateOfFire: 300, projectileSpeed: 50, range: 75)
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile74", rateOfFire: 300, projectileSpeed: 75, range: 75)
                 ], transitions: [
                     PlayerFartherThan(dest: "idle", distance: 75),
                     HPLessThan(dest: "enraged", hpLevel: 0.7)
@@ -233,11 +233,11 @@ extension EnemyDictionary {
                 MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10),
                 RunSimultaneously(behaviorsToRun: [
-                    FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile74", rateOfFire: 300, projectileSpeed: 50, range: 75),
+                    FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile74", rateOfFire: 300, projectileSpeed: 75, range: 75),
                     RunAnimationSequence(animationName: "attack")
                     ], useConditionalOfIndex: 0),
                 RunSimultaneously(behaviorsToRun: [
-                    FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile54", rateOfFire: 500, projectileSpeed: 80, range: 60),
+                    FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .towardPlayer, projectileTexture: "projectile54", rateOfFire: 500, projectileSpeed: 80, range: 60),
                     RunAnimationSequence(animationName: "attack")
                     ], useConditionalOfIndex: 0),
                 ], transitions: [
@@ -251,7 +251,7 @@ extension EnemyDictionary {
             ])
     }
     
-    static func DiscA(parent:Enemy) -> EnemyAI {
+    static func DiscA(_ parent:Enemy) -> EnemyAI {
         return EnemyAI(parent:parent, startingState:"idle", withStates: [
             State(name: "idle",
                 behaviors: [
@@ -265,7 +265,7 @@ extension EnemyDictionary {
             State(name: "awakened", behaviors: [
                 MaintainDistance(distanceToMaintain: 40, triggerDistance: 75, priority: 5),
                 RunAnimationSequence(animationName: "default"),
-                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile76", rateOfFire: 300, projectileSpeed: 50, range: 75)
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.1, projectileTexture: "projectile76", rateOfFire: 300, projectileSpeed: 75, range: 75)
                 ], transitions: [
                     PlayerFartherThan(dest: "idle", distance: 75),
                     HPLessThan(dest: "enraged", hpLevel: 0.7)
@@ -273,15 +273,15 @@ extension EnemyDictionary {
             State(name: "enraged", behaviors: [
                 MaintainDistance(distanceToMaintain: 20, triggerDistance: 50, priority: 5),
                 Circle(triggerInsideOfDistance: 15, priority: 10),
-                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.2, projectileTexture: "projectile79", rateOfFire: 300, projectileSpeed: 50, range: 75),
-                FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .TowardPlayer, projectileTexture: "projectile43", rateOfFire: 500, projectileSpeed: 50, range: 60)
+                FireProjectilesInSpiral(numStreams: 3, offsetStep: 0.2, projectileTexture: "projectile79", rateOfFire: 300, projectileSpeed: 75, range: 75),
+                FireProjectilesAtAngularRange(numProjectiles: 5, angularRange: 1, direction: .towardPlayer, projectileTexture: "projectile43", rateOfFire: 500, projectileSpeed: 75, range: 60)
                 ], transitions: [
                     HPLessThan(dest: "finalEffort", hpLevel: 0.4)
                 ]),
             State(name: "finalEffort", behaviors: [
                 MaintainDistance(distanceToMaintain: 30, triggerDistance: 50, priority: 5),
                 WanderReallyFast(triggerOutsideOfDistance: 0, speedMultiplier: 4, priority: 2),
-                FireProjectilesInSpiral(numStreams: 6, offsetStep: 0.2, projectileTexture: "projectile81", rateOfFire: 300, projectileSpeed: 50, range: 75)
+                FireProjectilesInSpiral(numStreams: 6, offsetStep: 0.2, projectileTexture: "projectile81", rateOfFire: 300, projectileSpeed: 75, range: 75)
                 ], transitions: [
                 ])
             ])

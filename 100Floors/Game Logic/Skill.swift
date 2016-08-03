@@ -19,7 +19,7 @@ class Skill: Item {
         super.init(statMods: Stats.nilStats, name: optArr[1], description: optArr[2], img: optArr[3], priceCrystals: Int(optArr[4])!, priceCoins: Int(optArr[5])!, designatedCurrencyType: CurrencyType(rawValue: Int(optArr[6])!), id: id)
     }
     
-    func execute(character:ThisCharacter) -> Bool {
+    func execute(_ character:ThisCharacter) -> Bool {
         return false
         //override me
     }
@@ -46,7 +46,7 @@ class Scroll:Skill {
         super.init(fromBase64: fromBase64, id: id)
     }
     
-    override func execute(character:ThisCharacter) -> Bool {
+    override func execute(_ character:ThisCharacter) -> Bool {
         var ret = false
         for enemy in (character.scene! as! InGameScene).enemiesOnScreen() where hypot(enemy.position.x - character.position.x, enemy.position.y-character.position.y) < 75 {
             enemy.runEffect(effect, completion: {[unowned self] in
