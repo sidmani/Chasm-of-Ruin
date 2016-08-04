@@ -257,7 +257,6 @@ class IndicatorArrow:SKNode {
         path.addLine(to: CGPoint(x: 0, y: 3))
         shapeNode.fillColor = UIColor.red
         shapeNode.path = path.cgPath
-        shapeNode.lineWidth = 0
         shapeNode.glowWidth = 1
         shapeNode.alpha = 0.7
         shapeNode.position = CGPoint(x: 0, y: radius)

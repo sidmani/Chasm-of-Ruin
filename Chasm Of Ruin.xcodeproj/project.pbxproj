@@ -2919,6 +2919,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "100Floors/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				"Texture Atlas Maximum Size" = 4096x4096;
 			};
 			name = Debug;
@@ -2940,6 +2941,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "100Floors/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				"Texture Atlas Maximum Size" = 4096x4096;
 			};
 			name = Release;

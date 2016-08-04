@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11185.3" systemVersion="16A270f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11151.4"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Menu-->
@@ -16,12 +16,11 @@
                         <viewControllerLayoutGuide type="bottom" id="0qp-w4-PXh"/>
                     </layoutGuides>
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPo-w9-bh8" userLabel="Store" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="283" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="OYW-d1-1Ht"/>
                                 </constraints>
@@ -31,16 +30,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YR-dd-PT4" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="332" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Credits"/>
                                 <connections>
                                     <action selector="loadCredits" destination="BV1-FR-VrT" eventType="touchUpInside" id="qhP-SV-Bdf"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWh-dv-4PY" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="234" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047146642794078694" green="0.87695264066050815" blue="0.88221153846153844" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="AKo-p3-LkR"/>
                                 </constraints>
@@ -50,36 +47,31 @@
                                 </connections>
                             </button>
                             <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="eUX-KF-vu2">
-                                <rect key="frame" x="447" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="ApQ-bb-yTx"/>
                                     <constraint firstAttribute="width" secondItem="eUX-KF-vu2" secondAttribute="height" multiplier="1:1" id="zNf-z0-PGm"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ig-39-D0u" userLabel="CrystalNumber">
-                                <rect key="frame" x="487" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="ktH-PX-kht" userLabel="Coin">
-                                <rect key="frame" x="517" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="gCv-l2-ncW"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xg8-EA-6WM" userLabel="CoinNumber">
-                                <rect key="frame" x="555" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxE-Ra-EEP">
-                                <rect key="frame" x="10" y="550" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZxE-Ra-EEP" secondAttribute="height" multiplier="1:1" id="it3-3l-5Bd"/>
                                 </constraints>
@@ -89,7 +81,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="0qp-w4-PXh" firstAttribute="top" secondItem="ZxE-Ra-EEP" secondAttribute="bottom" constant="10" id="0V9-tG-gff"/>
                             <constraint firstItem="ktH-PX-kht" firstAttribute="width" secondItem="ktH-PX-kht" secondAttribute="height" multiplier="1:1" id="1e0-jd-H8a"/>
@@ -132,26 +124,24 @@
                         <viewControllerLayoutGuide type="bottom" id="I7g-f0-4AR"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dVQ-YB-Eec">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmE-tZ-9bj">
-                                <rect key="frame" x="273" y="40" width="55" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gvg-cp-kGr">
-                                <rect key="frame" x="40" y="76" width="520" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.2433294764558791" green="0.33786635225476924" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Chasm of Ruin © 2016 Sid Mani. All rights reserved.  Coding and game design by Sid Mani.  Music by pxlwlkr: https://soundcloud.com/pxlwlkr  DawnLike tileset by DawnBringer and DragonDePlatino.  Characters, items, map, and effects by Henry Software:  https://henrysoftware.itch.io  Gem image by yinakoSGA. Downloaded from http://opengameart.org  Berry Garden by Bart Kelsey. Downloaded from http://opengameart.org
  Libraries used: AMPopTip © 2015 Andrea Mazzini. License: https://opensource.org/licenses/MIT  SKATiledMap © 2015 Sprite Kit Alliance. License: https://opensource.org/licenses/MIT</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ec9-wZ-tct" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="30" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Ec9-wZ-tct" secondAttribute="height" multiplier="9:3" id="2CL-Ei-RbJ"/>
                                     <constraint firstAttribute="height" constant="30" id="LvH-Xx-aHR"/>
@@ -164,7 +154,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Ec9-wZ-tct" firstAttribute="top" secondItem="uYO-CZ-pFF" secondAttribute="bottom" constant="10" id="Dvb-H5-grP"/>
                             <constraint firstItem="gmE-tZ-9bj" firstAttribute="top" secondItem="uYO-CZ-pFF" secondAttribute="bottom" constant="20" id="Fsz-2a-GuG"/>
@@ -192,11 +182,10 @@
                         <viewControllerLayoutGuide type="bottom" id="fzh-RF-wm9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="n91-dt-08x">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wlE-oX-SpP" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="30" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="43f-Yh-w47"/>
                                     <constraint firstAttribute="height" constant="30" id="Mzu-9x-k1I"/>
@@ -215,9 +204,8 @@
                                 </connections>
                             </button>
                             <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YJp-Hi-eXt">
-                                <rect key="frame" x="0.0" y="60" width="600" height="463"/>
-                                <color key="backgroundColor" red="0.55478401614623107" green="0.15616537876940284" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.55478401614623107" green="0.15616537876940284" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="uCN-UG-b7l">
                                     <size key="itemSize" width="125" height="125"/>
@@ -227,14 +215,13 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="JKh-Yg-fM7" customClass="LevelContainer" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                        <frame key="frameInset" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="1" green="0.68334483160000004" blue="0.78364296580000004" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.68334483160000004" blue="0.78364296580000004" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -243,47 +230,41 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ao4-Yj-4hn">
-                                <rect key="frame" x="256" y="539" width="88" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="g20-q0-oFf">
-                                <rect key="frame" x="352" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="oGf-Kg-jfu"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tl7-9s-0ae" userLabel="CrystalNumber">
-                                <rect key="frame" x="392" y="33" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="wX0-Gt-TFa" userLabel="Coin">
-                                <rect key="frame" x="422" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="ThG-cv-q8Q"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euv-h4-qs1" userLabel="CoinNumber">
-                                <rect key="frame" x="460" y="33" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t2u-Ip-O6C">
-                                <rect key="frame" x="252" y="513" width="96" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="g20-q0-oFf" firstAttribute="centerY" secondItem="wlE-oX-SpP" secondAttribute="centerY" id="9gs-2w-QMu"/>
                             <constraint firstItem="wX0-Gt-TFa" firstAttribute="leading" secondItem="tl7-9s-0ae" secondAttribute="trailing" constant="5" id="AqS-yt-qVL"/>
@@ -335,101 +316,87 @@
                         <viewControllerLayoutGuide type="bottom" id="f0Y-Qs-o21"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8xQ-dL-goi" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="9d2-oo-m9X" customClass="JoystickControl" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="35" y="485" width="100" height="100"/>
-                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="6eX-Ws-rBm"/>
                                     <constraint firstAttribute="height" constant="100" id="6wg-ua-AYI"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="CwZ-pI-Qun" customClass="JoystickControl" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="465" y="485" width="100" height="100"/>
-                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="04U-1E-P1m"/>
                                     <constraint firstAttribute="height" constant="100" id="NRS-Ss-T4B"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZN-eM-M4h" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="35" y="436" width="100" height="34"/>
-                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Inventory"/>
                                 <connections>
                                     <action selector="inventoryButtonPressed:" destination="MLO-tX-9Zl" eventType="touchUpInside" id="EfZ-7E-GVp"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rkT-DA-yQp" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="20" y="30" width="385" height="32"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="vertical" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" tag="1" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cs-Y9-J62">
-                                <rect key="frame" x="553" y="30" width="32" height="32"/>
-                                <color key="backgroundColor" red="0.85537391744662894" green="1" blue="0.99407375577711088" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.85537391744662894" green="1" blue="0.99407375577711088" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7cs-Y9-J62" secondAttribute="height" multiplier="1:1" id="JSH-DT-9Uz"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="PLH-L3-xFE"/>
                                 </constraints>
-                                <color key="tintColor" red="1" green="0.18183589376993314" blue="0.86308780705393529" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="0.18183589376993314" blue="0.86308780705393529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="menu"/>
                                 <connections>
                                     <action selector="menuButtonPressed" destination="MLO-tX-9Zl" eventType="touchUpInside" id="vnv-56-6lE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-pQ-J3m" customClass="ProgressRectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="465" y="436" width="100" height="34"/>
-                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.93838680743945768" blue="0.94120381433735978" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Skill"/>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LF5-U2-EV1" customClass="TextDisplay" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="140" y="77" width="320" height="32"/>
-                                <color key="backgroundColor" red="0.41559579261380147" green="0.088069058263496508" blue="0.94284855769230769" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.41559579261380147" green="0.088069058263496508" blue="0.94284855769230769" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="0i1-qW-Q1v">
-                                <rect key="frame" x="415" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="0i1-qW-Q1v" secondAttribute="height" multiplier="1:1" id="cW7-OE-5br"/>
                                     <constraint firstAttribute="width" constant="40" id="f60-Ul-dWI"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9r-K3-eX4" userLabel="CrystalNumber">
-                                <rect key="frame" x="455" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.35686274509803922" green="0.67843137254901964" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042764917875" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.2536907327586207" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35686274509803922" green="0.67843137254901964" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042764917875" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.2536907327586207" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67Y-lJ-ZEt" userLabel="EXPBar">
-                                <rect key="frame" x="32" y="62" width="361" height="2"/>
-                            </progressView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67Y-lJ-ZEt" userLabel="EXPBar"/>
                             <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="s4M-Ha-nct" userLabel="Coin">
-                                <rect key="frame" x="485" y="26" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="Reu-W0-AJr"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvo-UH-QfJ" userLabel="CoinNumber">
-                                <rect key="frame" x="523" y="34" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LJo-ZC-rQu" userLabel="Proceed Button" customClass="ProgressRectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="150" y="518" width="300" height="34"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="7cs-Y9-J62" firstAttribute="top" secondItem="rkT-DA-yQp" secondAttribute="top" id="02R-cG-7pF"/>
                             <constraint firstItem="LJo-ZC-rQu" firstAttribute="leading" secondItem="9d2-oo-m9X" secondAttribute="trailing" constant="15" id="0mS-Yn-SGd"/>
@@ -504,31 +471,28 @@
                         <viewControllerLayoutGuide type="bottom" id="CJs-Wc-P5S"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Eyw-Cl-2hO">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGa-Ja-NoJ">
-                                <rect key="frame" x="252" y="35" width="96" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCD-Gl-DCV" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="500" width="90" height="90"/>
-                                <color key="backgroundColor" red="0.85999263571083484" green="0.70784289739944306" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.85999263571083484" green="0.70784289739944306" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BCD-Gl-DCV" secondAttribute="height" multiplier="1:1" id="hxs-0Q-QBf"/>
                                 </constraints>
-                                <color key="tintColor" red="0.94338040766728715" green="0.9325548606093097" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.94338040766728715" green="0.9325548606093097" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Equip">
-                                    <color key="titleShadowColor" red="0.44643062748264573" green="1" blue="0.2595917941657323" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.44643062748264573" green="1" blue="0.2595917941657323" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="equipButtonPressed" destination="CGb-Sh-tvY" eventType="touchUpInside" id="CBr-HN-cXh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGy-f6-MZ2" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="30" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="KYM-gw-0Cg"/>
                                     <constraint firstAttribute="width" secondItem="mGy-f6-MZ2" secondAttribute="height" multiplier="9:3" id="Okc-ds-i6g"/>
@@ -541,9 +505,8 @@
                                 </connections>
                             </button>
                             <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P64-Qm-GHx">
-                                <rect key="frame" x="0.0" y="47" width="600" height="453"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="hy7-hB-1VU">
                                     <size key="itemSize" width="125" height="125"/>
@@ -553,33 +516,30 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="fOf-0I-yIk" customClass="ItemContainer" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                        <frame key="frameInset" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="1" green="0.68334483157740777" blue="0.78364296575067316" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.68334483157740777" blue="0.78364296575067316" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddSlots" id="Rsg-G8-ARn">
-                                        <rect key="frame" x="158" y="0.0" width="125" height="125"/>
+                                        <frame key="frameInset" minX="135.5" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-dj-98j" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                    <rect key="frame" x="7" y="7" width="110" height="110"/>
-                                                    <color key="backgroundColor" red="1" green="0.49196181230329317" blue="0.33186345736402023" alpha="0.0" colorSpace="calibratedRGB"/>
-                                                    <color key="tintColor" red="0.95921474358974357" green="0.95921474358974357" blue="0.95921474358974357" alpha="0.79665948275862064" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="1" green="0.49196181230329317" blue="0.33186345736402023" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" red="0.95921474358974357" green="0.95921474358974357" blue="0.95921474358974357" alpha="0.79665948275862064" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" backgroundImage="add"/>
                                                     <connections>
                                                         <action selector="addMoreSlotsButtonPressed:" destination="CGb-Sh-tvY" eventType="touchUpInside" id="Ero-ON-kf5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="trailingMargin" secondItem="Xl0-dj-98j" secondAttribute="trailing" id="UCL-fR-GdX"/>
@@ -595,48 +555,38 @@
                                 </connections>
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kV8-ZZ-3Dp">
-                                <rect key="frame" x="10" y="500" width="475" height="90"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcP-la-qV6" userLabel="ItemInfo">
-                                        <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-lQ-SdJ">
-                                                <rect key="frame" x="10" y="0.0" width="42" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDp-lX-aON">
-                                                <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T32-LU-H58" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIp-H1-dgf" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="80" y="0.0" width="77" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dnp-YS-FyF" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="159" y="0.0" width="78" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOa-EE-equ" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="239" y="0.0" width="77" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-gq-H6F" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="318" y="0.0" width="78" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zt6-Hz-xfa" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="398" y="0.0" width="77" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="BDp-lX-aON" secondAttribute="bottom" id="2sr-Zt-kwW"/>
                                             <constraint firstItem="yI7-lQ-SdJ" firstAttribute="leading" secondItem="Dnp-YS-FyF" secondAttribute="trailing" constant="10" id="ELZ-fO-bVS"/>
@@ -655,39 +605,31 @@
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vm5-gj-0dP" userLabel="AbsoluteStats">
-                                        <rect key="frame" x="0.0" y="90" width="475" height="90"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tWf-bd-mJc">
-                                                <rect key="frame" x="0.0" y="0.0" width="475" height="90"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCZ-dc-JM8" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ij-R6-Ub7" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="80" y="0.0" width="77" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="neO-MK-C49" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="159" y="0.0" width="78" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDb-Am-AwI" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="239" y="0.0" width="77" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cce-lG-FS5" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="318" y="0.0" width="78" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ieg-t3-2eg" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                        <rect key="frame" x="398" y="0.0" width="77" height="90"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="tWf-bd-mJc" secondAttribute="bottom" id="EqB-2H-8gM"/>
                                             <constraint firstItem="tWf-bd-mJc" firstAttribute="leading" secondItem="Vm5-gj-0dP" secondAttribute="leading" id="gO7-D7-grq"/>
@@ -696,7 +638,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="gcP-la-qV6" firstAttribute="centerY" secondItem="kV8-ZZ-3Dp" secondAttribute="centerY" id="58f-cI-H8Y"/>
                                     <constraint firstAttribute="bottom" secondItem="Vm5-gj-0dP" secondAttribute="bottom" id="8A6-KE-O6c"/>
@@ -717,13 +659,12 @@
                                 </variation>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehR-ek-g3c">
-                                <rect key="frame" x="30" y="35" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="P64-Qm-GHx" secondAttribute="trailing" constant="-20" id="3SA-C9-WQf"/>
@@ -778,14 +719,13 @@
                         <viewControllerLayoutGuide type="bottom" id="3gB-3g-vgw"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="veO-m4-WIr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <userGuides>
                             <userLayoutGuide location="299" affinity="minY"/>
                         </userGuides>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9n-dR-gDP" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="30" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="k9n-dR-gDP" secondAttribute="height" multiplier="45:11" id="2jW-mT-Tk0"/>
                                     <constraint firstAttribute="height" constant="30" id="hhe-47-fIg"/>
@@ -803,8 +743,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL0-vz-VNk" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="283" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="eor-XH-34P"/>
                                 </constraints>
@@ -814,8 +753,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blG-tC-wGQ" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="234" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="qwb-OF-mYm"/>
                                 </constraints>
@@ -825,7 +763,6 @@
                                 </connections>
                             </button>
                             <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="yNV-7T-r3R">
-                                <rect key="frame" x="352" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yNV-7T-r3R" secondAttribute="height" multiplier="1:1" id="X1K-X0-x8j"/>
                                     <constraint firstAttribute="width" constant="40" id="omr-4G-WWt"/>
@@ -837,29 +774,25 @@
                                 </variation>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4o-MY-wzi" userLabel="CrystalNumber">
-                                <rect key="frame" x="392" y="33" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="fV2-rM-xLE" userLabel="Coin">
-                                <rect key="frame" x="422" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="4tL-Bt-nkm"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0D-0q-wWf" userLabel="CoinNumber">
-                                <rect key="frame" x="460" y="33" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBw-ZB-rrU">
-                                <rect key="frame" x="10" y="550" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hBw-ZB-rrU" secondAttribute="height" multiplier="1:1" id="IDN-it-LVe"/>
                                 </constraints>
@@ -870,15 +803,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7O8-PW-91U" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="225" y="332" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047146642789999998" green="0.87695264070000001" blue="0.8822115385" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Credits"/>
                                 <connections>
                                     <action selector="loadCredits" destination="BV1-FR-VrT" eventType="touchUpInside" id="Elu-Kz-EBH"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="hBw-ZB-rrU" firstAttribute="leading" secondItem="veO-m4-WIr" secondAttribute="leadingMargin" constant="-10" id="1Pw-dy-3j6"/>
                             <constraint firstItem="3gB-3g-vgw" firstAttribute="top" secondItem="hBw-ZB-rrU" secondAttribute="bottom" constant="10" id="1YN-va-iQg"/>
@@ -910,8 +842,8 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="MzJ-xX-8rO"/>
                                 <exclude reference="77r-in-liD"/>
+                                <exclude reference="MzJ-xX-8rO"/>
                             </mask>
                         </variation>
                     </view>
@@ -935,49 +867,40 @@
                         <viewControllerLayoutGuide type="bottom" id="YM3-Di-QX6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="S0j-jo-u3r">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JwH-uu-OZ2" userLabel="ItemInfo">
-                                <rect key="frame" x="10" y="500" width="485" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7n-qH-QeQ">
-                                        <rect key="frame" x="10" y="0.0" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4v6-6d-Uw1">
-                                        <rect key="frame" x="0.0" y="0.0" width="485" height="90"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l0a-Lw-Sfe" userLabel="HPBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="79" height="90"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMq-D6-wxw" userLabel="ManaBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                <rect key="frame" x="81" y="0.0" width="79" height="90"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6H-Ob-lrS" userLabel="DEFBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                <rect key="frame" x="162" y="0.0" width="80" height="90"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O6k-CK-8w6" userLabel="ATKBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                <rect key="frame" x="244" y="0.0" width="79" height="90"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uS5-jy-gsZ" userLabel="SPDBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                <rect key="frame" x="325" y="0.0" width="79" height="90"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zp-wm-H0p" userLabel="DEXBar" customClass="VerticalProgressView" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                                <rect key="frame" x="406" y="0.0" width="79" height="90"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4v6-6d-Uw1" secondAttribute="trailing" id="0sD-Rt-M0N"/>
                                     <constraint firstAttribute="bottom" secondItem="4v6-6d-Uw1" secondAttribute="bottom" id="1Is-Ti-9ZG"/>
@@ -1003,7 +926,6 @@
                                 </variation>
                             </view>
                             <imageView tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="tWU-jB-F1r">
-                                <rect key="frame" x="515" y="500" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="tWU-jB-F1r" secondAttribute="height" multiplier="1:1" id="3Af-XI-EGS"/>
                                     <constraint firstAttribute="width" constant="40" id="bRU-FZ-NP8"/>
@@ -1015,41 +937,35 @@
                                 </variation>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vf2-VQ-GlY" userLabel="CrystalNumber">
-                                <rect key="frame" x="555" y="508" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <imageView tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="2jd-gx-RSU" userLabel="Coin">
-                                <rect key="frame" x="515" y="550" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="FG4-m2-UIj"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFc-b1-UGn" userLabel="CoinNumber">
-                                <rect key="frame" x="553" y="558" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dT-Tn-fKh">
-                                <rect key="frame" x="252" y="35" width="96" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G21-1e-qoS">
-                                <rect key="frame" x="30" y="35" width="89" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duC-9i-8aZ" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="30" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="iuX-XR-aI5"/>
                                     <constraint firstAttribute="width" secondItem="duC-9i-8aZ" secondAttribute="height" multiplier="45:11" id="ixU-w6-Hat"/>
@@ -1067,9 +983,8 @@
                                 </connections>
                             </button>
                             <collectionView contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0Ht-fA-VZi">
-                                <rect key="frame" x="10" y="47" width="580" height="453"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="KMU-cG-1rC">
                                     <size key="itemSize" width="125" height="125"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1078,12 +993,11 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="gft-55-UC9" customClass="ItemContainer" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                        <frame key="frameInset" minY="52" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </collectionViewCell>
                                 </cells>
@@ -1093,7 +1007,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="5dT-Tn-fKh" firstAttribute="centerY" secondItem="duC-9i-8aZ" secondAttribute="centerY" id="0fl-tu-zSo"/>
                             <constraint firstItem="4v6-6d-Uw1" firstAttribute="top" secondItem="0Ht-fA-VZi" secondAttribute="bottom" id="1tl-br-xAs"/>
@@ -1162,36 +1076,32 @@
                         <viewControllerLayoutGuide type="bottom" id="rOL-LS-cUE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3jS-dT-5Si">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OFs-eh-fxf">
-                                <rect key="frame" x="60" y="75" width="480" height="525"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OFs-eh-fxf">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="currencyDisplay" rowHeight="55" id="ofJ-Xq-O09">
-                                        <rect key="frame" x="0.0" y="50" width="480" height="55"/>
+                                        <frame key="frameInset" minY="55.5" width="547" height="55"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ofJ-Xq-O09" id="NlK-cG-VQs">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="54"/>
+                                            <frame key="frameInset" width="547" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aku-mt-0Vu">
-                                                    <rect key="frame" x="8" y="0.0" width="54" height="54"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Aku-mt-0Vu" secondAttribute="height" multiplier="1:1" id="zi1-d1-4gi"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Coins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c34-So-pOh">
-                                                    <rect key="frame" x="70" y="16" width="79" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c34-So-pOh">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-kN-CpQ">
-                                                    <rect key="frame" x="420" y="16" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-kN-CpQ">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1205,7 +1115,7 @@
                                                 <constraint firstItem="Aku-mt-0Vu" firstAttribute="leading" secondItem="NlK-cG-VQs" secondAttribute="leadingMargin" id="ync-lw-X7c"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1214,7 +1124,6 @@
                                 </connections>
                             </tableView>
                             <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChasmCrystal" translatesAutoresizingMaskIntoConstraints="NO" id="siE-yg-UA5">
-                                <rect key="frame" x="352" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="Gsv-kM-3bT"/>
                                     <constraint firstAttribute="width" secondItem="siE-yg-UA5" secondAttribute="height" multiplier="1:1" id="mUB-aT-koS"/>
@@ -1226,29 +1135,25 @@
                                 </variation>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPF-gb-C0E" userLabel="CrystalNumber">
-                                <rect key="frame" x="392" y="33" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35686274509999999" green="0.67843137249999996" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <imageView userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coin" translatesAutoresizingMaskIntoConstraints="NO" id="PZn-Pq-K3A" userLabel="Coin">
-                                <rect key="frame" x="422" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="Mn8-ff-eVz"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJN-DM-0ra" userLabel="CoinNumber">
-                                <rect key="frame" x="460" y="33" width="25" height="25"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="1" green="0.037429042760000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.25369073279999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhc-nr-3uP" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="495" y="30" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="7hf-rO-C1c"/>
                                     <constraint firstAttribute="width" secondItem="lhc-nr-3uP" secondAttribute="height" multiplier="45:11" id="hZv-uY-30p"/>
@@ -1266,7 +1171,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="siE-yg-UA5" firstAttribute="centerY" secondItem="lhc-nr-3uP" secondAttribute="centerY" id="1AC-W8-6Hg"/>
                             <constraint firstItem="lhc-nr-3uP" firstAttribute="leading" secondItem="JJN-DM-0ra" secondAttribute="trailing" constant="10" id="27L-6a-L3s"/>
@@ -1298,6 +1203,7 @@
                     <connections>
                         <outlet property="CoinLabel" destination="JJN-DM-0ra" id="K9M-40-1BM"/>
                         <outlet property="CrystalLabel" destination="gPF-gb-C0E" id="TxB-d1-01G"/>
+                        <outlet property="purchaseTableView" destination="OFs-eh-fxf" id="O5f-gN-Apk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbk-ir-Joo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1313,34 +1219,31 @@
                         <viewControllerLayoutGuide type="bottom" id="6qQ-z8-TRF"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Fuf-Af-dfM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ckS-ku-1xN" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="268" y="283" width="30" height="34"/>
                                 <state key="normal" title="No"/>
                                 <connections>
                                     <action selector="noButtonPressed" destination="sJu-Kv-IAx" eventType="touchUpInside" id="GEL-RI-Xp0"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Nc-mW-MRx" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="303" y="283" width="30" height="34"/>
                                 <state key="normal" title="Yes"/>
                                 <connections>
                                     <action selector="yesButtonPressed" destination="sJu-Kv-IAx" eventType="touchUpInside" id="Ipu-oA-aKJ"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rM0-AX-qey">
-                                <rect key="frame" x="268" y="257" width="65" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="k99-Qx-McC"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.79900323275862073" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.79900323275862073" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="rM0-AX-qey" firstAttribute="centerY" secondItem="Fuf-Af-dfM" secondAttribute="centerY" id="1cL-Ms-5Uu"/>
                             <constraint firstItem="0Nc-mW-MRx" firstAttribute="leading" secondItem="ckS-ku-1xN" secondAttribute="trailing" constant="5" id="8nm-SC-G1X"/>
@@ -1377,39 +1280,35 @@
                         <viewControllerLayoutGuide type="bottom" id="nK5-vI-GVs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rpl-iU-8cg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VICTORY" textAlignment="center" lineBreakMode="clip" minimumFontSize="50" translatesAutoresizingMaskIntoConstraints="NO" id="f2R-SF-2kI">
-                                <rect key="frame" x="40" y="50" width="520" height="137"/>
-                                <color key="tintColor" red="0.99698336880000005" green="0.4505549244" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.99698336880000005" green="0.4505549244" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="100"/>
-                                <color key="textColor" red="0.0" green="0.84975961538461542" blue="0.043488966760667137" alpha="0.80417564659999996" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.84975961538461542" blue="0.043488966760667137" alpha="0.80417564659999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkb-Vr-W5L" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="400" y="400" width="180" height="180"/>
                                 <state key="normal" image="levelselect"/>
                                 <connections>
                                     <segue destination="BdE-Es-SI5" kind="unwind" unwindAction="exitToLevelSelect:" id="Tcr-0q-SfE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="umc-gy-mFW" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="20" y="400" width="180" height="180"/>
                                 <state key="normal" image="retry"/>
                                 <connections>
                                     <action selector="respawn:" destination="auq-MV-pOY" eventType="touchUpInside" id="Rte-Wq-8pE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9W-Xl-wOL" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="210" y="400" width="180" height="180"/>
                                 <state key="normal" image="Stats"/>
                                 <connections>
                                     <action selector="loadStats:" destination="auq-MV-pOY" eventType="touchUpInside" id="2Ay-rq-RrI"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="nK5-vI-GVs" firstAttribute="top" secondItem="fkb-Vr-W5L" secondAttribute="bottom" constant="20" id="0cV-zn-Ysi"/>
                             <constraint firstItem="umc-gy-mFW" firstAttribute="width" secondItem="fkb-Vr-W5L" secondAttribute="width" id="64b-be-Ddn"/>
@@ -1444,18 +1343,16 @@
                         <viewControllerLayoutGuide type="bottom" id="sqy-0t-rW0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vd7-jD-GjS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFEAT" textAlignment="center" lineBreakMode="clip" minimumFontSize="50" translatesAutoresizingMaskIntoConstraints="NO" id="BQ6-gh-4aD">
-                                <rect key="frame" x="40" y="50" width="520" height="137"/>
-                                <color key="tintColor" red="0.9969833688420604" green="0.45055492442255951" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.9969833688420604" green="0.45055492442255951" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="100"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.14079212079847458" alpha="0.80417564655172413" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.14079212079847458" alpha="0.80417564655172413" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8Z-2c-3ld" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="20" y="400" width="180" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Q8Z-2c-3ld" secondAttribute="height" multiplier="1:1" id="q9b-Df-j06"/>
                                 </constraints>
@@ -1464,18 +1361,7 @@
                                     <action selector="respawn:" destination="wSz-S2-3r0" eventType="touchUpInside" id="Okg-2r-t6t"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMH-MU-Oit" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="400" y="400" width="180" height="180"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="height" multiplier="1:1" id="oZf-YA-w35"/>
-                                </constraints>
-                                <state key="normal" image="levelselect"/>
-                                <connections>
-                                    <segue destination="L2j-0g-cSK" kind="unwind" unwindAction="exitToLevelSelect:" id="Gfv-WI-R99"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaq-sd-fAd" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
-                                <rect key="frame" x="210" y="400" width="180" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="vaq-sd-fAd" secondAttribute="height" multiplier="1:1" id="w0I-Tc-W7U"/>
                                 </constraints>
@@ -1484,8 +1370,17 @@
                                     <action selector="revivePressed:" destination="wSz-S2-3r0" eventType="touchUpInside" id="5qK-7E-ZYB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMH-MU-Oit" customClass="RectButton" customModule="Chasm_of_Ruin" customModuleProvider="target">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="eMH-MU-Oit" secondAttribute="height" multiplier="1:1" id="oZf-YA-w35"/>
+                                </constraints>
+                                <state key="normal" image="levelselect"/>
+                                <connections>
+                                    <segue destination="L2j-0g-cSK" kind="unwind" unwindAction="exitToLevelSelect:" id="Gfv-WI-R99"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="vaq-sd-fAd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BQ6-gh-4aD" secondAttribute="bottom" constant="20" id="EwI-rg-WN5"/>
                             <constraint firstItem="sqy-0t-rW0" firstAttribute="top" secondItem="vaq-sd-fAd" secondAttribute="bottom" constant="20" id="Kc3-lY-GA8"/>
@@ -1523,5 +1418,5 @@
         <image name="retry" width="512" height="512"/>
         <image name="unmute" width="64" height="64"/>
     </resources>
-    <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

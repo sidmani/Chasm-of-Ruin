@@ -182,7 +182,117 @@
             startingLineNumber = "43"
             endingLineNumber = "43"
             landmarkName = "runTimer()"
-            landmarkType = "5">
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "100Floors/Game Logic/Level.swift"
+            timestampString = "491899220.956651"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "cull(_:y:width:height:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "100Floors/Graphics/SKATiledMap/SKATiledMap.swift"
+            timestampString = "491899234.164354"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "cullAround(_:y:width:height:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chasm_of_Ruin.SKATiledMap.cullAround (Swift.Int, y : Swift.Int, width : Swift.Int, height : Swift.Int) -&gt; ()"
+                  moduleName = "Chasm of Ruin"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sid/Documents/Chasm%20Of%20Ruin/100Floors/Graphics/SKATiledMap/SKATiledMap.swift"
+                  timestampString = "491899234.174418"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chasm_of_Ruin.SKATiledMap.(cullAround (Swift.Int, y : Swift.Int, width : Swift.Int, height : Swift.Int) -&gt; ()).(implicit closure #1)"
+                  moduleName = "Chasm of Ruin"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sid/Documents/Chasm%20Of%20Ruin/100Floors/Graphics/SKATiledMap/SKATiledMap.swift"
+                  timestampString = "491899234.175848"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chasm_of_Ruin.SKATiledMap.(cullAround (Swift.Int, y : Swift.Int, width : Swift.Int, height : Swift.Int) -&gt; ()).(implicit closure #2)"
+                  moduleName = "Chasm of Ruin"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sid/Documents/Chasm%20Of%20Ruin/100Floors/Graphics/SKATiledMap/SKATiledMap.swift"
+                  timestampString = "491899234.177211"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chasm_of_Ruin.SKATiledMap.(cullAround (Swift.Int, y : Swift.Int, width : Swift.Int, height : Swift.Int) -&gt; ()).(implicit closure #3)"
+                  moduleName = "Chasm of Ruin"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sid/Documents/Chasm%20Of%20Ruin/100Floors/Graphics/SKATiledMap/SKATiledMap.swift"
+                  timestampString = "491899234.178555"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "100Floors/Graphics/SKATiledMap/SKATiledMap.swift"
+            timestampString = "491899234.693014"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "cullAround(_:y:width:height:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

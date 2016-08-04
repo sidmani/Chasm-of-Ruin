@@ -35,9 +35,7 @@ class MenuScene: SKScene {
         if let touch = touches.first {
             if let touchedNode = self.atPoint(touch.location(in: self)) as? DisplayEnemy {
                 touchedNode.runEffect("ExplodeA") { [unowned touchedNode] in
-                    touchedNode.run(SKAction.fadeAlpha(to: 0, duration: 0.25)) { [unowned touchedNode] in
-                        touchedNode.die()
-                    }
+                    touchedNode.die()
                 }
             }
             else {
@@ -51,6 +49,10 @@ class MenuScene: SKScene {
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touchLocation = nil
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchLocation = nil
     }
     

@@ -178,7 +178,7 @@ class Inventory:NSObject, NSCoding {
         static let enhancerKey = "enhancer"
     }
     required convenience init?(coder aDecoder: NSCoder) {
-        let size = aDecoder.decodeObject(forKey: PropertyKey.baseSizeKey) as! Int
+        let size = aDecoder.decodeInteger(forKey: PropertyKey.baseSizeKey)
         self.init(withSize: size)
         let arr = aDecoder.decodeObject(forKey: PropertyKey.inventoryArrKey) as! NSArray        
         for i in 0..<arr.count {
@@ -186,10 +186,10 @@ class Inventory:NSObject, NSCoding {
                 self.setItem(i, toItem: Item.initHandlerID(id))
             }
         }
-        self.weaponIndex = aDecoder.decodeObject(forKey: PropertyKey.weaponKey) as! Int
-        self.armorIndex = aDecoder.decodeObject(forKey: PropertyKey.armorKey) as! Int
-        self.skillIndex = aDecoder.decodeObject(forKey: PropertyKey.skillKey) as! Int
-        self.enhancerIndex = aDecoder.decodeObject(forKey: PropertyKey.enhancerKey) as! Int
+        self.weaponIndex = aDecoder.decodeInteger(forKey: PropertyKey.weaponKey)
+        self.armorIndex = aDecoder.decodeInteger(forKey: PropertyKey.armorKey)
+        self.skillIndex = aDecoder.decodeInteger(forKey: PropertyKey.skillKey)
+        self.enhancerIndex = aDecoder.decodeInteger(forKey: PropertyKey.enhancerKey)
     }
     func encode(with aCoder: NSCoder) {
         let arr:[AnyObject] = self.inventory.map({$0 == nil ? NSNull():$0!.id})

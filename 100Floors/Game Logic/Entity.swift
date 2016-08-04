@@ -373,7 +373,6 @@ class ThisCharacter: Entity {
     }
     let pointers = SKNode()
     private var timeSinceProjectile:Double = 0
-    //var totalDamageInflicted:Int = 0
     //////////////
     //INIT
     init(withStats:Stats, withInventory:Inventory, withLevel:Int, withExp:Int)
@@ -443,7 +442,7 @@ class ThisCharacter: Entity {
     
     /////////NSCoding
     private struct PropertyKey {
-        static let levelKey = "level"
+        static let levelKey = "kLevel"
         static let inventoryKey = "inventory"
         static let expKey = "exp"
         static let statsKey = "stats"
@@ -452,8 +451,8 @@ class ThisCharacter: Entity {
         var newStats = Stats.statsFrom(aDecoder.decodeObject(forKey: PropertyKey.statsKey) as! NSArray)
         newStats.health = newStats.maxHealth
         newStats.mana = newStats.maxMana
-        let level = aDecoder.decodeObject(forKey: PropertyKey.levelKey) as! Int
-        let exp = aDecoder.decodeObject(forKey: PropertyKey.expKey) as! Int
+        let level = aDecoder.decodeInteger(forKey: PropertyKey.levelKey)
+        let exp = aDecoder.decodeInteger(forKey: PropertyKey.expKey)
         let inv = aDecoder.decodeObject(forKey: PropertyKey.inventoryKey) as! Inventory
         self.init(withStats: newStats, withInventory: inv, withLevel: level, withExp: exp)
     }

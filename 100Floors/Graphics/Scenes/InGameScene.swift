@@ -244,6 +244,8 @@ class InGameScene: SKScene, SKPhysicsContactDelegate {
             if (currentLevel != nil) {
                 let newWidth = Int(currentLevel!.mapSizeOnScreen.width*camera!.xScale) - 1
                 let newHeight = Int(currentLevel!.mapSizeOnScreen.height*camera!.yScale) - 1
+              //  print("width: \(newWidth)")
+              //  print("height: \(newHeight)")
                 let mapLoc = currentLevel!.indexForPoint(thisCharacter.position)
                 currentLevel!.cull(Int(mapLoc.x), y: Int(mapLoc.y), width: newWidth, height: newHeight) //Remove tiles that are off-screen
                 thisCharacter.physicsBody!.velocity = currentLevel!.speedModForIndex(mapLoc) * thisCharacter.physicsBody!.velocity

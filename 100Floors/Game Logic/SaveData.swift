@@ -20,15 +20,15 @@ var thisCharacter:ThisCharacter {
 var defaultLevelHandler:LevelHandler {
     return SaveData.currentSave!.levelHandler
 }
-var defaultMoneyHandler:MoneyHandler! {
+var defaultMoneyHandler:MoneyHandler {
     return SaveData.currentSave!.moneyHandler
 }
-var defaultPurchaseHandler:InternalPurchaseHandler! {
+var defaultPurchaseHandler:InternalPurchaseHandler {
     return SaveData.currentSave!.purchaseHandler
 }
 
 
-class SaveData:NSObject, NSCoding {
+class SaveData: NSObject, NSCoding {
     static let SaveDir = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let SaveURL = SaveDir.appendingPathComponent("SaveGame")
     
@@ -45,7 +45,7 @@ class SaveData:NSObject, NSCoding {
         }
     }
 
-    static func saveGame() -> Bool {
+    @discardableResult static func saveGame() -> Bool {
        return NSKeyedArchiver.archiveRootObject(SaveData.currentSave, toFile: SaveData.SaveURL.path)
     }
     
@@ -73,16 +73,19 @@ class SaveData:NSObject, NSCoding {
         levelHandler = aDecoder.decodeObject(forKey: PropertyKey.levelHandlerKey) as! LevelHandler
         moneyHandler = aDecoder.decodeObject(forKey: PropertyKey.moneyHandlerKey) as! MoneyHandler
         purchaseHandler = aDecoder.decodeObject(forKey: PropertyKey.purchaseHandlerKey) as! InternalPurchaseHandler
+        
     }
     
     func encode(with aCoder: NSCoder) {
+        print("encoding")
         aCoder.encode(character, forKey: PropertyKey.charKey)
         aCoder.encode(levelHandler, forKey: PropertyKey.levelHandlerKey)
+        aCoder.encode(purchaseHandler, forKey: PropertyKey.purchaseHandlerKey)
         aCoder.encode(moneyHandler, forKey: PropertyKey.moneyHandlerKey)
     }
 }
 
-class MoneyHandler:NSCoding {
+class MoneyHandler:NSObject, NSCoding {
     private var ChasmCrystals:Int {
         didSet {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "transactionMade"), object: nil)
@@ -95,9 +98,10 @@ class MoneyHandler:NSCoding {
     }
     private var CrystalTransactions:[Int] = []
     
-    init() {
-        ChasmCrystals = 500
-        Coins = 500
+    override init() {
+        ChasmCrystals = 15
+        Coins = 25
+        super.init()
     }
     
     @discardableResult func addCoins(_ num:Int) -> Bool {
@@ -152,8 +156,8 @@ class MoneyHandler:NSCoding {
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
-        ChasmCrystals = aDecoder.decodeObject(forKey: "ChasmCrystals") as! Int
-        Coins = aDecoder.decodeObject(forKey: "Coins") as! Int
+        ChasmCrystals = aDecoder.decodeInteger(forKey: "ChasmCrystals")
+        Coins = aDecoder.decodeInteger(forKey: "Coins")
     }
     
     @objc func encode(with aCoder: NSCoder) {
@@ -172,7 +176,7 @@ protocol Purchasable {
     var designatedCurrencyType:CurrencyType? { get }
 }
 
-class InternalPurchaseHandler:NSCoding {
+class InternalPurchaseHandler:NSObject, NSCoding {
     
     private class Purchase: Purchasable {
         let priceCoins:Int?
@@ -194,8 +198,8 @@ class InternalPurchaseHandler:NSCoding {
         "UnlockLevel":Purchase(priceCoins: nil, priceCrystals: 25, designatedCurrencyType: .chasmCrystal)
     ]
     
-    init() {
-        
+    override init() {
+        super.init()
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
@@ -251,9 +255,9 @@ class InternalPurchaseHandler:NSCoding {
     
 }
 
-class LevelHandler:NSCoding {
+class LevelHandler:NSObject, NSCoding {
    
-    class LevelDefinition:NSCoding {
+    class LevelDefinition:NSObject, NSCoding {
         let fileName:String
         let mapName:String
         let desc:String
@@ -285,9 +289,9 @@ class LevelHandler:NSCoding {
         }
         
         @objc required init?(coder aDecoder: NSCoder) {
-            unlocked = aDecoder.decodeObject(forKey: "unlocked") as! Bool
-            playCount = aDecoder.decodeObject(forKey: "playcount") as! Int
-            cleared = aDecoder.decodeObject(forKey: "cleared") as! Bool
+            unlocked = aDecoder.decodeBool(forKey: "unlocked")
+            playCount = aDecoder.decodeInteger(forKey: "playcount")
+            cleared = aDecoder.decodeBool(forKey: "cleared")
             bestWave = aDecoder.decodeObject(forKey: "bestWave") as! CGFloat
             
             fileName = ""
@@ -322,8 +326,8 @@ class LevelHandler:NSCoding {
         return SKTextureAtlas(named: "Level\(currentLevel)")
     }
     
-    init() {
-        
+    override init() {
+        super.init()
     }
     
     @objc required init?(coder aDecoder: NSCoder) {

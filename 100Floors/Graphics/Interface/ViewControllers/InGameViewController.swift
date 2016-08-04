@@ -77,9 +77,9 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         /////////////////////////
         self.view.backgroundColor = UIColor.clear
         let skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.showsDrawCount = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        skView.showsDrawCount = false
         skView.ignoresSiblingOrder = true
         
         skView.presentScene(InGameScene(size:skView.bounds.size))

@@ -390,6 +390,12 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
         return 10 + defaultPurchaseHandler.checkPurchase("addInventorySlot")
     }
     
+    func updateScrollBounds() {
+        let layout = inventoryCollection.collectionViewLayout as! UICollectionViewFlowLayout
+        leftScrollBound = -inventoryCollection.contentInset.left
+        rightScrollBound = layout.collectionViewContentSize.width - screenSize.width/2 - layout.itemSize.width/2
+    }
+    
     @IBAction func addMoreSlotsButtonPressed(_ sender:UIButton) {
         if (defaultPurchaseHandler.checkPurchase("addInventorySlot") < 4) {
             let alert = storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController
@@ -403,6 +409,7 @@ class InventoryViewController: UIViewController, UICollectionViewDelegate, UICol
                             sender.isEnabled = false
                             sender.alpha = 0.3
                         }
+                        self.updateScrollBounds()
                     }
                     else {
                         let alert = self.storyboard!.instantiateViewController(withIdentifier: "alertViewController") as! AlertViewController

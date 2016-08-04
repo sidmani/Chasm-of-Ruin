@@ -209,16 +209,15 @@ class SKATiledMap : SKNode{
                 
                 startingY = endingY - height
             }
-     //       var spritesToTrash = [SKASprite]();
+           // var spritesToTrash = [SKASprite]();
             for (idx, sprite) in visibleArray.enumerated() {
                 if (sprite.positionOnMap != nil && (sprite.positionOnMap!.x < startingX || sprite.positionOnMap!.x >= endingX || sprite.positionOnMap!.y < startingY || sprite.positionOnMap!.y >= endingY)) {
                     sprite.removeFromParent();
-                    //spritesToTrash.append(sprite)
+             //        spritesToTrash.append(sprite)
                     self.visibleArray.remove(at: idx)
                 }
             }
            // self.visibleArray = Array(Set(self.visibleArray).subtract(Set(spritesToTrash)))
-            
             for l in  0..<self.spriteLayers.count
             {
                 for x in startingX..<endingX
@@ -234,6 +233,7 @@ class SKATiledMap : SKNode{
                     }
                 }
             }
+            print("\(visibleArray.count) sprites in visibleArray")
         }
         
         self.lastX = x;
