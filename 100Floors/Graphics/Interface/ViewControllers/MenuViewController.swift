@@ -42,10 +42,10 @@ class MenuViewController: UIViewController, ModalDismissDelegate {
         }
 
         let skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.showsDrawCount = true
-        skView.ignoresSiblingOrder = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        skView.showsDrawCount = false
+        skView.ignoresSiblingOrder = false
 
         let scene = MenuScene(size: skView.bounds.size)
         skView.presentScene(scene)

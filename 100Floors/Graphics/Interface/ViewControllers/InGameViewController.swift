@@ -49,7 +49,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         UIElements.ProceedButton = ProceedButton
         
         ProceedButton.resetWithLayout = true
-        InfoDisplay.isHidden = true
+        InfoDisplay.hidden = true
         setCurrencyLabels()
         
         EXPBar.trackTintColor = ColorScheme.strokeColor
@@ -65,9 +65,9 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         self.view.viewWithTag(6)?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loadCurrencyPurchaseView)))
 
         //////////
-        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), for: .touchUpInside)
-        ProceedButton.isHidden = true
-        ProceedButton.setTitle("Continue", for: UIControlState())
+        SkillButton.addTarget(thisCharacter, action: #selector(thisCharacter.useSkill), forState: .touchUpInside)
+        ProceedButton.hidden = true
+        ProceedButton.setTitle("Continue", forState: UIControlState())
         /////NSNotificationCenter
         NotificationCenter.default.addObserver(self, selector: #selector(groundBagTapped), name: "groundBagTapped" as NSNotification.Name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(setInfoDisplayText), name: "postInfoToDisplay" as NSNotification.Name, object: nil)
@@ -153,7 +153,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             popTip1.shouldDismissOnTapOutside = false
             popTip1.shouldDismissOnTap = false
             popTip1.dismissHandler = { [unowned self] in
-                self.LeftJoystickControl.isUserInteractionEnabled = true
+                self.LeftJoystickControl.userInteractionEnabled = true
                 self.LeftJoystickControl.alpha = 1
                 self.incrementTutorial()
             }
@@ -162,7 +162,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
             popTip1.shouldDismissOnTapOutside = true
             popTip1.shouldDismissOnTap = true
             popTip1.dismissHandler = { [unowned self] in
-                self.RightJoystickControl.isUserInteractionEnabled = true
+                self.RightJoystickControl.userInteractionEnabled = true
                 self.RightJoystickControl.alpha = 1
                 self.incrementTutorial()
             }
@@ -182,7 +182,7 @@ class InGameViewController: UIViewController, UIGestureRecognizerDelegate, Modal
         case 7:
             popTip1.showText("The red arrows point at enemies. Go after them!", direction: .none, maxWidth: 150, in: self.view, fromFrame: self.view.frame)
             popTip1.dismissHandler = { [unowned self] in
-                self.view.viewWithTag(1)!.isUserInteractionEnabled = true
+                self.view.viewWithTag(1)!.userInteractionEnabled = true
                 self.view.viewWithTag(1)!.alpha = 1
                 self.incrementTutorial()
             }

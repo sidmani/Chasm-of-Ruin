@@ -55,19 +55,19 @@ public class AEXMLElement: NSObject {
     /// String representation of `value` property with special characters escaped (if `value` is `nil` this is empty String).
     public var escapedStringValue: String {
         // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escapedString = stringValue.replacingOccurrences(of: "&", with: "&amp;", options: .literal)
+        var escapedString = stringValue.stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
         
         // replace the other four special characters
         let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
         for (char, echar) in escapeChars {
-            escapedString = escapedString.replacingOccurrences(of: char, with: echar, options: .literal)
+            escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
         }
         
         return escapedString
     }
     
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
-    public var boolValue: Bool { return stringValue.lowercased() == "true" || Int(stringValue) == 1 ? true : false }
+    public var boolValue: Bool { return stringValue.lowercaseString == "true" || Int(stringValue) == 1 ? true : false }
     
     /// Integer representation of `value` property (this is **0** if `value` can't be represented as Integer).
     public var intValue: Int { return Int(stringValue) ?? 0 }

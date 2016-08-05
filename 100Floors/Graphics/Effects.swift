@@ -259,6 +259,7 @@ class IndicatorArrow:SKNode {
         shapeNode.path = path.cgPath
         shapeNode.glowWidth = 1
         shapeNode.alpha = 0.7
+        shapeNode.strokeColor = UIColor.clear
         shapeNode.position = CGPoint(x: 0, y: radius)
         shapeNode.isAntialiased = false
         self.addChild(shapeNode)
