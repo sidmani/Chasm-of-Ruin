@@ -1,2 +1,2 @@
-# 100Floors
+# Chasm of Ruin
 Top-down RPG for iPhone
